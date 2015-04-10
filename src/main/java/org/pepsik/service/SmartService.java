@@ -5,6 +5,9 @@ import org.pepsik.model.Thread;
 
 import java.util.List;
 
+/**
+ * Created by pepsik on 4/9/15.
+ */
 public interface SmartService {
 
     List<Thread> getAllThreads();
@@ -17,8 +20,11 @@ public interface SmartService {
 
     void saveMessage(Post message);
 
-    Thread getThreadById(long id);
+    Thread getThread(long id);
 
-    Post getMessageById(long id);
+    Post getMessage(long id);
 
+    void deleteThread(long id);
+
+    void deleteMessage(long id);
 }

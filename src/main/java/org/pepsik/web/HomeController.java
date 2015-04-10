@@ -1,5 +1,6 @@
 package org.pepsik.web;
 
+import org.pepsik.persistence.SmartDao;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"})
     public String showHomePage(Model model) {
-        model.addAttribute(service.getAllThreads());
-        return "index";
+        model.addAttribute("threadList", service.getAllThreads());
+        return "home";
     }
 }

@@ -11,9 +11,46 @@
        http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--<property name="prefix" value="/WEB-INF/jsp/"/>-->
+    <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">-->
+    <!--<property name="contentNegotiationManager" ref="contentNegotiationManager"/>-->
+    <!--<property name="viewResolvers">-->
+    <!--<list>-->
+    <!--<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">-->
+    <!--<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>
+
+    <bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>WEB-INF/views/tiles/tiles-definitions.xml</value>
+                <value>WEB-INF/views/thread/tiles-definitions.xml</value>
+            </list>
+        </property>
     </bean>
+
+    <!--<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">-->
+    <!--<property name="defaultContentType" value="text/html"/>-->
+    <!--<property name="favorParameter" value="true"/>-->
+    <!--<property name="ignoreAcceptHeader" value="true"/>-->
+    <!--<property name="mediaTypes">-->
+    <!--<map>-->
+    <!--<entry key="json" value="application/json"/>-->
+    <!--<entry key="xml" value="text/xml"/>-->
+    <!--<entry key="htm" value="text/html"/>-->
+    <!--</map>-->
+    <!--</property>-->
+    <!--</bean>-->
 
 </beans>

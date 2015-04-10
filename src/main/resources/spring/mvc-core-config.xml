@@ -17,4 +17,6 @@
 
     <context:component-scan base-package="org.pepsik.web"/>
 
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="resources/"/>
 </beans>

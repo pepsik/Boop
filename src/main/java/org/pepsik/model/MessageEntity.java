@@ -4,18 +4,18 @@ import org.joda.time.DateTime;
 
 public class MessageEntity extends BaseEntity {
 
-    protected Account userAccount;
+    protected Account account;
 
     protected String text;
 
     protected DateTime when;
 
-    public Account getUserAccount() {
-        return userAccount;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUserAccount(Account userAccount) {
-        this.userAccount = userAccount;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getText() {
