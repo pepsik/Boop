@@ -5,6 +5,7 @@ import org.pepsik.model.Thread;
 import org.pepsik.persistence.SmartDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,47 +20,77 @@ public class SmartServiceImpl implements SmartService {
     private SmartDao smartDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Thread> getAllThreads() {
         return smartDao.getAllThreads();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Thread> getRecentThreads() {
-        return null;
+        return smartDao.getRecentThreads();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Account getAccount(long id) {
+        return smartDao.getAccountById(id);
+    }
+
+    @Override
+    @Transactional
     public void saveAccount(Account account) {
-
+        if (account.getId() == null)
+            smartDao.addAccount(account);
+        else
+            smartDao.updateAccount(account);
     }
 
     @Override
-    public void saveThread(Thread thread) {
-        smartDao.addThread(thread);
+    @Transactional
+    public void deleteAccount(long id) {
+        smartDao.deleteAccount(id);
     }
 
     @Override
-    public void saveMessage(Post message) {
-
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public Thread getThread(long id) {
         return smartDao.getThreadById(id);
     }
 
     @Override
-    public Post getMessage(long id) {
+    @Transactional
+    public void saveThread(Thread thread) {
+        if (thread.getId() == null)
+            smartDao.addThread(thread);
+        else
+            smartDao.updateThread(thread);
+    }
+
+    @Override
+    @Transactional
+    public void deleteThread(long id) {
+        smartDao.deleteThread(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Post getPost(long id) {
         return null;
     }
 
     @Override
-    public void deleteThread(long id) {
-
+    @Transactional
+    public void savePost(Post post) {
+        if (post.getId() == null)
+            smartDao.addPost(post);
+        else
+            smartDao.updatePost(post);
     }
 
     @Override
-    public void deleteMessage(long id) {
-
+    @Transactional
+    public void deletePost(long id) {
+        smartDao.deletePost(id);
     }
 }

@@ -1,12 +1,17 @@
 package org.pepsik.model;
 
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "threads")
 public class Thread extends MessageEntity {
 
+    @Column(name = "title")
     private String title;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Post> posts;
 
     public String getTitle() {

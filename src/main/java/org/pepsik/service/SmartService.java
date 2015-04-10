@@ -14,17 +14,21 @@ public interface SmartService {
 
     List<Thread> getRecentThreads();
 
+    Account getAccount(long id);
+
     void saveAccount(Account account);
 
-    void saveThread(Thread thread);
-
-    void saveMessage(Post message);
+    void deleteAccount(long id);
 
     Thread getThread(long id);
 
-    Post getMessage(long id);
+    void saveThread(Thread thread);
 
     void deleteThread(long id);
 
-    void deleteMessage(long id);
+    Post getPost(long id);
+
+    void savePost(Post message);
+
+    void deletePost(long id);
 }
