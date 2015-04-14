@@ -7,18 +7,31 @@ import java.util.List;
 
 public interface SmartDao {
 
-    List<Thread> getAllThreads();
+    List getAllThreads();
 
     List<Thread> getRecentThreads();
 
     void addAccount(Account account);
 
-    void addThread(Thread thread);
+    Account getAccountById(long id);
 
-    void addMessage(Post message);
+    void updateAccount(Account account);
+
+    void deleteAccount(long id);
+
+    void addThread(Thread thread);
 
     Thread getThreadById(long id);
 
-    Post getMessageById(long id);
+    void updateThread(Thread thread);
 
+    void deleteThread(long id);
+
+    void addPost(Post post);
+
+    Post getPostById(long id);
+
+    void updatePost(Post post);
+
+    void deletePost(long id);
 }

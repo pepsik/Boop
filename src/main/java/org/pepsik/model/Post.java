@@ -1,15 +1,24 @@
 package org.pepsik.model;
 
 
-public class Post {
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-    private long threadId;
+@Entity
+@Table(name = "posts")
+public class Post extends MessageEntity {
 
-    public long getThreadId() {
-        return threadId;
+    @ManyToOne
+    @JoinColumn(name = "thread_id")
+    private Thread thread;
+
+    public Thread getThread() {
+        return thread;
     }
 
-    public void setThreadId(long threadId) {
-        this.threadId = threadId;
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 }

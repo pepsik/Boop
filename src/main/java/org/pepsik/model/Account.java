@@ -1,15 +1,29 @@
 package org.pepsik.model;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "accounts")
 public class Account extends BaseEntity {
 
+    @Column(name = "username")
     private String userName;
 
+    @Column(name = "fullname")
     private String fullName;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "birth_date")
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private DateTime birthDate;
 
 

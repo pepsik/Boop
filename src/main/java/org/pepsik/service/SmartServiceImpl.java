@@ -76,7 +76,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     @Transactional(readOnly = true)
     public Post getPost(long id) {
-        return null;
+        return smartDao.getPostById(id);
     }
 
     @Override

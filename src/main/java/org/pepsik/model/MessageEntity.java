@@ -21,7 +21,7 @@ public class MessageEntity extends BaseEntity {
 
     @Column(name = "posted_time")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @DateTimeFormat(pattern = "hh:mma MMM d, YYYY")
     protected DateTime when;
 
     public Account getAccount() {
@@ -47,4 +47,5 @@ public class MessageEntity extends BaseEntity {
     public void setWhen(DateTime when) {
         this.when = when;
     }
+
 }

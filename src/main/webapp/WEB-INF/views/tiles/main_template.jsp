@@ -2,10 +2,13 @@
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <html>
 <head>
-    <title>DjoyReaxtor</title>
+    <title>^_^</title>
+    <link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap.css">
+
     <link href="<s:url value="/resources" />/css/smart.css"
           rel="stylesheet"
           type="text/css"/>
+
 </head>
 
 <body>

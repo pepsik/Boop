@@ -14,4 +14,9 @@
         <put-attribute name="content" value="/WEB-INF/views/thread/create.jsp"/>
     </definition>
 
+    <definition name="thread/edit" extends="template">
+        <put-attribute name="top" value=""/>
+        <put-attribute name="content" value="/WEB-INF/views/thread/edit.jsp"/>
+    </definition>
+
 </tiles-definitions>
