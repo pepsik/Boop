@@ -16,8 +16,6 @@ import javax.servlet.http.HttpSession;
  * Created by pepsik on 4/9/15.
  */
 
-//TODO: secur methods
-
 @Controller
 @RequestMapping("/thread")
 public class ThreadController {

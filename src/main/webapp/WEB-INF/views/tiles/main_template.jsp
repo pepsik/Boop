@@ -3,31 +3,36 @@
 <html>
 <head>
     <title>^_^</title>
-    <link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap.css">
+    <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap.css">--%>
+    <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap_OLD.css">--%>
+    <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
+    <link href="<s:url value="/resources" />/ css/bootstrap.css" rel="stylesheet">
 
-    <link href="<s:url value="/resources" />/css/smart.css"
-          rel="stylesheet"
-          type="text/css"/>
 
 </head>
 
 <body>
 <div id="container">
-    <a class="logo" href="<s:url value="/home" />">
-        <img src="<s:url value="/resources" />/images/logo2.png" border="0"/></a>
 
-    <%--<div class="content-holder">--%>
-    <%--<div id="top">--%>
-    <%--<t:insertAttribute name="top"/>--%>
-    <%--</div>--%>
-    <%--<div id="side">--%>
-    <%--<t:insertAttribute name="side"/>--%>
-    <%--</div>--%>
-    <div id="content">
-        <t:insertAttribute name="content"/>
+    <div class="content-holder">
+        <div id="top">
+            <t:insertAttribute name="top"/>
+        </div>
+
+        <a class="logo" href="<s:url value="/home" />">
+            <img src="<s:url value="/resources" />/images/logo2.png" border="0"/></a>
+
+        <%--<div id="side">--%>
+        <%--<t:insertAttribute name="side"/>--%>
+        <%--</div>--%>
+        <div id="content">
+            <t:insertAttribute name="content"/>
+        </div>
     </div>
 </div>
 
 </div>
+
+
 </body>
 </html>

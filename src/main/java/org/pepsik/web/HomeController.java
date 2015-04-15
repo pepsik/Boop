@@ -1,6 +1,5 @@
 package org.pepsik.web;
 
-import org.pepsik.persistence.SmartDao;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

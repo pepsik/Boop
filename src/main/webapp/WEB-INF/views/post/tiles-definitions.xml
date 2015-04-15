@@ -4,12 +4,10 @@
 <tiles-definitions>
 
     <definition name="post/create" extends="template">
-        <put-attribute name="top" value=""/>
         <put-attribute name="content" value="/WEB-INF/views/post/create.jsp"/>
     </definition>
 
     <definition name="post/edit" extends="template">
-        <put-attribute name="top" value=""/>
         <put-attribute name="content" value="/WEB-INF/views/post/edit.jsp"/>
     </definition>
 

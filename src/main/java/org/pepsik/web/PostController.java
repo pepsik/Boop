@@ -34,11 +34,10 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editPost(@PathVariable("id") long id, @PathVariable("thread_id") long thread_id, HttpSession session, Model model) {
+    public String editPost(@PathVariable("id") long id, HttpSession session, Model model) {
         Post post = service.getPost(id);
         session.setAttribute("post", post);
         model.addAttribute("post", post);
-
         model.addAttribute("thread_id", post.getThread().getId());
         return "post/edit";
     }
@@ -73,7 +72,7 @@ public class PostController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deletePost(@PathVariable(value = "id") long id, @PathVariable("thread_id") long thread_id) {
+    public String deletePost(@PathVariable("id") long id, @PathVariable("thread_id") long thread_id) {
         service.deletePost(id);
         return "redirect:/thread/" + thread_id;
     }
