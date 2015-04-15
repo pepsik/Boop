@@ -6,7 +6,7 @@
     <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap.css">--%>
     <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap_OLD.css">--%>
     <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
-    <link href="<s:url value="/resources" />/ css/bootstrap.css" rel="stylesheet">
+    <%--<link href="<s:url value="/resources" />/ css/bootstrap.css" rel="stylesheet">--%>
 
 
 </head>

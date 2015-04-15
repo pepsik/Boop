@@ -13,10 +13,10 @@ import javax.persistence.Table;
 public class Account extends BaseEntity {
 
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @Column(name = "fullname")
-    private String fullName;
+    private String fullname;
 
     @Column(name = "password")
     private String password;
@@ -24,23 +24,23 @@ public class Account extends BaseEntity {
     @Column(name = "birth_date")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private DateTime birthDate;
+    private DateTime birthdate;
 
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getPassword() {
@@ -51,22 +51,22 @@ public class Account extends BaseEntity {
         this.password = password;
     }
 
-    public DateTime getBirthDate() {
-        return birthDate;
+    public DateTime getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(DateTime birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(DateTime birthdate) {
+        this.birthdate = birthdate;
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
                 ", password='" + password + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthdate=" + birthdate +
                 '}';
     }
 }

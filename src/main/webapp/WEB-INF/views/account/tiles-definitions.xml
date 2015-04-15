@@ -1,0 +1,14 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="account/create" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/account/create.jsp"/>
+    </definition>
+
+    <definition name="account/view" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/account/view.jsp"/>
+    </definition>
+
+</tiles-definitions>

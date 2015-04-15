@@ -30,14 +30,14 @@
                     <c:out value="${thread.title}"/>
                 </a></h3>
 
-                <div class="thread-text">
+                <div class="thread">
                     <c:out value="${thread.text}"/>
                 </div>
 
                 <div class="formHolder author text-info">
                     <span class="padding-top">
                     <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
-                        <c:out value="by ${thread.account.userName}"/></small>
+                        <c:out value="by ${thread.account.username}"/></small>
                     </span>
 
                     <s:url value="collapseExample{id}" var="count">
@@ -64,25 +64,25 @@
                 <div class="well">
 
                     <c:forEach var="post" items="${thread.posts}">
-                        <li>
+                        <div class="post">
                             <c:out value="${post.text}"/>
                             <div class="formHolder author text-info">
                                 <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
-                                    <c:out value="by ${thread.account.userName}"/></small>
+                                    <c:out value="by ${thread.account.username}"/></small>
 
                                 <sf:form action="${thread_url}/post/${post.id}" method="delete">
                                     <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                                 </sf:form>
 
                                 <sf:form action="${thread_url}/post/${post.id}/edit" method="get">
-                                    <input type="submit" class="btn btn-xs btn-inverse" value="Edit"/>
+                                    <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
                                 </sf:form>
                             </div>
-                        </li>
+                        </div>
                     </c:forEach>
 
                     <sf:form action="${thread_url}/post/new" method="get">
-                        <input type="submit" class="btn btn-success margin-top" value="New Post"/>
+                        <input type="submit" class="btn btn-success margin-top" value="New Comment"/>
                     </sf:form>
 
                 </div>

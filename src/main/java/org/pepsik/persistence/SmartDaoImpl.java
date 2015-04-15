@@ -53,7 +53,7 @@ public class SmartDaoImpl implements SmartDao {
 
     @Override
     public void deleteAccount(long id) {
-
+        em.remove(getAccountById(id));
     }
 
     @Override

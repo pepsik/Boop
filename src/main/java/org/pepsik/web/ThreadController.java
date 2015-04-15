@@ -50,13 +50,13 @@ public class ThreadController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String readThread(@PathVariable("id") long id, Model model) {
+    public String getThread(@PathVariable("id") long id, Model model) {
         model.addAttribute("thread", service.getThread(id));
         return "thread/view";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updateThread(@PathVariable("id") long id, HttpSession session, Model model, Thread editedThread) {
+    public String updateThread(@PathVariable("id") long id, Thread editedThread, HttpSession session, Model model) {
         //TODO: valid
         Thread thread = (Thread) session.getAttribute("thread");
         thread.setTitle(editedThread.getTitle());
