@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <import resource="classpath:spring/datasource-config.xml"/>
+
+    <security:jdbc-user-service id="jdbcUserDetailsManager" data-source-ref="dataSource"
+                                users-by-username-query="SELECT USERNAME,PASSWORD,TRUE FROM accounts WHERE USERNAME = ?"
+                                authorities-by-username-query="SELECT  A.USERNAME,  R.ROLE FROM accounts A
+                                        INNER JOIN ACCOUNTS_AUTHORITY SA ON A.id = SA.ACCOUNT_ID
+                                        INNER JOIN ROLES R ON SA.ROLE_ID = R.ID
+                                        WHERE A.USERNAME = ? "/>
+
+    <!--<security:cache-control/>-->
+</beans>

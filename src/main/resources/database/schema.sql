@@ -26,3 +26,15 @@ CREATE TABLE IF NOT EXISTS posts (
   FOREIGN KEY (tread_id) REFERENCES threads (id),
   FOREIGN KEY (account_id) REFERENCES accounts (id)
 );
+
+CREATE TABLE IF NOT EXISTS roles (
+  ID   INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  role VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS accounts_authority (
+  account_id INT NOT NULL,
+  role_id    INT NOT NULL,
+  FOREIGN KEY (account_id) REFERENCES accounts (id),
+  FOREIGN KEY (role_id) REFERENCES roles (ID)
+);

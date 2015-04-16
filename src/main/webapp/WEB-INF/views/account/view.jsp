@@ -12,9 +12,13 @@
 
 <div class="container">
 
-    <h2>Account Information</h2>
+    <h2>Account Information</h2> <br>
 
     <table class="table table-striped" style="width:600px;">
+        <tr>
+            <th>Id</th>
+            <td><c:out value="${account.id}"/></td>
+        </tr>
         <tr>
             <th>Fullname</th>
             <td><b><c:out value="${account.fullname}"/></b></td>

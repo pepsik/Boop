@@ -3,11 +3,10 @@
 <html>
 <head>
     <title>^_^</title>
-    <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap.css">--%>
-    <%--<link rel='stylesheet' type="text/css" href="<s:url value="/resources" />/css/bootstrap_OLD.css">--%>
     <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
-    <%--<link href="<s:url value="/resources" />/ css/bootstrap.css" rel="stylesheet">--%>
-
+    <link href="<s:url value="/resources" />/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="<s:url value="/resources" /> /js/bootstrap.js"></script>
 
 </head>
 

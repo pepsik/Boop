@@ -1,5 +1,6 @@
 package org.pepsik.web;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
 import org.pepsik.model.Account;
 import org.pepsik.service.SmartService;
@@ -47,34 +48,23 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST)
     public String createAccount(HttpServletRequest request, Model model) {
         Account account = new Account();
-        account.setUsername((String) request.getParameter("username"));
-        account.setFullname((String) request.getParameter("fullname"));
-        account.setPassword((String) request.getParameter("password"));
+        account.setUsername(request.getParameter("username"));
+        account.setFullname(request.getParameter("fullname"));
+        account.setPassword(request.getParameter("password"));
         account.setBirthdate(DateTime.parse(request.getParameter("birthdate")));
-//        account.setBirthdate(new DateTime());
-
-//        Enumeration enumeration = request.getAttributeNames();
-//        for (; enumeration.hasMoreElements(); )
-//            logger.info(enumeration.nextElement().toString());
-//
-//        try {
-//            BufferedReader bufferedReader = request.getReader();
-//
-//            String line;
-//            while ((line = bufferedReader.readLine()) != null)
-//                logger.info(line);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         service.saveAccount(account);       //TODO: Validation
         model.addAttribute("account", account);
         return "account/view";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getAccount(@PathVariable("id") long id, Model model) {
-        model.addAttribute("account", service.getAccount(id));
+    @RequestMapping(value = "/{userIdentificator}", method = RequestMethod.GET)
+    public String getAccount(@PathVariable("userIdentificator") String userIdentificator, Model model) {
+        Account account;
+        if (NumberUtils.isNumber(userIdentificator))
+            account = service.getAccount(Long.parseLong(userIdentificator));
+        else
+            account = service.getAccount(userIdentificator);
+        model.addAttribute("account", account);
         return "account/view";
     }
 

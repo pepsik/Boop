@@ -16,6 +16,8 @@ public interface SmartService {
 
     Account getAccount(long id);
 
+    Account getAccount(String username);
+
     void saveAccount(Account account);
 
     void deleteAccount(long id);

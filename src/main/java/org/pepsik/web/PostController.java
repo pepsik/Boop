@@ -4,8 +4,11 @@ import org.joda.time.DateTime;
 import org.pepsik.model.Account;
 import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping(value = "/thread/{thread_id}/post")
 public class PostController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private SmartService service;
@@ -45,7 +50,9 @@ public class PostController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String createPost(@PathVariable("thread_id") long thread_id, Post post) {
-        Account account = service.getAccount(1);
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info(loggedUser);
+        Account account = service.getAccount(loggedUser);
         post.setAccount(account);
         post.setWhen(new DateTime());
         post.setThread(service.getThread(thread_id));

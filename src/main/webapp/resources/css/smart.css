@@ -15,15 +15,13 @@ body {
 #container {
     margin: 0 auto;
     padding: 15px 0;
-    /*position: relative;*/
     text-align: left;
     width: 900px;
 }
 
 #top {
-    float: left;
-    /*position: relative;*/
-    width: 570px;
+    /*float: left;*/
+    width: auto;
     height: 50px;
 }
 
@@ -294,7 +292,7 @@ small.date {
 }
 
 .padding-top {
-    padding-top: 4px;
+    padding-top: 5px;
 }
 
 .right-button {

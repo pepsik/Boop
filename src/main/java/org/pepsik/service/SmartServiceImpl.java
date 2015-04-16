@@ -38,11 +38,18 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Account getAccount(String username) {
+        return smartDao.getAccountByUsername(username);
+    }
+
+    @Override
     @Transactional
     public void saveAccount(Account account) {
-        if (account.getId() == null)
+        if (account.getId() == null) {
             smartDao.addAccount(account);
-        else
+            smartDao.setAccountAuthory(account); // set ROLE_USER to all new accounts
+        } else
             smartDao.updateAccount(account);
     }
 

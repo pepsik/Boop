@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -20,6 +19,8 @@ public class SmartDaoImpl implements SmartDao {
     public static final String SELECT_ALL_THREADS = "SELECT thread FROM Thread thread ORDER BY thread.when DESC";
     public static final String SELECT_THREAD_BY_ID = "SELECT thread FROM Thread thread WHERE thread.id =:id";
     public static final String SELECT_POST_BY_ID = "SELECT post FROM Post post WHERE post.id = :id";
+    public static final String SELECT_ACCOUNT_BY_USERNAME = "SELECT account FROM Account account WHERE account.username=:username";
+    public static final String INSERT_ACCOUNT_AUTHORITY = "INSERT INTO ACCOUNTS_AUTHORITY (account_id, ROLE_ID)  values (:id , 2)";
 
     @PersistenceContext
     private EntityManager em;
@@ -41,9 +42,12 @@ public class SmartDaoImpl implements SmartDao {
 
     @Override
     public Account getAccountById(long id) {
-        Query query = em.createQuery(SELECT_ACCOUNT_BY_ID);
-        query.setParameter("id", id);
-        return (Account) query.getSingleResult();
+        return (Account) em.createQuery(SELECT_ACCOUNT_BY_ID).setParameter("id", id).getSingleResult();
+    }
+
+    @Override
+    public Account getAccountByUsername(String username) {
+        return (Account) em.createQuery(SELECT_ACCOUNT_BY_USERNAME).setParameter("username", username).getSingleResult();
     }
 
     @Override
@@ -57,15 +61,18 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
+    public void setAccountAuthory(Account account) {
+        em.createNativeQuery(INSERT_ACCOUNT_AUTHORITY).setParameter("id", account.getId()).executeUpdate();
+    }
+
+    @Override
     public void addThread(Thread thread) {
         em.persist(thread);
     }
 
     @Override
     public Thread getThreadById(long id) {
-        Query query = em.createQuery(SELECT_THREAD_BY_ID);
-        query.setParameter("id", id);
-        return (Thread) query.getSingleResult();
+        return (Thread) em.createQuery(SELECT_THREAD_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override
@@ -85,9 +92,7 @@ public class SmartDaoImpl implements SmartDao {
 
     @Override
     public Post getPostById(long id) {
-        Query query = em.createQuery(SELECT_POST_BY_ID);
-        query.setParameter("id", id);
-        return (Post) query.getSingleResult();
+        return (Post) em.createQuery(SELECT_POST_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override

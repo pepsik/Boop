@@ -6,6 +6,7 @@ import org.pepsik.model.Thread;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +40,11 @@ public class ThreadController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String createThread(Thread thread) {
-        Account account = service.getAccount(1);
+    public String createThread(Thread thread) {    //TODO: Validation
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Account account = service.getAccount(loggedUser);
         thread.setAccount(account);
         thread.setWhen(new DateTime());
-
-        //TODO: Validation
         service.saveThread(thread);
         return "redirect:/home";
     }

@@ -15,9 +15,13 @@ public interface SmartDao {
 
     Account getAccountById(long id);
 
+    Account getAccountByUsername(String username);
+
     void updateAccount(Account account);
 
     void deleteAccount(long id);
+
+    void setAccountAuthory(Account account);
 
     void addThread(Thread thread);
 
