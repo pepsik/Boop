@@ -56,7 +56,6 @@ public class PostController {
         post.setAccount(account);
         post.setWhen(new DateTime());
         post.setThread(service.getThread(thread_id));
-        //TODO: Validation
         service.savePost(post);
         return "redirect:/thread/" + thread_id;
     }

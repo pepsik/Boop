@@ -11,4 +11,8 @@
         <put-attribute name="content" value="/WEB-INF/views/account/view.jsp"/>
     </definition>
 
+    <definition name="account/edit" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/account/edit.jsp"/>
+    </definition>
+
 </tiles-definitions>

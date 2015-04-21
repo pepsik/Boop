@@ -5,11 +5,15 @@
 
     <definition name="template" template="/WEB-INF/views/tiles/main_template.jsp">
         <put-attribute name="top" value="/WEB-INF/views/tiles/navbar.jsp"/>
-        <put-attribute name="side" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
     </definition>
 
     <definition name="home" extends="template">
         <put-attribute name="content" value="/WEB-INF/views/home.jsp"/>
+    </definition>
+
+    <definition name="login_fail" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/tiles/login_fail.jsp"/>
     </definition>
 
 </tiles-definitions>

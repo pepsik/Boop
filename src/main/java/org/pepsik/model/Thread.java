@@ -11,8 +11,7 @@ public class Thread extends MessageEntity {
     @Column(name = "title")
     private String title;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "thread_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "thread")
     private List<Post> posts;
 
     public String getTitle() {

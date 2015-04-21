@@ -37,11 +37,12 @@
                     <c:out value="${thread.text}"/>
                 </div>
 
-              <s:url value="/account/{id}" var="account_url">
-                  <s:param name="id" value="${thread.account.id}"/>
-              </s:url>
-
                 <div class="formHolder author text-info">
+
+                    <s:url value="/account/{id}" var="account_url">
+                        <s:param name="id" value="${thread.account.id}"/>
+                    </s:url>
+
                     <span class="padding-top">
                     <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
                         <c:out value="by "/>
@@ -87,8 +88,14 @@
                         <div class="post">
                             <c:out value="${post.text}"/>
                             <div class="formHolder author text-info">
+
+                                <s:url value="/account/{id}" var="account_url">
+                                    <s:param name="id" value="${post.account.id}"/>
+                                </s:url>
+
                                 <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
-                                    <c:out value="by ${post.account.username}"/></small>
+                                    <c:out value="by "/>
+                                    <a href="${account_url}">${post.account.username}</a></small>
 
                                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                                     <sec:authentication property="principal.username" var="authorizedUser"/>

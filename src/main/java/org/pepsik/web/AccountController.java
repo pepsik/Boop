@@ -2,6 +2,8 @@ package org.pepsik.web;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.pepsik.model.Account;
 import org.pepsik.service.SmartService;
 import org.slf4j.Logger;
@@ -10,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -27,11 +29,35 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
 
     @Autowired
     private SmartService service;
 
-    @RequestMapping(value = "/new)", method = RequestMethod.GET)
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(DATE_PATTERN);
+
+        binder.registerCustomEditor(DateTime.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                logger.info(text);
+                try {
+                    setValue(fmt.parseDateTime(text));
+                } catch (IllegalArgumentException ex) {
+                    binder.getBindingResult().reject("birthdate.emptyOrInvalid");
+                }
+            }
+
+            @Override
+            public String getAsText() {
+                return fmt.print((DateTime) getValue());
+            }
+        });
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
     public String newAccount(Model model) {
         model.addAttribute("account", new Account());
         return "account/create";
@@ -46,13 +72,12 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createAccount(HttpServletRequest request, Model model) {
-        Account account = new Account();
-        account.setUsername(request.getParameter("username"));
-        account.setFullname(request.getParameter("fullname"));
-        account.setPassword(request.getParameter("password"));
-        account.setBirthdate(DateTime.parse(request.getParameter("birthdate")));
-        service.saveAccount(account);       //TODO: Validation
+    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors())
+            return "account/create";
+
+        service.saveAccount(account);
         model.addAttribute("account", account);
         return "account/view";
     }

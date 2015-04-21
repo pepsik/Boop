@@ -4,6 +4,7 @@ import org.pepsik.model.*;
 import org.pepsik.model.Thread;
 import org.pepsik.persistence.SmartDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class SmartServiceImpl implements SmartService {
 
     @Autowired
@@ -44,7 +46,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
     public void saveAccount(Account account) {
         if (account.getId() == null) {
             smartDao.addAccount(account);
@@ -54,7 +55,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteAccount(long id) {
         smartDao.deleteAccount(id);
     }
@@ -66,7 +67,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #thread.account.username) or hasRole('ROLE_ADMIN')")
     public void saveThread(Thread thread) {
         if (thread.getId() == null)
             smartDao.addThread(thread);
@@ -75,7 +76,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getThread(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deleteThread(long id) {
         smartDao.deleteThread(id);
     }
@@ -87,7 +88,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #post.account.username) or hasRole('ROLE_ADMIN')")
     public void savePost(Post post) {
         if (post.getId() == null)
             smartDao.addPost(post);
@@ -96,7 +97,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deletePost(long id) {
         smartDao.deletePost(id);
     }

@@ -14,7 +14,7 @@
         <intercept-url pattern="/index*" access="ROLE_USER, ROLE_ANONYMOUS"/>
         <form-login login-processing-url="/static/j_spring_security_check"
                     login-page="/home"
-                    authentication-failure-url="/login.jsp?error=true"/>
+                    authentication-failure-url="/login_fail"/>
         <logout logout-url="/static/j_spring_security_logout" logout-success-url="/home"/>
         <remember-me key="UserKey" token-validity-seconds="2419200" user-service-ref="jdbcUserDetailsManager"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
@@ -26,7 +26,6 @@
     </authentication-manager>
 
     <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
-
 
     <beans:bean id="webSecurityExpressionHandler"
                 class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>

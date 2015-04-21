@@ -38,15 +38,15 @@ body {
     /*padding: 11px;*/
 }
 
-#side {
+#footer {
     background: #99ccff none repeat scroll 0;
     border: 1px solid #996633;
     float: right;
     line-height: 1.2;
     margin-bottom: 10px;
-    margin-top: 89px;
+    margin-top: 20px;
     padding: 12px;
-    width: 190px;
+    width: 900px;
 }
 
 th label {
@@ -83,15 +83,15 @@ fieldset {
     text-align: right;
 }
 
-fieldset input[type="text"], input[type="password"], select, checkbox {
-    border: 1px solid #AAAAAA;
-    margin-right: 3px;
-    padding: 4px 2px;
-}
+/*fieldset input[type="text"], input[type="password"], select, checkbox {*/
+    /*border: 1px solid #AAAAAA;*/
+    /*margin-right: 3px;*/
+    /*/!*padding: 4px 2px;*!/*/
+/*}*/
 
-fieldset input[type="text"], input[type="password"] {
-    width: 12em;
-}
+/*fieldset input[type="text"], input[type="password"] {*/
+    /*width: 12em;*/
+/*}*/
 
 fieldset small {
     color: #777777;
@@ -313,4 +313,9 @@ small.date {
     overflow: hidden;
     background: rgb(216, 216, 216);
     border-width: thick;
+}
+
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+    padding-right: 17px;
 }

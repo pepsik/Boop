@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -10,9 +13,21 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="container">
+<div>
 
-    <h2>Account Information</h2> <br>
+    <s:url var="account_url" value="/account/{id}">
+        <s:param name="id" value="${account.id}"/>
+    </s:url>
+
+    <div class="formHolder">
+        <h2 class="formHolder">Account Information
+            <%--<sf:form action="${account_url}/edit" method="get">--%>
+                <%--<input type="submit" class="btn btn-default" value="Edit"/>--%>
+            <%--</sf:form>--%>
+        </h2>
+
+    </div>
+    <br>
 
     <table class="table table-striped" style="width:600px;">
         <tr>
@@ -48,4 +63,21 @@
             <%--<a href="${fn:escapeXml(addUrl)}"  class="btn btn-success">Add New Pet</a></td>--%>
         </tr>
     </table>
+
+    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+        <sec:authentication property="principal.username" var="authorizedUser"/>
+
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <c:set var="access" value="${true}" scope="page"/>
+        </sec:authorize>
+
+        <c:if test="${authorizedUser.equals(account.username) or access}"> <!-- Shit -->
+
+            <sf:form action="${account_url}/edit" method="get">
+                <input type="submit" class="btn btn-default" value="Edit"/>
+            </sf:form>
+
+        </c:if>
+    </sec:authorize>
+
 </div>

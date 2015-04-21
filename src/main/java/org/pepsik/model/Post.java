@@ -11,7 +11,6 @@ import javax.persistence.Table;
 public class Post extends MessageEntity {
 
     @ManyToOne
-    @JoinColumn(name = "thread_id")
     private Thread thread;
 
     public Thread getThread() {
