@@ -5,9 +5,12 @@ import org.pepsik.model.Thread;
 import org.pepsik.persistence.SmartDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -67,11 +70,14 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #thread.account.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void saveThread(Thread thread) {
-        if (thread.getId() == null)
+        if (thread.getId() == null) {
+            String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            Account account = getAccount(loggedUser);
+            thread.setAccount(account);
             smartDao.addThread(thread);
-        else
+        } else
             smartDao.updateThread(thread);
     }
 
@@ -88,11 +94,14 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #post.account.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void savePost(Post post) {
-        if (post.getId() == null)
+        if (post.getId() == null) {
+            String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            Account account = getAccount(loggedUser);
+            post.setAccount(account);
             smartDao.addPost(post);
-        else
+        } else
             smartDao.updatePost(post);
     }
 
@@ -100,5 +109,16 @@ public class SmartServiceImpl implements SmartService {
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deletePost(long id) {
         smartDao.deletePost(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean IsExistUsername(String username) {
+        try {
+            smartDao.getAccountByUsername(username);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
     }
 }

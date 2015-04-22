@@ -42,7 +42,6 @@ public class AccountController {
         binder.registerCustomEditor(DateTime.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) throws IllegalArgumentException {
-                logger.info(text);
                 try {
                     setValue(fmt.parseDateTime(text));
                 } catch (IllegalArgumentException ex) {
@@ -72,14 +71,16 @@ public class AccountController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult, Model model) {
+    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult) {
+
+        if (service.IsExistUsername(account.getUsername()))
+            bindingResult.rejectValue("username", "username.exist");
 
         if (bindingResult.hasErrors())
             return "account/create";
 
         service.saveAccount(account);
-        model.addAttribute("account", account);
-        return "account/view";
+        return "redirect:/account/" + account.getId();
     }
 
     @RequestMapping(value = "/{userIdentificator}", method = RequestMethod.GET)

@@ -1,20 +1,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div>
 
     <s:url value="/thread/${thread_id}/post/${post.id}" var="post_url"/>
 
-    <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+    <h2>New Comment</h2>
 
-        <sf:label path="text"/>
-        <sf:textarea cssClass="text-width" path="text"/>
-        <sf:errors path="text"/>
+    <div class="well">
+        <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+            <form:textarea path="text" id="summernote"/>
+            <sf:errors path="text"/>
+            <br>
 
-        <div class="spitItSubmitIt">
-            <input type="submit" value="Edit" class="btn btn-success"/>
-        </div>
-    </sf:form>
-
+            <div class="spitItSubmitIt">
+                <button type="submit" class="btn btn-success"><spring:message code="button.edit"/></button>
+            </div>
+        </sf:form>
+    </div>
 </div>
+
+<%--<script type="text/javascript">--%>
+<%--$(document).ready(function () {--%>
+<%--var aHTML = $('.click2edit').code();--%>
+<%--$('.summernote').destroy();--%>
+<%--});--%>
+<%--</script>--%>

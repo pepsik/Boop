@@ -12,14 +12,24 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div>
     <s:url value="/thread/new" var="new_thread_url"/>
 
+    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+        <sec:authentication property="principal.username" var="authorizedUser"/>
 
-    <h2><a href="${new_thread_url}" class="btn btn-primary">
-        <c:out value="New Thread"/>
-    </a></h2> <br>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <c:set var="access" value="${true}" scope="page"/>
+        </sec:authorize>
+
+        <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
+            <h2><a href="${new_thread_url}" class="btn btn-primary">
+                <spring:message code="button.thread.new"/>
+            </a></h2> <br>
+        </c:if>
+    </sec:authorize>
 
     <ol class="spittle-list">
         <c:forEach var="thread" items="${threadList}" varStatus="loop">
@@ -33,8 +43,8 @@
                     <c:out value="${thread.title}"/>
                 </a></h3>
 
-                <div class="thread">
-                    <c:out value="${thread.text}"/>
+                <div class="thread summernote">
+                    ${thread.text}
                 </div>
 
                 <div class="formHolder author text-info">
@@ -55,7 +65,7 @@
 
                     <a class="btn btn-xs btn-success" data-toggle="collapse" href="#${count}"
                        aria-expanded="false" aria-controls="collapse">
-                        Comments (${thread.posts.size()})
+                        <spring:message code="button.comment.hide"/> (${thread.posts.size()})
                     </a>
 
                     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
@@ -86,14 +96,14 @@
 
                     <c:forEach var="post" items="${thread.posts}">
                         <div class="post">
-                            <c:out value="${post.text}"/>
-                            <div class="formHolder author text-info">
 
+                            <div class="summernote margin-bottom">${post.text}</div>
+
+                            <div class="formHolder author text-info">
                                 <s:url value="/account/{id}" var="account_url">
                                     <s:param name="id" value="${post.account.id}"/>
                                 </s:url>
-
-                                <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
+                                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                                     <c:out value="by "/>
                                     <a href="${account_url}">${post.account.username}</a></small>
 
@@ -122,14 +132,20 @@
 
                     <sec:authorize access="isAuthenticated()">
                         <sf:form action="${thread_url}/post/new" method="get">
-                            <input type="submit" class="btn btn-success margin-top" value="New Comment"/>
+                            <button type="submit" class="btn btn-success margin-top"><spring:message
+                                    code="button.comment.new"/></button>
                         </sf:form>
                     </sec:authorize>
                 </div>
             </div>
-
         </c:forEach>
-
     </ol>
 </div>
 
+
+<%--<script type="text/javascript">--%>
+    <%--$(document).ready(function () {--%>
+        <%--$('.summernote').code();--%>
+        <%--$('.summernote').destroy();--%>
+    <%--});--%>
+<%--</script>--%>

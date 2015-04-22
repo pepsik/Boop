@@ -1,12 +1,10 @@
 package org.pepsik.web;
 
 import org.joda.time.DateTime;
-import org.pepsik.model.*;
 import org.pepsik.model.Thread;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +39,6 @@ public class ThreadController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String createThread(Thread thread) {    //TODO: Validation
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Account account = service.getAccount(loggedUser);
-        thread.setAccount(account);
         thread.setWhen(new DateTime());
         service.saveThread(thread);
         return "redirect:/home";
@@ -63,7 +58,7 @@ public class ThreadController {
         thread.setText(editedThread.getText());
         model.addAttribute("thread", thread);
         service.saveThread(thread);
-        return "thread/view";
+        return "redirect:/thread/" + id;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

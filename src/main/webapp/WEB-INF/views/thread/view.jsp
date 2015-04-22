@@ -3,6 +3,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
 <div>
@@ -16,7 +17,7 @@
         </a></h3>
 
         <div class="thread">
-            <c:out value="${thread.text}"/>
+            <div class="summernote">${thread.text}</div>
         </div>
 
         <div class="formHolder author text-info">
@@ -38,7 +39,7 @@
 
     <c:forEach var="post" items="${thread.posts}">
         <div class="post">
-            <c:out value="${post.text}"/> <br>
+            <div class="summernote margin-bottom">${post.text}</div>
 
             <div class="formHolder author text-info">
                 <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
@@ -68,7 +69,15 @@
     </c:forEach>
 
     <sf:form action="${thread_url}/post/new" method="get">
-        <input type="submit" class="btn btn-success margin-top" value="New Post"/>
+        <button type="submit" class="btn btn-success margin-top"><spring:message code="button.comment.new"/></button>
     </sf:form>
 
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 450
+        });
+    });
+</script>

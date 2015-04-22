@@ -20,11 +20,7 @@
     </s:url>
 
     <div class="formHolder">
-        <h2 class="formHolder">Account Information
-            <%--<sf:form action="${account_url}/edit" method="get">--%>
-                <%--<input type="submit" class="btn btn-default" value="Edit"/>--%>
-            <%--</sf:form>--%>
-        </h2>
+        <h2 class="formHolder"><spring:message code="label.account.view.title"/></h2>
 
     </div>
     <br>
@@ -35,11 +31,11 @@
             <td><c:out value="${account.id}"/></td>
         </tr>
         <tr>
-            <th>Fullname</th>
+            <th><spring:message code="label.fullname"/></th>
             <td><b><c:out value="${account.fullname}"/></b></td>
         </tr>
         <tr>
-            <th>Username</th>
+            <th><spring:message code="label.username"/></th>
             <td><c:out value="${account.username}"/></td>
         </tr>
         <tr>
@@ -47,20 +43,8 @@
             <td><c:out value="${account.password}"/></td>
         </tr>
         <tr>
-            <th>Birthdate</th>
+            <th><spring:message code="label.birthdate"/></th>
             <td><joda:format value="${account.birthdate}" pattern="MMM d, yyyy"/></td>
-        </tr>
-        <tr>
-            <%--<td>--%>
-            <%--<spring:url value="{ownerId}/edit.html" var="editUrl">--%>
-            <%--<spring:param name="ownerId" value="${owner.id}"/>--%>
-            <%--</spring:url>--%>
-            <%--<a href="${fn:escapeXml(editUrl)}" class="btn btn-info">Edit Owner</a></td>--%>
-            <%--<td>--%>
-            <%--<spring:url value="{ownerId}/pets/new.html" var="addUrl">--%>
-            <%--<spring:param name="ownerId" value="${owner.id}"/>--%>
-            <%--</spring:url>--%>
-            <%--<a href="${fn:escapeXml(addUrl)}"  class="btn btn-success">Add New Pet</a></td>--%>
         </tr>
     </table>
 
@@ -74,7 +58,7 @@
         <c:if test="${authorizedUser.equals(account.username) or access}"> <!-- Shit -->
 
             <sf:form action="${account_url}/edit" method="get">
-                <input type="submit" class="btn btn-default" value="Edit"/>
+                <button type="submit" class="btn btn-default"><spring:message code="button.edit"/></button>
             </sf:form>
 
         </c:if>

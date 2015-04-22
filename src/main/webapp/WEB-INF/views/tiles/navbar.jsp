@@ -19,17 +19,17 @@
 
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="<spring:message code="navbar.search.placeholder"/>">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default"><spring:message code="navbar.search.button"/></button>
         </form>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
 
                 <sec:authorize access="!isAuthenticated()">
-                    <li class="active"><a class="btn" href="/account">Sign Up</a></li>
-                    <li><a href="#" class="btn" data-toggle="modal" data-target="#loginModal">Login</a></li>
+                    <li class="active"><a class="btn" href="/account"><spring:message code="button.submit"/></a></li>
+                    <li><a href="#" class="btn" data-toggle="modal" data-target="#loginModal"><spring:message code="button.login"/></a></li>
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
@@ -45,12 +45,12 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <s:url value="/account/${username}" var="user_profile_url"/>
-                            <li><a href="${user_profile_url}">Profile</a></li>
-                            <li><a href="#">Messages</a></li>
-                            <li><a href="#">Settings</a></li>
+                            <li><a href="${user_profile_url}"><spring:message code="navbar.dropdown.button.profile"/></a></li>
+                            <li><a href="#"><spring:message code="navbar.dropdown.button.messages"/></a></li>
+                            <li><a href="#"><spring:message code="navbar.dropdown.button.settings"/></a></li>
                             <li class="divider"></li>
                             <s:url value="/static/j_spring_security_logout" var="logout_url"/>
-                            <li><a href="${logout_url}">Log Out</a></li>
+                            <li><a href="${logout_url}"><spring:message code="navbar.dropdown.button.logout"/></a></li>
                         </ul>
                     </li>
                 </sec:authorize>
@@ -70,100 +70,23 @@
                 <form action="<s:url value="/static/j_spring_security_check"/>"
                       method="post">
                     <div class="form-group">
-                        <label for="username" class="control-label">Username</label>
+                        <label for="username" class="control-label"><spring:message code="label.username"/></label>
                         <input type="text" class="form-control" id="username" name="j_username"/>
                     </div>
                     <div class="form-group">
-                        <label for="password" class="control-label">Password</label>
+                        <label for="password" class="control-label"><spring:message code="label.password"/></label>
                         <input type="password" class="form-control" id="password" name="j_password"/>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" name="_spring_security_remember_me"> Remember me</label>
+                        <label><input type="checkbox" name="_spring_security_remember_me"><spring:message code="navbar.modal.label.remember"/></label>
                     </div>
-                    <button type="submit" class="btn btn-success">Login</button>
-                    <button type="reset" class="btn">Clear</button>
+                    <button type="submit" class="btn btn-success"><spring:message code="button.login"/></button>
+                    <button type="reset" class="btn"><spring:message code="button.clear"/></button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="navbar.modal.button.close"/></button>
             </div>
         </div>
     </div>
 </div>
-
-<%--<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-hidden="true">--%>
-    <%--<div class="modal-dialog">--%>
-        <%--<div class="modal-content">--%>
-            <%--<div class="modal-header">--%>
-                <%--<h3>Create a New Account</h3>--%>
-            <%--</div>--%>
-            <%--<div class="modal-body">--%>
-                <%--<form:form modelAttribute="account" method="post" action="/account">--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="email" class="col-xs-3">Email</label>--%>
-                        <%--<spring:bind path="account.email">--%>
-                            <%--<input type="text" name="${status.expression}" id="email"--%>
-                                   <%--class="form-control email required"--%>
-                                   <%--data-placement="bottom"--%>
-                                   <%--value="${status.value}"--%>
-                                   <%--data-trigger="manual"--%>
-                                   <%--data-content="Must be a valid e-mail address (user@gmail.com)">--%>
-                        <%--</spring:bind>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="username" class="col-xs-3">Username</label>--%>
-                        <%--<spring:bind path="account.username">--%>
-                            <%--<input type="text" name="${status.expression}" id="username"--%>
-                                   <%--class="form-control username required"--%>
-                                   <%--data-placement="bottom"--%>
-                                   <%--value="${status.value}"--%>
-                                   <%--data-trigger="manual"--%>
-                                   <%--data-content="Must be at least 3 characters long, and must only contain letters">--%>
-                        <%--</spring:bind>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="password" class="col-xs-3">Password</label>--%>
-                        <%--<spring:bind path="account.password">--%>
-                            <%--<input type="password" name="${status.expression}" id="password"--%>
-                                   <%--class="form-control password required"--%>
-                                   <%--data-placement="bottom"--%>
-                                   <%--value="${status.value}"--%>
-                                   <%--data-trigger="manual"--%>
-                                   <%--data-content="Must be at least 3 characters long, and must have 1 upper/lowercase letter and 1 number">--%>
-                        <%--</spring:bind>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="fullname" class="col-xs-3">Fullname</label>--%>
-                        <%--<spring:bind path="account.fullname">--%>
-                            <%--<input type="text" name="${status.expression}" id="fullname"--%>
-                                   <%--class="form-control name required"--%>
-                                   <%--data-placement="bottom"--%>
-                                   <%--value="${status.value}"--%>
-                                   <%--data-trigger="manual"--%>
-                                   <%--data-content="Must be at least 3 characters long, and must only contain letters">--%>
-                        <%--</spring:bind>--%>
-                    <%--</div>--%>
-                    <%--<div class="form-group">--%>
-                        <%--<label for="birthdate" class="col-xs-3">Birthdate</label>--%>
-                        <%--<spring:bind path="account.birthdate">--%>
-                            <%--<input type="date" name="${status.expression}" id="birthdate"--%>
-                                   <%--class="form-control date required"--%>
-                                   <%--value="${status.value}"/>--%>
-                        <%--</spring:bind>--%>
-                    <%--</div>--%>
-
-                    <%--<div class="form-group">--%>
-                        <%--<button type="submit" class="btn btn-success">Sign Up</button>--%>
-                        <%--<button type="reset" class="btn">Clear</button>--%>
-                    <%--</div>--%>
-
-                    <%--<p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not--%>
-                        <%--valid.</p>--%>
-                <%--</form:form>--%>
-            <%--</div>--%>
-            <%--<div class="modal-footer">--%>
-                <%--<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>

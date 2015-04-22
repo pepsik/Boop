@@ -19,7 +19,7 @@
 
     <form:form modelAttribute="account" class="form-horizontal col-sm-5" method="post" action="/account">
         <div class="form-group">
-            <label for="email" class="col-xs-3">Email</label>
+            <label for="email" class="col-xs-6"><spring:message code="label.email"/></label>
             <spring:bind path="account.email">
                 <input type="text" name="${status.expression}" id="email"
                        class="form-control email required"
@@ -30,7 +30,7 @@
             </spring:bind>
         </div>
         <div class="form-group">
-            <label for="username" class="col-xs-3">Username</label>
+            <label for="username" class="col-xs-6"><spring:message code="label.username"/></label>
             <spring:bind path="account.username">
                 <input type="text" name="${status.expression}" id="username"
                        class="form-control username required"
@@ -41,7 +41,7 @@
             </spring:bind>
         </div>
         <div class="form-group">
-            <label for="password" class="col-xs-3">Password</label>
+            <label for="password" class="col-xs-6"><spring:message code="label.password"/></label>
             <spring:bind path="account.password">
                 <input type="password" name="${status.expression}" id="password"
                        class="form-control password required"
@@ -52,7 +52,7 @@
             </spring:bind>
         </div>
         <div class="form-group">
-            <label for="fullname" class="col-xs-3">Fullname</label>
+            <label for="fullname" class="col-xs-6"><spring:message code="label.fullname"/></label>
             <spring:bind path="account.fullname">
                 <input type="text" name="${status.expression}" id="fullname"
                        class="form-control name required"
@@ -63,7 +63,7 @@
             </spring:bind>
         </div>
         <div class="form-group">
-            <label for="birthdate" class="col-xs-3">Birthdate</label>
+            <label for="birthdate" class="col-xs-6"><spring:message code="label.birthdate"/></label>
             <spring:bind path="account.birthdate">
                 <input type="date" name="${status.expression}" id="birthdate"
                        class="form-control date required"
@@ -72,8 +72,8 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Finish</button>
-            <button type="reset" class="btn">Clear</button>
+            <button type="submit" class="btn btn-success"><spring:message code="button.finish"/></button>
+            <button type="reset" class="btn"><spring:message code="button.clear"/></button>
         </div>
 
         <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not

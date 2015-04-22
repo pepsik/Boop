@@ -50,12 +50,8 @@ public class PostController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String createPost(@PathVariable("thread_id") long thread_id, Post post) {
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        logger.info(loggedUser);
-        Account account = service.getAccount(loggedUser);
-        post.setAccount(account);
         post.setWhen(new DateTime());
-        post.setThread(service.getThread(thread_id));
+        post.setThread(service.getThread(thread_id));  //move to service layer?
         service.savePost(post);
         return "redirect:/thread/" + thread_id;
     }

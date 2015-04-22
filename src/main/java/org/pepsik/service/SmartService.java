@@ -33,4 +33,6 @@ public interface SmartService {
     void savePost(Post message);
 
     void deletePost(long id);
+
+    boolean IsExistUsername(String username);
 }

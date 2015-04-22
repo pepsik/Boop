@@ -2,16 +2,24 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>^_^</title>
     <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 
     <%--<link href="<s:url value="/resources" />/css/bootstrap.min.css" rel="stylesheet">--%>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/js/bootstrap.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="${pageContext.request.contextPath}/resources/summernote/summernote.css" rel="stylesheet"/>
+    <script src="${pageContext.request.contextPath}/resources/summernote/summernote.min.js"></script>
 </head>
 
 <body>
@@ -32,9 +40,20 @@
         </div>
     </div>
 </div>
-
 </div>
-
-
 </body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 450,                 // set editor height
+
+            minHeight: 200,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+
+            focus: true
+        });
+    });
+</script>
+
 </html>

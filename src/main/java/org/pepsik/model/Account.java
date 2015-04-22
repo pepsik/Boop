@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 public class Account extends BaseEntity {
 
     @NotNull
-    @Size(min = 3, max = 20, message = "my.message.key")
+    @Size(min = 3, max = 20)
     @Pattern(regexp = "^[a-zA-Z0-9]+$")
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -29,7 +29,6 @@ public class Account extends BaseEntity {
 
     @NotNull
     @Size(min = 3, max = 20)
-
     @Column(name = "password", nullable = false)
     private String password;
 

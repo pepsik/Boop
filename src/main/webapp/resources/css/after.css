@@ -1,0 +1,17 @@
+/*@import url('//cdnjs.cloudflare.com/ajax/libs/summernote/0.5.1/summernote.css');*/
+
+.btn:focus {
+    outline: none;
+}
+
+/*html {*/
+    /*overflow-y: scroll;*/
+/*}*/
+
+/*.modal { position: absolute; }*/
+
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+    padding-right: 17px;
+}
+

@@ -1,25 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div>
 
-    <sf:form modelAttribute="thread" method="post" action="/thread">
-        <fieldset>
+    <div class="well">
+        <sf:form modelAttribute="thread" method="post" action="/thread">
             <div class="form-group">
-                <sf:label path="title">Title</sf:label>
-                <sf:input path="title" cssClass="form-control" maxlength="20" />
+                <sf:label path="title"><spring:message code="label.thread.create.title"/></sf:label>
+                <sf:input path="title" cssClass="form-control" maxlength="20"/>
             </div>
-
-            <sf:label path="text"/>
-            <sf:textarea cssClass="text-width" path="text" />
+            <form:textarea path="text" id="summernote"/>
             <sf:errors path="text"/>
+            <br>
 
-            <br><br>
             <div class="spitItSubmitIt">
-                <input type="submit" value="Let's Do It" class="btn btn-success"/>
+                <button type="submit" class="btn btn-success"><spring:message code="button.thread.new.create"/></button>
             </div>
-        </fieldset>
-    </sf:form>
+        </sf:form>
+    </div>
 
 </div>
