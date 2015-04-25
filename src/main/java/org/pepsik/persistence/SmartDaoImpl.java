@@ -145,6 +145,7 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
+    @TriggersRemove(cacheName = "threadCache", removeAll = true)
     public void addPost(Post post) {
         em.persist(post);
     }
@@ -155,11 +156,13 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
+    @TriggersRemove(cacheName = "threadCache", removeAll = true)
     public void updatePost(Post post) {
         em.merge(post);
     }
 
     @Override
+    @TriggersRemove(cacheName = "threadCache", removeAll = true)
     public void deletePost(long id) {
         em.remove(getPostById(id));
     }

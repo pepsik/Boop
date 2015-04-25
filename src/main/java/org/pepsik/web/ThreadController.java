@@ -1,8 +1,11 @@
 package org.pepsik.web;
 
 import org.joda.time.DateTime;
+import org.pepsik.model.Post;
 import org.pepsik.model.Thread;
 import org.pepsik.service.SmartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -18,6 +22,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/thread")
 public class ThreadController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ThreadController.class);
 
     @Autowired
     private SmartService service;
@@ -47,6 +53,7 @@ public class ThreadController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getThread(@PathVariable("id") long id, Model model) {
         model.addAttribute("thread", service.getThread(id));
+        logger.info("---GET---");
         return "thread/view";
     }
 
@@ -68,4 +75,11 @@ public class ThreadController {
         return "redirect:/home";
     }
 
+    @RequestMapping(value = "/{id}.html", method = RequestMethod.GET, produces = "text/html")
+    public String getAjaxThreadComments(@PathVariable long id, Model model) {
+        model.addAttribute(service.getThread(id).getPosts());
+        model.addAttribute("thread_url", "thread/" + id);
+        logger.info("---AJAX---");
+        return "comments";
+    }
 }

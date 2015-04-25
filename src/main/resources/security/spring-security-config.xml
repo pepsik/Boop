@@ -18,7 +18,7 @@
         <logout logout-url="/static/j_spring_security_logout" logout-success-url="/home"/>
         <remember-me key="UserKey" token-validity-seconds="2419200" user-service-ref="jdbcUserDetailsManager"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
-        <intercept-url pattern="/thread/**" access="ROLE_USER"/>
+        <intercept-url pattern="/thread/*/" access="ROLE_USER"/>
         <remember-me/>
     </http>
 

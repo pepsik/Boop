@@ -39,8 +39,7 @@
 
             <li><span class="postListText">
                 <h3><a class="label label-primary" href="${thread_url}">
-                    <c:out value="${thread.title}"/>
-                </a></h3>
+                    <c:out value="${thread.title}"/></a></h3>
                 <div class="thread summernote">
                         ${thread.text}
                 </div>
@@ -54,13 +53,13 @@
                         <c:out value="by "/>
                         <a href="${account_url}">${thread.account.username}</a></small>
                     </span>
-                    <s:url value="collapseExample{id}" var="count">
+                    <s:url value="collapse{id}" var="count">
                         <s:param name="id" value="${loop.count}"/>
                     </s:url>
-                    <a class="btn btn-xs btn-success" data-toggle="collapse" href="#${count}"
-                       aria-expanded="false" aria-controls="collapse">
+                    <button class="btn btn-xs btn-success" data-toggle="collapse" href="#button${count}"
+                            aria-expanded="false" aria-controls="collapse" onclick="getJson(${thread.id}, ${count})">
                         <spring:message code="button.comment.hide"/> (${thread.posts.size()})
-                    </a>
+                    </button>
 
                     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                         <sec:authentication property="principal.username" var="authorizedUser"/>
@@ -81,37 +80,10 @@
                 </span>
             </li>
 
-            <div class="collapse" id="${count}">
+            <div class="collapse" id="button${count}">
                 <div class="well">
-                    <c:forEach var="post" items="${thread.posts}">
-                        <div class="post">
-                            <div class="summernote margin-bottom">${post.text}</div>
-                            <div class="formHolder author text-info">
-                                <s:url value="/account/{id}" var="account_url">
-                                    <s:param name="id" value="${post.account.id}"/>
-                                </s:url>
-                                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                                    <c:out value="by "/>
-                                    <a href="${account_url}">${post.account.username}</a></small>
 
-                                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                                    <sec:authentication property="principal.username" var="authorizedUser"/>
-                                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                        <c:set var="access" value="${true}" scope="page"/>
-                                    </sec:authorize>
-
-                                    <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
-                                        <sf:form action="${thread_url}/post/${post.id}" method="delete">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
-                                        </sf:form>
-                                        <sf:form action="${thread_url}/post/${post.id}/edit" method="get">
-                                            <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
-                                        </sf:form>
-                                    </c:if>
-                                </sec:authorize>
-                            </div>
-                        </div>
-                    </c:forEach>
+                    <span id="${count}"></span>
 
                     <sec:authorize access="isAuthenticated()">
                         <sf:form action="${thread_url}/post/new" method="get">
@@ -139,3 +111,16 @@
         <li class="disabled"><a>&raquo;</a></li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    function getJson(thread_id, collapse_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/thread/' + thread_id + '.html',
+            dataType: 'html',
+            success: function (data) {
+                $(collapse_id).html(data);
+            }
+        });
+    }
+</script>
