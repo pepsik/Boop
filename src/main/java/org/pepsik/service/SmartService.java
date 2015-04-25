@@ -12,7 +12,9 @@ public interface SmartService {
 
     List<Thread> getAllThreads();
 
-    List<Thread> getRecentThreads();
+    List<Thread> getThreadsByPage(int pageIndex);
+
+    List<String> getPagination(int pageIndex);
 
     Account getAccount(long id);
 

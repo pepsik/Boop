@@ -35,6 +35,10 @@
             <td><b><c:out value="${account.fullname}"/></b></td>
         </tr>
         <tr>
+            <th><spring:message code="label.email"/></th>
+            <td><b><c:out value="${account.email}"/></b></td>
+        </tr>
+        <tr>
             <th><spring:message code="label.username"/></th>
             <td><c:out value="${account.username}"/></td>
         </tr>

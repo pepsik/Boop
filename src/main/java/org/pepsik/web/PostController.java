@@ -26,8 +26,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/thread/{thread_id}/post")
 public class PostController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
-
     @Autowired
     private SmartService service;
 

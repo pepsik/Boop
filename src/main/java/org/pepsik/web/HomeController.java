@@ -20,7 +20,9 @@ public class HomeController {
 
     @RequestMapping(value = {"/", "/home"})
     public String showHomePage(Model model) {
-        model.addAttribute("threadList", service.getAllThreads());
+        model.addAttribute(model.addAttribute(service.getThreadsByPage(1)));
+        model.addAttribute("pagination", service.getPagination(1));
+        model.addAttribute("currentPageIndex", 1);
         return "home";
     }
 

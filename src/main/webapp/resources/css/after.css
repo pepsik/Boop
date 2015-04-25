@@ -15,3 +15,21 @@
     padding-right: 17px;
 }
 
+
+#parent {
+    /*width: auto;*/
+    /*height: auto;*/
+    /*background-color: #aaa;*/
+    margin: auto auto;
+    overflow: hidden;
+}
+#child {
+    /*width: auto;*/
+    /*height: auto;*/
+    /*background-color: #999;*/
+    margin: auto auto;
+    text-align: justify;
+    position: relative;
+    top: 0;
+    -webkit-transition: all 0.5s ease-out;
+}

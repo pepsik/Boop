@@ -19,7 +19,6 @@
 
     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
         <sec:authentication property="principal.username" var="authorizedUser"/>
-
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <c:set var="access" value="${true}" scope="page"/>
         </sec:authorize>
@@ -27,13 +26,13 @@
         <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
             <h2><a href="${new_thread_url}" class="btn btn-primary">
                 <spring:message code="button.thread.new"/>
-            </a></h2> <br>
+            </a></h2>
         </c:if>
     </sec:authorize>
 
+    <br>
     <ol class="spittle-list">
         <c:forEach var="thread" items="${threadList}" varStatus="loop">
-
             <s:url value="/thread/{id}" var="thread_url">
                 <s:param name="id" value="${thread.id}"/>
             </s:url>
@@ -42,27 +41,22 @@
                 <h3><a class="label label-primary" href="${thread_url}">
                     <c:out value="${thread.title}"/>
                 </a></h3>
-
                 <div class="thread summernote">
-                    ${thread.text}
+                        ${thread.text}
                 </div>
 
                 <div class="formHolder author text-info">
-
                     <s:url value="/account/{id}" var="account_url">
                         <s:param name="id" value="${thread.account.id}"/>
                     </s:url>
-
                     <span class="padding-top">
                     <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
                         <c:out value="by "/>
                         <a href="${account_url}">${thread.account.username}</a></small>
                     </span>
-
                     <s:url value="collapseExample{id}" var="count">
                         <s:param name="id" value="${loop.count}"/>
                     </s:url>
-
                     <a class="btn btn-xs btn-success" data-toggle="collapse" href="#${count}"
                        aria-expanded="false" aria-controls="collapse">
                         <spring:message code="button.comment.hide"/> (${thread.posts.size()})
@@ -70,21 +64,17 @@
 
                     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                         <sec:authentication property="principal.username" var="authorizedUser"/>
-
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <c:set var="access" value="${true}" scope="page"/>
                         </sec:authorize>
 
                         <c:if test="${authorizedUser.equals(thread.account.username) or access}"> <!-- Shit -->
-
                             <sf:form action="${thread_url}" method="delete">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                             </sf:form>
-
                             <sf:form action="${thread_url}/edit" method="get">
                                 <input type="submit" class="btn btn-xs" value="Edit"/>
                             </sf:form>
-
                         </c:if>
                     </sec:authorize>
                 </div>
@@ -93,12 +83,9 @@
 
             <div class="collapse" id="${count}">
                 <div class="well">
-
                     <c:forEach var="post" items="${thread.posts}">
                         <div class="post">
-
                             <div class="summernote margin-bottom">${post.text}</div>
-
                             <div class="formHolder author text-info">
                                 <s:url value="/account/{id}" var="account_url">
                                     <s:param name="id" value="${post.account.id}"/>
@@ -109,21 +96,17 @@
 
                                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                                     <sec:authentication property="principal.username" var="authorizedUser"/>
-
                                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                                         <c:set var="access" value="${true}" scope="page"/>
                                     </sec:authorize>
 
                                     <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
-
                                         <sf:form action="${thread_url}/post/${post.id}" method="delete">
                                             <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                                         </sf:form>
-
                                         <sf:form action="${thread_url}/post/${post.id}/edit" method="get">
                                             <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
                                         </sf:form>
-
                                     </c:if>
                                 </sec:authorize>
                             </div>
@@ -140,12 +123,19 @@
             </div>
         </c:forEach>
     </ol>
+
+    <ul class="pagination">
+        <li class="disabled"><a>&laquo;</a></li>
+        <c:forEach items="${pagination}" var="pageIndex">
+            <c:choose>
+                <c:when test="${pageIndex == currentPageIndex}">
+                    <li class="active"><a>${pageIndex}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="/page/${pageIndex}">${pageIndex}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <li class="disabled"><a>&raquo;</a></li>
+    </ul>
 </div>
-
-
-<%--<script type="text/javascript">--%>
-    <%--$(document).ready(function () {--%>
-        <%--$('.summernote').code();--%>
-        <%--$('.summernote').destroy();--%>
-    <%--});--%>
-<%--</script>--%>

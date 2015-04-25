@@ -3,14 +3,17 @@ package org.pepsik.service;
 import org.pepsik.model.*;
 import org.pepsik.model.Thread;
 import org.pepsik.persistence.SmartDao;
+import org.pepsik.web.AccountController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +23,10 @@ import java.util.List;
 @Service
 @Transactional
 public class SmartServiceImpl implements SmartService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+
+    private static final int DEFAULT_THREADS_PER_PAGE = 5;
 
     @Autowired
     private SmartDao smartDao;
@@ -32,8 +39,29 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Thread> getRecentThreads() {
-        return smartDao.getRecentThreads();
+    public List<Thread> getThreadsByPage(int pageIndex) {
+        return smartDao.getThreadsByPage(pageIndex, DEFAULT_THREADS_PER_PAGE);
+    }
+
+    @Override
+    public List<String> getPagination(final int pageIndex) {
+        List<String> pagination = new ArrayList<>();
+        long threadCount = smartDao.getThreadCount();
+        long pagesCount = threadCount / DEFAULT_THREADS_PER_PAGE;
+
+        if (threadCount % DEFAULT_THREADS_PER_PAGE != 0)
+            pagesCount += 1;
+
+        if (pagesCount <= 5)
+            for (int i = 1; i <= pagesCount; i++) {
+                pagination.add(Integer.toString(i));
+            }
+        else {
+            for (int i = pageIndex - 2; i <= pageIndex + 2; i++) {
+                pagination.add(Integer.toString(i));
+            }
+        }
+        return pagination;
     }
 
     @Override

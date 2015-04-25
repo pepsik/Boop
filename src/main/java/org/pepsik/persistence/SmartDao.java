@@ -9,7 +9,9 @@ public interface SmartDao {
 
     List getAllThreads();
 
-    List<Thread> getRecentThreads();
+    List<Thread> getThreadsByPage(int pageIndex, int threadsPerPage);
+
+    long getThreadCount();
 
     void addAccount(Account account);
 

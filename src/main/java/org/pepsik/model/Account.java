@@ -23,7 +23,7 @@ public class Account extends BaseEntity {
 
     @NotNull
     @Size(min = 3, max = 40)
-    @Pattern(regexp = "^[a-zA-Z]+$")
+    @Pattern(regexp = "^[a-zA-Z]+\\s?[a-zA-Z]+$")
     @Column(name = "fullname", nullable = false)
     private String fullname;
 
