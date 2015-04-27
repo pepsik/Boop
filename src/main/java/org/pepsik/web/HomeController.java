@@ -1,6 +1,7 @@
 package org.pepsik.web;
 
 import org.pepsik.model.Account;
+import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ public class HomeController {
         model.addAttribute(model.addAttribute(service.getThreadsByPage(1)));
         model.addAttribute("pagination", service.getPagination(1));
         model.addAttribute("currentPageIndex", 1);
+        model.addAttribute(new Post());
         logger.info("----Home----");
         return "home";
     }

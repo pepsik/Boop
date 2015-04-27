@@ -13,6 +13,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div>
     <s:url value="/thread/new" var="new_thread_url"/>
@@ -56,10 +57,25 @@
                     <s:url value="collapse{id}" var="count">
                         <s:param name="id" value="${loop.count}"/>
                     </s:url>
-                    <button class="btn btn-xs btn-success" data-toggle="collapse" href="#button${count}"
-                            aria-expanded="false" aria-controls="collapse" onclick="getJson(${thread.id}, ${count})">
+                    <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
+                            data-target="#button${count}">
                         <spring:message code="button.comment.hide"/> (${thread.posts.size()})
                     </button>
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("#button" + "${count}").on('show.bs.collapse', function () {
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '/thread/' + ${thread.id} +'/comments.html',
+                                    dataType: 'html',
+                                    success: function (response) {
+                                        $("#" + "${count}").html(response);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
 
                     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                         <sec:authentication property="principal.username" var="authorizedUser"/>
@@ -82,22 +98,84 @@
 
             <div class="collapse" id="button${count}">
                 <div class="well">
-
                     <span id="${count}"></span>
 
                     <sec:authorize access="isAuthenticated()">
-                        <sf:form action="${thread_url}/post/new" method="get">
-                            <button type="submit" class="btn btn-success margin-top"><spring:message
-                                    code="button.comment.new"/></button>
-                        </sf:form>
+
+                        <div>
+                            <h2>New Comment</h2>
+
+                            <div class="well">
+                                <sf:form modelAttribute="post" method="post" id="postForm${count}">
+                                    <form:textarea path="text" id="summernote${thread.id}"/>
+                                    <br>
+
+                                    <div class="spitItSubmitIt">
+                                        <button type="submit" class="btn btn-success"><spring:message
+                                                code="button.comment.post"/></button>
+                                    </div>
+                                </sf:form>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#summernote" + "${thread.id}").summernote({
+                                    height: 200,
+                                    minHeight: 200,
+                                    maxHeight: null,
+                                    focus: true
+                                });
+                            });
+                        </script>
+
+
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $("#postForm" + "${count}").submit(function (event) {
+                                    event.preventDefault();
+
+                                    var text = $("#text").val;
+                                    var json = {"text": text};
+                                    alert("#postForm" + "${count}");
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/thread/' + ${thread.id} +'/addcomment',
+                                        data: JSON.stringify(json),
+
+//                                        beforeSend: function (xhr) {
+//                                            xhr.setRequestHeader("Content-Type", "application/json");
+//                                        },
+                                        success: function (response) {
+                                            $("#" + "${count}").html(response);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
                     </sec:authorize>
+                        <%--<sec:authorize access="isAuthenticated()">--%>
+                        <%--<sf:form action="${thread_url}/post/new" method="get">--%>
+                        <%--<button type="submit" class="btn btn-success margin-top"><spring:message--%>
+                        <%--code="button.comment.new"/></button>--%>
+                        <%--</sf:form>--%>
+                        <%--</sec:authorize>--%>
                 </div>
             </div>
         </c:forEach>
     </ol>
 
     <ul class="pagination">
-        <li class="disabled"><a>&laquo;</a></li>
+        <c:choose>
+            <c:when test="${1 == currentPageIndex}">
+                <%--<li class="active"><a>&laquo;</a></li>--%>
+            </c:when>
+            <c:otherwise>
+                <li><a href="/page/${currentPageIndex - 1}">&laquo;</a></li>
+            </c:otherwise>
+        </c:choose>
+
         <c:forEach items="${pagination}" var="pageIndex">
             <c:choose>
                 <c:when test="${pageIndex == currentPageIndex}">
@@ -108,19 +186,14 @@
                 </c:otherwise>
             </c:choose>
         </c:forEach>
-        <li class="disabled"><a>&raquo;</a></li>
+
+        <c:choose>
+            <c:when test="${pagination[3] == currentPageIndex}">
+                <%--<li class="active"><a>&raquo;</a></li>--%>
+            </c:when>
+            <c:otherwise>
+                <li><a href="/page/${currentPageIndex + 1}">&raquo;</a></li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 </div>
-
-<script type="text/javascript">
-    function getJson(thread_id, collapse_id) {
-        $.ajax({
-            type: 'GET',
-            url: '/thread/' + thread_id + '.html',
-            dataType: 'html',
-            success: function (data) {
-                $(collapse_id).html(data);
-            }
-        });
-    }
-</script>

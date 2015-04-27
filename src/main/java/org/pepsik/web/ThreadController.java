@@ -53,7 +53,6 @@ public class ThreadController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getThread(@PathVariable("id") long id, Model model) {
         model.addAttribute("thread", service.getThread(id));
-        logger.info("---GET---");
         return "thread/view";
     }
 
@@ -75,11 +74,30 @@ public class ThreadController {
         return "redirect:/home";
     }
 
-    @RequestMapping(value = "/{id}.html", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/{id}/comments.html", method = RequestMethod.GET, produces = "text/html")
     public String getAjaxThreadComments(@PathVariable long id, Model model) {
         model.addAttribute(service.getThread(id).getPosts());
         model.addAttribute("thread_url", "thread/" + id);
-        logger.info("---AJAX---");
+        model.addAttribute("thread_id", id);
+        model.addAttribute(new Post());
+        logger.info("---GET AJAX---");
+        return "comments";
+    }
+
+    @RequestMapping(value = "/{id}/addcomment", method = RequestMethod.POST, produces = "text/html", consumes = "application/json")
+    public String postAjaxThreadComment(@PathVariable("id") long id, @RequestBody Post post, Model model) {
+        post.setWhen(new DateTime());
+        post.setThread(service.getThread(id));
+        logger.info("---POST AJAX---");
+//        logger.info(post.getId().toString());
+        logger.info(post.getText());
+//        logger.info(post.getAccount().toString());
+
+        service.savePost(post);
+        model.addAttribute(service.getThread(id).getPosts());
+        model.addAttribute("thread_url", "thread/" + id);
+        model.addAttribute("thread_id", id);
+        model.addAttribute(new Post());
         return "comments";
     }
 }
