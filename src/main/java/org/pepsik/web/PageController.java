@@ -1,5 +1,6 @@
 package org.pepsik.web;
 
+import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class PageController {
         model.addAttribute(service.getThreadsByPage(pageId));
         model.addAttribute("pagination", service.getPagination(pageId));
         model.addAttribute("currentPageIndex", pageId);
+        model.addAttribute(new Post());
         return "home";
     }
 }

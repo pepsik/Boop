@@ -8,7 +8,7 @@
 
     <s:url value="/thread/${thread_id}/post/${post.id}" var="post_url"/>
 
-    <h2>New Comment</h2>
+    <h2>Edit Comment</h2>
 
     <div class="well">
         <sf:form modelAttribute="post" method="PUT" action="${post_url}">
@@ -23,9 +23,13 @@
     </div>
 </div>
 
-<%--<script type="text/javascript">--%>
-<%--$(document).ready(function () {--%>
-<%--var aHTML = $('.click2edit').code();--%>
-<%--$('.summernote').destroy();--%>
-<%--});--%>
-<%--</script>--%>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 450,
+            minHeight: 200,
+            maxHeight: null,
+            focus: true
+        });
+    });
+</script>

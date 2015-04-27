@@ -20,5 +20,15 @@
             </div>
         </sf:form>
     </div>
-
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 450,
+            minHeight: 200,
+            maxHeight: null,
+            focus: true
+        });
+    });
+</script>

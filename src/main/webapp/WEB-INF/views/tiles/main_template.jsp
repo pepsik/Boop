@@ -42,17 +42,4 @@
 </div>
 </body>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#summernote').summernote({
-            height: 450,                 // set editor height
-
-            minHeight: 200,             // set minimum height of editor
-            maxHeight: null,             // set maximum height of editor
-
-            focus: true
-        });
-    });
-</script>
-
 </html>
