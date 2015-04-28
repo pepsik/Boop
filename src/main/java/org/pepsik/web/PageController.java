@@ -25,7 +25,7 @@ public class PageController {
         model.addAttribute(service.getThreadsByPage(pageId));
         model.addAttribute("pagination", service.getPagination(pageId));
         model.addAttribute("currentPageIndex", pageId);
-        model.addAttribute(new Post());
-        return "home_OLD";
+        model.addAttribute(new Post());          //if currentPage > maxPages - 404
+        return "home";
     }
 }

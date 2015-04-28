@@ -17,10 +17,10 @@
         <c:forEach var="thread" items="${threadList}" varStatus="loop">
 
             <s:url value="/thread/{id}" var="thread_url">
-                <s:param name="id" value="${threadList[0].id}"/>
+                <s:param name="id" value="${thread.id}"/>
             </s:url>
             <s:url value="/account/{id}" var="account_url">
-                <s:param name="id" value="${threadList[0].account.id}"/>
+                <s:param name="id" value="${thread.account.id}"/>
             </s:url>
 
             <li>
@@ -62,7 +62,8 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     var wysiwygNumber = "summernote" + ${loop.count};
-                    $("#" + wysiwygNumber).summernote({
+                    var editor = $("#" + wysiwygNumber);
+                    editor.summernote({
                         height: 200,
                         minHeight: 200,
                         maxHeight: null
@@ -72,9 +73,9 @@
                         event.preventDefault();
 
                         var form = $(this),
-                                url = form.attr('action'),
-                                postMessage = $("#" + wysiwygNumber).code(),
-                                json = {text: postMessage};
+                                postMessage = editor.code();
+                                editor.code("");
+                                var json = {text: postMessage};
                         $.ajax({
                             type: 'POST',
                             url: '/thread/' + ${thread.id} +'/addcomment',
@@ -103,4 +104,29 @@
             </script>
         </c:forEach>
     </ol>
+
+    <ul class="pagination">
+        <c:choose>
+            <c:when test="${1 != currentPageIndex}">
+                <li><a href="/page/${currentPageIndex - 1}">&laquo;</a></li>
+            </c:when>
+        </c:choose>
+
+        <c:forEach items="${pagination}" var="pageIndex">
+            <c:choose>
+                <c:when test="${pageIndex == currentPageIndex}">
+                    <li class="active"><a>${pageIndex}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="/page/${pageIndex}">${pageIndex}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+
+        <c:choose>
+            <c:when test="${pagination[3] != null}">
+                <li><a href="/page/${currentPageIndex + 1}">&raquo;</a></li>
+            </c:when>
+        </c:choose>
+    </ul>
 </div>

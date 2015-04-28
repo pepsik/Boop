@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -77,7 +76,7 @@ public class ThreadController {
     @RequestMapping(value = "/{id}/comments.html", method = RequestMethod.GET, produces = "text/html")
     public String getAjaxThreadComments(@PathVariable long id, Model model) {
         model.addAttribute(service.getThread(id).getPosts());
-        model.addAttribute("thread_url", "thread/" + id);
+        model.addAttribute("thread_url", "thread/" + id);   //del
         model.addAttribute("thread_id", id);
         model.addAttribute(new Post());
         logger.info("---GET AJAX---");
@@ -91,8 +90,19 @@ public class ThreadController {
         logger.info("---POST AJAX---");
         service.savePost(post);
         model.addAttribute(service.getThread(id).getPosts());
-        model.addAttribute("thread_url", "thread/" + id);
+        model.addAttribute("thread_url", "thread/" + id);     //del
         model.addAttribute("thread_id", id);
+        model.addAttribute(new Post());
+        return "comments";
+    }
+
+    @RequestMapping(value = "/{threadId}/post/{commentId}/delete", method = RequestMethod.DELETE, produces = "text/html")
+    public String deleteAjaxThreadComment(@PathVariable("threadId") long threadId, @PathVariable("commentId") long commentId, Model model) {
+        logger.info("---DELETE AJAX---");
+        service.deletePost(commentId);
+        model.addAttribute(service.getThread(threadId).getPosts());
+        model.addAttribute("thread_url", "thread/" + threadId);     //del
+        model.addAttribute("thread_id", threadId);
         model.addAttribute(new Post());
         return "comments";
     }

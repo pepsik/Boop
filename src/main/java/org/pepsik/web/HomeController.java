@@ -27,7 +27,7 @@ public class HomeController {
         model.addAttribute("currentPageIndex", 1);
         model.addAttribute(new Post());
         logger.info("----Home----");
-        return "home_OLD";
+        return "home";
     }
 
     @RequestMapping(value = {"/login_fail"})

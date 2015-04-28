@@ -3,11 +3,14 @@
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <c:forEach var="post" items="${postList}">
-    <div class="post">
+    <div class="post" id="${post.id}">
         <div class="summernote margin-bottom">${post.text}</div>
-        <div class="formHolder author text-info">
+        <div class="author text-info">
             <s:url value="/account/{id}" var="account_url">
                 <s:param name="id" value="${post.account.id}"/>
             </s:url>
@@ -22,15 +25,27 @@
                 </sec:authorize>
 
                 <c:if test="${authorizedUser.equals(post.account.username) or access}">
-                    <form:form action="${thread_url}/post/${post.id}" method="delete">
-                        <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
-                    </form:form>
-                    <form:form action="${thread_url}/post/${post.id}/edit" method="get">
-                        <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
-                    </form:form>
+                    <div style="float: right">
+                        <button class="btn btn-xs btn-default" onclick="editCommentAjax()">Edit</button>
+                        <button class="btn btn-xs btn-danger"
+                                onclick="deleteCommentAjax(${post.thread.id}, ${post.id})">
+                            Delete
+                        </button>
+                    </div>
                 </c:if>
             </sec:authorize>
         </div>
     </div>
 </c:forEach>
+
+<script type="text/javascript">
+    function deleteCommentAjax(thread_id, post_id) {
+        $("#" + post_id).remove();
+
+        $.ajax({
+            type: 'DELETE',
+            url: "/thread/" + thread_id + "/post/" + post_id + "/delete"
+        });
+    }
+</script>
 
