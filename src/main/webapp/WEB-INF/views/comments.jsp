@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:forEach var="post" items="${postList}">
     <div class="post">
@@ -21,13 +21,13 @@
                     <c:set var="access" value="${true}" scope="page"/>
                 </sec:authorize>
 
-                <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
-                    <sf:form action="${thread_url}/post/${post.id}" method="delete">
+                <c:if test="${authorizedUser.equals(post.account.username) or access}">
+                    <form:form action="${thread_url}/post/${post.id}" method="delete">
                         <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
-                    </sf:form>
-                    <sf:form action="${thread_url}/post/${post.id}/edit" method="get">
+                    </form:form>
+                    <form:form action="${thread_url}/post/${post.id}/edit" method="get">
                         <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
-                    </sf:form>
+                    </form:form>
                 </c:if>
             </sec:authorize>
         </div>

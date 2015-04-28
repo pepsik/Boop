@@ -26,6 +26,6 @@ public class PageController {
         model.addAttribute("pagination", service.getPagination(pageId));
         model.addAttribute("currentPageIndex", pageId);
         model.addAttribute(new Post());
-        return "home";
+        return "home_OLD";
     }
 }

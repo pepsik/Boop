@@ -89,10 +89,6 @@ public class ThreadController {
         post.setWhen(new DateTime());
         post.setThread(service.getThread(id));
         logger.info("---POST AJAX---");
-//        logger.info(post.getId().toString());
-        logger.info(post.getText());
-//        logger.info(post.getAccount().toString());
-
         service.savePost(post);
         model.addAttribute(service.getThread(id).getPosts());
         model.addAttribute("thread_url", "thread/" + id);

@@ -1,6 +1,5 @@
 package org.pepsik.web;
 
-import org.pepsik.model.Account;
 import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
 import org.slf4j.Logger;
@@ -8,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -29,7 +27,7 @@ public class HomeController {
         model.addAttribute("currentPageIndex", 1);
         model.addAttribute(new Post());
         logger.info("----Home----");
-        return "home";
+        return "home_OLD";
     }
 
     @RequestMapping(value = {"/login_fail"})
