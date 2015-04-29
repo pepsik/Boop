@@ -3,6 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -13,6 +15,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
+    <s:url value="/thread/new" var="new_thread_url"/>
+
+    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+        <sec:authentication property="principal.username" var="authorizedUser"/>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <c:set var="access" value="${true}" scope="page"/>
+        </sec:authorize>
+
+        <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
+            <h2><a href="${new_thread_url}" class="btn btn-primary">
+                <spring:message code="button.thread.new"/>
+            </a></h2>
+        </c:if>
+    </sec:authorize>
+    <br>
     <ol class="spittle-list">
         <c:forEach var="thread" items="${threadList}" varStatus="loop">
 
@@ -41,6 +58,21 @@
                                 data-target="#button${loop.count}">
                             <spring:message code="button.comment.hide"/> (${thread.posts.size()})
                         </button>
+                            <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                                <sec:authentication property="principal.username" var="authorizedUser"/>
+                                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                    <c:set var="access" value="${true}" scope="page"/>
+                                </sec:authorize>
+
+                                <c:if test="${authorizedUser.equals(thread.account.username) or access}"> <!-- Shit -->
+                                    <sf:form action="${thread_url}" method="delete">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
+                                    </sf:form>
+                                    <sf:form action="${thread_url}/edit" method="get">
+                                        <input type="submit" class="btn btn-xs" value="Edit"/>
+                                    </sf:form>
+                                </c:if>
+                            </sec:authorize>
                     </div>
                 </div>
             </li>
@@ -74,8 +106,8 @@
 
                         var form = $(this),
                                 postMessage = editor.code();
-                                editor.code("");
-                                var json = {text: postMessage};
+                        editor.code("");
+                        var json = {text: postMessage};
                         $.ajax({
                             type: 'POST',
                             url: '/thread/' + ${thread.id} +'/addcomment',
@@ -85,7 +117,24 @@
                                 xhr.setRequestHeader("Content-Type", "application/json");
                             },
                             success: function (response) {
-                                $("#response" + ${loop.count}).html(response);
+                                <%--$("#response" + ${loop.count}).html(response);--%>
+
+                                var newComment = document.createElement("DIV");
+                                newComment.className += "post";
+
+                                var textWrap = document.createElement("DIV");
+                                textWrap.className += "summernote margin-bottom";
+                                var textComment = document.createTextNode(postMessage);
+                                textWrap.appendChild(textComment);
+
+                                var dateWrap = document.createElement("DIV");
+                                dateWrap.className += "text-info author";
+                                var textDate = document.createTextNode("date here");
+                                dateWrap.appendChild(textDate);
+
+                                newComment.appendChild(textWrap);
+                                newComment.appendChild(dateWrap);
+                                document.getElementById("response${loop.count}").appendChild(newComment);
                             }
                         });
                     });

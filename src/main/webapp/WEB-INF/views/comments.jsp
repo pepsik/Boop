@@ -26,7 +26,7 @@
 
                 <c:if test="${authorizedUser.equals(post.account.username) or access}">
                     <div style="float: right">
-                        <button class="btn btn-xs btn-default" onclick="editCommentAjax()">Edit</button>
+                        <button class="btn btn-xs btn-default" onclick="editCommentAjax(${post.thread.id}, ${post.id})">Edit</button>
                         <button class="btn btn-xs btn-danger"
                                 onclick="deleteCommentAjax(${post.thread.id}, ${post.id})">
                             Delete
@@ -46,6 +46,13 @@
             type: 'DELETE',
             url: "/thread/" + thread_id + "/post/" + post_id + "/delete"
         });
+    }
+
+    function editCommentAjax(thread_id, post_id) {
+//        $.ajax({
+//            type: 'DELETE',
+//            url: "/thread/" + thread_id + "/post/" + post_id + "/delete"
+//        });
     }
 </script>
 
