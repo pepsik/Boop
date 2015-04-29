@@ -71,10 +71,10 @@ public class PostController {
         return "redirect:/thread/" + post.getThread().getId();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deletePost(@PathVariable("id") long id, @PathVariable("thread_id") long thread_id) {
-        service.deletePost(id);
-        return "redirect:/thread/" + thread_id;
-    }
+//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public String deletePost(@PathVariable("id") long id, @PathVariable("thread_id") long thread_id) {
+//        service.deletePost(id);
+//        return "redirect:/thread/" + thread_id;
+//    }
 }

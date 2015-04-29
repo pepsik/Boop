@@ -26,7 +26,8 @@ public class SmartServiceImpl implements SmartService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    private static final int DEFAULT_THREADS_PER_PAGE = 5;
+    private static final int DEFAULT_THREADS_PER_PAGE = 7;
+    private static final int DEFAULT_PAGINATION_ON_PAGE = 5;
 
     @Autowired
     private SmartDao smartDao;
@@ -52,15 +53,27 @@ public class SmartServiceImpl implements SmartService {
         if (threadCount % DEFAULT_THREADS_PER_PAGE != 0)
             pagesCount += 1;
 
-        if (pagesCount <= 5)
-            for (int i = 1; i <= pagesCount; i++) {
+        if (pagesCount <= DEFAULT_PAGINATION_ON_PAGE) {
+            for (int i = 1; i <= pagesCount; i++)
                 pagination.add(Integer.toString(i));
-            }
-        else {
-            for (int i = pageIndex - 2; i <= pageIndex + 2; i++) {
-                pagination.add(Integer.toString(i));
-            }
+
+            return pagination;
         }
+
+        if (pageIndex <= 2) {
+            for (int i = 1; i <= DEFAULT_PAGINATION_ON_PAGE; i++)
+                pagination.add(Integer.toString(i));
+
+            return pagination;
+        }
+
+
+        for (int i = pageIndex - 2; i <= pageIndex + 2; i++) {
+            if (i > pagesCount)
+                break;
+            pagination.add(Integer.toString(i));
+        }
+
         return pagination;
     }
 
