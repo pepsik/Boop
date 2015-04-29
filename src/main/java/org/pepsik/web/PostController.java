@@ -46,14 +46,14 @@ public class PostController {
         return "post/edit";
     }
 
-//    @RequestMapping(method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public String createPost(@PathVariable("thread_id") long thread_id, Post post) {
-//        post.setWhen(new DateTime());
-//        post.setThread(service.getThread(thread_id));
-//        service.savePost(post);
-//        return "redirect:/thread/" + thread_id;
-//    }
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String createPost(@PathVariable("thread_id") long thread_id, Post post) {
+        post.setWhen(new DateTime());
+        post.setThread(service.getThread(thread_id));
+        service.savePost(post);
+        return "redirect:/thread/" + thread_id;
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String readPost(@PathVariable("id") long id, Model model) {

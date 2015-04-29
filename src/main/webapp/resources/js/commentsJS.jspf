@@ -1,0 +1,78 @@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var wysiwygNumber = "summernoteEditor" + ${thread_id};
+        var editor = $("#" + wysiwygNumber);
+        editor.summernote({
+            height: 150,
+            minHeight: 100,
+            maxHeight: null
+        });
+
+        $("#postForm" + ${thread_id}).submit(function (event) {
+            event.preventDefault();
+
+            var postMessage = editor.code();
+            editor.code("");
+            var json = {text: postMessage};
+            $.ajax({
+                type: 'POST',
+                url: '/thread/' + ${thread_id} +'/post',
+                data: JSON.stringify(json),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (response) {
+                    $("#response" + ${thread_id}).html(response);
+                }
+            });
+        });
+    });
+
+    var deleteComment = function (thread_id, post_id) {
+        $("#" + post_id).remove();
+        $.ajax({
+            type: 'DELETE',
+            url: "/thread/" + thread_id + "/post/" + post_id
+            //on success
+            //on error
+        });
+    };
+
+    var editComment = function (post_id) {
+        $('#summernotePost' + post_id).summernote({focus: true});
+        document.getElementById("delete" + post_id).style.display = 'none';             //refactor repeats
+        document.getElementById("edit" + post_id).style.display = 'none';
+        document.getElementById("save" + post_id).style.display = 'inline-block';
+        document.getElementById("cancel" + post_id).style.display = 'inline-block';
+    };
+
+    var cancelEditing = function (post_id) {
+        $('#summernotePost' + post_id).destroy();
+        document.getElementById("delete" + post_id).style.display = 'inline-block';
+        document.getElementById("edit" + post_id).style.display = 'inline-block';
+        document.getElementById("save" + post_id).style.display = 'none';
+        document.getElementById("cancel" + post_id).style.display = 'none';
+    };
+
+    var saveComment = function (thread_id, post_id) {
+        var summernote = '#summernotePost' + post_id;
+        var putMessage = $(summernote).code();
+        var json = {text: putMessage};
+        $(summernote).destroy();
+        document.getElementById("save" + post_id).style.display = 'none';
+        document.getElementById("cancel" + post_id).style.display = 'none';
+        document.getElementById("delete" + post_id).style.display = 'inline-block';
+        document.getElementById("edit" + post_id).style.display = 'inline-block';
+        $.ajax({
+            type: 'PUT',
+            url: "/thread/" + thread_id + "/post/" + post_id,
+            data: JSON.stringify(json),
+
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-Type", "application/json");
+            }
+            //on success
+            //on error
+        });
+    };
+</script>

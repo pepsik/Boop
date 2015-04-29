@@ -72,38 +72,4 @@ public class ThreadController {
         service.deleteThread(id);
         return "redirect:/home";
     }
-
-    @RequestMapping(value = "/{id}/comments.html", method = RequestMethod.GET, produces = "text/html")
-    public String getAjaxThreadComments(@PathVariable long id, Model model) {
-        model.addAttribute(service.getThread(id).getPosts());
-        model.addAttribute("thread_url", "thread/" + id);   //del
-        model.addAttribute("thread_id", id);
-        model.addAttribute(new Post());
-        logger.info("---GET AJAX---");
-        return "comments";
-    }
-
-    @RequestMapping(value = "/{id}/addcomment", method = RequestMethod.POST, produces = "text/html", consumes = "application/json")
-    public String postAjaxThreadComment(@PathVariable("id") long id, @RequestBody Post post, Model model) {
-        post.setWhen(new DateTime());
-        post.setThread(service.getThread(id));
-        logger.info("---POST AJAX---");
-        service.savePost(post);
-        model.addAttribute(service.getThread(id).getPosts());
-        model.addAttribute("thread_url", "thread/" + id);     //del
-        model.addAttribute("thread_id", id);
-        model.addAttribute(new Post());
-        return "comments";
-    }
-
-    @RequestMapping(value = "/{threadId}/post/{commentId}/delete", method = RequestMethod.DELETE, produces = "text/html")
-    public String deleteAjaxThreadComment(@PathVariable("threadId") long threadId, @PathVariable("commentId") long commentId, Model model) {
-        logger.info("---DELETE AJAX---");
-        service.deletePost(commentId);
-        model.addAttribute(service.getThread(threadId).getPosts());
-        model.addAttribute("thread_url", "thread/" + threadId);     //del
-        model.addAttribute("thread_id", threadId);
-        model.addAttribute(new Post());
-        return "comments";
-    }
 }

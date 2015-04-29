@@ -17,7 +17,7 @@
             <form:textarea path="text" id="summernote${thread_id}"/>
             <br>
 
-            <div class="spitItSubmitIt">
+            <div class="submit">
                 <button type="submit" class="btn btn-success"><spring:message code="button.comment.post"/></button>
             </div>
         </sf:form>

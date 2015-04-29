@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div>
-
     <div class="well">
         <sf:form modelAttribute="thread" method="post" action="/thread">
             <div class="form-group">
@@ -15,7 +14,7 @@
             <sf:errors path="text"/>
             <br>
 
-            <div class="spitItSubmitIt">
+            <div class="submit">
                 <button type="submit" class="btn btn-success"><spring:message code="button.thread.new.create"/></button>
             </div>
         </sf:form>

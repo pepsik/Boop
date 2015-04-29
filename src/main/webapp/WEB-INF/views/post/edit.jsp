@@ -16,7 +16,7 @@
             <sf:errors path="text"/>
             <br>
 
-            <div class="spitItSubmitIt">
+            <div class="submit">
                 <button type="submit" class="btn btn-success"><spring:message code="button.edit"/></button>
             </div>
         </sf:form>

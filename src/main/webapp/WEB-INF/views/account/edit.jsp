@@ -11,7 +11,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"/>--%>
+<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>
 
 <div>
     <s:url var="account_url" value="/account/${account.id}"/>
