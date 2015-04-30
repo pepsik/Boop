@@ -106,6 +106,17 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = true)
+    public boolean isExistUsername(String username) {
+        try {
+            smartDao.getAccountByUsername(username);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Thread getThread(long id) {
         return smartDao.getThreadById(id);
     }
@@ -126,6 +137,17 @@ public class SmartServiceImpl implements SmartService {
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getThread(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deleteThread(long id) {
         smartDao.deleteThread(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isExistThread(long id) {
+        try {
+            smartDao.getThreadById(id);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -154,9 +176,9 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean IsExistUsername(String username) {
+    public boolean isExistPost(long id) {
         try {
-            smartDao.getAccountByUsername(username);
+            smartDao.getPostById(id);
         } catch (NoResultException ex) {
             return false;
         }

@@ -36,5 +36,9 @@ public interface SmartService {
 
     void deletePost(long id);
 
-    boolean IsExistUsername(String username);
+    boolean isExistPost(long id);
+
+    boolean isExistUsername(String username);
+
+    boolean isExistThread(long id);
 }

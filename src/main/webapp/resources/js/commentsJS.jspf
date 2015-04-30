@@ -22,7 +22,7 @@
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
                 success: function (response) {
-                    $("#response" + ${thread_id}).html(response);
+                    $("#response" + ${thread_id}).appendChild(response.getText());
                 }
             });
         });

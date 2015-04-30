@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @MappedSuperclass
 public class MessageEntity extends BaseEntity {
@@ -16,6 +18,8 @@ public class MessageEntity extends BaseEntity {
     @JoinColumn(name = "account_id")
     protected Account account;
 
+    @NotNull
+    @Size(min = 2, max = 20000)
     @Column(name = "text")
     protected String text;
 

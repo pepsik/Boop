@@ -2,12 +2,17 @@ package org.pepsik.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "threads")
-public class Thread extends MessageEntity {
+public class Thread extends MessageEntity implements Serializable{
 
+    @NotNull
+    @Size(min = 3, max = 40)
     @Column(name = "title")
     private String title;
 

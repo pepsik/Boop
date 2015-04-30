@@ -73,7 +73,7 @@ public class AccountController {
     @RequestMapping(method = RequestMethod.POST)
     public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult) {
 
-        if (service.IsExistUsername(account.getUsername()))
+        if (service.isExistUsername(account.getUsername()))
             bindingResult.rejectValue("username", "username.exist");
 
         if (bindingResult.hasErrors())
