@@ -15,7 +15,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
-    <s:url value="/thread/new" var="new_thread_url"/>
+    <s:url value="/post/new" var="new_post_url"/>
 
     <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
         <sec:authentication property="principal.username" var="authorizedUser"/>
@@ -23,48 +23,48 @@
             <c:set var="access" value="${true}" scope="page"/>
         </sec:authorize>
 
-        <h2><a href="${new_thread_url}" class="btn btn-primary">
-            <spring:message code="button.thread.new"/>
+        <h2><a href="${new_post_url}" class="btn btn-primary">
+            <spring:message code="button.post.new"/>
         </a></h2>
     </sec:authorize>
     <br>
     <ol class="spittle-list">
-        <c:forEach var="thread" items="${threadList}" varStatus="loop">
-            <s:url value="/thread/{id}" var="thread_url">
-                <s:param name="id" value="${thread.id}"/>
+        <c:forEach var="post" items="${postList}" varStatus="loop">
+            <s:url value="/post/{id}" var="post_url">
+                <s:param name="id" value="${post.id}"/>
             </s:url>
             <s:url value="/account/{id}" var="account_url">
-                <s:param name="id" value="${thread.account.id}"/>
+                <s:param name="id" value="${post.account.id}"/>
             </s:url>
 
             <li>
                 <div class="postListText">
-                    <h3><a class="label label-primary" href="${thread_url}">
-                        <c:out value="${thread.title}"/>
+                    <h3><a class="label label-primary" href="${post_url}">
+                        <c:out value="${post.title}"/>
                     </a></h3>
 
-                    <div class="thread summernote">
-                            ${thread.text}
+                    <div class="post summernote">
+                            ${post.text}
                     </div>
                     <div class="formHolder author text-info">
-                        <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
+                        <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${account_url}">${thread.account.username}</a>
+                            <a href="${account_url}">${post.account.username}</a>
                         </small>
                         <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">
-                            <spring:message code="button.comment.hide"/> (${thread.posts.size()})
+                            <spring:message code="button.comment.hide"/> (${post.comments.size()})
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <c:set var="access" value="${true}" scope="page"/>
                             </sec:authorize>
-                            <c:if test="${authorizedUser.equals(thread.account.username) or access}">
-                                <sf:form action="${thread_url}" method="delete">
+                            <c:if test="${authorizedUser.equals(post.account.username) or access}">
+                                <sf:form action="${post_url}" method="delete">
                                     <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                                 </sf:form>
-                                <sf:form action="${thread_url}/edit" method="get">
+                                <sf:form action="${post_url}/edit" method="get">
                                     <input type="submit" class="btn btn-xs" value="Edit"/>
                                 </sf:form>
                             </c:if>
@@ -81,7 +81,7 @@
                     $("#button" + ${loop.count}).on('show.bs.collapse', function () {
                         $.ajax({
                             type: 'GET',
-                            url: '/thread/' + ${thread.id} +'/comments',
+                            url: '/post/' + ${post.id} +'/comments',
                             dataType: 'html',
                             success: function (response) {
                                 $("#response" + ${loop.count}).html(response);

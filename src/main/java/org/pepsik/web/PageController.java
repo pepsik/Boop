@@ -1,7 +1,8 @@
 package org.pepsik.web;
 
-import org.pepsik.model.Post;
+import org.pepsik.model.Comment;
 import org.pepsik.service.SmartService;
+import org.pepsik.web.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,13 @@ public class PageController {
 
     @RequestMapping
     public String getPage(@PathVariable("pageId") int pageId, Model model) {
-        model.addAttribute(service.getThreadsByPage(pageId));
+        if (pageId > service.getPagesCount())
+            throw new ResourceNotFoundException();
+
+        model.addAttribute(service.getPostsByPage(pageId));
         model.addAttribute("pagination", service.getPagination(pageId));
         model.addAttribute("currentPageIndex", pageId);
-        model.addAttribute(new Post());          //if currentPage > maxPages - 404
+        model.addAttribute(new Comment());          //if currentPage > maxPages - 404
         return "home";
     }
 }

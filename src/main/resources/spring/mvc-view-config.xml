@@ -32,7 +32,7 @@
         <property name="definitions">
             <list>
                 <value>WEB-INF/views/tiles/tiles-definitions.xml</value>
-                <value>WEB-INF/views/thread/tiles-definitions.xml</value>
+                <value>WEB-INF/views/comment/tiles-definitions.xml</value>
                 <value>WEB-INF/views/post/tiles-definitions.xml</value>
                 <value>WEB-INF/views/account/tiles-definitions.xml</value>
             </list>

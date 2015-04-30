@@ -13,36 +13,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <s:url value="/account/{id}" var="account_url">
-    <s:param name="id" value="${post.account.id}"/>
+    <s:param name="id" value="${comment.account.id}"/>
 </s:url>
 
-<div class="post" id="${post.id}">
-    <div id="summernotePost${post.id}">
-        ${post.text}
+<div class="comment" id="${comment.id}">
+    <div id="summernoteComment${comment.id}">
+        ${comment.text}
     </div>
     <div class="author text-info">
-        <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
+        <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
             <c:out value="by "/>
-            <a href="${account_url}">${post.account.username}</a>
+            <a href="${account_url}">${comment.account.username}</a>
         </small>
         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
             <sec:authentication property="principal.username" var="authorizedUser"/>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <c:set var="access" value="${true}" scope="page"/>
             </sec:authorize>
-            <c:if test="${authorizedUser.equals(post.account.username) or access}">
+            <c:if test="${authorizedUser.equals(comment.account.username) or access}">
                 <div style="float: right">
-                    <button id="edit${post.id}" class="btn btn-xs btn-default"
-                            onclick="editComment(${post.id})">Edit
+                    <button id="edit${comment.id}" class="btn btn-xs btn-default"
+                            onclick="editComment(${comment.id})">Edit
                     </button>
-                    <button id="delete${post.id}" class="btn btn-xs btn-danger"
-                            onclick="deleteComment(${post.thread.id}, ${post.id})">Delete
+                    <button id="delete${comment.id}" class="btn btn-xs btn-danger"
+                            onclick="deleteComment(${comment.post.id}, ${comment.id})">Delete
                     </button>
-                    <button id="save${post.id}" class="btn btn-xs btn-success" style="display: none;"
-                            onclick="saveComment(${post.thread.id}, ${post.id})">Save
+                    <button id="save${comment.id}" class="btn btn-xs btn-success" style="display: none;"
+                            onclick="saveComment(${comment.post.id}, ${comment.id})">Save
                     </button>
-                    <button id="cancel${post.id}" class="btn btn-xs btn-default" style="display: none;"
-                            onclick="cancelEditing(${post.id})">Cancel
+                    <button id="cancel${comment.id}" class="btn btn-xs btn-default" style="display: none;"
+                            onclick="cancelEditing(${comment.id})">Cancel
                     </button>
                 </div>
             </c:if>

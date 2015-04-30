@@ -1,17 +1,17 @@
 package org.pepsik.persistence;
 
 import org.pepsik.model.*;
-import org.pepsik.model.Thread;
+import org.pepsik.model.Post;
 
 import java.util.List;
 
 public interface SmartDao {
 
-    List getAllThreads();
+    List getAllPosts();
 
-    List<Thread> getThreadsByPage(int pageIndex, int threadsPerPage);
+    List<Post> getPostsByPage(int pageIndex, int threadsPerPage);
 
-    long getThreadCount();
+    long getPostCount();
 
     void addAccount(Account account);
 
@@ -25,19 +25,19 @@ public interface SmartDao {
 
     void setAccountAuthory(Account account);
 
-    void addThread(Thread thread);
-
-    Thread getThreadById(long id);
-
-    void updateThread(Thread thread);
-
-    void deleteThread(long id);
-
-    void addPost(Post post);
+    void addPost(Post thread);
 
     Post getPostById(long id);
 
-    void updatePost(Post post);
+    void updatePost(Post thread);
 
     void deletePost(long id);
+
+    void addComment(Comment post);
+
+    Comment getCommentById(long id);
+
+    void updateComment(Comment post);
+
+    void deleteComment(long id);
 }

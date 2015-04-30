@@ -7,42 +7,42 @@
 
 
 <div>
-    <div class="thread">
-        <s:url value="/thread/{id}" var="thread_url">
-            <s:param name="id" value="${thread.id}"/>
+    <div class="comment">
+        <s:url value="/post/{id}" var="post_url">
+            <s:param name="id" value="${post.id}"/>
         </s:url>
 
-        <h3><a class="label label-primary" href="${thread_url}">
-            <c:out value="${thread.title}"/>
+        <h3><a class="label label-primary" href="${post_url}">
+            <c:out value="${post.title}"/>
         </a></h3>
 
-        <div class="thread">
-            <div class="summernote">${thread.text}</div>
+        <div class="comment">
+            <div class="summernote">${post.text}</div>
         </div>
 
         <div class="formHolder author text-info">
                     <span class="padding-top">
-                    <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
-                        <c:out value="by ${thread.account.username}"/></small>
+                    <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
+                        <c:out value="by ${post.account.username}"/></small>
                     </span>
 
-            <sf:form action="${thread_url}" method="delete">
+            <sf:form action="${post_url}" method="delete">
                 <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
             </sf:form>
 
-            <sf:form action="${thread_url}/edit" method="get">
+            <sf:form action="${post_url}/edit" method="get">
                 <input type="submit" class="btn btn-xs" value="Edit"/>
             </sf:form>
         </div>
     </div>
 
 
-    <c:forEach var="post" items="${thread.posts}">
-        <div class="post">
+    <c:forEach var="post" items="${post.comments}">
+        <div class="comment">
             <div class="summernote margin-bottom">${post.text}</div>
 
             <div class="formHolder author text-info">
-                <small><joda:format value="${thread.when}" pattern="HH:mm MMM d, yyyy"/>
+                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                     <c:out value="by ${post.account.username}"/></small>
 
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
@@ -54,11 +54,11 @@
 
                     <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
 
-                        <sf:form action="${thread_url}/post/${post.id}" method="delete">
+                        <sf:form action="${post_url}/post/${post.id}" method="delete">
                             <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                         </sf:form>
 
-                        <sf:form action="${thread_url}/post/${post.id}/edit" method="get">
+                        <sf:form action="${post_url}/post/${post.id}/edit" method="get">
                             <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
                         </sf:form>
 
@@ -68,7 +68,7 @@
         </div>
     </c:forEach>
 
-    <sf:form action="${thread_url}/post/new" method="get">
+    <sf:form action="${post_url}/post/new" method="get">
         <button type="submit" class="btn btn-success margin-top"><spring:message code="button.comment.new"/></button>
     </sf:form>
 

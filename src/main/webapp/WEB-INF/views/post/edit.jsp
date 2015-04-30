@@ -6,20 +6,20 @@
 
 <div>
 
-    <s:url value="/thread/${thread_id}/post/${post.id}" var="post_url"/>
-
-    <h2>Edit Comment</h2>
+    <s:url value="/post/${post.id}" var="post_url"/>
 
     <div class="well">
-        <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+    <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+            <div class="form-group">
+                <sf:label path="title"><spring:message code="label.post.edit.title"/></sf:label>
+                <sf:input path="title" cssClass="form-control" maxlength="20"/>
+            </div>
             <form:textarea path="text" id="summernote"/>
-            <sf:errors path="text"/>
-            <br>
-
+            <sf:errors path="text"/> <br>
             <div class="submit">
                 <button type="submit" class="btn btn-success"><spring:message code="button.edit"/></button>
             </div>
-        </sf:form>
+    </sf:form>
     </div>
 </div>
 

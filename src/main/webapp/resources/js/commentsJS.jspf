@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
-        var wysiwygNumber = "summernoteEditor" + ${thread_id};
+        var wysiwygNumber = "summernoteEditor" + ${post_id};
         var editor = $("#" + wysiwygNumber);
         editor.summernote({
             height: 150,
@@ -8,7 +8,7 @@
             maxHeight: null
         });
 
-        $("#postForm" + ${thread_id}).submit(function (event) {
+        $("#commentForm" + ${post_id}).submit(function (event) {
             event.preventDefault();
 
             var postMessage = editor.code();
@@ -16,56 +16,57 @@
             var json = {text: postMessage};
             $.ajax({
                 type: 'POST',
-                url: '/thread/' + ${thread_id} +'/post',
+                url: '/post/' + ${post_id} +'/comment',
                 data: JSON.stringify(json),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
                 success: function (response) {
-                    $("#response" + ${thread_id}).appendChild(response.getText());
+                    $("#response" + ${post_id}).append(response);
                 }
+                //on error
             });
         });
     });
 
-    var deleteComment = function (thread_id, post_id) {
-        $("#" + post_id).remove();
+    var deleteComment = function (post_id, comment_id) {
+        $("#" + comment_id).remove();
         $.ajax({
             type: 'DELETE',
-            url: "/thread/" + thread_id + "/post/" + post_id
+            url: "/post/" + post_id + "/comment/" + comment_id
             //on success
             //on error
         });
     };
 
-    var editComment = function (post_id) {
-        $('#summernotePost' + post_id).summernote({focus: true});
-        document.getElementById("delete" + post_id).style.display = 'none';             //refactor repeats
-        document.getElementById("edit" + post_id).style.display = 'none';
-        document.getElementById("save" + post_id).style.display = 'inline-block';
-        document.getElementById("cancel" + post_id).style.display = 'inline-block';
+    var editComment = function (comment_id) {
+        $('#summernoteComment' + comment_id).summernote({focus: true});
+        document.getElementById("delete" + comment_id).style.display = 'none';             //refactor repeats
+        document.getElementById("edit" + comment_id).style.display = 'none';
+        document.getElementById("save" + comment_id).style.display = 'inline-block';
+        document.getElementById("cancel" + comment_id).style.display = 'inline-block';
     };
 
-    var cancelEditing = function (post_id) {
-        $('#summernotePost' + post_id).destroy();
-        document.getElementById("delete" + post_id).style.display = 'inline-block';
-        document.getElementById("edit" + post_id).style.display = 'inline-block';
-        document.getElementById("save" + post_id).style.display = 'none';
-        document.getElementById("cancel" + post_id).style.display = 'none';
+    var cancelEditing = function (comment_id) {
+        $('#summernoteComment' + comment_id).destroy();
+        document.getElementById("delete" + comment_id).style.display = 'inline-block';
+        document.getElementById("edit" + comment_id).style.display = 'inline-block';
+        document.getElementById("save" + comment_id).style.display = 'none';
+        document.getElementById("cancel" + comment_id).style.display = 'none';
     };
 
-    var saveComment = function (thread_id, post_id) {
-        var summernote = '#summernotePost' + post_id;
+    var saveComment = function (post_id, comment_id) {
+        var summernote = '#summernoteComment' + comment_id;
         var putMessage = $(summernote).code();
         var json = {text: putMessage};
         $(summernote).destroy();
-        document.getElementById("save" + post_id).style.display = 'none';
-        document.getElementById("cancel" + post_id).style.display = 'none';
-        document.getElementById("delete" + post_id).style.display = 'inline-block';
-        document.getElementById("edit" + post_id).style.display = 'inline-block';
+        document.getElementById("save" + comment_id).style.display = 'none';
+        document.getElementById("cancel" + comment_id).style.display = 'none';
+        document.getElementById("delete" + comment_id).style.display = 'inline-block';
+        document.getElementById("edit" + comment_id).style.display = 'inline-block';
         $.ajax({
             type: 'PUT',
-            url: "/thread/" + thread_id + "/post/" + post_id,
+            url: "/post/" + post_id + "/comment/" + comment_id,
             data: JSON.stringify(json),
 
             beforeSend: function (xhr) {

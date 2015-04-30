@@ -1,7 +1,7 @@
 package org.pepsik.service;
 
 import org.pepsik.model.*;
-import org.pepsik.model.Thread;
+import org.pepsik.model.Post;
 import org.pepsik.persistence.SmartDao;
 import org.pepsik.web.AccountController;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class SmartServiceImpl implements SmartService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    private static final int DEFAULT_THREADS_PER_PAGE = 7;
+    private static final int DEFAULT_POSTS_PER_PAGE = 7;
     private static final int DEFAULT_PAGINATION_ON_PAGE = 5;
 
     @Autowired
@@ -34,23 +34,23 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Thread> getAllThreads() {
-        return smartDao.getAllThreads();
+    public List<Post> getAllPosts() {
+        return smartDao.getAllPosts();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Thread> getThreadsByPage(int pageIndex) {
-        return smartDao.getThreadsByPage(pageIndex, DEFAULT_THREADS_PER_PAGE);
+    public List<Post> getPostsByPage(int pageIndex) {
+        return smartDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
     }
 
     @Override
     public List<String> getPagination(final int pageIndex) {
         List<String> pagination = new ArrayList<>();
-        long threadCount = smartDao.getThreadCount();
-        long pagesCount = threadCount / DEFAULT_THREADS_PER_PAGE;
+        long postCount = smartDao.getPostCount();
+        long pagesCount = postCount / DEFAULT_POSTS_PER_PAGE;
 
-        if (threadCount % DEFAULT_THREADS_PER_PAGE != 0)
+        if (postCount % DEFAULT_POSTS_PER_PAGE != 0)
             pagesCount += 1;
 
         if (pagesCount <= DEFAULT_PAGINATION_ON_PAGE) {
@@ -117,41 +117,6 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = true)
-    public Thread getThread(long id) {
-        return smartDao.getThreadById(id);
-    }
-
-    @Override
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public void saveThread(Thread thread) {
-        if (thread.getId() == null) {
-            String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-            Account account = getAccount(loggedUser);
-            thread.setAccount(account);
-            smartDao.addThread(thread);
-        } else
-            smartDao.updateThread(thread);
-    }
-
-    @Override
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getThread(#id).account.username) or hasRole('ROLE_ADMIN')")
-    public void deleteThread(long id) {
-        smartDao.deleteThread(id);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean isExistThread(long id) {
-        try {
-            smartDao.getThreadById(id);
-        } catch (NoResultException ex) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Post getPost(long id) {
         return smartDao.getPostById(id);
     }
@@ -169,7 +134,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).account.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getComment(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deletePost(long id) {
         smartDao.deletePost(id);
     }
@@ -183,5 +148,45 @@ public class SmartServiceImpl implements SmartService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Comment getComment(long id) {
+        return smartDao.getCommentById(id);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void saveComment(Comment post) {
+        if (post.getId() == null) {
+            String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            Account account = getAccount(loggedUser);
+            post.setAccount(account);
+            smartDao.addComment(post);
+        } else
+            smartDao.updateComment(post);
+    }
+
+    @Override
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getComment(#id).account.username) or hasRole('ROLE_ADMIN')")
+    public void deleteComment(long id) {
+        smartDao.deleteComment(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isExistComment(long id) {
+        try {
+            smartDao.getCommentById(id);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public long getPagesCount() {
+        return smartDao.getPostCount() / DEFAULT_POSTS_PER_PAGE;
     }
 }

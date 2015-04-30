@@ -1,7 +1,7 @@
 package org.pepsik.service;
 
 import org.pepsik.model.*;
-import org.pepsik.model.Thread;
+import org.pepsik.model.Post;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface SmartService {
 
-    List<Thread> getAllThreads();
+    List<Post> getAllPosts();
 
-    List<Thread> getThreadsByPage(int pageIndex);
+    List<Post> getPostsByPage(int pageIndex);
 
     List<String> getPagination(int pageIndex);
 
@@ -24,21 +24,23 @@ public interface SmartService {
 
     void deleteAccount(long id);
 
-    Thread getThread(long id);
-
-    void saveThread(Thread thread);
-
-    void deleteThread(long id);
-
     Post getPost(long id);
 
-    void savePost(Post message);
+    void savePost(Post thread);
 
     void deletePost(long id);
 
-    boolean isExistPost(long id);
+    Comment getComment(long id);
+
+    void saveComment(Comment message);
+
+    void deleteComment(long id);
+
+    boolean isExistComment(long id);
 
     boolean isExistUsername(String username);
 
-    boolean isExistThread(long id);
+    boolean isExistPost(long id);
+
+    long getPagesCount();
 }

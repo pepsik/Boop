@@ -5,7 +5,7 @@ import com.googlecode.ehcache.annotations.KeyGenerator;
 import com.googlecode.ehcache.annotations.Property;
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import org.pepsik.model.*;
-import org.pepsik.model.Thread;
+import org.pepsik.model.Post;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,9 +25,9 @@ public class SmartDaoImpl implements SmartDao {
 
 
     public static final String SELECT_ACCOUNT_BY_ID = "SELECT account FROM Account account WHERE account.id=:id";
-    public static final String SELECT_ALL_THREADS = "SELECT thread FROM Thread thread ORDER BY thread.when DESC";
-    public static final String SELECT_THREAD_BY_ID = "SELECT thread FROM Thread thread WHERE thread.id =:id";
-    public static final String SELECT_POST_BY_ID = "SELECT post FROM Post post WHERE post.id = :id";
+    public static final String SELECT_ALL_POSTS = "SELECT post FROM Post post ORDER BY post.when DESC";
+    public static final String SELECT_POST_BY_ID = "SELECT post FROM Post post WHERE post.id =:id";
+    public static final String SELECT_COMMENT_BY_ID = "SELECT comment FROM Comment comment WHERE comment.id = :id";
     public static final String SELECT_ACCOUNT_BY_USERNAME = "SELECT account FROM Account account WHERE account.username=:username";
     public static final String INSERT_ACCOUNT_AUTHORITY = "INSERT INTO ACCOUNTS_AUTHORITY (account_id, ROLE_ID)  values (:id , 2)";
 
@@ -35,29 +35,29 @@ public class SmartDaoImpl implements SmartDao {
     private EntityManager em;
 
     @Override
-    public List<Thread> getAllThreads() {
-        return em.createQuery(SELECT_ALL_THREADS).getResultList();
+    public List<Post> getAllPosts() {
+        return em.createQuery(SELECT_ALL_POSTS).getResultList();
     }
 
     @Override
-    public List<Thread> getThreadsByPage(int pageIndex, final int DEFAULT_THREADS_PER_PAGE) {
+    public List<Post> getPostsByPage(int pageIndex, final int DEFAULT_POSTS_PER_PAGE) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Thread> criteriaQuery = criteriaBuilder.createQuery(Thread.class);
-        Root<Thread> from = criteriaQuery.from(Thread.class);
-        CriteriaQuery<Thread> select = criteriaQuery.orderBy(criteriaBuilder.desc(from.get("when")));
+        CriteriaQuery<Post> criteriaQuery = criteriaBuilder.createQuery(Post.class);
+        Root<Post> from = criteriaQuery.from(Post.class);
+        CriteriaQuery<Post> select = criteriaQuery.orderBy(criteriaBuilder.desc(from.get("when")));
 
-        TypedQuery<Thread> typedQuery = em.createQuery(select);
-        typedQuery.setFirstResult((pageIndex - 1) * DEFAULT_THREADS_PER_PAGE);
-        typedQuery.setMaxResults(DEFAULT_THREADS_PER_PAGE);
+        TypedQuery<Post> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((pageIndex - 1) * DEFAULT_POSTS_PER_PAGE);
+        typedQuery.setMaxResults(DEFAULT_POSTS_PER_PAGE);
 
         return typedQuery.getResultList();
     }
 
     @Override
-    public long getThreadCount() {
+    public long getPostCount() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
-        countQuery.select(criteriaBuilder.count(countQuery.from(Thread.class)));
+        countQuery.select(criteriaBuilder.count(countQuery.from(Post.class)));
         return em.createQuery(countQuery).getSingleResult();
     }
 
@@ -109,61 +109,61 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
-    @TriggersRemove(cacheName = "threadCache",
+    @TriggersRemove(cacheName = "postCache",
             keyGenerator = @KeyGenerator(
                     name = "HashCodeCacheKeyGenerator",
                     properties = @Property(name = "includeMethod", value = "false")))
-    public void addThread(Thread thread) {
-        em.persist(thread);
-    }
-
-    @Override
-    @Cacheable(cacheName = "threadCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
-    public Thread getThreadById(long id) {
-        return (Thread) em.createQuery(SELECT_THREAD_BY_ID).setParameter("id", id).getSingleResult();
-    }
-
-    @Override
-    @TriggersRemove(cacheName = "threadCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
-    public void updateThread(Thread thread) {
-        em.merge(thread);
-    }
-
-    @Override
-    @TriggersRemove(cacheName = "threadCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
-    public void deleteThread(long id) {
-        em.remove(getThreadById(id));
-    }
-
-    @Override
-    @TriggersRemove(cacheName = "threadCache", removeAll = true)
     public void addPost(Post post) {
         em.persist(post);
     }
 
     @Override
+    @Cacheable(cacheName = "postCache",
+            keyGenerator = @KeyGenerator(
+                    name = "HashCodeCacheKeyGenerator",
+                    properties = @Property(name = "includeMethod", value = "false")))
     public Post getPostById(long id) {
         return (Post) em.createQuery(SELECT_POST_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override
-    @TriggersRemove(cacheName = "threadCache", removeAll = true)
+    @TriggersRemove(cacheName = "postCache",
+            keyGenerator = @KeyGenerator(
+                    name = "HashCodeCacheKeyGenerator",
+                    properties = @Property(name = "includeMethod", value = "false")))
     public void updatePost(Post post) {
         em.merge(post);
     }
 
     @Override
-    @TriggersRemove(cacheName = "threadCache", removeAll = true)
+    @TriggersRemove(cacheName = "postCache",
+            keyGenerator = @KeyGenerator(
+                    name = "HashCodeCacheKeyGenerator",
+                    properties = @Property(name = "includeMethod", value = "false")))
     public void deletePost(long id) {
         em.remove(getPostById(id));
+    }
+
+    @Override
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    public void addComment(Comment comment) {
+        em.persist(comment);
+    }
+
+    @Override
+    public Comment getCommentById(long id) {
+        return (Comment) em.createQuery(SELECT_COMMENT_BY_ID).setParameter("id", id).getSingleResult();
+    }
+
+    @Override
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    public void updateComment(Comment comment) {
+        em.merge(comment);
+    }
+
+    @Override
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    public void deleteComment(long id) {
+        em.remove(getCommentById(id));
     }
 }

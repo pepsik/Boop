@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   birth_date DATE        NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS threads (
+CREATE TABLE IF NOT EXISTS posts (
   id          INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
   account_id  INT           NOT NULL,
   title       VARCHAR(20)   NOT NULL,
@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS threads (
   FOREIGN KEY (account_id) REFERENCES accounts (id)
 );
 
-CREATE TABLE IF NOT EXISTS posts (
+CREATE TABLE IF NOT EXISTS comments (
   id          INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  tread_id    INT           NOT NULL,
+  post_id    INT           NOT NULL,
   account_id  INT           NOT NULL,
   text        VARCHAR(1000) NOT NULL,
   posted_time DATE          NOT NULL,

@@ -2,6 +2,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
     <defaultCache eternal="true" maxElementsInMemory="200" overflowToDisk="false"/>
-    <cache name="threadCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
+    <cache name="postCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
     <cache name="accountCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
 </ehcache>

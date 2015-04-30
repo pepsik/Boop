@@ -1,27 +1,37 @@
 package org.pepsik.model;
 
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
 public class Post extends MessageEntity implements Serializable{
 
-    @JsonIgnore
-    @ManyToOne
-    private Thread thread;
+    @NotNull
+    @Size(min = 3, max = 40)
+    @Column(name = "title")
+    private String title;
 
-    public Thread getThread() {
-        return thread;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "post")
+    private List<Comment> comments;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setThread(Thread thread) {
-        this.thread = thread;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
