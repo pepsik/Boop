@@ -3,8 +3,6 @@ package org.pepsik.web;
 import org.joda.time.DateTime;
 import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,56 +16,54 @@ import javax.servlet.http.HttpSession;
  */
 
 @Controller
-@RequestMapping("/thread")
+@RequestMapping("/post")
 public class PostController {
-
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     @Autowired
     private SmartService service;
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newThread(Model model) {
-        model.addAttribute("thread", new Post());
-        return "thread/create";
+    public String newPost(Model model) {
+        model.addAttribute("post", new Post());
+        return "post/create";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editThread(@PathVariable("id") long id, HttpSession session, Model model) {
-        Post thread = service.getPost(id);
-        session.setAttribute("thread", thread);
-        model.addAttribute("thread", thread);
-        return "thread/edit";
+    public String editPost(@PathVariable("id") long id, HttpSession session, Model model) {
+        Post post = service.getPost(id);
+        session.setAttribute("post", post);
+        model.addAttribute("post", post);
+        return "post/edit";
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String createThread(Post thread) {    //TODO: Validation
-        thread.setWhen(new DateTime());
-        service.savePost(thread);
+    public String createPost(Post post) {    //TODO: Validation
+        post.setWhen(new DateTime());
+        service.savePost(post);
         return "redirect:/home";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getThread(@PathVariable("id") long id, Model model) {
-        model.addAttribute("thread", service.getPost(id));
-        return "thread/view";
+    public String getPost(@PathVariable("id") long id, Model model) {
+        model.addAttribute("post", service.getPost(id));
+        return "post/view";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updateThread(@PathVariable("id") long id, Post editedThread, HttpSession session, Model model) {
+    public String updatePost(@PathVariable("id") long id, Post post, HttpSession session, Model model) {
         //TODO: valid
-        Post thread = (Post) session.getAttribute("thread");
-        thread.setTitle(editedThread.getTitle());
-        thread.setText(editedThread.getText());
-        model.addAttribute("thread", thread);
-        service.savePost(thread);
-        return "redirect:/thread/" + id;
+        Post editablePost = (Post) session.getAttribute("post");
+        editablePost.setTitle(post.getTitle());
+        editablePost.setText(post.getText());
+        model.addAttribute("post", editablePost);
+        service.savePost(editablePost);
+        return "redirect:/post/" + id;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteThread(@PathVariable("id") long id) {
+    public String deletePost(@PathVariable("id") long id) {
         service.deletePost(id);
         return "redirect:/home";
     }

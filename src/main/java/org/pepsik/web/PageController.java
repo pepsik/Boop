@@ -29,7 +29,7 @@ public class PageController {
         model.addAttribute(service.getPostsByPage(pageId));
         model.addAttribute("pagination", service.getPagination(pageId));
         model.addAttribute("currentPageIndex", pageId);
-        model.addAttribute(new Comment());          //if currentPage > maxPages - 404
+//        model.addAttribute(new Comment());          //if currentPage > maxPages - 404
         return "home";
     }
 }

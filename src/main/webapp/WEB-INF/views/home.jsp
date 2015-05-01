@@ -62,10 +62,14 @@
                             </sec:authorize>
                             <c:if test="${authorizedUser.equals(post.account.username) or access}">
                                 <sf:form action="${post_url}" method="delete">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
+                                    <button type="submit" class="btn btn-xs btn-danger">
+                                        <spring:message code="button.delete"/>
+                                    </button>
                                 </sf:form>
                                 <sf:form action="${post_url}/edit" method="get">
-                                    <input type="submit" class="btn btn-xs" value="Edit"/>
+                                    <button type="submit" class="btn btn-xs">
+                                        <spring:message code="button.edit"/>
+                                    </button>
                                 </sf:form>
                             </c:if>
                         </sec:authorize>
@@ -73,23 +77,17 @@
                 </div>
             </li>
             <div class="collapse well" id="button${loop.count}">
-                <span id="response${loop.count}"></span>
+                <span id="responseCollapse${loop.count}"></span>
             </div>
 
             <script type="text/javascript">
                 $(document).ready(function () {
-                    $("#button" + ${loop.count}).on('show.bs.collapse', function () {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/post/' + ${post.id} +'/comments',
-                            dataType: 'html',
-                            success: function (response) {
-                                $("#response" + ${loop.count}).html(response);
-                            }
-                        });
+                    $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
+                        getComments(${post.id}, ${loop.count});
                     });
                 });
             </script>
+
         </c:forEach>
     </ol>
     <ul class="pagination">
@@ -115,3 +113,4 @@
         </c:choose>
     </ul>
 </div>
+

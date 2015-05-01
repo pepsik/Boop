@@ -134,7 +134,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getComment(#id).account.username) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deletePost(long id) {
         smartDao.deletePost(id);
     }

@@ -67,10 +67,10 @@ public class CommentController {
         return "redirect:/thread/" + post.getPost().getId();
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public String deleteComment(@PathVariable("id") long id, @PathVariable("post_id") long post_id) {
-//        service.deleteComment(id);
-//        return "redirect:/thread/" + post_id;
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleteComment(@PathVariable("id") long id, @PathVariable("post_id") long post_id) {
+        service.deleteComment(id);
+        return "redirect:/thread/" + post_id;
+    }
 }
