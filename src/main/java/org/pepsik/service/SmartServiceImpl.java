@@ -187,6 +187,10 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public long getPagesCount() {
-        return smartDao.getPostCount() / DEFAULT_POSTS_PER_PAGE;
+        long postCount = smartDao.getPostCount();
+
+        if (postCount % DEFAULT_POSTS_PER_PAGE != 0)
+            return postCount / DEFAULT_POSTS_PER_PAGE + 1;
+        return postCount / DEFAULT_POSTS_PER_PAGE;
     }
 }

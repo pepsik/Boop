@@ -16,19 +16,18 @@
 
 <div>
     <s:url value="/post/new" var="new_post_url"/>
-
-    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-        <sec:authentication property="principal.username" var="authorizedUser"/>
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <c:set var="access" value="${true}" scope="page"/>
-        </sec:authorize>
-
-        <h2><a href="${new_post_url}" class="btn btn-primary">
-            <spring:message code="button.post.new"/>
-        </a></h2>
-    </sec:authorize>
-    <br>
-    <ol class="spittle-list">
+    <ol>
+        <li type="none" class="spittle-list">
+            <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                <sec:authentication property="principal.username" var="authorizedUser"/>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <c:set var="access" value="${true}" scope="page"/>
+                </sec:authorize>
+                <h2><a href="${new_post_url}" class="btn btn-primary">
+                    <spring:message code="button.post.new"/>
+                </a></h2>
+            </sec:authorize>
+        </li>
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${post.id}"/>
@@ -37,7 +36,7 @@
                 <s:param name="id" value="${post.account.id}"/>
             </s:url>
 
-            <li>
+            <li type="none" class="spittle-list">
                 <div class="postListText">
                     <h3><a class="label label-primary" href="${post_url}">
                         <c:out value="${post.title}"/>

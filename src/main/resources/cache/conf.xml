@@ -4,4 +4,5 @@
     <defaultCache eternal="true" maxElementsInMemory="200" overflowToDisk="false"/>
     <cache name="postCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
     <cache name="accountCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
+    <cache name="commentCache" maxElementsInMemory="100" eternal="true" overflowToDisk="false"/>
 </ehcache>

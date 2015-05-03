@@ -21,6 +21,8 @@
     <link href="${pageContext.request.contextPath}/resources/summernote/summernote.css" rel="stylesheet"
           type="text/css"/>
     <script src="${pageContext.request.contextPath}/resources/summernote/summernote.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote_uk_UA.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/summernote/plugin/summernote-ext-video.js"></script>
 
     <!-- SmartSite js,css-->
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>

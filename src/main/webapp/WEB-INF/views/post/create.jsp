@@ -6,12 +6,13 @@
 <div>
     <div class="well">
         <sf:form modelAttribute="post" method="post" action="/post">
+            <sf:label path="title"><spring:message code="label.post.create.title"/></sf:label>
             <div class="form-group">
-                <sf:label path="title"><spring:message code="label.post.create.title"/></sf:label>
-                <sf:input path="title" cssClass="form-control" maxlength="20"/>
+                <sf:errors path="title" cssClass="label label-danger"/>
+                <sf:input path="title" cssClass="form-control" maxlength="40"/>
             </div>
+            <sf:errors path="text" cssClass="label label-danger"/>
             <form:textarea path="text" id="summernote"/>
-            <sf:errors path="text"/>
             <br>
 
             <div class="submit">

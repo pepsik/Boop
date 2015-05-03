@@ -9,17 +9,19 @@
     <s:url value="/post/${post.id}" var="post_url"/>
 
     <div class="well">
-    <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+        <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+            <sf:label path="title"><spring:message code="label.post.edit.title"/></sf:label>
             <div class="form-group">
-                <sf:label path="title"><spring:message code="label.post.edit.title"/></sf:label>
-                <sf:input path="title" cssClass="form-control" maxlength="20"/>
+                <sf:errors path="title" cssClass="label label-danger"/>
+                <sf:input path="title" cssClass="form-control" maxlength="40"/>
             </div>
+            <sf:errors path="text" cssClass="label label-danger"/> <br>
             <form:textarea path="text" id="summernote"/>
-            <sf:errors path="text"/> <br>
+            <br>
             <div class="submit">
                 <button type="submit" class="btn btn-success"><spring:message code="button.edit"/></button>
             </div>
-    </sf:form>
+        </sf:form>
     </div>
 </div>
 

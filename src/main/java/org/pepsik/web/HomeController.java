@@ -22,7 +22,6 @@ public class HomeController {
         model.addAttribute(model.addAttribute(service.getPostsByPage(1)));
         model.addAttribute("pagination", service.getPagination(1));
         model.addAttribute("currentPageIndex", 1);
-//        model.addAttribute(new Comment());
         return "home";
     }
 

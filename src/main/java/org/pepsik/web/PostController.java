@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -37,8 +39,11 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String createPost(Post post) {    //TODO: Validation
+    public String createPost(@Valid Post post, BindingResult result) {
+
+        if (result.hasErrors())
+            return "post/create";
+
         post.setWhen(new DateTime());
         service.savePost(post);
         return "redirect:/home";
@@ -51,8 +56,11 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") long id, Post post, HttpSession session, Model model) {
-        //TODO: valid
+    public String updatePost(@PathVariable("id") long id, @Valid Post post, BindingResult result, HttpSession session, Model model) {
+
+        if (result.hasErrors())
+            return "post/edit";
+
         Post editablePost = (Post) session.getAttribute("post");
         editablePost.setTitle(post.getTitle());
         editablePost.setText(post.getText());

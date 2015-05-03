@@ -7,7 +7,7 @@
 
 
 <div>
-    <div class="comment">
+    <div>
         <s:url value="/post/{id}" var="post_url">
             <s:param name="id" value="${post.id}"/>
         </s:url>
@@ -16,7 +16,7 @@
             <c:out value="${post.title}"/>
         </a></h3>
 
-        <div class="comment">
+        <div class="post">
             <div class="summernote">${post.text}</div>
         </div>
 

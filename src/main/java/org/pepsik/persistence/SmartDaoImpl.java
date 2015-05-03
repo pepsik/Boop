@@ -35,11 +35,13 @@ public class SmartDaoImpl implements SmartDao {
     private EntityManager em;
 
     @Override
+    @Cacheable(cacheName = "postCache")
     public List<Post> getAllPosts() {
         return em.createQuery(SELECT_ALL_POSTS).getResultList();
     }
 
     @Override
+    @Cacheable(cacheName = "postCache")
     public List<Post> getPostsByPage(int pageIndex, final int DEFAULT_POSTS_PER_PAGE) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Post> criteriaQuery = criteriaBuilder.createQuery(Post.class);
@@ -54,6 +56,7 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
+    @Cacheable(cacheName = "postCache")
     public long getPostCount() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -62,37 +65,29 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
-    @TriggersRemove(cacheName = "accountCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @TriggersRemove(cacheName = "accountCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator",
+            properties = @Property(name = "includeMethod", value = "false")))
     public void addAccount(Account account) {
         em.persist(account);
     }
 
     @Override
-    @Cacheable(cacheName = "accountCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @Cacheable(cacheName = "accountCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator",
+            properties = @Property(name = "includeMethod", value = "false")))
     public Account getAccountById(long id) {
         return (Account) em.createQuery(SELECT_ACCOUNT_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override
-    @Cacheable(cacheName = "accountCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @Cacheable(cacheName = "accountCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator",
+            properties = @Property(name = "includeMethod", value = "false")))
     public Account getAccountByUsername(String username) {
         return (Account) em.createQuery(SELECT_ACCOUNT_BY_USERNAME).setParameter("username", username).getSingleResult();
     }
 
     @Override
-    @TriggersRemove(cacheName = "accountCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @TriggersRemove(cacheName = "accountCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator",
+            properties = @Property(name = "includeMethod", value = "false")))
     public void updateAccount(Account account) {
         em.merge(account);
     }
@@ -109,60 +104,50 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void addPost(Post post) {
         em.persist(post);
     }
 
     @Override
-    @Cacheable(cacheName = "postCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @Cacheable(cacheName = "postCache")
     public Post getPostById(long id) {
         return (Post) em.createQuery(SELECT_POST_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void updatePost(Post post) {
         em.merge(post);
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache",
-            keyGenerator = @KeyGenerator(
-                    name = "HashCodeCacheKeyGenerator",
-                    properties = @Property(name = "includeMethod", value = "false")))
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void deletePost(long id) {
         em.remove(getPostById(id));
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void addComment(Comment comment) {
         em.persist(comment);
     }
 
     @Override
+    @Cacheable(cacheName = "commentCache", keyGenerator = @KeyGenerator(name = "HashCodeCacheKeyGenerator",
+            properties = @Property(name = "includeMethod", value = "false")))
     public Comment getCommentById(long id) {
         return (Comment) em.createQuery(SELECT_COMMENT_BY_ID).setParameter("id", id).getSingleResult();
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void updateComment(Comment comment) {
         em.merge(comment);
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void deleteComment(long id) {
         em.remove(getCommentById(id));
     }

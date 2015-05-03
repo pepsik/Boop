@@ -31,20 +31,40 @@
             <td><c:out value="${account.id}"/></td>
         </tr>
         <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
             <th><spring:message code="label.fullname"/></th>
             <td><b><c:out value="${account.fullname}"/></b></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
         </tr>
         <tr>
             <th><spring:message code="label.email"/></th>
             <td><b><c:out value="${account.email}"/></b></td>
         </tr>
         <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
             <th><spring:message code="label.username"/></th>
             <td><c:out value="${account.username}"/></td>
         </tr>
         <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
             <th>Password</th>
             <td><c:out value="${account.password}"/></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
         </tr>
         <tr>
             <th><spring:message code="label.birthdate"/></th>

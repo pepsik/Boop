@@ -81,13 +81,13 @@ fieldset {
 }
 
 /*fieldset input[type="text"], input[type="password"], select, checkbox {*/
-    /*border: 1px solid #AAAAAA;*/
-    /*margin-right: 3px;*/
-    /*/!*padding: 4px 2px;*!/*/
+/*border: 1px solid #AAAAAA;*/
+/*margin-right: 3px;*/
+/*/!*padding: 4px 2px;*!/*/
 /*}*/
 
 /*fieldset input[type="text"], input[type="password"] {*/
-    /*width: 12em;*/
+/*width: 12em;*/
 /*}*/
 
 fieldset small {
@@ -175,10 +175,10 @@ ol.spittle-list {
 }
 
 ol.spittle-list li:first-child {
-    border-top: 1px solid #996633;
+    /*border-top: 1px solid #996633;*/
 }
 
-ol.spittle-list li {
+.spittle-list {
     font-size: 1.2em;
     border-bottom: 1px solid #996633;
     line-height: 1.1em;
