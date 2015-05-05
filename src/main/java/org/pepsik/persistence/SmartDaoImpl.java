@@ -128,7 +128,7 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
-    @TriggersRemove(cacheName = "commentCache", removeAll = true)
+    @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void addComment(Comment comment) {
         em.persist(comment);
     }

@@ -68,10 +68,14 @@
         </div>
     </c:forEach>
 
-    <sf:form action="${post_url}/post/new" method="get">
-        <button type="submit" class="btn btn-success margin-top"><spring:message code="button.comment.new"/></button>
-    </sf:form>
-
+    <sec:authorize access="isAuthenticated()">
+        <sf:form action="${post_url}/comment/new" method="get">
+            <div class="submit">
+                <button type="submit" class="btn btn-success margin-top"><spring:message
+                        code="button.comment.new"/></button>
+            </div>
+        </sf:form>
+    </sec:authorize>
 </div>
 
 <script type="text/javascript">

@@ -20,17 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/page/{pageId}", method = RequestMethod.GET)
 public class PageController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
-
     @Autowired
     private SmartService service;
 
     @RequestMapping
     public String getPage(@PathVariable("pageId") int pageId, Model model) {
-        if (pageId > service.getPagesCount()) {
-            logger.info(Long.toString(service.getPagesCount()));
+        if (pageId > service.getPagesCount())
             throw new ResourceNotFoundException();
-        }
 
         model.addAttribute(service.getPostsByPage(pageId));
         model.addAttribute("pagination", service.getPagination(pageId));

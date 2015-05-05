@@ -9,7 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "posts")
-public class Post extends MessageEntity implements Serializable{
+@PrimaryKeyJoinColumn(name = "post_id")
+public class Post extends MessageEntity implements Serializable {
 
     @NotNull
     @Size(min = 3, max = 40)
@@ -33,5 +34,13 @@ public class Post extends MessageEntity implements Serializable{
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "title='" + title + '\'' +
+                ", comments=" + comments +
+                "} " + super.toString();
     }
 }

@@ -11,7 +11,6 @@
     <beans:import resource="jdbc-user-service.xml"/>
 
     <http>
-        <intercept-url pattern="/index*" access="ROLE_USER, ROLE_ANONYMOUS"/>
         <form-login login-processing-url="/static/j_spring_security_check"
                     login-page="/home"
                     authentication-failure-url="/login_fail"/>
@@ -23,7 +22,9 @@
     </http>
 
     <authentication-manager>
-        <authentication-provider user-service-ref="jdbcUserDetailsManager"/>
+        <authentication-provider user-service-ref="jdbcUserDetailsManager">
+            <password-encoder hash="bcrypt"/>
+        </authentication-provider>
     </authentication-manager>
 
     <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>

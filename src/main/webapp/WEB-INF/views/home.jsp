@@ -18,11 +18,7 @@
     <s:url value="/post/new" var="new_post_url"/>
     <ol>
         <li type="none" class="spittle-list">
-            <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                <sec:authentication property="principal.username" var="authorizedUser"/>
-                <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <c:set var="access" value="${true}" scope="page"/>
-                </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
                 <h2><a href="${new_post_url}" class="btn btn-primary">
                     <spring:message code="button.post.new"/>
                 </a></h2>

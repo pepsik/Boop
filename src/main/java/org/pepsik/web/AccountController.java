@@ -97,7 +97,7 @@ public class AccountController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public String updateAccount(@PathVariable("id") long id, Account editedAccount, HttpSession session, Model model) {
         Account account = (Account) session.getAttribute("account");
-        editedAccount.setId(account.getId());
+//        editedAccount.setId(account.getId());
         service.saveAccount(editedAccount);
         return "redirect:/account/" + id;
     }

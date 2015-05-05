@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Id;
 
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,14 @@ public class BaseEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "id=" + id +
+                '}';
     }
 }

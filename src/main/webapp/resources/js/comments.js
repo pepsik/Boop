@@ -33,17 +33,23 @@ var getComments = function (post_id, count) {
         },
         success: function (response) {
             $("#responseCollapse" + count).html(response);
+        },
+        error: function (xhr) {
+            $("#errors" + post_id).html(xhr.responseText);
         }
     });
 };
 
 var deleteComment = function (post_id, comment_id) {
-    $("#" + comment_id).remove();
     $.ajax({
         type: 'DELETE',
-        url: "/post/" + post_id + "/comment/" + comment_id
-        //on success
-        //on error
+        url: "/post/" + post_id + "/comment/" + comment_id,
+        success: function () {
+            $("#" + comment_id).remove();
+        },
+        error: function (xhr) {
+            $("#errors" + post_id).html(xhr.responseText);
+        }
     });
 };
 

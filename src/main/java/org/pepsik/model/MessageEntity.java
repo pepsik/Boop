@@ -4,18 +4,16 @@ import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@MappedSuperclass
-public class MessageEntity extends BaseEntity {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "messages")
+public abstract class MessageEntity extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
+    @ManyToOne(targetEntity = Account.class)
     protected Account account;
 
     @NotNull
@@ -52,4 +50,12 @@ public class MessageEntity extends BaseEntity {
         this.when = when;
     }
 
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "account=" + account +
+                ", text='" + text + '\'' +
+                ", when=" + when +
+                "} " + super.toString();
+    }
 }

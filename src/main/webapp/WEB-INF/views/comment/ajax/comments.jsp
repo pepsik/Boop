@@ -1,23 +1,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div>
     <c:forEach var="commentIndex" items="${commentList}">
         <c:set var="comment" value="${commentIndex}" scope="request"/>
         <jsp:include page="comment.jsp"/>
     </c:forEach>
-    <div id="response${post_id}"></div>
-    <br>
+    <sec:authorize access="isAuthenticated()">
+        <div id="response${post_id}"></div>
+        <br>
 
-    <div id="errors${post_id}"></div>
-    <div id="summernoteEditor${post_id}"></div>
-    <div class="submit"><br>
-        <button type="submit" onclick="postComment(${post_id})" class="btn btn-success">
-            <spring:message code="button.comment.post"/>
-        </button>
-        <span id="postCommentError"></span>
-    </div>
+        <div id="errors${post_id}"></div>
+        <div id="summernoteEditor${post_id}"></div>
+        <div class="submit"><br>
+            <button type="submit" onclick="postComment(${post_id})" class="btn btn-success">
+                <spring:message code="button.comment.post"/>
+            </button>
+            <span id="postCommentError"></span>
+        </div>
+    </sec:authorize>
 </div>
 
 <script type="text/javascript">

@@ -26,6 +26,7 @@
 
     <!-- SmartSite js,css-->
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 </head>
 
