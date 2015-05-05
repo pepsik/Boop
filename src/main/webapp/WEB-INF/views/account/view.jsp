@@ -59,14 +59,6 @@
             <td></td>
         </tr>
         <tr>
-            <th>Password</th>
-            <td><c:out value="${account.password}"/></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
             <th><spring:message code="label.birthdate"/></th>
             <td><joda:format value="${account.birthdate}" pattern="MMM d, yyyy"/></td>
         </tr>

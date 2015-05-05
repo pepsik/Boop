@@ -5,9 +5,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.pepsik.model.Account;
+import org.pepsik.model.Profile;
 import org.pepsik.service.SmartService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,16 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
-
-/**
- * Created by pepsik on 4/9/15.
- */
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
     public static final String DATE_PATTERN = "yyyy-MM-dd";
 
     @Autowired
@@ -58,7 +53,7 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String newAccount(Model model) {
-        model.addAttribute("account", new Account());
+        model.addAllAttributes(Arrays.asList(new Account(), new Profile()));
         return "account/create";
     }
 
@@ -66,7 +61,7 @@ public class AccountController {
     public String editAccount(@PathVariable("id") long id, HttpSession session, Model model) {
         Account account = service.getAccount(id);
         session.setAttribute("account", account);
-        model.addAttribute("account", account);
+        model.addAttribute(account);
         return "account/edit";
     }
 
@@ -97,7 +92,7 @@ public class AccountController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public String updateAccount(@PathVariable("id") long id, Account editedAccount, HttpSession session, Model model) {
         Account account = (Account) session.getAttribute("account");
-//        editedAccount.setId(account.getId());
+        editedAccount.setId(account.getId());
         service.saveAccount(editedAccount);
         return "redirect:/account/" + id;
     }

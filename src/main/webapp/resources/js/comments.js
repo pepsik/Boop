@@ -5,7 +5,7 @@ var postComment = function (post_id) {
     var json = {text: postMessage};
     $.ajax({
         type: 'POST',
-        url: '/post/' + post_id + '/comment',
+        url: '/post/' + post_id + '/comment.ajax',
         dataType: 'html',
         data: JSON.stringify(json),
         beforeSend: function (xhr) {
@@ -26,7 +26,7 @@ var postComment = function (post_id) {
 var getComments = function (post_id, count) {
     $.ajax({
         type: 'GET',
-        url: '/post/' + post_id + '/comments',
+        url: '/post/' + post_id + '/comments.ajax',
         dataType: 'html',
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Accept", "text/html");
@@ -43,7 +43,7 @@ var getComments = function (post_id, count) {
 var deleteComment = function (post_id, comment_id) {
     $.ajax({
         type: 'DELETE',
-        url: "/post/" + post_id + "/comment/" + comment_id,
+        url: "/post/" + post_id + "/comment/" + comment_id + ".ajax",
         success: function () {
             $("#" + comment_id).remove();
         },
@@ -80,7 +80,7 @@ var saveComment = function (post_id, comment_id) {
     var json = {text: putMessage};
     $.ajax({
         type: 'PUT',
-        url: "/post/" + post_id + "/comment/" + comment_id,
+        url: "/post/" + post_id + "/comment/" + comment_id + ".ajax",
         data: JSON.stringify(json),
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Content-Type", "application/json");

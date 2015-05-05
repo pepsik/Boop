@@ -37,13 +37,13 @@
     </div>
 
 
-    <c:forEach var="post" items="${post.comments}">
+    <c:forEach var="comment" items="${post.comments}">
         <div class="comment">
-            <div class="summernote margin-bottom">${post.text}</div>
+            <div class="summernote margin-bottom">${comment.text}</div>
 
             <div class="formHolder author text-info">
-                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                    <c:out value="by ${post.account.username}"/></small>
+                <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
+                    <c:out value="by ${comment.account.username}"/></small>
 
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                     <sec:authentication property="principal.username" var="authorizedUser"/>
@@ -52,13 +52,13 @@
                         <c:set var="access" value="${true}" scope="page"/>
                     </sec:authorize>
 
-                    <c:if test="${authorizedUser.equals(post.account.username) or access}"> <!-- Shit -->
+                    <c:if test="${authorizedUser.equals(comment.account.username) or access}"> <!-- Shit -->
 
-                        <sf:form action="${post_url}/post/${post.id}" method="delete">
+                        <sf:form action="${post_url}/comment/${comment.id}" method="delete">
                             <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                         </sf:form>
 
-                        <sf:form action="${post_url}/post/${post.id}/edit" method="get">
+                        <sf:form action="${post_url}/comment/${comment.id}/edit" method="get">
                             <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
                         </sf:form>
 
@@ -70,7 +70,7 @@
 
     <sec:authorize access="isAuthenticated()">
         <sf:form action="${post_url}/comment/new" method="get">
-            <div class="submit">
+            <div >
                 <button type="submit" class="btn btn-success margin-top"><spring:message
                         code="button.comment.new"/></button>
             </div>

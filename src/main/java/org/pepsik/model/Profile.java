@@ -1,27 +1,57 @@
 package org.pepsik.model;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-//@Entity
+@Entity
+@Table(name = "profiles")
 public class Profile {
 
-    private Account account;
+    @Id
+    private String username;
 
+    @Size(min = 3, max = 20)
+    @Column(name = "email")
     private String email;
 
+    @Size(min = 3, max = 40)
+    @Pattern(regexp = "^[a-zA-Z]+\\s?[a-zA-Z]+$")
+    @Column(name = "fullname")
     private String fullname;
 
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @Column(name = "birthdate")
     private DateTime birthdate;
 
+    @Column(name = "gender")
     private String gender; //enum?
 
+    @Column(name = "country")
     private String country;
 
+    @Column(name = "city")
     private String city;
 
+    @Column(name = "job")
     private String job;
+
+    @Column(name = "about")
+    private String about;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getEmail() {
         return email;
@@ -79,16 +109,26 @@ public class Profile {
         this.job = job;
     }
 
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
-                "email='" + email + '\'' +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", birthdate=" + birthdate +
                 ", gender='" + gender + '\'' +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", job='" + job + '\'' +
+                ", about='" + about + '\'' +
                 '}';
     }
 }

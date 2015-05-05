@@ -24,38 +24,38 @@
                 </a></h2>
             </sec:authorize>
         </li>
-        <c:forEach var="post" items="${postList}" varStatus="loop">
+        <c:forEach var="comment" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
-                <s:param name="id" value="${post.id}"/>
+                <s:param name="id" value="${comment.id}"/>
             </s:url>
             <s:url value="/account/{id}" var="account_url">
-                <s:param name="id" value="${post.account.id}"/>
+                <s:param name="id" value="${comment.account.id}"/>
             </s:url>
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
                     <h3><a class="label label-primary" href="${post_url}">
-                        <c:out value="${post.title}"/>
+                        <c:out value="${comment.title}"/>
                     </a></h3>
 
                     <div class="post summernote">
-                            ${post.text}
+                            ${comment.text}
                     </div>
                     <div class="formHolder author text-info">
-                        <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
+                        <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${account_url}">${post.account.username}</a>
+                            <a href="${account_url}">${comment.account.username}</a>
                         </small>
                         <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">
-                            <spring:message code="button.comment.hide"/> (${post.comments.size()})
+                            <spring:message code="button.comment.hide"/> (${comment.comments.size()})
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <c:set var="access" value="${true}" scope="page"/>
                             </sec:authorize>
-                            <c:if test="${authorizedUser.equals(post.account.username) or access}">
+                            <c:if test="${authorizedUser.equals(comment.account.username) or access}">
                                 <sf:form action="${post_url}" method="delete">
                                     <button type="submit" class="btn btn-xs btn-danger">
                                         <spring:message code="button.delete"/>
@@ -78,7 +78,7 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
-                        getComments(${post.id}, ${loop.count});
+                        getComments(${comment.id}, ${loop.count});
                     });
                 });
             </script>

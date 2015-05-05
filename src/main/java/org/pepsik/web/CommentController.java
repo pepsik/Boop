@@ -25,9 +25,8 @@ public class CommentController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newComment(@PathVariable("post_id") long post_id, Model model) {
-        model.addAttribute("post", new Comment());
+        model.addAttribute(new Comment());
         model.addAttribute("post_id", post_id);
-        model.addAttribute("post_url", "post/" + post_id); //temp
         return "comment/create";
     }
 
@@ -70,10 +69,10 @@ public class CommentController {
         return "redirect:/post/" + comment.getPost().getId();
     }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public String deleteComment(@PathVariable("id") long id, @PathVariable("post_id") long post_id) {
-//        service.deleteComment(id);
-//        return "redirect:/post/" + post_id;
-//    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleteComment(@PathVariable("id") long id, @PathVariable("post_id") long post_id) {
+        service.deleteComment(id);
+        return "redirect:/post/" + post_id;
+    }
 }

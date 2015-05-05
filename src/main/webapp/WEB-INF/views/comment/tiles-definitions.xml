@@ -3,12 +3,12 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="post/create" extends="template">
-        <put-attribute name="content" value="/WEB-INF/views/post/create.jsp"/>
+    <definition name="comment/create" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/comment/create.jsp"/>
     </definition>
 
-    <definition name="post/edit" extends="template">
-        <put-attribute name="content" value="/WEB-INF/views/post/edit.jsp"/>
+    <definition name="comment/edit" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/comment/edit.jsp"/>
     </definition>
 
 </tiles-definitions>

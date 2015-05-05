@@ -23,9 +23,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.Writer;
 
-/**
- * Created by pepsik on 4/27/15.
- */
 @Controller
 @RequestMapping("/post/{postId}")
 public class AjaxController {
@@ -45,7 +42,7 @@ public class AjaxController {
         return model;
     }
 
-    @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = "application/json", produces = "text/html")
+    @RequestMapping(value = "/comment.ajax", method = RequestMethod.POST, consumes = "application/json", produces = "text/html")
     @ResponseStatus(HttpStatus.CREATED)
     public String postComment(@PathVariable("postId") long postId, @RequestBody @Valid Comment comment, BindingResult result, Model model, HttpSession session) throws IOException {
         logger.info("---POST AJAX---");
@@ -64,7 +61,7 @@ public class AjaxController {
         return "comment/ajax/comment";
     }
 
-    @RequestMapping(value = "/comments", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/comments.ajax", method = RequestMethod.GET, produces = "text/html")
     @ResponseStatus(HttpStatus.OK)
     public String getComments(@PathVariable("postId") long postId, Model model) {
         logger.info("---GET AJAX---");
@@ -76,7 +73,7 @@ public class AjaxController {
         return "comment/ajax/comments";
     }
 
-    @RequestMapping(value = "/comment/{commentId}", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(value = "/comment/{commentId}.ajax", method = RequestMethod.PUT, consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public void editComment(@PathVariable("commentId") long commentId, @RequestBody @Valid Comment editedComment, BindingResult result, HttpSession session) {
         logger.info("---EDIT AJAX---");
@@ -93,7 +90,7 @@ public class AjaxController {
         service.saveComment(comment);
     }
 
-    @RequestMapping(value = "/comment/{commentId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/comment/{commentId}.ajax", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(@PathVariable("commentId") long commentId) {
         logger.info("---DELETE AJAX---");

@@ -11,7 +11,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>
 
 <div>
     <s:url var="account_url" value="/account/${account.id}"/>
@@ -78,5 +77,6 @@
         <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not
             valid.</p>
     </form:form>
-
 </div>
+
+<%--<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>--%>

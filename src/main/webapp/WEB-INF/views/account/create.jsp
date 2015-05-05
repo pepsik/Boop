@@ -27,7 +27,7 @@
             <spring:bind path="account.username">
                 <input type="text" name="${status.expression}" id="username"
                        class="form-control username required"
-                       data-placement="top"
+                       data-placement="bottom"
                        value="${status.value}"
                        data-trigger="manual"
                        data-content="Must be at least 3 characters long, and must only contain letters">
@@ -42,7 +42,7 @@
             <spring:bind path="account.password">
                 <input type="password" name="${status.expression}" id="password"
                        class="form-control password required"
-                       data-placement="top"
+                       data-placement="bottom"
                        value="${status.value}"
                        data-trigger="manual"
                        data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
@@ -57,7 +57,7 @@
             <spring:bind path="account.fullname">
                 <input type="text" name="${status.expression}" id="fullname"
                        class="form-control name required"
-                       data-placement="top"
+                       data-placement="bottom"
                        value="${status.value}"
                        data-trigger="manual"
                        data-content="Must be at least 3 characters long, and must only contain letters">
@@ -91,3 +91,5 @@
             valid.</p>
     </form:form>
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>

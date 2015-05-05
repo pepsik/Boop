@@ -662,7 +662,8 @@
     /**
      * blank HTML for cursor position
      */
-    var blankHTML = agent.isMSIE ? '&nbsp;' : '<br>';
+    var blankHTML = agent.isMSIE ? '&nbsp;' : '&nbsp;';
+    //var blankHTML = agent.isMSIE ? '&nbsp;' : '<br>';
 
     /**
      * @method nodeLength
@@ -1392,7 +1393,8 @@
       /** @property {String} blank */
       blank: blankHTML,
       /** @property {String} emptyPara */
-      emptyPara: '<p>' + blankHTML + '</p>',
+      emptyPara: blankHTML,
+      //emptyPara: '<p>' + blankHTML + '</p>',
       makePredByNodeName: makePredByNodeName,
       isEditable: isEditable,
       isControlSizing: isControlSizing,

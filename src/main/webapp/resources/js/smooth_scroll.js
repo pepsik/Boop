@@ -21,7 +21,7 @@
     var defaultOptions = {
 
         // Scrolling Core
-        frameRate        : 150, // [Hz]
+        frameRate        : 450, // [Hz]
         animationTime    : 400, // [px]
         stepSize         : 120, // [px]
 

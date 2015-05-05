@@ -5,16 +5,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<%--<s:url value="/post/{id}" var="thread_url">--%>
-<%--<s:param name="id" value="${post_id}"/>--%>
-<%--</s:url>--%>
-
 <div>
     <h2>New Comment</h2>
 
     <div class="well">
-        <sf:form modelAttribute="comment" method="post" id="commentForm${count}">
-            <form:textarea path="text" id="summernote${comment_id}"/>
+        <sf:form modelAttribute="comment" method="post" id="commentForm" action="/post/${post_id}/comment">
+            <form:textarea path="text" id="summernote"/>
             <br>
 
             <div class="submit">
@@ -26,7 +22,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#summernote" + "${comment_id}").summernote({
+        $("#summernote").summernote({
             height: 200,
             minHeight: 200,
             maxHeight: null,
