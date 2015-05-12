@@ -3,7 +3,7 @@ package org.pepsik.service;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.persistence.SmartDao;
-import org.pepsik.web.AccountController;
+import org.pepsik.web.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 @Transactional
 public class SmartServiceImpl implements SmartService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private static final int DEFAULT_POSTS_PER_PAGE = 7;
     private static final int DEFAULT_PAGINATION_ON_PAGE = 5;
@@ -113,6 +113,25 @@ public class SmartServiceImpl implements SmartService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void saveProfile(Profile profile) {
+        if (profile.getId() == null)
+            smartDao.addProfile(profile);
+        else
+            smartDao.updateProfile(profile);
+    }
+
+    @Override
+    public Profile getProfile(String username) {
+        final Account account = smartDao.getAccountByUsername(username);
+        return smartDao.getProfile(account.getId());
+    }
+
+    @Override
+    public void deleteProfile(String username) {
+        smartDao.deleteProfile(username);
     }
 
     @Override

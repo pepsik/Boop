@@ -24,6 +24,12 @@ public interface SmartService {
 
     void deleteAccount(long id);
 
+    void saveProfile(Profile profile);
+
+    Profile getProfile(String username);
+
+    void deleteProfile(String username);
+
     Post getPost(long id);
 
     void savePost(Post thread);

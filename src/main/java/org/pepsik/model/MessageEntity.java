@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "messages")
-public abstract class MessageEntity extends BaseEntity {
+public abstract class MessageEntity extends IdEntity {
 
     @ManyToOne(targetEntity = Account.class)
     protected Account account;

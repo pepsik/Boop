@@ -7,10 +7,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Id;
 
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class IdEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
     public Long getId() {

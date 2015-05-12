@@ -15,8 +15,8 @@
 
 <div>
 
-    <s:url var="account_url" value="/account/{id}">
-        <s:param name="id" value="${account.id}"/>
+    <s:url var="user_url" value="/user/{username}">
+        <s:param name="username" value="${username}"/>
     </s:url>
 
     <div class="formHolder">
@@ -27,16 +27,8 @@
 
     <table class="table table-striped" style="width:600px;">
         <tr>
-            <th>Id</th>
-            <td><c:out value="${account.id}"/></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
             <th><spring:message code="label.fullname"/></th>
-            <td><b><c:out value="${account.fullname}"/></b></td>
+            <td><b><c:out value="${profile.fullname}"/></b></td>
         </tr>
         <tr>
             <th></th>
@@ -44,15 +36,7 @@
         </tr>
         <tr>
             <th><spring:message code="label.email"/></th>
-            <td><b><c:out value="${account.email}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.username"/></th>
-            <td><c:out value="${account.username}"/></td>
+            <td><b><c:out value="${profile.email}"/></b></td>
         </tr>
         <tr>
             <th></th>
@@ -60,7 +44,47 @@
         </tr>
         <tr>
             <th><spring:message code="label.birthdate"/></th>
-            <td><joda:format value="${account.birthdate}" pattern="MMM d, yyyy"/></td>
+            <td><joda:format value="${profile.birthdate}" pattern="MMM d, yyyy"/></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th><spring:message code="label.gender"/></th>
+            <td><b><spring:message code="label.gender.${profile.gender}"/></b></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th><spring:message code="label.country"/></th>
+            <td><b><c:out value="${profile.country}"/></b></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th><spring:message code="label.city"/></th>
+            <td><b><c:out value="${profile.city}"/></b></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th><spring:message code="label.job"/></th>
+            <td><b><c:out value="${profile.job}"/></b></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th><spring:message code="label.about"/></th>
+            <td><b><c:out value="${profile.about}"/></b></td>
         </tr>
     </table>
 
@@ -71,9 +95,9 @@
             <c:set var="access" value="${true}" scope="page"/>
         </sec:authorize>
 
-        <c:if test="${authorizedUser.equals(account.username) or access}"> <!-- Shit -->
+        <c:if test="${authorizedUser.equals(profile.account.username) or access}"> <!-- Shit -->
 
-            <sf:form action="${account_url}/edit" method="get">
+            <sf:form action="${user_url}/edit" method="get">
                 <button type="submit" class="btn btn-default"><spring:message code="button.edit"/></button>
             </sf:form>
 

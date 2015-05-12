@@ -28,7 +28,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <sec:authorize access="!isAuthenticated()">
-                    <li class="active"><a class="btn" href="/account"><spring:message code="button.submit"/></a></li>
+                    <li class="active"><a class="btn" href="/user"><spring:message code="button.submit"/></a></li>
                     <li><a href="#" class="btn" data-toggle="modal" data-target="#loginModal"><spring:message code="button.login"/></a></li>
                 </sec:authorize>
 
@@ -44,7 +44,7 @@
                             <span class="caret"></span></a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <s:url value="/account/${username}" var="user_profile_url"/>
+                            <s:url value="/user/${username}" var="user_profile_url"/>
                             <li><a href="${user_profile_url}"><spring:message code="navbar.dropdown.button.profile"/></a></li>
                             <li><a href="#"><spring:message code="navbar.dropdown.button.messages"/></a></li>
                             <li><a href="#"><spring:message code="navbar.dropdown.button.settings"/></a></li>

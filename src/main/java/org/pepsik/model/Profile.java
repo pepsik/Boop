@@ -2,20 +2,22 @@ package org.pepsik.model;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "profiles")
-public class Profile {
+public class Profile extends IdEntity {
 
-    @Id
-    private String username;
+//    @Column(name = "username")
+//    private String username;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @PrimaryKeyJoinColumn
+    private Account account;
 
     @Size(min = 3, max = 20)
     @Column(name = "email")
@@ -28,6 +30,7 @@ public class Profile {
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "birthdate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private DateTime birthdate;
 
     @Column(name = "gender")
@@ -45,12 +48,20 @@ public class Profile {
     @Column(name = "about")
     private String about;
 
-    public String getUsername() {
-        return username;
+    //    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getEmail() {
@@ -120,7 +131,8 @@ public class Profile {
     @Override
     public String toString() {
         return "Profile{" +
-                "username='" + username + '\'' +
+//                "username='" + username + '\'' +
+                ", account=" + account +
                 ", email='" + email + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", birthdate=" + birthdate +

@@ -30,6 +30,7 @@ public class SmartDaoImpl implements SmartDao {
     public static final String SELECT_COMMENT_BY_ID = "SELECT comment FROM Comment comment WHERE comment.id = :id";
     public static final String SELECT_ACCOUNT_BY_USERNAME = "SELECT account FROM Account account WHERE account.username=:username";
     public static final String INSERT_ACCOUNT_AUTHORITY = "INSERT INTO ACCOUNTS_AUTHORITY (account_id, ROLE_ID)  values (:id , 2)";
+    public static final String SELECT_PROFILE_BY_USERNAME = "SELECT profile FROM Profile profile WHERE profile.id = :id";
 
     @PersistenceContext
     private EntityManager em;
@@ -96,6 +97,26 @@ public class SmartDaoImpl implements SmartDao {
     public void deleteAccount(long id) {
 //        em.remove(getAccountById(id));
 //        em.getReference();
+    }
+
+    @Override
+    public void addProfile(Profile profile) {
+        em.persist(profile);
+    }
+
+    @Override
+    public Profile getProfile(long id) {
+        return (Profile) em.createQuery(SELECT_PROFILE_BY_USERNAME).setParameter("id", id).getSingleResult();
+    }
+
+    @Override
+    public void updateProfile(Profile profile) {
+        em.merge(profile);
+    }
+
+    @Override
+    public void deleteProfile(String username) {
+//         em.remove(getProfile(username));
     }
 
     @Override

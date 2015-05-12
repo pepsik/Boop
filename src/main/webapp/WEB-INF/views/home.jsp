@@ -28,8 +28,8 @@
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${comment.id}"/>
             </s:url>
-            <s:url value="/account/{id}" var="account_url">
-                <s:param name="id" value="${comment.account.id}"/>
+            <s:url value="/user/{id}" var="user_url">
+                <s:param name="id" value="${comment.account.username}"/>
             </s:url>
 
             <li type="none" class="spittle-list">
@@ -44,7 +44,7 @@
                     <div class="formHolder author text-info">
                         <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${account_url}">${comment.account.username}</a>
+                            <a href="${user_url}">${comment.account.username}</a>
                         </small>
                         <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">

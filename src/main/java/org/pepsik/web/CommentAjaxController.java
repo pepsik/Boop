@@ -9,25 +9,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.Writer;
 
 @Controller
 @RequestMapping("/post/{postId}")
-public class AjaxController {
+public class CommentAjaxController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommentAjaxController.class);
 
     @Autowired
     private SmartService service;

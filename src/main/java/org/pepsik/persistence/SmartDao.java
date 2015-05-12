@@ -23,6 +23,14 @@ public interface SmartDao {
 
     void deleteAccount(long id);
 
+    void addProfile(Profile profile);
+
+    Profile getProfile(long id);
+
+    void updateProfile(Profile profile);
+
+    void deleteProfile(String username);
+
     void setAccountAuthory(Account account);
 
     void addPost(Post thread);

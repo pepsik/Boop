@@ -35,16 +35,16 @@ public class AccountValidator implements Validator {
         if (account.getUsername().length() < 20)
             e.rejectValue("username", "username.more");
 
-        if (account.getEmail().length() < 3)
-            e.rejectValue("email", "email.less");
-
-        if (account.getEmail().length() < 20)
-            e.rejectValue("email", "email.more");
-
-        if (account.getFullname().length() < 3)
-            e.rejectValue("fullname", "fullname.less");
-
-        if (account.getFullname().length() > 40)
-            e.rejectValue("fullname", "fullname.more");
+//        if (account.getEmail().length() < 3)
+//            e.rejectValue("email", "email.less");
+//
+//        if (account.getEmail().length() < 20)
+//            e.rejectValue("email", "email.more");
+//
+//        if (account.getFullname().length() < 3)
+//            e.rejectValue("fullname", "fullname.less");
+//
+//        if (account.getFullname().length() > 40)
+//            e.rejectValue("fullname", "fullname.more");
     }
 }
