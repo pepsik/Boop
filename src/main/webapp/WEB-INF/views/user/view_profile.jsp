@@ -27,7 +27,7 @@
 
     <table class="table table-striped" style="width:600px;">
         <tr>
-            <th><spring:message code="label.fullname"/></th>
+            <th width="250"><spring:message code="label.fullname"/></th>
             <td><b><c:out value="${profile.fullname}"/></b></td>
         </tr>
         <tr>
@@ -52,7 +52,7 @@
         </tr>
         <tr>
             <th><spring:message code="label.gender"/></th>
-            <td><b><spring:message code="label.gender.${profile.gender}"/></b></td>
+            <td><b>${profile.gender}</b></td>
         </tr>
         <tr>
             <th></th>

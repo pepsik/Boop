@@ -92,9 +92,9 @@ public class UserController {
             return "user/create";
 
         Account account = profile.getAccount();
-        service.saveAccount(account);
-        logger.info(account.getId().toString());         //fix
-        profile.setId(account.getId());
+//        service.saveAccount(account);
+//        logger.info(account.getId().toString());         //fix
+//        profile.setId(account.getId());
         service.saveProfile(profile);
         return "redirect:/user/" + profile.getAccount().getUsername();
     }

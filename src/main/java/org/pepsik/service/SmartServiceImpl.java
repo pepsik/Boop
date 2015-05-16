@@ -117,8 +117,10 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public void saveProfile(Profile profile) {
-        if (profile.getId() == null)
+        if (profile.getId() == 0) {
             smartDao.addProfile(profile);
+            smartDao.setAccountAuthory(profile.getAccount());
+        }
         else
             smartDao.updateProfile(profile);
     }

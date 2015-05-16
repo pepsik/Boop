@@ -10,13 +10,23 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "profiles")
-public class Profile extends IdEntity {
+public class Profile {
 
-//    @Column(name = "username")
-//    private String username;
+    @Id
+//    @GeneratedValue
+    private long profile_id;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @PrimaryKeyJoinColumn
+    public long getId() {
+        return profile_id;
+    }
+
+    public void setId(long id) {
+        this.profile_id = id;
+    }
+
+    @MapsId
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Account account;
 
     @Size(min = 3, max = 20)
@@ -48,14 +58,7 @@ public class Profile extends IdEntity {
     @Column(name = "about")
     private String about;
 
-    //    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
+
     public Account getAccount() {
         return account;
     }
@@ -131,7 +134,6 @@ public class Profile extends IdEntity {
     @Override
     public String toString() {
         return "Profile{" +
-//                "username='" + username + '\'' +
                 ", account=" + account +
                 ", email='" + email + '\'' +
                 ", fullname='" + fullname + '\'' +
