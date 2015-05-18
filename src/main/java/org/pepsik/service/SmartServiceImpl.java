@@ -2,6 +2,8 @@ package org.pepsik.service;
 
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
+import org.pepsik.model.Account;
+import org.pepsik.model.Profile;
 import org.pepsik.persistence.SmartDao;
 import org.pepsik.web.UserController;
 import org.slf4j.Logger;
@@ -21,7 +23,7 @@ import java.util.List;
  */
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class SmartServiceImpl implements SmartService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -33,13 +35,11 @@ public class SmartServiceImpl implements SmartService {
     private SmartDao smartDao;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Post> getAllPosts() {
         return smartDao.getAllPosts();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Post> getPostsByPage(int pageIndex) {
         return smartDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
     }
@@ -78,20 +78,19 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Account getAccount(long id) {
         return smartDao.getAccountById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Account getAccount(String username) {
         return smartDao.getAccountByUsername(username);
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void saveAccount(Account account) {
-        if (account.getId() == null) {
+        if (account.getId() == 0) {
             smartDao.addAccount(account);
             smartDao.setAccountAuthory(account); // set ROLE_USER to all new accounts
         } else
@@ -99,13 +98,13 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteAccount(long id) {
         smartDao.deleteAccount(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public boolean isExistUsername(String username) {
         try {
             smartDao.getAccountByUsername(username);
@@ -116,6 +115,8 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    @Transactional(readOnly = false)
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.account.username)")
     public void saveProfile(Profile profile) {
         if (profile.getId() == 0) {
             smartDao.addProfile(profile);
@@ -132,12 +133,13 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    @Transactional(readOnly = false)
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).account.username) or hasRole('ROLE_ADMIN')")
     public void deleteProfile(String username) {
         smartDao.deleteProfile(username);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Post getPost(long id) {
         return smartDao.getPostById(id);
     }
@@ -145,7 +147,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public void savePost(Post post) {
-        if (post.getId() == null) {
+        if (post.getId() == 0) {
             String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Account account = getAccount(loggedUser);
             post.setAccount(account);
@@ -161,7 +163,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public boolean isExistPost(long id) {
         try {
             smartDao.getPostById(id);
@@ -172,15 +173,15 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Comment getComment(long id) {
         return smartDao.getCommentById(id);
     }
 
     @Override
+    @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void saveComment(Comment post) {
-        if (post.getId() == null) {
+        if (post.getId() == 0) {
             String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
             Account account = getAccount(loggedUser);
             post.setAccount(account);
@@ -196,7 +197,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public boolean isExistComment(long id) {
         try {
             smartDao.getCommentById(id);

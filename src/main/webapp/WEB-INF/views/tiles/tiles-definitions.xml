@@ -3,16 +3,17 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="template" template="/WEB-INF/views/tiles/main_template.jsp">
+    <definition name="main_template" template="/WEB-INF/views/tiles/main_template.jsp">
         <put-attribute name="top" value="/WEB-INF/views/tiles/navbar.jsp"/>
+        <put-attribute name="content" value="main_template.content"/>
         <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
     </definition>
 
-    <definition name="home" extends="template">
+    <definition name="home" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/home.jsp"/>
     </definition>
 
-    <definition name="login_fail" extends="template">
+    <definition name="login_fail" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/tiles/login_fail.jsp"/>
     </definition>
 

@@ -6,6 +6,8 @@ import com.googlecode.ehcache.annotations.Property;
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
+import org.pepsik.model.Account;
+import org.pepsik.model.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -149,7 +151,7 @@ public class SmartDaoImpl implements SmartDao {
     }
 
     @Override
-    @TriggersRemove(cacheName = "postCache", removeAll = true)
+    @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void addComment(Comment comment) {
         em.persist(comment);
     }

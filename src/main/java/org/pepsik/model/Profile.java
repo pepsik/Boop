@@ -13,20 +13,12 @@ import javax.validation.constraints.Size;
 public class Profile {
 
     @Id
-//    @GeneratedValue
+    @Column(name = "profile_id")
     private long profile_id;
-
-    public long getId() {
-        return profile_id;
-    }
-
-    public void setId(long id) {
-        this.profile_id = id;
-    }
 
     @MapsId
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile_id", referencedColumnName = "account_id")
     private Account account;
 
     @Size(min = 3, max = 20)
@@ -58,6 +50,13 @@ public class Profile {
     @Column(name = "about")
     private String about;
 
+    public long getId() {
+        return profile_id;
+    }
+
+    public void setId(long id) {
+        this.profile_id = id;
+    }
 
     public Account getAccount() {
         return account;

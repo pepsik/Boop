@@ -13,7 +13,7 @@ public class Comment extends MessageEntity implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id_fk")
     private Post post;
 
     public Post getPost() {

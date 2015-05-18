@@ -15,15 +15,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
-    <s:url value="/post/new" var="new_post_url"/>
+    <%--<s:url value="/post/new" var="new_post_url"/>--%>
     <ol>
-        <li type="none" class="spittle-list">
-            <sec:authorize access="isAuthenticated()">
-                <h2><a href="${new_post_url}" class="btn btn-primary">
-                    <spring:message code="button.post.new"/>
-                </a></h2>
-            </sec:authorize>
-        </li>
+        <%--<li type="none" class="spittle-list">--%>
+            <%--<sec:authorize access="isAuthenticated()">--%>
+                <%--<h2><a href="${new_post_url}" class="btn btn-primary">--%>
+                    <%--<spring:message code="button.post.new"/>--%>
+                <%--</a></h2>--%>
+            <%--</sec:authorize>--%>
+        <%--</li>--%>
         <c:forEach var="comment" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${comment.id}"/>
@@ -48,7 +48,7 @@
                         </small>
                         <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">
-                            <spring:message code="button.comment.hide"/> (${comment.comments.size()})
+                            <spring:message code="button.comment.hide"/> &nbsp;<span class="badge">${comment.comments.size()}</span>
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>

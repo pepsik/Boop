@@ -15,93 +15,91 @@
 
 <div>
 
-    <s:url var="user_url" value="/user/{username}">
-        <s:param name="username" value="${username}"/>
-    </s:url>
+    <s:url var="user_url" value="/settings/profile"/>
 
-    <div class="formHolder">
-        <h2 class="formHolder"><spring:message code="label.account.view.title"/></h2>
+    <div class="container col-md-9">
+        <div class="panel panel-success">
+            <div class="panel-heading"><h4><spring:message code="label.account.view.title"/></h4></div>
+            <div class="panel-body">
+                <table class="table table-striped" style="width:600px;">
+                    <tr>
+                        <th width="250"><spring:message code="label.fullname"/></th>
+                        <td><b><c:out value="${profile.fullname}"/></b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.email"/></th>
+                        <td><b><c:out value="${profile.email}"/></b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.birthdate"/></th>
+                        <td><joda:format value="${profile.birthdate}" pattern="MMM d, yyyy"/></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.gender"/></th>
+                        <td><b>${profile.gender}</b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.country"/></th>
+                        <td><b><c:out value="${profile.country}"/></b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.city"/></th>
+                        <td><b><c:out value="${profile.city}"/></b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.job"/></th>
+                        <td><b><c:out value="${profile.job}"/></b></td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th><spring:message code="label.about"/></th>
+                        <td><b><c:out value="${profile.about}"/></b></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                    <sec:authentication property="principal.username" var="authorizedUser"/>
 
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <c:set var="access" value="${true}" scope="page"/>
+                    </sec:authorize>
+
+                    <c:if test="${authorizedUser.equals(profile.account.username) or access}"> <!-- Shit -->
+
+                        <a href="${user_url}" class="btn btn-default"><span
+                                class="glyphicon glyphicon-pencil"></span>&nbsp;<spring:message code="button.edit"/></a>
+
+                    </c:if>
+                </sec:authorize>
+            </div>
+        </div>
     </div>
-    <br>
-
-    <table class="table table-striped" style="width:600px;">
-        <tr>
-            <th width="250"><spring:message code="label.fullname"/></th>
-            <td><b><c:out value="${profile.fullname}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.email"/></th>
-            <td><b><c:out value="${profile.email}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.birthdate"/></th>
-            <td><joda:format value="${profile.birthdate}" pattern="MMM d, yyyy"/></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.gender"/></th>
-            <td><b>${profile.gender}</b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.country"/></th>
-            <td><b><c:out value="${profile.country}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.city"/></th>
-            <td><b><c:out value="${profile.city}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.job"/></th>
-            <td><b><c:out value="${profile.job}"/></b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><spring:message code="label.about"/></th>
-            <td><b><c:out value="${profile.about}"/></b></td>
-        </tr>
-    </table>
-
-    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-        <sec:authentication property="principal.username" var="authorizedUser"/>
-
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <c:set var="access" value="${true}" scope="page"/>
-        </sec:authorize>
-
-        <c:if test="${authorizedUser.equals(profile.account.username) or access}"> <!-- Shit -->
-
-            <sf:form action="${user_url}/edit" method="get">
-                <button type="submit" class="btn btn-default"><spring:message code="button.edit"/></button>
-            </sf:form>
-
-        </c:if>
-    </sec:authorize>
-
 </div>

@@ -37,3 +37,8 @@
 .modal-dialog {
     margin-top: 15%;
 }
+
+.tooltip-inner {
+    white-space:nowrap;
+    max-width:none;
+}

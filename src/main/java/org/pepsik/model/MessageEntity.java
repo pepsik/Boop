@@ -11,9 +11,23 @@ import javax.validation.constraints.Size;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "messages")
-public abstract class MessageEntity extends IdEntity {
+public abstract class MessageEntity  {
 
-    @ManyToOne(targetEntity = Account.class)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id")
+    protected long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id")
     protected Account account;
 
     @NotNull

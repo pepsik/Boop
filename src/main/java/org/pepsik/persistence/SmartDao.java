@@ -2,6 +2,8 @@ package org.pepsik.persistence;
 
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
+import org.pepsik.model.Account;
+import org.pepsik.model.Profile;
 
 import java.util.List;
 

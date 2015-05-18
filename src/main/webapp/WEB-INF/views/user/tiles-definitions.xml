@@ -3,15 +3,15 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="user/create" extends="template">
+    <definition name="user/create" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/user/create_account_profile.jsp"/>
     </definition>
 
-    <definition name="user/view_profile" extends="template">
+    <definition name="user/view_profile" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/user/view_profile.jsp"/>
     </definition>
 
-    <definition name="user/edit_profile" extends="template">
+    <definition name="user/edit_profile" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/user/edit_profile.jsp"/>
     </definition>
 

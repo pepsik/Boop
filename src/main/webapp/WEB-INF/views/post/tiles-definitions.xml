@@ -3,16 +3,16 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="post/view" extends="template">
+    <definition name="post/view" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/post/view.jsp"/>
     </definition>
 
 
-    <definition name="post/create" extends="template">
+    <definition name="post/create" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/post/create.jsp"/>
     </definition>
 
-    <definition name="post/edit" extends="template">
+    <definition name="post/edit" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/post/edit.jsp"/>
     </definition>
 

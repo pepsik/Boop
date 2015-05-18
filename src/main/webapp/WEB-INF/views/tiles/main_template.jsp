@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,8 +37,28 @@
             <t:insertAttribute name="top"/>
         </div>
 
-        <a class="logo" href="<s:url value="/home" />">
-            <img src="<s:url value="/resources" />/images/logo2.png" border="0"/></a>
+        <div id="carousel-generic" class="carousel slide" data-ride="carousel" data-interval="15000">
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="<s:url value="/resources" />/images/logo2.png">
+                </div>
+                <div class="item">
+                    <img src="<s:url value="/resources" />/images/logo1.png">
+                </div>
+                <div class="item">
+                    <img src="<s:url value="/resources" />/images/logo3.png">
+                </div>
+            </div>
+
+            <a class="left carousel-control" href="#carousel-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
 
         <div id="content">
             <t:insertAttribute name="content"/>

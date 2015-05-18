@@ -1,0 +1,42 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="main_template.content" template="/WEB-INF/views/settings/settings_template.jsp">
+        <put-attribute name="menu" value="/WEB-INF/views/settings/menu_list.jsp"/>
+    </definition>
+
+    <definition name="settings/profile" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/settings/profile.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="settings/account" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/settings/account.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="settings/emails" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/settings/emails.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="settings/security" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/settings/security.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+</tiles-definitions>

@@ -18,6 +18,7 @@
         <remember-me key="UserKey" token-validity-seconds="2419200" user-service-ref="jdbcUserDetailsManager"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
         <intercept-url pattern="/post/*/" access="ROLE_USER"/>
+        <intercept-url pattern="/settings/**" access="ROLE_USER"/>
         <remember-me/>
     </http>
 

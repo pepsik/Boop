@@ -70,7 +70,7 @@
 
     <sec:authorize access="isAuthenticated()">
         <sf:form action="${post_url}/comment/new" method="get">
-            <div >
+            <div class="submit">
                 <button type="submit" class="btn btn-success margin-top"><spring:message
                         code="button.comment.new"/></button>
             </div>

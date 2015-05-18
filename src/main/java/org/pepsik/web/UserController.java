@@ -67,23 +67,23 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String newAccount(Model model) {
+    public String newUser(Model model) {
         Profile profile = new Profile();
         profile.setAccount(new Account());
         model.addAttribute(profile);
         return "user/create";
     }
 
-    @RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
-    public String editAccount(@PathVariable("username") String username, HttpSession session, Model model) {
-        Profile profile = service.getProfile(username);
-        session.setAttribute("profile", profile);
-        model.addAttribute(profile);
-        return "user/edit_profile";
-    }
+//    @RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
+//    public String editUser(@PathVariable("username") String username, HttpSession session, Model model) {
+//        Profile profile = service.getProfile(username);
+//        session.setAttribute("profile", profile);
+//        model.addAttribute(profile);
+//        return "user/edit_profile";
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String createAccount(@Valid Profile profile, BindingResult bindingResult) {
+    public String createUser(@Valid Profile profile, BindingResult bindingResult) {
 
         if (service.isExistUsername(profile.getAccount().getUsername()))
             bindingResult.rejectValue("account.username", "username.exist");
@@ -91,36 +91,31 @@ public class UserController {
         if (bindingResult.hasErrors())
             return "user/create";
 
-        Account account = profile.getAccount();
-//        service.saveAccount(account);
-//        logger.info(account.getId().toString());         //fix
-//        profile.setId(account.getId());
         service.saveProfile(profile);
         return "redirect:/user/" + profile.getAccount().getUsername();
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public String getProfile(@PathVariable("username") String username, Model model) {
+    public String getUser(@PathVariable("username") String username, Model model) {
         model.addAttribute(service.getProfile(username));
         return "user/view_profile";
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.PUT)
-    public String updateAccount(@PathVariable("username") String username, @Valid Profile editedProfile, BindingResult result, HttpSession session) {
-        if (result.hasErrors())
-            return "user/edit_profile";
-
-        Profile profile = (Profile) session.getAttribute("profile");
-        editedProfile.setId(profile.getId());
-        editedProfile.setAccount(profile.getAccount());
-        service.saveProfile(editedProfile);
-        return "redirect:/user/" + username;
-    }
+//    @RequestMapping(value = "/{username}", method = RequestMethod.PUT)
+//    public String updateUser(@PathVariable("username") String username, @Valid Profile editedProfile, BindingResult result, HttpSession session) {
+//        if (result.hasErrors())
+//            return "user/edit_profile";
 //
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public String deleteAccount(@PathVariable("id") long id) {
-//        service.deleteAccount(id);
-//        return "redirect:/home";
+//        Profile profile = (Profile) session.getAttribute("profile");
+//        editedProfile.setId(profile.getId());
+//        editedProfile.setAccount(profile.getAccount());
+//        service.saveProfile(editedProfile);
+//        return "redirect:/user/" + username;
 //    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public String deleteUser(@PathVariable("id") long id) {
+//        service.deleteAccount(id);
+        return "redirect:/home";
+    }
 }
