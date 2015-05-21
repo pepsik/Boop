@@ -93,6 +93,7 @@ public class SmartDaoImpl implements SmartDao {
             properties = @Property(name = "includeMethod", value = "false")))
     public void updateAccount(Account account) {
         em.merge(account);
+        em.flush();
     }
 
     @Override
@@ -114,6 +115,7 @@ public class SmartDaoImpl implements SmartDao {
     @Override
     public void updateProfile(Profile profile) {
         em.merge(profile);
+        em.flush();
     }
 
     @Override
@@ -142,12 +144,14 @@ public class SmartDaoImpl implements SmartDao {
     @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void updatePost(Post post) {
         em.merge(post);
+        em.flush();
     }
 
     @Override
     @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void deletePost(long id) {
         em.remove(getPostById(id));
+        em.flush();
     }
 
     @Override
@@ -167,11 +171,13 @@ public class SmartDaoImpl implements SmartDao {
     @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void updateComment(Comment comment) {
         em.merge(comment);
+        em.flush();
     }
 
     @Override
     @TriggersRemove(cacheName = "commentCache", removeAll = true)
     public void deleteComment(long id) {
         em.remove(getCommentById(id));
+        em.flush();
     }
 }

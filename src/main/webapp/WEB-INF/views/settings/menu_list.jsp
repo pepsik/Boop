@@ -16,7 +16,7 @@
         <a href="/settings/account" class="list-group-item">Account</a>
         <a href="/settings/emails" class="list-group-item">Emails</a>
         <a href="/settings/security" class="list-group-item">Security</a>
-        <a href="/settings/view" class="list-group-item">Accessibility</a>
+        <a href="/settings/view" class="list-group-item disabled">Accessibility</a>
     </div>
 </div>
 

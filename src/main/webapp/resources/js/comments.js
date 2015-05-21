@@ -57,7 +57,7 @@ var editComment = function (comment_id) {
     $('#summernoteComment' + comment_id).summernote({
         height: 100,
         minHeight: 100,
-        maxHeight: 200,
+        maxHeight: null,
         focus: true
     });
     document.getElementById("delete" + comment_id).style.display = 'none';             //refactor repeats

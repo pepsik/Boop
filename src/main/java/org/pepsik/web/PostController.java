@@ -3,6 +3,8 @@ package org.pepsik.web;
 import org.joda.time.DateTime;
 import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import javax.validation.Valid;
 @RequestMapping("/post")
 public class PostController {
 
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
     @Autowired
     private SmartService service;
 
@@ -34,7 +38,7 @@ public class PostController {
     public String editPost(@PathVariable("id") long id, HttpSession session, Model model) {
         Post post = service.getPost(id);
         session.setAttribute("post", post);
-        model.addAttribute("post", post);
+        model.addAttribute(post);
         return "post/edit";
     }
 
@@ -51,21 +55,23 @@ public class PostController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable("id") long id, Model model) {
-        model.addAttribute("post", service.getPost(id));
+        model.addAttribute(service.getPost(id));
         return "post/view";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") long id, @Valid Post post, BindingResult result, HttpSession session, Model model) {
+    public String updatePost(@PathVariable("id") long id, @Valid Post updatedPost, BindingResult result, HttpSession session) {
 
         if (result.hasErrors())
             return "post/edit";
 
-        Post editablePost = (Post) session.getAttribute("post");
-        editablePost.setTitle(post.getTitle());
-        editablePost.setText(post.getText());
-        model.addAttribute("post", editablePost);
-        service.savePost(editablePost);
+        final Post post = (Post) session.getAttribute("post");
+        updatedPost.setId(post.getId());
+        updatedPost.setWhen(post.getWhen());
+        updatedPost.setAccount(post.getAccount());
+        updatedPost.setComments(post.getComments());
+        service.savePost(updatedPost);
+        session.removeAttribute("post");
         return "redirect:/post/" + id;
     }
 

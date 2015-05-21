@@ -42,7 +42,7 @@ public class UserController {
                 try {
                     setValue(fmt.parseDateTime(text));
                 } catch (IllegalArgumentException ex) {
-                    binder.getBindingResult().reject("birthdate.emptyOrInvalid");
+                    binder.getBindingResult().rejectValue("birthdate", "birthdate.emptyOrInvalid");
                 }
             }
 
@@ -88,8 +88,8 @@ public class UserController {
         if (service.isExistUsername(profile.getAccount().getUsername()))
             bindingResult.rejectValue("account.username", "username.exist");
 
-        if (bindingResult.hasErrors())
-            return "user/create";
+            if (bindingResult.hasErrors())
+                return "user/create";
 
         service.saveProfile(profile);
         return "redirect:/user/" + profile.getAccount().getUsername();

@@ -9,7 +9,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring/business-config.xml,
             classpath:security/spring-security-config.xml,
-            classpath:cache/eh-cache-config.xml
+            <!--classpath:cache/eh-cache-config.xml-->
         </param-value>
     </context-param>
 

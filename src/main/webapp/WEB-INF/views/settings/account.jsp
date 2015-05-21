@@ -16,7 +16,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><b>Change password</b></div>
         <div class="panel-body">
-            <form:form id="account_password_change" action="${user_url}" method="put" class="form-horizontal">
+            <form:form id="account_password_change" modelAttribute="password" action="${user_url}" method="put" class="form-horizontal">
                 <div class="form-group col-md-10">
                     <label for="old_password" class="col-md-6">Old password</label>
                     <input type="password" name="old_password" id="old_password"
@@ -25,10 +25,7 @@
                            value=""
                            data-trigger="manual"
                            data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
-
-                    <div class="container">
-                            <%--<form:errors path="${status.expression}" cssClass="label label-danger"/>--%>
-                    </div>
+                    <form:errors path="old_password" cssClass="label label-danger"/>
                 </div>
                 <div class="form-group col-md-10">
                     <label for="new_password" class="col-md-6">New password</label>
@@ -38,15 +35,17 @@
                            value=""
                            data-trigger="manual"
                            data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
+                    <form:errors path="new_password" cssClass="label label-danger"/>
                 </div>
                 <div class="form-group col-md-10">
-                    <label for="repeat_password" class="col-md-6">Confirm new password</label>
-                    <input type="password" name="repeat_password" id="repeat_password"
+                    <label for="repeat_new_password" class="col-md-6">Confirm new password</label>
+                    <input type="password" name="repeat_new_password" id="repeat_new_password"
                            class="form-control password required"
                            data-placement="bottom"
                            value=""
                            data-trigger="manual"
                            data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
+                <form:errors path="repeat_new_password" cssClass="label label-danger"/>
                 </div>
             </form:form>
         </div>

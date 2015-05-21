@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.pepsik.model.Account;
 import org.pepsik.model.Profile;
 import org.pepsik.service.SmartService;
-import org.pepsik.web.exception.BadRequestException;
+import org.pepsik.model.support.Password;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.*;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
-import java.util.Map;
 
 /**
  * Created by pepsik on 5/17/15.
@@ -51,7 +49,7 @@ public class UserSettingsController {
                 try {
                     setValue(fmt.parseDateTime(text));
                 } catch (IllegalArgumentException ex) {
-                    binder.getBindingResult().reject("birthdate.emptyOrInvalid");
+                    binder.getBindingResult().rejectValue("birthdate", "birthdate.emptyOrInvalid", "Empty or invalid");
                 }
             }
 
@@ -105,30 +103,29 @@ public class UserSettingsController {
         Account account = service.getAccount(loggedUser);
         session.setAttribute("account", account);
         model.addAttribute(account);
+        model.addAttribute(new Password());
         return "settings/account";
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.PUT, produces = "text/html")
-    public String updateAccount(@RequestParam Map<String, String> updatedAccountMap, HttpSession session) {
+    public String updateAccount(@Valid Password password, BindingResult result, HttpSession session, Model model) {
 
-        Account account = (Account) session.getAttribute("account");
-        if (updatedAccountMap.containsKey("old_password") && updatedAccountMap.containsKey("new_password")) {
-            String oldRawPassword = updatedAccountMap.get("old_password");
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final Account account = (Account) session.getAttribute("account");
 
-            if (!encoder.matches(oldRawPassword, account.getPassword()))
-                throw new BadRequestException();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password.getOld_password(), account.getPassword()))
+            result.addError(new FieldError("password", "old_password", "Old password isn't valid"));
 
-            account.setPassword(encoder.encode(updatedAccountMap.get("new_password")));
+        if (!password.getNew_password().equals(password.getRepeat_new_password()))
+            result.addError(new FieldError("password", "repeat_new_password", "Confirm password not match"));
+
+        if (result.hasErrors()) {
+            model.addAttribute(result);
+            return "settings/account";
         }
 
-        if (updatedAccountMap.containsKey("username"))
-            account.setUsername(updatedAccountMap.get("username"));
-        //TODO: validation new pass, new login
-        logger.info(updatedAccountMap.toString());
-        logger.info("------");
-
-        service.saveAccount(account);
+        account.setPassword(encoder.encode(password.getNew_password()));
+        session.removeAttribute("account");
         return "redirect:/settings/account";
     }
 

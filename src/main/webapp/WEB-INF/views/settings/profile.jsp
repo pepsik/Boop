@@ -26,6 +26,7 @@
                                value="${status.value}"
                                data-trigger="manual"
                                data-content="Must be at least 3 characters long, and must only contain letters"/>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
                 <div class="form-group col-md-10">
@@ -34,6 +35,7 @@
                         <input type="date" name="${status.expression}" id="birthdate"
                                class="form-control date required"
                                value="${status.value}"/>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
                 <div class="form-group col-md-10">
@@ -51,6 +53,7 @@
                     <spring:bind path="profile.country">
                         <input type="text" name="${status.expression}" id="country"
                                class="form-control" value="${status.value}"/>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
                 <div class="form-group col-md-10">
@@ -58,6 +61,7 @@
                     <spring:bind path="profile.city">
                         <input type="text" name="${status.expression}" id="city"
                                class="form-control" value="${status.value}"/>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
                 <div class="form-group col-md-10">
@@ -65,6 +69,7 @@
                     <spring:bind path="profile.job">
                         <input type="text" name="${status.expression}" id="job"
                                class="form-control" value="${status.value}"/>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
                 <div class="form-group col-md-10">
@@ -72,6 +77,7 @@
                     <spring:bind path="profile.about">
                 <textarea name="${status.expression}" id="about" rows="5" maxlength="500"
                           class="form-control">${status.value}</textarea>
+                        <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
             </form:form>

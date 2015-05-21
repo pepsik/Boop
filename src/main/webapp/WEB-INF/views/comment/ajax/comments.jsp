@@ -29,7 +29,6 @@
         var editor = $('#summernoteEditor' + post_id);      //exclude to js file?
         editor.summernote({
             lang: '<spring:message code="summernote.lang"/>',  //wtf
-//            toolbar: [['group', ['video']]],
             height: 150,
             minHeight: 100,
             maxHeight: null
