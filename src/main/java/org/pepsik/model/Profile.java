@@ -13,15 +13,15 @@ import javax.validation.constraints.Size;
 public class Profile {
 
     @Id
-    @Column(name = "profile_id")
-    private long profile_id;
+    @Column(name = "user_id_fk")
+    private long id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "profile_id", referencedColumnName = "account_id")
-    private Account account;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile")
+    @JoinColumn(name = "user_id_fk")
+    private User user;
 
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 20) //TODO: valid
     @Column(name = "email")
     private String email;
 
@@ -51,19 +51,19 @@ public class Profile {
     private String about;
 
     public long getId() {
-        return profile_id;
+        return id;
     }
 
     public void setId(long id) {
-        this.profile_id = id;
+        this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getEmail() {
@@ -133,7 +133,7 @@ public class Profile {
     @Override
     public String toString() {
         return "Profile{" +
-                ", account=" + account +
+                ", user=" + user.getId() +
                 ", email='" + email + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", birthdate=" + birthdate +

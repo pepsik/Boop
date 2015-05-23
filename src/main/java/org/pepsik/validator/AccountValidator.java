@@ -1,6 +1,6 @@
 package org.pepsik.validator;
 
-import org.pepsik.model.Account;
+import org.pepsik.model.User;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -12,7 +12,7 @@ public class AccountValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Account.class.equals(clazz);
+        return User.class.equals(clazz);
     }
 
     @Override
@@ -20,17 +20,17 @@ public class AccountValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(e, "username", "username.emptyOrWhitespace");
         ValidationUtils.rejectIfEmptyOrWhitespace(e, "password", "password.emptyOrWhitespace");
 
-        Account account = (Account) target;
-        if (account.getPassword().length() < 3)
+        User user = (User) target;
+        if (user.getUserPassword().getPassword().length() < 3)
             e.rejectValue("password", "password.short");
 
-        if (account.getPassword().length() > 20)
+        if (user.getUserPassword().getPassword().length() > 20)
             e.rejectValue("password", "password.tooLarge");
 
-        if (account.getUsername().length() < 3)
+        if (user.getUsername().length() < 3)
             e.rejectValue("username", "username.short");
 
-        if (account.getUsername().length() > 20)
+        if (user.getUsername().length() > 20)
             e.rejectValue("username", "username.tooLarge");
 
     }

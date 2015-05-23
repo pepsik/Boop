@@ -27,8 +27,8 @@ public abstract class MessageEntity  {
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id")
-    protected Account account;
+    @JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+    protected User user;
 
     @NotNull
     @Size(min = 2, max = 20000)
@@ -40,12 +40,12 @@ public abstract class MessageEntity  {
     @DateTimeFormat(pattern = "hh:mma MMM d, YYYY")
     protected DateTime when;
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getText() {
@@ -67,7 +67,7 @@ public abstract class MessageEntity  {
     @Override
     public String toString() {
         return "MessageEntity{" +
-                "account=" + account +
+                "user=" + user.getId() +
                 ", text='" + text + '\'' +
                 ", when=" + when +
                 "} " + super.toString();

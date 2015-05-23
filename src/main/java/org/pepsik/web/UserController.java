@@ -3,8 +3,8 @@ package org.pepsik.web;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.pepsik.model.Account;
 import org.pepsik.model.Profile;
+import org.pepsik.model.User;
 import org.pepsik.service.SmartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
 
@@ -52,7 +51,7 @@ public class UserController {
             }
         });
 
-        binder.registerCustomEditor(String.class, "account.password", new PropertyEditorSupport() {
+        binder.registerCustomEditor(String.class, "user.password", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) throws IllegalArgumentException {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -69,30 +68,22 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public String newUser(Model model) {
         Profile profile = new Profile();
-        profile.setAccount(new Account());
+        profile.setUser(new User());
         model.addAttribute(profile);
         return "user/create";
     }
 
-//    @RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
-//    public String editUser(@PathVariable("username") String username, HttpSession session, Model model) {
-//        Profile profile = service.getProfile(username);
-//        session.setAttribute("profile", profile);
-//        model.addAttribute(profile);
-//        return "user/edit_profile";
-//    }
-
     @RequestMapping(method = RequestMethod.POST)
     public String createUser(@Valid Profile profile, BindingResult bindingResult) {
 
-        if (service.isExistUsername(profile.getAccount().getUsername()))
-            bindingResult.rejectValue("account.username", "username.exist");
+        if (service.isExistUsername(profile.getUser().getUsername()))
+            bindingResult.rejectValue("user.username", "username.exist");
 
-            if (bindingResult.hasErrors())
-                return "user/create";
+        if (bindingResult.hasErrors())
+            return "user/create";
 
         service.saveProfile(profile);
-        return "redirect:/user/" + profile.getAccount().getUsername();
+        return "redirect:/user/" + profile.getUser().getUsername();
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
@@ -101,21 +92,9 @@ public class UserController {
         return "user/view_profile";
     }
 
-//    @RequestMapping(value = "/{username}", method = RequestMethod.PUT)
-//    public String updateUser(@PathVariable("username") String username, @Valid Profile editedProfile, BindingResult result, HttpSession session) {
-//        if (result.hasErrors())
-//            return "user/edit_profile";
-//
-//        Profile profile = (Profile) session.getAttribute("profile");
-//        editedProfile.setId(profile.getId());
-//        editedProfile.setAccount(profile.getAccount());
-//        service.saveProfile(editedProfile);
-//        return "redirect:/user/" + username;
-//    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUser(@PathVariable("id") long id) {
-//        service.deleteAccount(id);
+        service.deleteUser(id);
         return "redirect:/home";
     }
 }

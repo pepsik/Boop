@@ -8,13 +8,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
-  Date: 4/27/15
-  Time: 23:31 PM
+  Date: 5/22/15
+  Time: 15:48 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
+    <h2>Favorites</h2>
     <ol>
         <c:forEach var="comment" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -26,12 +27,9 @@
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
-
                     <h3><a class="label label-primary" href="${post_url}">
                         <c:out value="${comment.title}"/>
-                    </a>
-                        <a href="#" style="float: right; margin-right: 20px" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-star-empty"></span>
-                        </a></h3>
+                    </a></h3>
 
                     <div class="post summernote">
                             ${comment.text}
@@ -81,27 +79,4 @@
 
         </c:forEach>
     </ol>
-    <ul class="pagination">
-        <c:choose>
-            <c:when test="${1 != currentPageIndex}">
-                <li><a href="/page/${currentPageIndex - 1}">&laquo;</a></li>
-            </c:when>
-        </c:choose>
-        <c:forEach items="${pagination}" var="pageIndex">
-            <c:choose>
-                <c:when test="${pageIndex == currentPageIndex}">
-                    <li class="active"><a>${pageIndex}</a></li>
-                </c:when>
-                <c:otherwise>
-                    <li><a href="/page/${pageIndex}">${pageIndex}</a></li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-        <c:choose>
-            <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
-                <li><a href="/page/${currentPageIndex + 1}">&raquo;</a></li>
-            </c:when>
-        </c:choose>
-    </ul>
 </div>
-

@@ -13,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
-    <s:url var="user_url" value="/user/${profile.account.username}"/>
+    <s:url var="user_url" value="/user/${profile.user.username}"/>
 
     <div class="col-sm-4">
         <div class="list-group">

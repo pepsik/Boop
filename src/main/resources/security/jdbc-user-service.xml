@@ -10,11 +10,11 @@
     <import resource="classpath:spring/datasource-config.xml"/>
 
     <security:jdbc-user-service id="jdbcUserDetailsManager" data-source-ref="dataSource"
-                                users-by-username-query="SELECT USERNAME,PASSWORD,TRUE FROM accounts WHERE USERNAME = ?"
-                                authorities-by-username-query="SELECT  A.USERNAME,  R.ROLE FROM accounts A
-                                        INNER JOIN ACCOUNTS_AUTHORITY SA ON A.ACCOUNT_ID = SA.ACCOUNT_ID_FK
+                                users-by-username-query="SELECT USERNAME,PASSWORD,TRUE FROM users JOIN passwords WHERE USERNAME = ?"
+                                authorities-by-username-query="SELECT  U.USERNAME,  R.ROLE FROM users U
+                                        INNER JOIN users_authority SA ON U.user_id = SA.user_id_fk
                                         INNER JOIN ROLES R ON SA.ROLE_ID_FK = R.ROLE_ID
-                                        WHERE A.USERNAME = ? "/>
+                                        WHERE U.USERNAME = ? "/>
 
     <!--<security:cache-control/>-->
 </beans>

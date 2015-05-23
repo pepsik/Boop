@@ -1,6 +1,6 @@
 package org.pepsik.validator;
 
-import org.pepsik.model.support.Password;
+import org.pepsik.model.support.PasswordForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -11,12 +11,12 @@ public class PasswordValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Password.class.equals(clazz);
+        return PasswordForm.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        Password password = (Password) target;
+        PasswordForm password = (PasswordForm) target;
         if (password.getNew_password().length() < 3) {
             errors.rejectValue("new_password", "password.short");
         }

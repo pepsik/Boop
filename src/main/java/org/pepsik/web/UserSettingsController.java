@@ -3,10 +3,11 @@ package org.pepsik.web;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.pepsik.model.Account;
 import org.pepsik.model.Profile;
+import org.pepsik.model.User;
+import org.pepsik.model.UserPassword;
 import org.pepsik.service.SmartService;
-import org.pepsik.model.support.Password;
+import org.pepsik.model.support.PasswordForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ public class UserSettingsController {
         session.removeAttribute("profile");
 
         updatedProfile.setId(oldProfile.getId());
-        updatedProfile.setAccount(oldProfile.getAccount());
+        updatedProfile.setUser(oldProfile.getUser());
         updatedProfile.setEmail(oldProfile.getEmail());
         service.saveProfile(updatedProfile);
         return "redirect:/settings/profile";
@@ -100,20 +101,20 @@ public class UserSettingsController {
     @RequestMapping(value = "/account", method = RequestMethod.GET, produces = "text/html")
     public String getAccount(Model model, HttpSession session) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        Account account = service.getAccount(loggedUser);
-        session.setAttribute("account", account);
-        model.addAttribute(account);
-        model.addAttribute(new Password());
+        User user = service.getUser(loggedUser);
+        session.setAttribute("account", user);
+        model.addAttribute(user);
+        model.addAttribute(new PasswordForm());
         return "settings/account";
     }
 
     @RequestMapping(value = "/account", method = RequestMethod.PUT, produces = "text/html")
-    public String updateAccount(@Valid Password password, BindingResult result, HttpSession session, Model model) {
+    public String updateAccount(@Valid PasswordForm password, BindingResult result, HttpSession session, Model model) {
 
-        final Account account = (Account) session.getAttribute("account");
+        final User user = (User) session.getAttribute("user");
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (!encoder.matches(password.getOld_password(), account.getPassword()))
+        if (!encoder.matches(password.getOld_password(), user.getUserPassword().getPassword()))
             result.addError(new FieldError("password", "old_password", "Old password isn't valid"));
 
         if (!password.getNew_password().equals(password.getRepeat_new_password()))
@@ -121,11 +122,12 @@ public class UserSettingsController {
 
         if (result.hasErrors()) {
             model.addAttribute(result);
-            return "settings/account";
+            return "settings/user";
         }
 
-        account.setPassword(encoder.encode(password.getNew_password()));
-        session.removeAttribute("account");
+        UserPassword userPassword = user.getUserPassword();
+        userPassword.setPassword(encoder.encode(password.getNew_password()));
+        session.removeAttribute("user");
         return "redirect:/settings/account";
     }
 

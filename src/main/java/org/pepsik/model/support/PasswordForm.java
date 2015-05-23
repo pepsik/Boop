@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by pepsik on 5/20/15.
  */
-public class Password {
+public class PasswordForm {
 
     @NotNull
     private String old_password;

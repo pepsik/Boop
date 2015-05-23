@@ -19,7 +19,7 @@
 
     <div class="container col-md-9">
         <div class="panel panel-success">
-            <div class="panel-heading"><h4><spring:message code="label.account.view.title"/></h4></div>
+            <div class="panel-heading"><h4><spring:message code="label.user.view.title"/></h4></div>
             <div class="panel-body">
                 <table class="table table-striped" style="width:600px;">
                     <tr>
@@ -92,7 +92,7 @@
                         <c:set var="access" value="${true}" scope="page"/>
                     </sec:authorize>
 
-                    <c:if test="${authorizedUser.equals(profile.account.username) or access}"> <!-- Shit -->
+                    <c:if test="${authorizedUser.equals(profile.user.username) or access}"> <!-- Shit -->
 
                         <a href="${user_url}" class="btn btn-default"><span
                                 class="glyphicon glyphicon-pencil"></span>&nbsp;<spring:message code="button.edit"/></a>

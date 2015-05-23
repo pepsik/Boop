@@ -5,7 +5,7 @@
 
 <div class="container col-md-8">
     <div class="panel panel-default">
-        <div class="panel-heading"><h4><b><spring:message code="label.account.create.title"/></b></h4></div>
+        <div class="panel-heading"><h4><b><spring:message code="label.user.create.title"/></b></h4></div>
         <div class="panel-body">
             <form:form id="new_user" modelAttribute="profile" class="form-horizontal" method="post" action="/user">
                 <div class="form-group col-xs-10">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="form-group col-xs-10">
                     <label for="username" class="col-xs-6"><spring:message code="label.username"/></label>
-                    <spring:bind path="profile.account.username">
+                    <spring:bind path="profile.user.username">
                         <input type="text" name="${status.expression}" id="username"
                                class="form-control username required"
                                data-placement="bottom"
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group col-xs-10">
                     <label for="password" class="col-xs-6"><spring:message code="label.password"/></label>
-                    <spring:bind path="profile.account.password">
+                    <spring:bind path="profile.user.userPassword.password">
                         <input type="password" name="${status.expression}" id="password"
                                class="form-control password required"
                                data-placement="bottom"

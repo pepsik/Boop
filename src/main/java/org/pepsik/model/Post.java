@@ -37,6 +37,23 @@ public class Post extends MessageEntity implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return (int) getId();
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+
+        Post target = (Post) object;
+        if (target.getId() == this.getId())
+            return true;
+
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +

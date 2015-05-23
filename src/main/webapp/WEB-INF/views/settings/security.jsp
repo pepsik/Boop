@@ -11,7 +11,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><b>Sessions</b></div>
         <div class="panel-body">
-            This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.
+            This is a list of devices that have logged into your user. Revoke any sessions that you do not recognize.
             <ul type="none">
                 <li>
                     Sessions here
@@ -31,7 +31,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><b>Security history</b></div>
         <div class="panel-body">
-            This is a security log of important events involving your account.
+            This is a security log of important events involving your user.
             <ul type="none">
                 <li>
                     history here

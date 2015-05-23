@@ -2,10 +2,10 @@ package org.pepsik.service;
 
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
-import org.pepsik.model.Account;
 import org.pepsik.model.Profile;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -16,15 +16,21 @@ public interface SmartService {
 
     List<Post> getPostsByPage(int pageIndex);
 
+    void addFavorite(long postId);
+
+    Set<Post> getFavorites(String username);
+
+    void removeFavorite(long id);
+
     List<String> getPagination(int pageIndex);
 
-    Account getAccount(long id);
+    User getUser(long id);
 
-    Account getAccount(String username);
+    User getUser(String username);
 
-    void saveAccount(Account account);
+    void saveUser(User user);
 
-    void deleteAccount(long id);
+    void deleteUser(long id);
 
     void saveProfile(Profile profile);
 

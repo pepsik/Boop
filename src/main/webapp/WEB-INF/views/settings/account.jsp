@@ -10,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<s:url var="user_url" value="/settings/account"/>
+<s:url var="user_url" value="/settings/user"/>
 
 <div class="container col-md-8">
     <div class="panel panel-default">
@@ -57,11 +57,11 @@
     <div class="panel panel-default">
         <div class="panel-heading"><b>Change username</b></div>
         <div class="panel-body">
-            <form:form id="account_username_change" modelAttribute="account" class="form-horizontal" method="put"
+            <form:form id="account_username_change" modelAttribute="user" class="form-horizontal" method="put"
                        action="${user_url}">
                 <div class="form-group col-md-10">
                     <label for="username" class="col-md-6"><spring:message code="label.username"/></label>
-                    <spring:bind path="account.username">
+                    <spring:bind path="user.username">
                         <input type="text" name="${status.expression}" id="username"
                                class="form-control username required"
                                data-placement="bottom"
@@ -82,12 +82,12 @@
     </div>
 
     <div class="panel panel-danger">
-        <div class="panel-heading"><b>Delete account</b></div>
+        <div class="panel-heading"><b>Delete user</b></div>
         <div class="panel-body">
-            Once you delete your account, there is no going back. Please be certain.
+            Once you delete your user, there is no going back. Please be certain.
         </div>
         <div class="panel-footer">
-            <button type="submit" class="btn btn-danger" disabled>Delete your account</button>
+            <button type="submit" class="btn btn-danger" disabled>Delete your user</button>
         </div>
     </div>
 </div>

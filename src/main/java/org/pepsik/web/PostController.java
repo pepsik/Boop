@@ -68,7 +68,7 @@ public class PostController {
         final Post post = (Post) session.getAttribute("post");
         updatedPost.setId(post.getId());
         updatedPost.setWhen(post.getWhen());
-        updatedPost.setAccount(post.getAccount());
+        updatedPost.setUser(post.getUser());
         updatedPost.setComments(post.getComments());
         service.savePost(updatedPost);
         session.removeAttribute("post");

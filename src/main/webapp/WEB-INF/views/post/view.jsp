@@ -23,7 +23,7 @@
         <div class="formHolder author text-info">
                     <span class="padding-top">
                     <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                        <c:out value="by ${post.account.username}"/></small>
+                        <c:out value="by ${post.user.username}"/></small>
                     </span>
 
             <sf:form action="${post_url}" method="delete">
@@ -43,7 +43,7 @@
 
             <div class="formHolder author text-info">
                 <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
-                    <c:out value="by ${comment.account.username}"/></small>
+                    <c:out value="by ${comment.user.username}"/></small>
 
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                     <sec:authentication property="principal.username" var="authorizedUser"/>
@@ -52,7 +52,7 @@
                         <c:set var="access" value="${true}" scope="page"/>
                     </sec:authorize>
 
-                    <c:if test="${authorizedUser.equals(comment.account.username) or access}"> <!-- Shit -->
+                    <c:if test="${authorizedUser.equals(comment.user.username) or access}"> <!-- Shit -->
 
                         <sf:form action="${post_url}/comment/${comment.id}" method="delete">
                             <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>

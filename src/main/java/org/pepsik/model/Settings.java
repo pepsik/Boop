@@ -12,8 +12,8 @@ public class Settings {
 
     @MapsId
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id")
-    private Account account;
+    @JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+    private User user;
 
     public int getDefaultPostsPerPage() {
         return defaultPostsPerPage;
@@ -23,19 +23,19 @@ public class Settings {
         this.defaultPostsPerPage = defaultPostsPerPage;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Settings{" +
                 "defaultPostsPerPage=" + defaultPostsPerPage +
-                ", account=" + account +
+                ", user=" + user.getId() +
                 '}';
     }
 }

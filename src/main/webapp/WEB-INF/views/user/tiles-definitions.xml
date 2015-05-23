@@ -15,4 +15,8 @@
         <put-attribute name="content" value="/WEB-INF/views/user/edit_profile.jsp"/>
     </definition>
 
+    <definition name="user/favorites" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/user/favorites.jsp"/>
+    </definition>
+
 </tiles-definitions>

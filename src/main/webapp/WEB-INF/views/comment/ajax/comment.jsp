@@ -15,8 +15,8 @@
 
 <c:set var="comment" value="${requestScope.get('comment')}"/>
 
-<s:url value="/account/{id}" var="user_url">
-    <s:param name="id" value="${comment.account.id}"/>
+<s:url value="/user/{id}" var="user_url">
+    <s:param name="id" value="${comment.user.id}"/>
 </s:url>
 
 <div class="comment" id="${comment.id}">
@@ -26,14 +26,14 @@
     <div class="author text-info">
         <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
             <c:out value="by "/>
-            <a href="${user_url}">${comment.account.username}</a>
+            <a href="${user_url}">${comment.user.username}</a>
         </small>
         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
             <sec:authentication property="principal.username" var="authorizedUser"/>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <c:set var="access" value="${true}" scope="page"/>
             </sec:authorize>
-            <c:if test="${authorizedUser.equals(comment.account.username) or access}">
+            <c:if test="${authorizedUser.equals(comment.user.username) or access}">
                 <div style="float: right">
                     <button id="edit${comment.id}" class="btn btn-xs btn-default"
                             onclick="editComment(${comment.id})">
