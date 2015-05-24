@@ -29,7 +29,28 @@
                 <div class="postListText">
                     <h3><a class="label label-primary" href="${post_url}">
                         <c:out value="${comment.title}"/>
-                    </a></h3>
+                    </a>
+                        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                            <sec:authentication property="principal.username" var="authorizedUser"/>
+                            <c:choose>
+                                <c:when test="${comment.favorite == true}">
+                                    <button id="favorite${comment.id}"
+                                            onclick="removeFavorite(${comment.id}, '${authorizedUser}')"
+                                            style="float: right; margin-right: 20px"
+                                            class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button id="favorite${comment.id}"
+                                            onclick="addFavorite(${comment.id}, '${authorizedUser}')"
+                                            style="float: right; margin-right: 20px"
+                                            class="btn btn-info btn-sm"><span class="glyphicon glyphicon-star"></span>
+                                    </button>
+                                </c:otherwise>
+                            </c:choose>
+                        </sec:authorize>
+
+                    </h3>
 
                     <div class="post summernote">
                             ${comment.text}

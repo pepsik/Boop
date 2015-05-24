@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by pepsik on 5/22/15.
@@ -33,14 +30,13 @@ public class FavoritesController {
         if (!service.isExistUsername(username))
             throw new ResourceNotFoundException();
 
-          logger.info(service.getFavorites(username).toString());
         model.addAttribute(service.getFavorites(username));
         return "user/favorites";
     }
 
-    @RequestMapping(value = "/{postId}", method = RequestMethod.POST, produces = "text/html")
+    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     @ResponseStatus(HttpStatus.OK)
-    public void addFavorite(@PathVariable(value = "postId") String postId) {
+    public void addFavorite(@RequestBody String postId) {
         try {
             long id = Long.parseLong(postId);
             if (!service.isExistPost(id))
@@ -52,11 +48,13 @@ public class FavoritesController {
         }
     }
 
-    @RequestMapping(value = "/{postId}", method = RequestMethod.DELETE, produces = "text/html")
+    @RequestMapping(method = RequestMethod.DELETE, consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public void removeFavorite(@PathVariable(value = "postId") String postId) {
+    public void removeFavorite(@RequestBody String postId) {
         try {
-            long id = Long.parseLong(postId);
+            long id = Long.parseLong(postId, 10);
+            logger.info(Long.toString(id));
+
             if (!service.isExistPost(id))
                 throw new ResourceNotFoundException();
 

@@ -1,8 +1,10 @@
 package org.pepsik.service;
 
+import org.apache.commons.collections.ListUtils;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.model.Profile;
+import org.pepsik.model.support.PostComparator;
 import org.pepsik.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -49,7 +49,18 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public List<Post> getPostsByPage(int pageIndex) {
-        return postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (loggedUser.equals("guest"))
+            return postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
+
+        List<Post> userFavorites = getFavorites(loggedUser);
+
+        List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
+        List<Post> matches = ListUtils.retainAll(postsByPage, userFavorites);
+        for (Post post : matches)
+            post.setFavorite(true);
+
+        return postsByPage;
     }
 
     @Override
@@ -235,11 +246,15 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public Set<Post> getFavorites(String username) {
+    public List<Post> getFavorites(String username) {
         User user = getUser(username);
-        Set<Post> postSet = user.getFavorites();
-        postSet.size();
-        return postSet;
+        List<Post> postList = new LinkedList<>(user.getFavorites());
+        Comparator comparator = new PostComparator();
+        Collections.sort(postList, comparator);
+        Collections.sort(postList, Collections.reverseOrder(comparator));
+        for (Post post : postList)
+            post.setFavorite(true);
+        return postList;
     }
 
     @Override

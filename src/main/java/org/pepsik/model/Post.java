@@ -20,6 +20,9 @@ public class Post extends MessageEntity implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "post")
     private List<Comment> comments;
 
+    @Transient
+    private boolean isFavorite = false;
+
     public String getTitle() {
         return title;
     }
@@ -34,6 +37,14 @@ public class Post extends MessageEntity implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
     @Override
@@ -58,6 +69,7 @@ public class Post extends MessageEntity implements Serializable {
         return "Post{" +
                 "title='" + title + '\'' +
                 ", comments=" + comments +
+                ", isFavorite=" + isFavorite +
                 "} " + super.toString();
     }
 }

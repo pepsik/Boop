@@ -18,7 +18,7 @@ public interface SmartService {
 
     void addFavorite(long postId);
 
-    Set<Post> getFavorites(String username);
+    List<Post> getFavorites(String username);
 
     void removeFavorite(long id);
 

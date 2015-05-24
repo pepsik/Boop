@@ -17,7 +17,7 @@ public class Profile {
     private long id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "profile")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "profile")
     @JoinColumn(name = "user_id_fk")
     private User user;
 

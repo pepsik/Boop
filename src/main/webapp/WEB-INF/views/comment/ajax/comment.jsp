@@ -37,18 +37,22 @@
                 <div style="float: right">
                     <button id="edit${comment.id}" class="btn btn-xs btn-default"
                             onclick="editComment(${comment.id})">
+                        <span class="glyphicon glyphicon-pencil"></span>
                         <spring:message code="button.edit"/>
                     </button>
                     <button id="delete${comment.id}" class="btn btn-xs btn-danger"
                             onclick="deleteComment(${comment.post.id}, ${comment.id})">
+                        <span class="glyphicon glyphicon-trash"></span>
                         <spring:message code="button.delete"/>
                     </button>
                     <button id="save${comment.id}" class="btn btn-xs btn-success" style="display: none;"
                             onclick="saveComment(${comment.post.id}, ${comment.id})">
+                        <span class="glyphicon glyphicon-ok-sign"></span>
                         <spring:message code="button.save"/>
                     </button>
                     <button id="cancel${comment.id}" class="btn btn-xs btn-default" style="display: none;"
                             onclick="cancelEditing(${comment.id})">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
                         <spring:message code="button.cancel"/>
                     </button>
                 </div>

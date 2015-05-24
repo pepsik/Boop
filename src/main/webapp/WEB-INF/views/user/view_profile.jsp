@@ -17,13 +17,13 @@
 
     <s:url var="user_url" value="/settings/profile"/>
 
-    <div class="container col-md-9">
+    <div class="container col-md-7">
         <div class="panel panel-success">
             <div class="panel-heading"><h4><spring:message code="label.user.view.title"/></h4></div>
             <div class="panel-body">
-                <table class="table table-striped" style="width:600px;">
+                <table class="table table-striped">
                     <tr>
-                        <th width="250"><spring:message code="label.fullname"/></th>
+                        <th><spring:message code="label.fullname"/></th>
                         <td><b><c:out value="${profile.fullname}"/></b></td>
                     </tr>
                     <tr>
@@ -102,4 +102,17 @@
             </div>
         </div>
     </div>
+    <div class="container col-md-5">
+        <img src="<s:url value="/resources" />/images/def-ava.png"/>
+    </div>
+
+    <div class="container col-md-5" style="margin-top: 30px">
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <a href="/user/${profile.user.username}/favorite" class="btn btn-default btn-block">Favorites</a>
+                <a href="#" class="btn btn-default btn-block">Friends</a>
+            </div>
+        </div>
+    </div>
+
 </div>
