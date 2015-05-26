@@ -57,4 +57,8 @@ public interface SmartService {
     boolean isExistPost(long id);
 
     long getPagesCount();
+
+    List<Post> getTaggedPosts(String tag);
+
+    boolean isExistTag(String tag);
 }

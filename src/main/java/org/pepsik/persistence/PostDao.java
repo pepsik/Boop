@@ -23,6 +23,4 @@ public interface PostDao {
     void updatePost(Post post);
 
     void deletePost(long id);
-
-    Tag getTag(String name);
 }

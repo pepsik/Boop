@@ -78,9 +78,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password=" + userPassword +
                 ", profile=" + profile +
-                ", favorites=" + favorites +
+                ", favorites=" + favorites.size() +
                 '}';
     }
 }

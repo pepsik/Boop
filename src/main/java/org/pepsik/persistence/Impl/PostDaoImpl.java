@@ -23,7 +23,6 @@ import java.util.List;
 public class PostDaoImpl implements PostDao {
 
     public static final String SELECT_ALL_POSTS = "SELECT post FROM Post post ORDER BY post.when DESC";
-    public static final String SELECT_TAG_BY_NAME = "SELECT tag FROM Tag tag where tag.name = :name";
 
     @PersistenceContext
     private EntityManager em;
@@ -81,10 +80,6 @@ public class PostDaoImpl implements PostDao {
     public void deletePost(long id) {
         em.remove(getPostById(id));
         em.flush();
-    }
-
-    public Tag getTag(String tagName) {
-        return (Tag) em.createQuery(SELECT_TAG_BY_NAME).setParameter("name", tagName).getSingleResult();
     }
 }
 

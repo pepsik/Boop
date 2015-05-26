@@ -1,6 +1,7 @@
 package org.pepsik.service;
 
 import org.apache.commons.collections.ListUtils;
+import org.joda.time.DateTime;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.model.Profile;
@@ -42,6 +43,9 @@ public class SmartServiceImpl implements SmartService {
     @Autowired
     private CommentDao commentDao;
 
+    @Autowired
+    private TagDao tagDao;
+
     @Override
     public List<Post> getAllPosts() {
         return postDao.getAllPosts();
@@ -60,7 +64,7 @@ public class SmartServiceImpl implements SmartService {
         for (Post post : matches)
             post.setFavorite(true);
 
-        for (Post post : postsByPage) //TODO:temp
+        for (Post post : postsByPage) //TODO:temp init comments size
             post.getComments().size();
 
         return postsByPage;
@@ -77,27 +81,30 @@ public class SmartServiceImpl implements SmartService {
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void savePost(Post post) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (post.getTags() != null) {
+            Set<Tag> postTags = post.getTags();
+            Set<Tag> finalTags = new HashSet<>();
+            for (Tag tag : postTags)
+                if (isExistTag(tag.getName()))
+                    finalTags.add(tagDao.getTag(tag.getName()));
+                else {
+                    tag.setCreateDate(new DateTime());
+                    tag.setAuthor(getUser(loggedUser));
+                    finalTags.add(tag);
+                }
+
+            post.setTags(finalTags);
+        }
+
         if (post.getId() == 0) {
-            String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = getUser(loggedUser);
             post.setUser(user);
-
-            Set<Tag> newPostTags = post.getTags();
-            Set<Tag> finalTags = new HashSet<>();
-            for (Tag tag : newPostTags)
-                if (isExistTag(tag.getName()))
-                    finalTags.add(postDao.getTag(tag.getName())); //fix?
-                else {
-                    finalTags.add(tag);
-
-                    logger.info(tag.getName());
-                    logger.info(Long.toString(tag.getId()));
-                }
-            logger.info(post.getTags().toString());
-            post.setTags(finalTags);
             postDao.addPost(post);
         } else
             postDao.updatePost(post);
+
     }
 
     @Override
@@ -271,8 +278,11 @@ public class SmartServiceImpl implements SmartService {
         Comparator comparator = new PostComparator();
         Collections.sort(postList, comparator);
         Collections.sort(postList, Collections.reverseOrder(comparator));
-        for (Post post : postList)
+
+        for (Post post : postList) {
             post.setFavorite(true);
+            post.getComments().size();
+        }
         return postList;
     }
 
@@ -288,11 +298,19 @@ public class SmartServiceImpl implements SmartService {
 
     public boolean isExistTag(String tagName) {
         try {
-            postDao.getTag(tagName);
+            tagDao.getTag(tagName);
         } catch (NoResultException exception) {
             return false;
         }
         return true;
     }
 
+    @Override
+    public List<Post> getTaggedPosts(String tagName) {
+        if (!isExistTag(tagName))
+            return new LinkedList<>();
+
+        Tag tag = tagDao.getTag(tagName);
+        return tag.getPosts();
+    }
 }

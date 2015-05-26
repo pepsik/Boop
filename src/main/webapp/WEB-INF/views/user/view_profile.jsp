@@ -13,8 +13,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div>
+<head>
+    <title>Profile / ${profile.user.username}</title>
+</head>
 
+<div>
     <s:url var="user_url" value="/settings/profile"/>
 
     <div class="container col-md-7">
@@ -85,14 +88,10 @@
                 </table>
             </div>
             <div class="panel-footer">
-                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                <sec:authorize access="hasRole('ROLE_USER')">
                     <sec:authentication property="principal.username" var="authorizedUser"/>
 
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <c:set var="access" value="${true}" scope="page"/>
-                    </sec:authorize>
-
-                    <c:if test="${authorizedUser.equals(profile.user.username) or access}"> <!-- Shit -->
+                    <c:if test="${authorizedUser.equals(profile.user.username)}">
 
                         <a href="${user_url}" class="btn btn-default"><span
                                 class="glyphicon glyphicon-pencil"></span>&nbsp;<spring:message code="button.edit"/></a>
@@ -111,6 +110,8 @@
             <div class="panel-body">
                 <a href="/user/${profile.user.username}/favorite" class="btn btn-default btn-block">Favorites</a>
                 <a href="#" class="btn btn-default btn-block">Friends</a>
+                <a href="#" class="btn btn-default btn-block">Posts</a>
+                <a href="#" class="btn btn-default btn-block">Comments</a>
             </div>
         </div>
     </div>

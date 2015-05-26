@@ -2,6 +2,7 @@ package org.pepsik.model;
 
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -21,7 +22,8 @@ public class Post extends MessageEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "post")
     private List<Comment> comments;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @Valid
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "tag_owners", joinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
     private Set<Tag> tags;
@@ -82,7 +84,7 @@ public class Post extends MessageEntity implements Serializable {
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +
-                ", comments=" + comments +
+                ", tags=" + tags +
                 ", isFavorite=" + isFavorite +
                 "} " + super.toString();
     }

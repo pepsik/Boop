@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>^_^</title>
+    <%--<link rel="shortcut icon" href="<s:url value="/resources" />/favicon.png" />--%>
+    <link rel="shortcut icon" href="http://emojipedia.org/wp-content/uploads/2014/04/128x128x1f60e-google-android.png.pagespeed.ic.f3O6TlEr2A.png" />
     <!-- Main css =(-->
     <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
 
@@ -34,6 +35,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/Autolinker.min.js"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 </head>
 

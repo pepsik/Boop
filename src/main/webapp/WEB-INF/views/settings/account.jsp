@@ -10,6 +10,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<head>
+    <title>Account</title>
+</head>
+
 <s:url var="user_url" value="/settings/user"/>
 
 <div class="container col-md-8">

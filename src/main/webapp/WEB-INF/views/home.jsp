@@ -14,6 +14,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<head>
+    <title>Welcome</title>
+</head>
+
 <div>
     <ol>
         <c:forEach var="post" items="${postList}" varStatus="loop">

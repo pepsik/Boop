@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<head>
+    <title>Security</title>
+</head>
 
 <div class="container col-md-8">
     <div class="panel panel-default">

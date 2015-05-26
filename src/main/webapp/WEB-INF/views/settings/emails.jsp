@@ -9,6 +9,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<head>
+    <title>Emails</title>
+</head>
+
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><b>Email</b></div>
