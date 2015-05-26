@@ -2,18 +2,23 @@ package org.pepsik.web;
 
 import org.joda.time.DateTime;
 import org.pepsik.model.Post;
+import org.pepsik.model.Tag;
 import org.pepsik.service.SmartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
+import java.util.*;
 
 /**
  * Created by pepsik on 4/9/15.
@@ -27,6 +32,37 @@ public class PostController {
 
     @Autowired
     private SmartService service;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Set.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                List<String> tagsList = Arrays.asList(text.split(","));
+                Set<Tag> tags = new HashSet<>();
+                for (String stringTag : tagsList) {
+                    Tag tag = new Tag();
+                    tag.setName(stringTag);
+                    tags.add(tag);
+                }
+                setValue(tags);
+            }
+
+            @Override
+            public String getAsText() {
+                Set<Tag> tags = (Set<Tag>) getValue();
+                String stringTags = "";
+
+                if (tags == null)
+                    return stringTags;
+                Iterator<Tag> iterator = tags.iterator();
+                stringTags += iterator.next().getName();
+                while (iterator.hasNext())
+                    stringTags += ", " + iterator.next().getName();
+                return stringTags;
+            }
+        });
+    }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newPost(Model model) {

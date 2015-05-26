@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Comment extends MessageEntity implements Serializable {
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id_fk")
     private Post post;
 

@@ -3,6 +3,9 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+
+
 <div>
     <div class="well">
         <sf:form modelAttribute="post" method="post" action="/post">
@@ -11,8 +14,16 @@
                 <sf:errors path="title" cssClass="label label-danger"/>
                 <sf:input path="title" cssClass="form-control" maxlength="40"/>
             </div>
-            <sf:errors path="text" cssClass="label label-danger"/>
-            <form:textarea path="text" id="summernote"/>
+            <div>
+                <spring:bind path="post.tags">
+                    <input type="text" name="${status.expression}" id="tags" value="${status.value}" data-role="tagsinput"/>
+                </spring:bind>
+            </div>
+
+            <div>
+                <sf:errors path="text" cssClass="label label-danger"/>
+                <form:textarea path="text" id="summernote"/>
+            </div>
             <br>
 
             <div class="submit">

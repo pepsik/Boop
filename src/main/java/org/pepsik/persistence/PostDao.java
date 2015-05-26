@@ -1,6 +1,7 @@
 package org.pepsik.persistence;
 
 import org.pepsik.model.Post;
+import org.pepsik.model.Tag;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface PostDao {
     void updatePost(Post post);
 
     void deletePost(long id);
+
+    Tag getTag(String name);
 }

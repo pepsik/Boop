@@ -23,6 +23,13 @@
     <script src="${pageContext.request.contextPath}/resources/summernote/lang/summernote_uk_UA.js"></script>
     <script src="${pageContext.request.contextPath}/resources/summernote/plugin/summernote-ext-video.js"></script>
 
+    <!-- Bootstrap Tags input-->
+    <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.css"></script>
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
+    <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+
     <!-- SmartSite js,css-->
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>

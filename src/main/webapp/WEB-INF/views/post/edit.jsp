@@ -15,6 +15,11 @@
                 <sf:errors path="title" cssClass="label label-danger"/>
                 <sf:input path="title" cssClass="form-control" maxlength="40"/>
             </div>
+            <div>
+                <spring:bind path="post.tags">
+                    <input type="text" name="${status.expression}" id="tags" value="${status.value}" data-role="tagsinput"/>
+                </spring:bind>
+            </div>
             <sf:errors path="text" cssClass="label label-danger"/> <br>
             <form:textarea path="text" id="summernote"/>
             <br>

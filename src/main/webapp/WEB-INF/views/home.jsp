@@ -16,60 +16,68 @@
 
 <div>
     <ol>
-        <c:forEach var="comment" items="${postList}" varStatus="loop">
+        <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
-                <s:param name="id" value="${comment.id}"/>
+                <s:param name="id" value="${post.id}"/>
             </s:url>
             <s:url value="/user/{id}" var="user_url">
-                <s:param name="id" value="${comment.user.username}"/>
+                <s:param name="id" value="${post.user.username}"/>
             </s:url>
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
 
                     <h3><a class="label label-primary" href="${post_url}">
-                        <c:out value="${comment.title}"/>
+                        <c:out value="${post.title}"/>
                     </a>
+
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>
                             <c:choose>
-                                <c:when test="${comment.favorite == true}">
-                                    <button id="favorite${comment.id}"
-                                            onclick="removeFavorite(${comment.id}, '${authorizedUser}')"
+                                <c:when test="${post.favorite == true}">
+                                    <button id="favorite${post.id}"
+                                            onclick="removeFavorite(${post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
                                             class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span>
                                     </button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button id="favorite${comment.id}"
-                                            onclick="addFavorite(${comment.id}, '${authorizedUser}')"
+                                    <button id="favorite${post.id}"
+                                            onclick="addFavorite(${post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
                                             class="btn btn-info btn-sm"><span class="glyphicon glyphicon-star"></span>
                                     </button>
                                 </c:otherwise>
                             </c:choose>
                         </sec:authorize>
+
                     </h3>
+                        <c:forEach var="tag" items="${post.tags}">
+                            &nbsp;&nbsp;
+                            <span class="tag label label-default">
+                                <span>${tag.name}</span>
+                            </span>
+                        </c:forEach>
 
                     <div class="post summernote">
-                            ${comment.text}
+                            ${post.text}
                     </div>
                     <div class="formHolder author text-info">
-                        <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
+                        <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${user_url}">${comment.user.username}</a>
+                            <a href="${user_url}">${post.user.username}</a>
                         </small>
                         <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">
                             <spring:message code="button.comment.hide"/> &nbsp;<span
-                                class="badge">${comment.comments.size()}</span>
+                                class="badge">${post.comments.size()}</span>
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <%--<sec:authentication property="principal.username" var="authorizedUser"/>--%>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <c:set var="access" value="${true}" scope="page"/>
                             </sec:authorize>
-                            <c:if test="${authorizedUser.equals(comment.user.username) or access}">
+                            <c:if test="${authorizedUser.equals(post.user.username) or access}">
                                 <sf:form action="${post_url}" method="delete">
                                     <button type="submit" class="btn btn-xs btn-danger">
                                         <span class="glyphicon glyphicon-trash"></span>
@@ -94,7 +102,7 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
-                        getComments(${comment.id}, ${loop.count});
+                        getComments(${post.id}, ${loop.count});
                     });
                 });
             </script>

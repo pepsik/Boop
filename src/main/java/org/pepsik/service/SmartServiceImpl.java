@@ -60,12 +60,17 @@ public class SmartServiceImpl implements SmartService {
         for (Post post : matches)
             post.setFavorite(true);
 
+        for (Post post : postsByPage) //TODO:temp
+            post.getComments().size();
+
         return postsByPage;
     }
 
     @Override
     public Post getPost(long id) {
-        return postDao.getPostById(id);
+        Post post = postDao.getPostById(id);
+        post.getComments().size();
+        return post;
     }
 
     @Override
@@ -76,6 +81,20 @@ public class SmartServiceImpl implements SmartService {
             String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = getUser(loggedUser);
             post.setUser(user);
+
+            Set<Tag> newPostTags = post.getTags();
+            Set<Tag> finalTags = new HashSet<>();
+            for (Tag tag : newPostTags)
+                if (isExistTag(tag.getName()))
+                    finalTags.add(postDao.getTag(tag.getName())); //fix?
+                else {
+                    finalTags.add(tag);
+
+                    logger.info(tag.getName());
+                    logger.info(Long.toString(tag.getId()));
+                }
+            logger.info(post.getTags().toString());
+            post.setTags(finalTags);
             postDao.addPost(post);
         } else
             postDao.updatePost(post);
@@ -266,4 +285,14 @@ public class SmartServiceImpl implements SmartService {
         user.getFavorites().remove(getPost(postId));
         userAccountDao.updateUser(user);
     }
+
+    public boolean isExistTag(String tagName) {
+        try {
+            postDao.getTag(tagName);
+        } catch (NoResultException exception) {
+            return false;
+        }
+        return true;
+    }
+
 }

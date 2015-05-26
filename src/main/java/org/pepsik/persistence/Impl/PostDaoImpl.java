@@ -3,6 +3,7 @@ package org.pepsik.persistence.Impl;
 import com.googlecode.ehcache.annotations.Cacheable;
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import org.pepsik.model.Post;
+import org.pepsik.model.Tag;
 import org.pepsik.persistence.PostDao;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class PostDaoImpl implements PostDao {
 
     public static final String SELECT_ALL_POSTS = "SELECT post FROM Post post ORDER BY post.when DESC";
+    public static final String SELECT_TAG_BY_NAME = "SELECT tag FROM Tag tag where tag.name = :name";
 
     @PersistenceContext
     private EntityManager em;
@@ -72,7 +74,6 @@ public class PostDaoImpl implements PostDao {
     @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void updatePost(Post post) {
         em.merge(post);
-        em.flush();
     }
 
     @Override
@@ -81,4 +82,10 @@ public class PostDaoImpl implements PostDao {
         em.remove(getPostById(id));
         em.flush();
     }
+
+    public Tag getTag(String tagName) {
+        return (Tag) em.createQuery(SELECT_TAG_BY_NAME).setParameter("name", tagName).getSingleResult();
+    }
 }
+
+
