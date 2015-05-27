@@ -5,6 +5,7 @@ import org.pepsik.persistence.TagDao;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -20,7 +21,7 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public void createTag(Tag tag) {
-
+        em.persist(tag);
     }
 
     @Override
@@ -30,11 +31,20 @@ public class TagDaoImpl implements TagDao {
 
     @Override
     public void updateTag(Tag tag) {
-
+        em.merge(tag);
     }
 
     @Override
     public void deleteTag(Tag tag) {
+    }
 
+    @Override
+    public boolean isExistTag(String name) {
+        try {
+            getTag(name);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
     }
 }

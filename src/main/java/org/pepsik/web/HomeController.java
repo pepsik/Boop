@@ -28,4 +28,9 @@ public class HomeController {
     public String loginFailPage() {
         return "login_fail";
     }
+
+    @RequestMapping(value = "/registration_successful")
+    public String registrationSuccessful() {
+        return "user/registration_successful";
+    }
 }

@@ -19,4 +19,8 @@
         <put-attribute name="content" value="/WEB-INF/views/user/favorites.jsp"/>
     </definition>
 
+    <definition name="user/registration_successful" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/user/registration_successful.jsp"/>
+    </definition>
+
 </tiles-definitions>

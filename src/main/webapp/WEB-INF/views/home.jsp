@@ -13,7 +13,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<!DOCTYPE html>
+<html lang="en">
+<body>
 <head>
     <title>Welcome</title>
 </head>
@@ -30,11 +32,9 @@
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
-
                     <h3><a class="label label-primary" href="${post_url}">
                         <c:out value="${post.title}"/>
                     </a>
-
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>
                             <c:choose>
@@ -42,7 +42,8 @@
                                     <button id="favorite${post.id}"
                                             onclick="removeFavorite(${post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
-                                            class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok">&nbsp;${post.favoriteCount}</span>
+                                            class="btn btn-success btn-sm"><span
+                                            class="glyphicon glyphicon-ok">&nbsp;${post.favoriteCount}</span>
                                     </button>
                                 </c:when>
                                 <c:otherwise>
@@ -54,16 +55,13 @@
                                 </c:otherwise>
                             </c:choose>
                         </sec:authorize>
-
                     </h3>
-                        <c:forEach var="tag" items="${post.tags}">
-                            &nbsp;&nbsp;
-                            <span class="tag label label-default">
-                                <span>${tag.name}</span>
-                            </span>
-                        </c:forEach>
+                    <c:forEach var="tag" items="${post.tags}">
+                        &nbsp;&nbsp;
+                        <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
+                    </c:forEach>
 
-                    <div class="post summernote">
+                    <div id="post_text" class="post summernote">
                             ${post.text}
                     </div>
                     <div class="formHolder author text-info">
@@ -77,7 +75,6 @@
                                 class="badge">${post.comments.size()}</span>
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                            <%--<sec:authentication property="principal.username" var="authorizedUser"/>--%>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <c:set var="access" value="${true}" scope="page"/>
                             </sec:authorize>
@@ -104,10 +101,21 @@
             </div>
 
             <script type="text/javascript">
-                $(document).ready(function () {
                     $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
                         getComments(${post.id}, ${loop.count});
                     });
+
+                $('#post_text').readmore({
+                    speed: 500,
+                    collapsedHeight: 650,
+                    moreLink: '<a class="bg-info" href="#">Read more</a>',
+                    lessLink: '<a class="bg-info" href="#">Close</a>',
+
+                    afterToggle: function (trigger, element, expanded) {
+                        if (!expanded) {
+                            $('html, body').animate({scrollTop: $(element).offset().top}, {duration: 500});
+                        }
+                    }
                 });
             </script>
 
@@ -136,4 +144,5 @@
         </c:choose>
     </ul>
 </div>
-
+</body>
+</html>

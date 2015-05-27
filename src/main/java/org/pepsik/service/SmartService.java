@@ -16,7 +16,7 @@ public interface SmartService {
 
     List<Post> getPostsByPage(int pageIndex);
 
-    void addFavorite(long postId);
+    void saveFavorite(long postId);
 
     List<Favorite> getFavorites(String username);
 
@@ -58,7 +58,9 @@ public interface SmartService {
 
     long getPagesCount();
 
-    List<Post> getTaggedPosts(String tag);
+    void saveTag(Tag tag);
+
+    Tag getTag(String name);
 
     boolean isExistTag(String tag);
 }

@@ -22,7 +22,7 @@
 
         // Scrolling Core
         frameRate        : 450, // [Hz]
-        animationTime    : 400, // [px]
+        animationTime    : 300, // [px]
         stepSize         : 120, // [px]
 
         // Pulse (less tweakable)

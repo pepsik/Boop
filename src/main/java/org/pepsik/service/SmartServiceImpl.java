@@ -6,6 +6,7 @@ import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.model.Profile;
 import org.pepsik.model.support.FavoriteComparator;
+import org.pepsik.model.support.PostComparator;
 import org.pepsik.persistence.*;
 import org.pepsik.web.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -58,14 +59,13 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public List<Post> getPostsByPage(int pageIndex) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (loggedUser.equals("guest"))
-            return postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
-
         List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
-        checkFavorites(postsByPage);
-
         for (Post post : postsByPage)
             post.getComments().size();
+
+        if (loggedUser.equals("guest"))
+            return postsByPage;
+        checkFavorites(postsByPage);
         return postsByPage;
     }
 
@@ -85,9 +85,6 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public Post getPost(long postId) {
-        if (!isExistPost(postId))
-            throw new ResourceNotFoundException();
-
         Post post = postDao.getPostById(postId);
         post.getComments().size();
         return post;
@@ -133,7 +130,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistPost(long id) {
         try {
-            postDao.getPostById(id);
+            getPost(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -180,9 +177,6 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public User getUser(String username) {
-        if (!isExistUsername(username))
-            throw new ResourceNotFoundException(); //temp except
-
         return userAccountDao.getUserByUsername(username);
     }
 
@@ -206,7 +200,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistUsername(String username) {
         try {
-            userAccountDao.getUserByUsername(username);
+            getUser(username);
         } catch (NoResultException ex) {
             return false;
         }
@@ -265,7 +259,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistComment(long id) {
         try {
-            commentDao.getCommentById(id);
+            getComment(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -283,7 +277,7 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
-    public void addFavorite(long postId) {
+    public void saveFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = getUser(loggedUser);
         Post post = getPost(postId);
@@ -320,21 +314,34 @@ public class SmartServiceImpl implements SmartService {
         post.setFavoriteCount(post.getFavoriteCount() - 1);
     }
 
+    @Override
+    public Tag getTag(String name) {
+        Tag tag = tagDao.getTag(name);
+        tag.getAuthor().toString();         //TODO: lazy post.comments - to a separate method?
+        for (Post post : tag.getPosts())
+            post.getComments().size();
+
+        Collections.sort(tag.getPosts(), Collections.reverseOrder(new PostComparator()));
+        return tag;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void saveTag(Tag tag) {
+        if (tag.getId() == 0)
+            tagDao.createTag(tag);
+        else
+            tagDao.updateTag(tag);
+    }
+
+    @Override
     public boolean isExistTag(String tagName) {
         try {
-            tagDao.getTag(tagName);
+            getTag(tagName);
         } catch (NoResultException exception) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public List<Post> getTaggedPosts(String tagName) {
-        if (!isExistTag(tagName))
-            return new LinkedList<>();
-
-        Tag tag = tagDao.getTag(tagName);
-        return tag.getPosts();
-    }
 }

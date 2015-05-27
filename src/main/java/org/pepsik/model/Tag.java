@@ -32,6 +32,9 @@ public class Tag {
     @Size(min = 3, max = 300)
     private String description;
 
+    @Column(name = "image")
+    private String imageUrl;
+
     @Column(name = "posts_count")
     private int postsCount;
 
@@ -81,6 +84,14 @@ public class Tag {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getPostsCount() {

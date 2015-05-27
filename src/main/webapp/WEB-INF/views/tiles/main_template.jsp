@@ -5,7 +5,8 @@
 <html lang="en">
 <head>
     <%--<link rel="shortcut icon" href="<s:url value="/resources" />/favicon.png" />--%>
-    <link rel="shortcut icon" href="http://emojipedia.org/wp-content/uploads/2014/04/128x128x1f60e-google-android.png.pagespeed.ic.f3O6TlEr2A.png" />
+    <link rel="shortcut icon"
+          href="http://emojipedia.org/wp-content/uploads/2014/04/128x128x1f60e-google-android.png.pagespeed.ic.f3O6TlEr2A.png"/>
     <!-- Main css =(-->
     <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
 
@@ -15,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    <!-- Summernote  -->
+    <!-- Summernote -->
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
           type="text/css"/>
     <link href="${pageContext.request.contextPath}/resources/summernote/summernote.css" rel="stylesheet"
@@ -36,12 +37,13 @@
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
     <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/"></script>
+    <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
-<div id="container">
+<div id="container" class="container-fluid">
 
     <div class="content-holder">
         <div id="top">

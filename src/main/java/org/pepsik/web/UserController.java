@@ -83,7 +83,7 @@ public class UserController {
             return "user/create";
 
         service.saveProfile(profile);
-        return "redirect:/user/" + profile.getUser().getUsername();
+        return "redirect:/registration_successful";
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)

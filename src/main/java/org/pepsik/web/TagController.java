@@ -20,7 +20,7 @@ public class TagController {
 
     @RequestMapping(value = "/{tagName}", method = RequestMethod.GET, produces = "text/html")
     public String getTaggedPosts(@PathVariable String tagName, Model model) {
-        model.addAttribute(service.getTaggedPosts(tagName));
+        model.addAttribute(service.getTag(tagName));      //valid tagname
         return "tag/posts";
     }
 }
