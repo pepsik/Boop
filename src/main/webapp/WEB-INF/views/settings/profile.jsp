@@ -16,7 +16,7 @@
 
 <s:url var="user_url" value="/settings/profile"/>
 
-<div class="container col-md-8">
+<div class="container-fluid col-sm-8">
     <div class="panel panel-default">
         <div class="panel-heading"><b>Public Profile</b></div>
         <div class="panel-body">

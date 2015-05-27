@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="col-sm-4">
+<div class="container-fluid col-sm-4">
     <div class="list-group">
             <span class="list-group-item list-group-item-info">
                 <b>Personal Settings</b>

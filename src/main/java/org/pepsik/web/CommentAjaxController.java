@@ -41,9 +41,6 @@ public class CommentAjaxController {
     @RequestMapping(value = "/comment.ajax", method = RequestMethod.POST, consumes = "application/json", produces = "text/html")
     @ResponseStatus(HttpStatus.CREATED)
     public String postComment(@PathVariable("postId") long postId, @RequestBody @Valid Comment comment, BindingResult result, Model model, HttpSession session) throws IOException {
-        if (!service.isExistPost(postId))
-            throw new ResourceNotFoundException();
-
         if (result.hasErrors()) {
             session.setAttribute("errors", result);
             throw new BadRequestException();
@@ -59,9 +56,6 @@ public class CommentAjaxController {
     @RequestMapping(value = "/comments.ajax", method = RequestMethod.GET, produces = "text/html")
     @ResponseStatus(HttpStatus.OK)
     public String getComments(@PathVariable("postId") long postId, Model model) {
-        if (!service.isExistPost(postId))
-            throw new ResourceNotFoundException();
-
         model.addAttribute(service.getPost(postId).getComments());
 //        logger.info(service.getPost(postId).getComments().toString());
         model.addAttribute("post_id", postId);

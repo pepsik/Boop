@@ -19,6 +19,7 @@
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="resources/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <mvc:resources mapping="/bower/**" location="classpath:/bower_components/"/>
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>

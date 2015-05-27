@@ -5,8 +5,9 @@ import org.joda.time.DateTime;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.model.Profile;
-import org.pepsik.model.support.PostComparator;
+import org.pepsik.model.support.FavoriteComparator;
 import org.pepsik.persistence.*;
+import org.pepsik.web.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class SmartServiceImpl implements SmartService {
     @Autowired
     private TagDao tagDao;
 
+    @Autowired
+    private FavoriteDao favoriteDao;
+
     @Override
     public List<Post> getAllPosts() {
         return postDao.getAllPosts();
@@ -57,22 +61,34 @@ public class SmartServiceImpl implements SmartService {
         if (loggedUser.equals("guest"))
             return postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
 
-        List<Post> userFavorites = getFavorites(loggedUser);
-
         List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
-        List<Post> matches = ListUtils.retainAll(postsByPage, userFavorites);
-        for (Post post : matches)
-            post.setFavorite(true);
+        checkFavorites(postsByPage);
 
-        for (Post post : postsByPage) //TODO:temp init comments size
+        for (Post post : postsByPage)
             post.getComments().size();
-
         return postsByPage;
     }
 
+    private void checkFavorites(List<Post> pagePosts) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Favorite> favorites = getFavorites(loggedUser);
+        List<Post> favoritePosts = new LinkedList<>();
+
+        for (Favorite favorite : favorites)
+            favoritePosts.add(favorite.getPost());
+
+        List<Post> matches = ListUtils.retainAll(pagePosts, favoritePosts);
+        for (Post post : matches)
+            post.setFavorite(true);
+
+    }
+
     @Override
-    public Post getPost(long id) {
-        Post post = postDao.getPostById(id);
+    public Post getPost(long postId) {
+        if (!isExistPost(postId))
+            throw new ResourceNotFoundException();
+
+        Post post = postDao.getPostById(postId);
         post.getComments().size();
         return post;
     }
@@ -164,6 +180,9 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public User getUser(String username) {
+        if (!isExistUsername(username))
+            throw new ResourceNotFoundException(); //temp except
+
         return userAccountDao.getUserByUsername(username);
     }
 
@@ -267,23 +286,28 @@ public class SmartServiceImpl implements SmartService {
     public void addFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = getUser(loggedUser);
-        user.getFavorites().add(getPost(postId));
-        userAccountDao.updateUser(user);
+        Post post = getPost(postId);
+        post.setFavoriteCount(post.getFavoriteCount() + 1);
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        favorite.setPost(post);
+        favorite.setAddedDate(new DateTime());
+        favoriteDao.addFavorite(favorite);
     }
 
     @Override
-    public List<Post> getFavorites(String username) {
+    public List<Favorite> getFavorites(String username) {
         User user = getUser(username);
-        List<Post> postList = new LinkedList<>(user.getFavorites());
-        Comparator comparator = new PostComparator();
-        Collections.sort(postList, comparator);
-        Collections.sort(postList, Collections.reverseOrder(comparator));
+        Set<Favorite> favoritesSet = user.getFavorites();
+        Comparator<Favorite> comparator = new FavoriteComparator();
+        List<Favorite> favoriteList = new LinkedList<>(favoritesSet);
+        Collections.sort(favoriteList, Collections.reverseOrder(comparator));
 
-        for (Post post : postList) {
-            post.setFavorite(true);
-            post.getComments().size();
+        for (Favorite favorite : favoriteList) {
+            favorite.getPost().setFavorite(true);
+            favorite.getPost().getComments().size();
         }
-        return postList;
+        return favoriteList;
     }
 
     @Override
@@ -291,9 +315,9 @@ public class SmartServiceImpl implements SmartService {
     public void removeFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = getUser(loggedUser);
-
-        user.getFavorites().remove(getPost(postId));
-        userAccountDao.updateUser(user);
+        favoriteDao.deleteFavorite(postId, user.getId());
+        Post post = getPost(postId);
+        post.setFavoriteCount(post.getFavoriteCount() - 1);
     }
 
     public boolean isExistTag(String tagName) {

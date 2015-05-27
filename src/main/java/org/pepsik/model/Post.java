@@ -28,6 +28,12 @@ public class Post extends MessageEntity implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
     private Set<Tag> tags;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites;
+
+    @Column(name = "favorite_count")
+    private int favoriteCount;
+
     @Transient
     private boolean isFavorite = false;
 
@@ -55,12 +61,28 @@ public class Post extends MessageEntity implements Serializable {
         this.tags = tags;
     }
 
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
     public boolean isFavorite() {
         return isFavorite;
     }
 
     public void setFavorite(boolean isFavorite) {
         this.isFavorite = isFavorite;
+    }
+
+    public Set<Favorite> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(Set<Favorite> favorites) {
+        this.favorites = favorites;
     }
 
     @Override

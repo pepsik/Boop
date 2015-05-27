@@ -1,7 +1,6 @@
 package org.pepsik.model;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,11 +23,8 @@ public class User {
     @PrimaryKeyJoinColumn
     private Profile profile;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_favorites",
-            joinColumns = {@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")})
-    private Set<Post> favorites;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Favorite> favorites;
 
 //    private Settings settings;
 
@@ -65,11 +61,20 @@ public class User {
         this.profile = profile;
     }
 
-    public Set<Post> getFavorites() {
+//    public Set<Post> getFavorites() {
+//        return favorites;
+//    }
+//
+//    public void setFavorites(Set<Post> favorites) {
+//        this.favorites = favorites;
+//    }
+
+
+    public Set<Favorite> getFavorites() {
         return favorites;
     }
 
-    public void setFavorites(Set<Post> favorites) {
+    public void setFavorites(Set<Favorite> favorites) {
         this.favorites = favorites;
     }
 
@@ -79,7 +84,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", profile=" + profile +
-                ", favorites=" + favorites.size() +
+//                ", favorites=" + favorites.size() +
                 '}';
     }
 }

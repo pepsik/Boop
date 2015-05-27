@@ -18,7 +18,7 @@
     <title>Welcome</title>
 </head>
 
-<div>
+<div class="container-fluid">
     <ol>
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -42,7 +42,7 @@
                                     <button id="favorite${post.id}"
                                             onclick="removeFavorite(${post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
-                                            class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span>
+                                            class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok">&nbsp;${post.favoriteCount}</span>
                                     </button>
                                 </c:when>
                                 <c:otherwise>

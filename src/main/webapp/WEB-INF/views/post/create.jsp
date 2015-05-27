@@ -30,7 +30,7 @@
             <br>
 
             <div class="submit">
-                <button type="submit" class="btn btn-success"><spring:message code="button.post.new.create"/></button>
+                <button type="submit" onclick="autolink('summernote')" class="btn btn-success"><spring:message code="button.post.new.create"/></button>
             </div>
         </sf:form>
     </div>

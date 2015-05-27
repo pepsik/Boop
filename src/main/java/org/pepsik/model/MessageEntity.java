@@ -68,7 +68,7 @@ public abstract class MessageEntity  {
     public String toString() {
         return "MessageEntity{" +
                 "user=" + user.getId() +
-                ", text='" + text + '\'' +
+                ", text='" + text.length() + '\'' +
                 ", when=" + when +
                 "} " + super.toString();
     }

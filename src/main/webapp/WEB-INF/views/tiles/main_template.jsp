@@ -34,8 +34,9 @@
     <!-- SmartSite js,css-->
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/Autolinker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
+    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 </head>
 

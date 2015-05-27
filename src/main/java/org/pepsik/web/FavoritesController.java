@@ -39,9 +39,6 @@ public class FavoritesController {
     public void addFavorite(@RequestBody String postId) {
         try {
             long id = Long.parseLong(postId);
-            if (!service.isExistPost(id))
-                throw new ResourceNotFoundException();
-
             service.addFavorite(id);
         } catch (NumberFormatException exp) {
             throw new ResourceNotFoundException();
@@ -53,11 +50,6 @@ public class FavoritesController {
     public void removeFavorite(@RequestBody String postId) {
         try {
             long id = Long.parseLong(postId, 10);
-            logger.info(Long.toString(id));
-
-            if (!service.isExistPost(id))
-                throw new ResourceNotFoundException();
-
             service.removeFavorite(id);
         } catch (NumberFormatException exp) {
             throw new ResourceNotFoundException();
