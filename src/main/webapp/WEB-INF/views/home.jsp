@@ -13,9 +13,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<body>
 <head>
     <title>Welcome</title>
 </head>
@@ -61,9 +58,12 @@
                         <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
 
-                    <div id="post_text" class="post summernote">
-                            ${post.text}
-                    </div>
+                    <article>
+                        <div class="post summernote">
+                                ${post.text}
+                        </div>
+                    </article>
+
                     <div class="formHolder author text-info">
                         <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
@@ -101,13 +101,9 @@
             </div>
 
             <script type="text/javascript">
-                    $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
-                        getComments(${post.id}, ${loop.count});
-                    });
-
-                $('#post_text').readmore({
+                $('article').readmore({
                     speed: 500,
-                    collapsedHeight: 650,
+                    collapsedHeight: 550,
                     moreLink: '<a class="bg-info" href="#">Read more</a>',
                     lessLink: '<a class="bg-info" href="#">Close</a>',
 
@@ -117,6 +113,22 @@
                         }
                     }
                 });
+
+                var collapseButton = $("#button" + '${loop.count}');
+                collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
+                    getComments(${post.id}, ${loop.count});
+                });
+
+                collapseButton.on('shown.bs.collapse', function (e) {
+                    var id = $(e.target).prev().find("[id]")[0].id;
+                    navigateToElement(id);
+                })
+
+                function navigateToElement(id) {
+                    $('html, body').animate({
+                        scrollTop: $("#" + id).offset().top
+                    }, 1000);
+                }
             </script>
 
         </c:forEach>
@@ -144,5 +156,3 @@
         </c:choose>
     </ul>
 </div>
-</body>
-</html>

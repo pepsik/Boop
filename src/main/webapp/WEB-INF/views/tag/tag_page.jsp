@@ -86,7 +86,7 @@
                             <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                         </c:forEach>
 
-                        <div class="post summernote">
+                        <div id="readmore${loop.count}" class="post summernote">
                                 ${post.text}
                         </div>
                         <div class="formHolder author text-info">
@@ -125,10 +125,8 @@
                 </div>
 
                 <script type="text/javascript">
-                    $(document).ready(function () {
-                        $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
-                            getComments(${post.id}, ${loop.count});
-                        });
+                    $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
+                        getComments(${post.id}, ${loop.count});
                     });
                 </script>
 

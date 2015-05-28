@@ -43,7 +43,8 @@
                                             onclick="removeFavorite(${favorite.post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
                                             class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span>
-                                        &nbsp;<b>added</b>&nbsp;<joda:format value="${favorite.addedDate}" pattern="d/M/yy"/>
+                                        &nbsp;<b>added</b>&nbsp;<joda:format value="${favorite.addedDate}"
+                                                                             pattern="d/M/yy"/>
                                     </button>
                                 </c:when>
                                 <c:otherwise>
@@ -57,17 +58,15 @@
                         </sec:authorize>
 
                     </h3>
-
                     <c:forEach var="tag" items="${favorite.post.tags}">
                         &nbsp;&nbsp;
-                            <span class="tag label label-default">
-                                <span>${tag.name}</span>
-                            </span>
+                        <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
-
-                    <div class="post summernote">
-                            ${favorite.post.text}
-                    </div>
+                    <article>
+                        <div class="post summernote">
+                                ${favorite.post.text}
+                        </div>
+                    </article>
                     <div class="formHolder author text-info">
                         <small><joda:format value="${favorite.post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
@@ -104,11 +103,33 @@
             </div>
 
             <script type="text/javascript">
-                $(document).ready(function () {
-                    $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
-                        getComments(${favorite.post.id}, ${loop.count});
-                    });
+                $('article').readmore({
+                    speed: 500,
+                    collapsedHeight: 550,
+                    moreLink: '<a class="bg-info" href="#">Read more</a>',
+                    lessLink: '<a class="bg-info" href="#">Close</a>',
+
+                    afterToggle: function (trigger, element, expanded) {
+                        if (!expanded) {
+                            $('html, body').animate({scrollTop: $(element).offset().top}, {duration: 500});
+                        }
+                    }
                 });
+                var collapseButton = $("#button" + '${loop.count}');
+                collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
+                    getComments(${favorite.post.id}, ${loop.count});
+                });
+
+                collapseButton.on('shown.bs.collapse', function (e) {
+                    var id = $(e.target).prev().find("[id]")[0].id;
+                    navigateToElement(id);
+                })
+
+                function navigateToElement(id) {
+                    $('html, body').animate({
+                        scrollTop: $("#" + id).offset().top
+                    }, 1000);
+                }
             </script>
 
         </c:forEach>

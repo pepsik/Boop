@@ -27,17 +27,18 @@
 
     <!-- Bootstrap Tags input-->
     <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.css"></script>
+    <%--<script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.css"></script>  errors--%>
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
     <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 
     <!-- SmartSite js,css-->
+    <%--<script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>--%>
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
-    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
 </head>

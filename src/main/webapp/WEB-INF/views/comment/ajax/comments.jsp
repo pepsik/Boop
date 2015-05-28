@@ -5,7 +5,7 @@
 
 <div>
     <c:forEach var="commentIndex" items="${commentList}">
-        <c:set var="post" value="${commentIndex}" scope="request"/>
+        <c:set var="comment" value="${commentIndex}" scope="request"/>
         <jsp:include page="comment.jsp"/>
     </c:forEach>
     <sec:authorize access="isAuthenticated()">
