@@ -40,7 +40,6 @@ public class PostController {
             public void setAsText(String text) throws IllegalArgumentException {
                 if (text.equals(""))
                     return;
-
                 List<String> tagsList = Arrays.asList(text.split(","));
                 Set<Tag> tags = new HashSet<>();
                 for (String stringTag : tagsList) {
@@ -55,10 +54,8 @@ public class PostController {
             public String getAsText() {
                 Set<Tag> tags = (Set<Tag>) getValue();
                 String stringTags = "";
-
                 if (tags == null || tags.size() == 0)
                     return stringTags;
-
                 Iterator<Tag> iterator = tags.iterator();
                 stringTags += iterator.next().getName();
                 while (iterator.hasNext())
@@ -84,10 +81,8 @@ public class PostController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String createPost(@Valid Post post, BindingResult result) {
-
         if (result.hasErrors())
             return "post/create";
-
         post.setWhen(new DateTime());
         service.savePost(post);
         return "redirect:/home";
@@ -101,10 +96,8 @@ public class PostController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public String updatePost(@PathVariable("id") long id, @Valid @ModelAttribute("post") Post updatedPost, BindingResult result, HttpSession session) {
-
         if (result.hasErrors())
             return "post/edit";
-
         final Post post = (Post) session.getAttribute("post");
         updatedPost.setId(post.getId());
         updatedPost.setWhen(post.getWhen());

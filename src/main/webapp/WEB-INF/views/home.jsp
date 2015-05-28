@@ -18,7 +18,7 @@
 </head>
 
 <div class="container-fluid">
-    <ol>
+    <ol type="none">
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${post.id}"/>
@@ -47,7 +47,8 @@
                                     <button id="favorite${post.id}"
                                             onclick="addFavorite(${post.id}, '${authorizedUser}')"
                                             style="float: right; margin-right: 20px"
-                                            class="btn btn-info btn-sm"><span class="glyphicon glyphicon-star"></span>
+                                            class="btn btn-primary btn-sm"><span
+                                            class="glyphicon glyphicon-star"></span>
                                     </button>
                                 </c:otherwise>
                             </c:choose>
@@ -58,18 +59,20 @@
                         <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
 
-                    <article>
-                        <div class="post summernote">
-                                ${post.text}
-                        </div>
-                    </article>
+                    <section>
+                        <article>
+                            <div class="post summernote">
+                                    ${post.text}
+                            </div>
+                        </article>
+                    </section>
 
                     <div class="formHolder author text-info">
                         <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
                             <a href="${user_url}">${post.user.username}</a>
                         </small>
-                        <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
+                        <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                 data-target="#button${loop.count}">
                             <spring:message code="button.comment.hide"/> &nbsp;<span
                                 class="badge">${post.comments.size()}</span>
@@ -101,19 +104,6 @@
             </div>
 
             <script type="text/javascript">
-                $('article').readmore({
-                    speed: 500,
-                    collapsedHeight: 550,
-                    moreLink: '<a class="bg-info" href="#">Read more</a>',
-                    lessLink: '<a class="bg-info" href="#">Close</a>',
-
-                    afterToggle: function (trigger, element, expanded) {
-                        if (!expanded) {
-                            $('html, body').animate({scrollTop: $(element).offset().top}, {duration: 500});
-                        }
-                    }
-                });
-
                 var collapseButton = $("#button" + '${loop.count}');
                 collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
                     getComments(${post.id}, ${loop.count});
@@ -156,3 +146,5 @@
         </c:choose>
     </ul>
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>

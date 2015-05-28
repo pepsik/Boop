@@ -46,6 +46,7 @@
                                 <span>${tag.name}</span>
                             </span>
         </c:forEach>
+
         <div class="post">
             <div class="summernote">${post.text}</div>
         </div>

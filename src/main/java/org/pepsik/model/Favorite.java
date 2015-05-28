@@ -64,6 +64,24 @@ public class Favorite {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Favorite favorite = (Favorite) o;
+
+        return post.equals(favorite.post);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user.hashCode();
+        result = 31 * result + post.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Favorite{" +
                 "id=" + id +

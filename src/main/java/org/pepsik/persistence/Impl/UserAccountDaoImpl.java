@@ -17,7 +17,6 @@ public class UserAccountDaoImpl implements UserAccountDao {
     public static final String SELECT_USER_BY_USERNAME = "SELECT user FROM User user WHERE user.username=:username";
     public static final String INSERT_USER_AUTHORITY = "INSERT INTO users_authority (user_id_fk, role_id_fk)  values (:id , 2)";
 
-
     @PersistenceContext
     private EntityManager em;
 

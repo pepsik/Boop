@@ -2,6 +2,7 @@ package org.pepsik.web;
 
 import org.pepsik.service.SmartService;
 import org.pepsik.web.exception.ResourceNotFoundException;
+import org.pepsik.web.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class FavoritesController {
     @RequestMapping(method = RequestMethod.GET, produces = "text/html")
     public String getUserFavorites(@PathVariable String username, Model model) {
         if (!service.isExistUsername(username))
-            throw new ResourceNotFoundException();
-
+            throw new UserNotFoundException();
         model.addAttribute(service.getFavorites(username));
+        model.addAttribute("username", username);
         return "user/favorites";
     }
 

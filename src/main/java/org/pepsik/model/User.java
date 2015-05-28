@@ -1,6 +1,10 @@
 package org.pepsik.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -12,12 +16,16 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
+    @NotNull
+    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{3,15}$")
     @Column
     private String username;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Valid
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
-    private UserPassword userPassword;
+    private Password userPassword;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn
@@ -45,11 +53,11 @@ public class User {
         this.username = username;
     }
 
-    public UserPassword getUserPassword() {
+    public Password getUserPassword() {
         return userPassword;
     }
 
-    public void setUserPassword(UserPassword password) {
+    public void setUserPassword(Password password) {
         this.userPassword = password;
     }
 
@@ -61,15 +69,6 @@ public class User {
         this.profile = profile;
     }
 
-//    public Set<Post> getFavorites() {
-//        return favorites;
-//    }
-//
-//    public void setFavorites(Set<Post> favorites) {
-//        this.favorites = favorites;
-//    }
-
-
     public Set<Favorite> getFavorites() {
         return favorites;
     }
@@ -79,12 +78,28 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        return username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", profile=" + profile +
-//                ", favorites=" + favorites.size() +
+                ", favorites=" + favorites.size() +
                 '}';
     }
 }

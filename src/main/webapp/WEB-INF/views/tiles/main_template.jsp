@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%--<link rel="shortcut icon" href="<s:url value="/resources" />/favicon.png" />--%>
     <link rel="shortcut icon"
           href="http://emojipedia.org/wp-content/uploads/2014/04/128x128x1f60e-google-android.png.pagespeed.ic.f3O6TlEr2A.png"/>
     <!-- Main css =(-->
@@ -13,7 +12,8 @@
     <!-- Bootstrap -->
     <link href="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"
           type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <!-- Summernote -->
@@ -27,7 +27,6 @@
 
     <!-- Bootstrap Tags input-->
     <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.js"></script>
-    <%--<script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.css"></script>  errors--%>
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
     <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
@@ -41,6 +40,9 @@
     <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
     <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
+
+    <%--<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.min.js"></script>--%>
+    <%--<script src="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.min.css"></script>--%>
 </head>
 
 <body>
@@ -60,7 +62,7 @@
                     <img src="<s:url value="/resources" />/images/logo1.png">
                 </div>
                 <div class="item">
-                    <img src="<s:url value="/resources" />/images/logo3.png">
+                    <img src="<s:url value="/resources" />/images/logo4.png">
                 </div>
             </div>
 

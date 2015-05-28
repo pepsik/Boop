@@ -14,13 +14,12 @@
     <title>Account</title>
 </head>
 
-<s:url var="user_url" value="/settings/user"/>
-
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><b>Change password</b></div>
         <div class="panel-body">
-            <form:form id="account_password_change" modelAttribute="password" action="${user_url}" method="put" class="form-horizontal">
+            <form:form id="account_password_change" modelAttribute="passwordForm" method="put" class="form-horizontal"
+                       action="/settings/account/password">
                 <div class="form-group col-md-10">
                     <label for="old_password" class="col-md-6">Old password</label>
                     <input type="password" name="old_password" id="old_password"
@@ -49,7 +48,7 @@
                            value=""
                            data-trigger="manual"
                            data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
-                <form:errors path="repeat_new_password" cssClass="label label-danger"/>
+                    <form:errors path="repeat_new_password" cssClass="label label-danger"/>
                 </div>
             </form:form>
         </div>
@@ -62,7 +61,7 @@
         <div class="panel-heading"><b>Change username</b></div>
         <div class="panel-body">
             <form:form id="account_username_change" modelAttribute="user" class="form-horizontal" method="put"
-                       action="${user_url}">
+                       action="/settings/account/username">
                 <div class="form-group col-md-10">
                     <label for="username" class="col-md-6"><spring:message code="label.username"/></label>
                     <spring:bind path="user.username">

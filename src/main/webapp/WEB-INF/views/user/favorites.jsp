@@ -13,14 +13,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<sec:authentication property="principal.username" var="authorizedUser"/>
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.username" var="authorizedUser"/>
+</sec:authorize>
 <head>
-    <title>Favorites / ${authorizedUser}</title>
+    <title>Favorites / ${username}</title>
 </head>
 
 <div class="container-fluid">
-    <h2><span class="label label-info">Favorites &nbsp;${authorizedUser}</span></h2>
+    <h2><span class="label label-info">Favorites &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="favorite" items="${favoriteList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -36,7 +37,6 @@
                         <c:out value="${favorite.post.title}"/>
                     </a>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-
                             <c:choose>
                                 <c:when test="${favorite.post.favorite == true}">
                                     <button id="favorite${favorite.post.id}"
@@ -62,11 +62,13 @@
                         &nbsp;&nbsp;
                         <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
+
                     <article>
                         <div class="post summernote">
                                 ${favorite.post.text}
                         </div>
                     </article>
+
                     <div class="formHolder author text-info">
                         <small><joda:format value="${favorite.post.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
@@ -78,7 +80,6 @@
                                 class="badge">${favorite.post.comments.size()}</span>
                         </button>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                            <sec:authentication property="principal.username" var="authorizedUser"/>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <c:set var="access" value="${true}" scope="page"/>
                             </sec:authorize>
@@ -103,18 +104,6 @@
             </div>
 
             <script type="text/javascript">
-                $('article').readmore({
-                    speed: 500,
-                    collapsedHeight: 550,
-                    moreLink: '<a class="bg-info" href="#">Read more</a>',
-                    lessLink: '<a class="bg-info" href="#">Close</a>',
-
-                    afterToggle: function (trigger, element, expanded) {
-                        if (!expanded) {
-                            $('html, body').animate({scrollTop: $(element).offset().top}, {duration: 500});
-                        }
-                    }
-                });
                 var collapseButton = $("#button" + '${loop.count}');
                 collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
                     getComments(${favorite.post.id}, ${loop.count});
@@ -135,3 +124,6 @@
         </c:forEach>
     </ol>
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>
+

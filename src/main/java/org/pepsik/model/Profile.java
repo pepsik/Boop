@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -16,12 +17,13 @@ public class Profile {
     @Column(name = "user_id_fk")
     private long id;
 
+    @Valid
     @MapsId
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "profile")
     @JoinColumn(name = "user_id_fk")
     private User user;
 
-    @Size(min = 3, max = 20) //TODO: valid
+    @Size(min = 3, max = 20)
     @Column(name = "email")
     private String email;
 

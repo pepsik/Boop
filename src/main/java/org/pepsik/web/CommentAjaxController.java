@@ -59,7 +59,7 @@ public class CommentAjaxController {
         model.addAttribute(service.getPost(postId).getComments());
 //        logger.info(service.getPost(postId).getComments().toString());
         model.addAttribute("post_id", postId);
-        return "comment/ajax/comments";
+        return "comment/ajax/list_comments";
     }
 
     @RequestMapping(value = "/comment/{commentId}.ajax", method = RequestMethod.PUT, consumes = "application/json")

@@ -54,6 +54,8 @@ public interface SmartService {
 
     boolean isExistUsername(String username);
 
+    boolean isExistUsername(long id);
+
     boolean isExistPost(long id);
 
     long getPagesCount();

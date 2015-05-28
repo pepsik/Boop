@@ -5,13 +5,18 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.pepsik.model.Profile;
 import org.pepsik.model.User;
-import org.pepsik.model.UserPassword;
+import org.pepsik.model.Password;
+import org.pepsik.model.support.EmailForm;
+import org.pepsik.model.support.MutableUserDetails;
 import org.pepsik.service.SmartService;
 import org.pepsik.model.support.PasswordForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +24,7 @@ import org.springframework.validation.*;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
@@ -60,11 +66,10 @@ public class UserSettingsController {
             }
         });
 
-        binder.registerCustomEditor(String.class, "password", new PropertyEditorSupport() {
+        binder.registerCustomEditor(String.class, "old_password", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) throws IllegalArgumentException {
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                setValue(encoder.encode(text));
+                setValue(text);
             }
 
             @Override
@@ -102,32 +107,54 @@ public class UserSettingsController {
     public String getAccount(Model model, HttpSession session) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = service.getUser(loggedUser);
-        session.setAttribute("account", user);
+        session.setAttribute("user", user);
         model.addAttribute(user);
         model.addAttribute(new PasswordForm());
         return "settings/account";
     }
 
-    @RequestMapping(value = "/account", method = RequestMethod.PUT, produces = "text/html")
-    public String updateAccount(@Valid PasswordForm password, BindingResult result, HttpSession session, Model model) {
+    @RequestMapping(value = "/account/password", method = RequestMethod.PUT, produces = "text/html")
+    public String updateAccountPassword(@Valid PasswordForm password, BindingResult result, HttpSession session, Model model) {
 
         final User user = (User) session.getAttribute("user");
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(password.getOld_password(), user.getUserPassword().getPassword()))
-            result.addError(new FieldError("password", "old_password", "Old password isn't valid"));
+            result.addError(new FieldError("passwordForm", "old_password", "Old password isn't valid"));
 
         if (!password.getNew_password().equals(password.getRepeat_new_password()))
-            result.addError(new FieldError("password", "repeat_new_password", "Confirm password not match"));
+            result.addError(new FieldError("passwordForm", "repeat_new_password", "Confirm password not match"));
 
         if (result.hasErrors()) {
-            model.addAttribute(result);
-            return "settings/user";
+            model.addAttribute(user);
+            return "settings/account";
         }
 
-        UserPassword userPassword = user.getUserPassword();
+        Password userPassword = user.getUserPassword();
         userPassword.setPassword(encoder.encode(password.getNew_password()));
+        user.setUserPassword(userPassword);
+        service.saveUser(user);
         session.removeAttribute("user");
+        return "redirect:/settings/account";
+    }
+
+    @RequestMapping(value = "/account/username", method = RequestMethod.PUT, produces = "text/html")
+    public String updateAccountUsername(@Valid User updatedUser, BindingResult result, HttpSession session, Model model, HttpServletRequest request) {
+        if (result.hasErrors()) {
+            model.addAttribute(new PasswordForm());
+            return "settings/account";
+        }
+
+        final User user = (User) session.getAttribute("user");
+        updatedUser.setId(user.getId());
+        service.saveUser(updatedUser);
+        session.removeAttribute("user");
+
+        //changes username of authenticated user
+        MutableUserDetails mutableUserDetails = new MutableUserDetails((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        mutableUserDetails.setUsername(updatedUser.getUsername());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(mutableUserDetails, mutableUserDetails.getPassword(), mutableUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/settings/account";
     }
 
@@ -135,26 +162,31 @@ public class UserSettingsController {
     public String getEmails(Model model) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Profile profile = service.getProfile(loggedUser);
-        String email = profile.getEmail();
-        if (email == null)
-            email = "";
+        EmailForm email = new EmailForm();
 
-        model.addAttribute("email", email);
+        if (profile.getEmail() == null)
+            email.setEmail("");
+        else
+            email.setEmail(profile.getEmail());
+        model.addAttribute(email);
         return "settings/emails";
     }
 
     @RequestMapping(value = "/emails", method = RequestMethod.PUT, produces = "text/html")
-    public String updateEmails(String email, Model model) {
+    public String updateEmails(@Valid EmailForm emailForm, BindingResult result, Model model) {
+        if (result.hasErrors())
+            return "settings/emails";
+
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Profile profile = service.getProfile(loggedUser);
-        profile.setEmail(email);                   //TODO: validation email
+        profile.setEmail(emailForm.getEmail());
         service.saveProfile(profile);
-        model.addAttribute("email", email);
         return "redirect:/settings/emails";
     }
 
     @RequestMapping(value = "/security", method = RequestMethod.GET, produces = "text/html")
     public String getSecurity(Model model) {
+        //TODO: security
         return "settings/security";
     }
 }

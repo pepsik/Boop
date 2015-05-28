@@ -10,13 +10,14 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "passwords")
-public class UserPassword {
+public class Password {
 
     @Id
     @Column(name = "user_id_fk")
     private long id;
 
     @NotNull
+    @Size(min = 3, max = 60)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -52,7 +53,6 @@ public class UserPassword {
     @Override
     public String toString() {
         return "Password{" +
-                "id=" + id +
                 ", password='" + password + '\'' +
                 ", user=" + user.getId() +
                 '}';

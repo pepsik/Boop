@@ -42,6 +42,7 @@
                         <form:errors path="${status.expression}" cssClass="label label-danger"/>
                     </spring:bind>
                 </div>
+
                 <div class="form-group col-md-10">
                     <label for="gender" class="col-md-6"><spring:message code="label.gender"/></label>
                     <spring:bind path="profile.gender">
@@ -106,3 +107,4 @@
         document.getElementById(active_gender).selected = "true";
     });
 </script>
+

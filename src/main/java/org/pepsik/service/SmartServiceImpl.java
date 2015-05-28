@@ -8,7 +8,7 @@ import org.pepsik.model.Profile;
 import org.pepsik.model.support.FavoriteComparator;
 import org.pepsik.model.support.PostComparator;
 import org.pepsik.persistence.*;
-import org.pepsik.web.exception.ResourceNotFoundException;
+import org.pepsik.web.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,31 +62,21 @@ public class SmartServiceImpl implements SmartService {
         List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
         for (Post post : postsByPage)
             post.getComments().size();
-
         if (loggedUser.equals("guest"))
             return postsByPage;
-        checkFavorites(postsByPage);
+        checkPostListForFavorites(postsByPage);
         return postsByPage;
-    }
-
-    private void checkFavorites(List<Post> pagePosts) {
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Favorite> favorites = getFavorites(loggedUser);
-        List<Post> favoritePosts = new LinkedList<>();
-
-        for (Favorite favorite : favorites)
-            favoritePosts.add(favorite.getPost());
-
-        List<Post> matches = ListUtils.retainAll(pagePosts, favoritePosts);
-        for (Post post : matches)
-            post.setFavorite(true);
-
     }
 
     @Override
     public Post getPost(long postId) {
+        if (!isExistPost(postId))
+            throw new ResourceNotFoundException();
         Post post = postDao.getPostById(postId);
         post.getComments().size();
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!loggedUser.equals("guest"))
+            isFavoritePost(loggedUser, post);
         return post;
     }
 
@@ -95,7 +85,6 @@ public class SmartServiceImpl implements SmartService {
     @PreAuthorize("hasRole('ROLE_USER')")
     public void savePost(Post post) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-
         if (post.getTags() != null) {
             Set<Tag> postTags = post.getTags();
             Set<Tag> finalTags = new HashSet<>();
@@ -107,17 +96,14 @@ public class SmartServiceImpl implements SmartService {
                     tag.setAuthor(getUser(loggedUser));
                     finalTags.add(tag);
                 }
-
             post.setTags(finalTags);
         }
-
         if (post.getId() == 0) {
             User user = getUser(loggedUser);
             post.setUser(user);
             postDao.addPost(post);
         } else
             postDao.updatePost(post);
-
     }
 
     @Override
@@ -130,7 +116,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistPost(long id) {
         try {
-            getPost(id);
+            postDao.getPostById(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -172,11 +158,17 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public User getUser(long id) {
+        if (!isExistUsername(id))
+            throw new UserNotFoundException();
+
         return userAccountDao.getUserById(id);
     }
 
     @Override
     public User getUser(String username) {
+        if (!isExistUsername(username))
+            throw new UserNotFoundException();
+
         return userAccountDao.getUserByUsername(username);
     }
 
@@ -187,20 +179,36 @@ public class SmartServiceImpl implements SmartService {
             userAccountDao.addUser(user);
             userAccountDao.setUserAuthority(user); // set ROLE_USER to all new accounts
         } else
-            userAccountDao.updateUser(user);
+            modifyUser(user);
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
+    @Transactional(readOnly = false)
+    private void modifyUser(User user) {
+        userAccountDao.updateUser(user);
     }
 
     @Override
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(long id) {
-        userAccountDao.deleteUser(id);
+//        userAccountDao.deleteUser(id);
     }
 
     @Override
     public boolean isExistUsername(String username) {
         try {
-            getUser(username);
+            userAccountDao.getUserByUsername(username);
+        } catch (NoResultException ex) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isExistUsername(long id) {
+        try {
+            userAccountDao.getUserById(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -209,26 +217,31 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
     public void saveProfile(Profile profile) {
         if (profile.getId() == 0) {
             profileDao.addProfile(profile);
             userAccountDao.setUserAuthority(profile.getUser());
         } else
-            profileDao.updateProfile(profile);
+            modifyUser(profile);
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
+    @Transactional(readOnly = false)
+    private void modifyUser(Profile profile) {
+        profileDao.updateProfile(profile);
     }
 
     @Override
     public Profile getProfile(String username) {
-        final User user = userAccountDao.getUserByUsername(username);
-        return profileDao.getProfile(user.getId());
+        User user = getUser(username);
+        return user.getProfile();
     }
 
     @Override
     @Transactional(readOnly = false)
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).user.username) or hasRole('ROLE_ADMIN')")
     public void deleteProfile(String username) {
-        profileDao.deleteProfile(username);
+//        profileDao.deleteProfile(username);
     }
 
     @Override
@@ -238,7 +251,7 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == post.user.username) or hasRole('ROLE_ADMIN')")
     public void saveComment(Comment post) {
         if (post.getId() == 0) {
             String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -259,7 +272,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistComment(long id) {
         try {
-            getComment(id);
+            commentDao.getCommentById(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -269,7 +282,6 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public long getPagesCount() {
         long postCount = postDao.getPostCount();
-
         if (postCount % DEFAULT_POSTS_PER_PAGE != 0)
             return postCount / DEFAULT_POSTS_PER_PAGE + 1;
         return postCount / DEFAULT_POSTS_PER_PAGE;
@@ -277,16 +289,21 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void saveFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = getUser(loggedUser);
         Post post = getPost(postId);
-        post.setFavoriteCount(post.getFavoriteCount() + 1);
+        if (isFavoritePost(loggedUser, post))
+            throw new FavoriteExistException();
         Favorite favorite = new Favorite();
         favorite.setUser(user);
         favorite.setPost(post);
         favorite.setAddedDate(new DateTime());
-        favoriteDao.addFavorite(favorite);
+        if (!user.getFavorites().contains(favorite)) {
+            post.setFavoriteCount(post.getFavoriteCount() + 1);
+            favoriteDao.addFavorite(favorite);
+        }
     }
 
     @Override
@@ -296,7 +313,6 @@ public class SmartServiceImpl implements SmartService {
         Comparator<Favorite> comparator = new FavoriteComparator();
         List<Favorite> favoriteList = new LinkedList<>(favoritesSet);
         Collections.sort(favoriteList, Collections.reverseOrder(comparator));
-
         for (Favorite favorite : favoriteList) {
             favorite.getPost().setFavorite(true);
             favorite.getPost().getComments().size();
@@ -306,27 +322,55 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void removeFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Post post = getPost(postId);
+        if (isFavoritePost(loggedUser, post))
+            throw new FavoriteIsNotExistException();
         User user = getUser(loggedUser);
         favoriteDao.deleteFavorite(postId, user.getId());
-        Post post = getPost(postId);
         post.setFavoriteCount(post.getFavoriteCount() - 1);
+    }
+
+    private void checkPostListForFavorites(List<Post> pagePosts) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Favorite> favorites = getFavorites(loggedUser);
+        List<Post> favoritePosts = new LinkedList<>();
+        for (Favorite favorite : favorites)
+            favoritePosts.add(favorite.getPost());
+        List<Post> matches = ListUtils.retainAll(pagePosts, favoritePosts);
+        for (Post post : matches)
+            post.setFavorite(true);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    private boolean isFavoritePost(String loggedUser, Post post) {
+        User user = getUser(loggedUser);
+        for (Favorite favorite : user.getFavorites())
+            if (favorite.getPost().equals(post)) {
+                post.setFavorite(true);
+                return true;
+            }
+        return false;
     }
 
     @Override
     public Tag getTag(String name) {
+        if (!isExistTag(name))
+            throw new TagNotFoundException();
         Tag tag = tagDao.getTag(name);
-        tag.getAuthor().toString();         //TODO: lazy post.comments - to a separate method?
+        tag.getAuthor().toString();
+        checkPostListForFavorites(tag.getPosts());
         for (Post post : tag.getPosts())
             post.getComments().size();
-
         Collections.sort(tag.getPosts(), Collections.reverseOrder(new PostComparator()));
         return tag;
     }
 
     @Override
     @Transactional(readOnly = false)
+    @PreAuthorize("hasRole('ROLE_USER')")
     public void saveTag(Tag tag) {
         if (tag.getId() == 0)
             tagDao.createTag(tag);
@@ -337,7 +381,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistTag(String tagName) {
         try {
-            getTag(tagName);
+            tagDao.getTag(tagName);
         } catch (NoResultException exception) {
             return false;
         }

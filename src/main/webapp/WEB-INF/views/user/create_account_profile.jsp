@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<title>New user</title>
+
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><h4><b><spring:message code="label.user.create.title"/></b></h4></div>
@@ -98,4 +100,4 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>
+<%--<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>--%>

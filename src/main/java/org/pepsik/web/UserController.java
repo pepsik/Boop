@@ -51,7 +51,7 @@ public class UserController {
             }
         });
 
-        binder.registerCustomEditor(String.class, "user.password", new PropertyEditorSupport() {
+        binder.registerCustomEditor(String.class, "user.userPassword.password", new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) throws IllegalArgumentException {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -75,14 +75,14 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String createUser(@Valid Profile profile, BindingResult bindingResult) {
-
         if (service.isExistUsername(profile.getUser().getUsername()))
             bindingResult.rejectValue("user.username", "username.exist");
-
         if (bindingResult.hasErrors())
             return "user/create";
-
-        service.saveProfile(profile);
+        User user = profile.getUser();
+        user.setProfile(profile);
+        user.getUserPassword().setUser(user);
+        service.saveUser(user);
         return "redirect:/registration_successful";
     }
 
@@ -97,4 +97,6 @@ public class UserController {
         service.deleteUser(id);
         return "redirect:/home";
     }
+
+
 }

@@ -12,7 +12,7 @@
   Time: 22:11 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <head>
     <title>Tag</title>
 </head>
@@ -65,7 +65,6 @@
                                                 style="float: right; margin-right: 20px"
                                                 class="btn btn-success btn-sm"><span
                                                 class="glyphicon glyphicon-ok"></span>
-                                            &nbsp;<b>added</b>&nbsp;<joda:format value="${addedDate}" pattern="d/M/yy"/>
                                         </button>
                                     </c:when>
                                     <c:otherwise>
@@ -86,9 +85,11 @@
                             <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                         </c:forEach>
 
-                        <div id="readmore${loop.count}" class="post summernote">
-                                ${post.text}
-                        </div>
+                        <article>
+                            <div class="post summernote">
+                                    ${post.text}
+                            </div>
+                        </article>
                         <div class="formHolder author text-info">
                             <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                                 <c:out value="by "/>
@@ -125,14 +126,26 @@
                 </div>
 
                 <script type="text/javascript">
-                    $("#button" + '${loop.count}').on('show.bs.collapse', function () {               //exclude to js file?
+                    var collapseButton = $("#button" + '${loop.count}');
+                    collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
                         getComments(${post.id}, ${loop.count});
                     });
+
+                    collapseButton.on('shown.bs.collapse', function (e) {
+                        var id = $(e.target).prev().find("[id]")[0].id;
+                        navigateToElement(id);
+                    })
+
+                    function navigateToElement(id) {
+                        $('html, body').animate({
+                            scrollTop: $("#" + id).offset().top
+                        }, 1000);
+                    }
                 </script>
 
             </c:forEach>
         </ol>
-
     </div>
-
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>

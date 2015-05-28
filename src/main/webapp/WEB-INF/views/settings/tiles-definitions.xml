@@ -39,4 +39,12 @@
         </put-attribute>
     </definition>
 
+    <definition name="settings/accessibility" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/settings/accessibility.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
 </tiles-definitions>
