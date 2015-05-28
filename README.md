@@ -8,4 +8,6 @@ have public profile and avatar img, the project has turned into a portal. It has
 comments to posts, ratings(in p), wysiwyg summernote as editor and others that is under the hood.
 
 This is a training project where I learning some Java frameworks (Spring, SpMVC, Jpa-Hibernate, Jsp, Apache Tiles) 
-and bit js, html, css as front-end of my app. I am learning Java, so my front-end will be similar to the trash. (java too but less) 
+and bit js, html, css as front-end of my app. I am learning Java, so my front-end will be similar to the trash. (java too but less)
+
+##Usage
