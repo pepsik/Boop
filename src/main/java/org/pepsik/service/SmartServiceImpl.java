@@ -34,7 +34,7 @@ public class SmartServiceImpl implements SmartService {
     private static final Logger logger = LoggerFactory.getLogger(SmartServiceImpl.class);
 
     @Autowired
-    private UserAccountDao userAccountDao;
+    private UserDao userDao;
 
     @Autowired
     private ProfileDao profileDao;
@@ -124,36 +124,40 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public List<String> getPagination(final int pageIndex) {
-        List<String> pagination = new ArrayList<>();
-        long postCount = postDao.getPostCount();
-        long pagesCount = postCount / DEFAULT_POSTS_PER_PAGE;
+    public List<Post> getUserPosts(String username, int pageId) {
+        List<Post> postList = userDao.getUserPosts(getUser(username), pageId, DEFAULT_POSTS_PER_PAGE);  //TODO: page index
+        for (Post post : postList)
+            post.getComments().size();
+        return postList;
+    }
 
+    @Override
+    public List<String> getPagination(final int pageIndex, long postCount) {
+        List<String> pagination = new ArrayList<>();
+        long pagesCount = postCount / DEFAULT_POSTS_PER_PAGE;
         if (postCount % DEFAULT_POSTS_PER_PAGE != 0)
             pagesCount += 1;
-
         if (pagesCount <= DEFAULT_PAGINATION_ON_PAGE) {
             for (int i = 1; i <= pagesCount; i++)
                 pagination.add(Integer.toString(i));
-
             return pagination;
         }
-
         if (pageIndex <= 2) {
             for (int i = 1; i <= DEFAULT_PAGINATION_ON_PAGE; i++)
                 pagination.add(Integer.toString(i));
-
             return pagination;
         }
-
-
         for (int i = pageIndex - 2; i <= pageIndex + 2; i++) {
             if (i > pagesCount)
                 break;
             pagination.add(Integer.toString(i));
         }
-
         return pagination;
+    }
+
+    @Override
+    public long getPostsCount() {
+        return postDao.getPostCount();
     }
 
     @Override
@@ -161,7 +165,7 @@ public class SmartServiceImpl implements SmartService {
         if (!isExistUsername(id))
             throw new UserNotFoundException();
 
-        return userAccountDao.getUserById(id);
+        return userDao.getUserById(id);
     }
 
     @Override
@@ -169,15 +173,15 @@ public class SmartServiceImpl implements SmartService {
         if (!isExistUsername(username))
             throw new UserNotFoundException();
 
-        return userAccountDao.getUserByUsername(username);
+        return userDao.getUserByUsername(username);
     }
 
     @Override
     @Transactional(readOnly = false)
     public void saveUser(User user) {
         if (user.getId() == 0) {
-            userAccountDao.addUser(user);
-            userAccountDao.setUserAuthority(user); // set ROLE_USER to all new accounts
+            userDao.addUser(user);
+            userDao.setUserAuthority(user); // set ROLE_USER to all new accounts
         } else
             modifyUser(user);
     }
@@ -185,20 +189,20 @@ public class SmartServiceImpl implements SmartService {
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
     @Transactional(readOnly = false)
     private void modifyUser(User user) {
-        userAccountDao.updateUser(user);
+        userDao.updateUser(user);
     }
 
     @Override
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(long id) {
-//        userAccountDao.deleteUser(id);
+//        userDao.deleteUser(id);
     }
 
     @Override
     public boolean isExistUsername(String username) {
         try {
-            userAccountDao.getUserByUsername(username);
+            userDao.getUserByUsername(username);
         } catch (NoResultException ex) {
             return false;
         }
@@ -208,7 +212,7 @@ public class SmartServiceImpl implements SmartService {
     @Override
     public boolean isExistUsername(long id) {
         try {
-            userAccountDao.getUserById(id);
+            userDao.getUserById(id);
         } catch (NoResultException ex) {
             return false;
         }
@@ -220,7 +224,7 @@ public class SmartServiceImpl implements SmartService {
     public void saveProfile(Profile profile) {
         if (profile.getId() == 0) {
             profileDao.addProfile(profile);
-            userAccountDao.setUserAuthority(profile.getUser());
+            userDao.setUserAuthority(profile.getUser());
         } else
             modifyUser(profile);
     }
@@ -280,11 +284,15 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public long getPagesCount() {
-        long postCount = postDao.getPostCount();
+    public long getPagesCount(long postCount) {
         if (postCount % DEFAULT_POSTS_PER_PAGE != 0)
             return postCount / DEFAULT_POSTS_PER_PAGE + 1;
         return postCount / DEFAULT_POSTS_PER_PAGE;
+    }
+
+    @Override
+    public long getUserPostsCount(User user) {
+        return userDao.getUserPostCount(user);
     }
 
     @Override
@@ -326,7 +334,7 @@ public class SmartServiceImpl implements SmartService {
     public void removeFavorite(long postId) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Post post = getPost(postId);
-        if (isFavoritePost(loggedUser, post))
+        if (!isFavoritePost(loggedUser, post))
             throw new FavoriteIsNotExistException();
         User user = getUser(loggedUser);
         favoriteDao.deleteFavorite(postId, user.getId());

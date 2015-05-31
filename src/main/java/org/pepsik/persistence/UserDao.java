@@ -1,11 +1,15 @@
 package org.pepsik.persistence;
 
+import org.pepsik.model.Favorite;
+import org.pepsik.model.Post;
 import org.pepsik.model.User;
+
+import java.util.List;
 
 /**
  * Created by pepsik on 5/16/15.
  */
-public interface UserAccountDao {
+public interface UserDao {
 
     void addUser(User user);
 
@@ -18,4 +22,8 @@ public interface UserAccountDao {
     void deleteUser(long id);
 
     void setUserAuthority(User user);
+
+    List<Post> getUserPosts(User user, int pageIndex, int DEFAULT_POSTS_PER_PAGE);
+
+    long getUserPostCount(User user);
 }

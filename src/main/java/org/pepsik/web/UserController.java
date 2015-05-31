@@ -6,6 +6,9 @@ import org.joda.time.format.DateTimeFormatter;
 import org.pepsik.model.Profile;
 import org.pepsik.model.User;
 import org.pepsik.service.SmartService;
+import org.pepsik.web.exception.BadRequestException;
+import org.pepsik.web.exception.ResourceNotFoundException;
+import org.pepsik.web.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +90,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public String getUser(@PathVariable("username") String username, Model model) {
+    public String getUserProfile(@PathVariable("username") String username, Model model) {
         model.addAttribute(service.getProfile(username));
         return "user/view_profile";
     }
@@ -98,5 +101,36 @@ public class UserController {
         return "redirect:/home";
     }
 
+    @RequestMapping(value = "/{username}/favorites", method = RequestMethod.GET, produces = "text/html")
+    public String getUserFavorites(@PathVariable String username, Model model) {
+        if (!service.isExistUsername(username))
+            throw new UserNotFoundException();
+        model.addAttribute(service.getFavorites(username));
+        model.addAttribute("username", username);
+        return "user/favorites";
+    }
 
+    @RequestMapping(value = {"/{username}/posts/{pageId}"}, method = RequestMethod.GET, produces = "text/html")
+    public String getUserPosts(@PathVariable("username") String username, @PathVariable("pageId") String strPageId, Model model) {
+        if (!service.isExistUsername(username))
+            throw new UserNotFoundException();
+        int pageId;
+        if (strPageId.length() != 0)
+            try {
+                pageId = Integer.parseInt(strPageId);
+            } catch (NumberFormatException ex) {
+                throw new BadRequestException();
+            }
+        else
+            pageId = 1;
+
+        long postsCount = service.getUserPostsCount(service.getUser(username));
+        if (pageId > service.getPagesCount(postsCount))
+            throw new ResourceNotFoundException();
+
+        model.addAttribute(service.getUserPosts(username, pageId));
+        model.addAttribute("pagination", service.getPagination(pageId, postsCount));
+        model.addAttribute("currentPageIndex", pageId);
+        return "user/posts";
+    }
 }

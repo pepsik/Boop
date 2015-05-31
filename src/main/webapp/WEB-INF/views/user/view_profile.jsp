@@ -108,10 +108,10 @@
     <div class="container col-md-5" style="margin-top: 30px">
         <div class="panel panel-success">
             <div class="panel-body">
-                <a href="/user/${profile.user.username}/favorite" class="btn btn-info btn-block">Favorites</a>
-                <a href="#" class="btn btn-warning btn-block">Friends</a>
-                <a href="#" class="btn btn-primary btn-block">Posts</a>
-                <a href="#" class="btn btn-success btn-block">Comments</a>
+                <a href="/user/${profile.user.username}/favorites" class="btn btn-info btn-block">Favorites</a>
+                <a href="#/user/${profile.user.username}/friends" class="btn btn-success btn-block">Friends</a>
+                <a href="/user/${profile.user.username}/posts/1" class="btn btn-primary btn-block">Posts</a>
+                <a href="#/user/${profile.user.username}/comments" class="btn btn-warning btn-block">Comments</a>
             </div>
         </div>
     </div>

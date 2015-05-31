@@ -2,6 +2,7 @@ package org.pepsik.web;
 
 import org.pepsik.model.Comment;
 import org.pepsik.service.SmartService;
+import org.pepsik.web.exception.BadRequestException;
 import org.pepsik.web.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +25,20 @@ public class PageController {
     private SmartService service;
 
     @RequestMapping
-    public String getPage(@PathVariable("pageId") int pageId, Model model) {
-        if (pageId > service.getPagesCount())
+    public String getPage(@PathVariable("pageId") String strPageId, Model model) {
+        int pageId;
+        try {
+            pageId = Integer.parseInt(strPageId);
+        } catch (NumberFormatException ex) {
+            throw new BadRequestException();
+        }
+
+        long postsCount = service.getPostsCount();
+        if (pageId > service.getPagesCount(postsCount))
             throw new ResourceNotFoundException();
 
         model.addAttribute(service.getPostsByPage(pageId));
-        model.addAttribute("pagination", service.getPagination(pageId));
+        model.addAttribute("pagination", service.getPagination(pageId, postsCount));
         model.addAttribute("currentPageIndex", pageId);
         return "home";
     }

@@ -24,16 +24,7 @@ public class FavoritesController {
     @Autowired
     private SmartService service;
 
-    @RequestMapping(method = RequestMethod.GET, produces = "text/html")
-    public String getUserFavorites(@PathVariable String username, Model model) {
-        if (!service.isExistUsername(username))
-            throw new UserNotFoundException();
-        model.addAttribute(service.getFavorites(username));
-        model.addAttribute("username", username);
-        return "user/favorites";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public void addFavorite(@RequestBody String postId) {
         try {

@@ -22,7 +22,9 @@ public interface SmartService {
 
     void removeFavorite(long id);
 
-    List<String> getPagination(int pageIndex);
+    List<String> getPagination(int pageIndex, long postCount);
+
+    long getPostsCount();
 
     User getUser(long id);
 
@@ -44,6 +46,10 @@ public interface SmartService {
 
     void deletePost(long id);
 
+    List<Post> getUserPosts(String username, int page);
+
+    long getUserPostsCount(User user);
+
     Comment getComment(long id);
 
     void saveComment(Comment message);
@@ -58,7 +64,7 @@ public interface SmartService {
 
     boolean isExistPost(long id);
 
-    long getPagesCount();
+    long getPagesCount(long postCount);
 
     void saveTag(Tag tag);
 

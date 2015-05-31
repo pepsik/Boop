@@ -69,7 +69,7 @@
                         </a>
                     </li>
                     <%--<li><a href="${user_profile_url}"><span class="glyphicon glyphicon-user"></span></a></li>--%>
-                    <li><a href="/user/${username}/favorite" data-toggle="tooltip" data-placement="bottom"
+                    <li><a href="/user/${username}/favorites" data-toggle="tooltip" data-placement="bottom"
                            title="Favorites"><span class="glyphicon glyphicon-star"></span></a></li>
                     <li><a href="/messages" data-toggle="tooltip" data-placement="bottom"
                            title="<spring:message code="navbar.dropdown.button.messages"/>"><span
