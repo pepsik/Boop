@@ -42,3 +42,25 @@
     white-space:nowrap;
     max-width:none;
 }
+
+.cropit-image-preview {
+    background-color: #f8f8f8;
+    background-size: cover;
+    border: 5px solid #ccc;
+    border-radius: 3px;
+    margin-top: 7px;
+    width: 300px;
+    height: 300px;
+    cursor: move;
+}
+
+input.image-editor {
+    /* Use relative position to prevent from being covered by image background */
+    position: relative;
+    z-index: 10;
+    display: block;
+}
+
+.export {
+    margin-top: 10px;
+}

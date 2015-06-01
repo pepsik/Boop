@@ -21,7 +21,19 @@
 </head>
 
 <div class="container-fluid">
-    <h2><span class="label label-info">Favorites &nbsp;${username}</span></h2>
+    <br>
+    <ul class="nav nav-tabs">
+        <li><a href="/user/${username}">Public Profile</a></li>
+        <li><a href="/user/${username}/posts/1">Posts</a></li>
+        <li><a href="/user/${username}/comments/1">Comments</a></li>
+        <li class="active"><a href="#">Favorites&nbsp;&nbsp;<span class="badge">${favoritesCount}</span></a></li>
+        <li><a href="#">Friends</a></li>
+    </ul>
+    <br>
+</div>
+
+<div class="container-fluid">
+    <h2><span class="label label-default">Favorites &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="favorite" items="${favoriteList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -123,7 +135,31 @@
 
         </c:forEach>
     </ol>
+
+    <ul class="pagination">
+        <c:choose>
+            <c:when test="${1 != currentPageIndex}">
+                <li><a href="/user/${username}/favorites/${currentPageIndex - 1}">&laquo;</a></li>
+            </c:when>
+        </c:choose>
+        <c:forEach items="${pagination}" var="pageIndex">
+            <c:choose>
+                <c:when test="${pageIndex == currentPageIndex}">
+                    <li class="active"><a>${pageIndex}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="/user/${username}/favorites/${pageIndex}">${pageIndex}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:choose>
+            <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
+                <li><a href="/user/${username}/favorites/${currentPageIndex + 1}">&raquo;</a></li>
+            </c:when>
+        </c:choose>
+    </ul>
 </div>
 
+<script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>
 

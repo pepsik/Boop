@@ -32,6 +32,7 @@ public class SmartServiceImpl implements SmartService {
     private static final int DEFAULT_PAGINATION_ON_PAGE = 5;
 
     private static final Logger logger = LoggerFactory.getLogger(SmartServiceImpl.class);
+    public static final String GUEST_NAME = "guest";
 
     @Autowired
     private UserDao userDao;
@@ -62,7 +63,7 @@ public class SmartServiceImpl implements SmartService {
         List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
         for (Post post : postsByPage)
             post.getComments().size();
-        if (loggedUser.equals("guest"))
+        if (loggedUser.equals(GUEST_NAME))
             return postsByPage;
         checkPostListForFavorites(postsByPage);
         return postsByPage;
@@ -75,7 +76,7 @@ public class SmartServiceImpl implements SmartService {
         Post post = postDao.getPostById(postId);
         post.getComments().size();
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!loggedUser.equals("guest"))
+        if (!loggedUser.equals(GUEST_NAME))
             isFavoritePost(loggedUser, post);
         return post;
     }
@@ -124,14 +125,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public List<Post> getUserPosts(String username, int pageId) {
-        List<Post> postList = userDao.getUserPosts(getUser(username), pageId, DEFAULT_POSTS_PER_PAGE);  //TODO: page index
-        for (Post post : postList)
-            post.getComments().size();
-        return postList;
-    }
-
-    @Override
     public List<String> getPagination(final int pageIndex, long postCount) {
         List<String> pagination = new ArrayList<>();
         long pagesCount = postCount / DEFAULT_POSTS_PER_PAGE;
@@ -156,7 +149,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public long getPostsCount() {
+    public long getAllPostsCount() {
         return postDao.getPostCount();
     }
 
@@ -183,12 +176,12 @@ public class SmartServiceImpl implements SmartService {
             userDao.addUser(user);
             userDao.setUserAuthority(user); // set ROLE_USER to all new accounts
         } else
-            modifyUser(user);
+            authorizedUpdateProfile(user);
     }
 
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
     @Transactional(readOnly = false)
-    private void modifyUser(User user) {
+    private void authorizedUpdateProfile(User user) {
         userDao.updateUser(user);
     }
 
@@ -220,18 +213,83 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    public List<Post> getUserPosts(String username, int pageId) {
+        List<Post> postList = userDao.getUserPosts(getUser(username), pageId, DEFAULT_POSTS_PER_PAGE);
+
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!loggedUser.equals(GUEST_NAME))
+            for (Post post : postList) {
+                post.getComments().size();
+                isFavoritePost(loggedUser, post);
+            }
+        else
+            for (Post post : postList)
+                post.getComments().size();
+        return postList;
+    }
+
+    @Override
+    public long getUserPostsCount(String username) {
+        return userDao.getUserPostCount(getUser(username));
+    }
+
+    @Override
+    public List<Comment> getUserComments(String username, int pageId) {
+        return userDao.getUserComments(getUser(username), pageId, DEFAULT_POSTS_PER_PAGE * 2); //TODO: comments default counter
+    }
+
+    @Override
+    public long getUserCommentsCount(String username) {
+        return userDao.getUserCommentsCount(getUser(username));
+    }
+
+//    @Override
+//    public List<Favorite> getAllUserFavorites(String username) {
+//        User user = getUser(username);
+//        Set<Favorite> favoritesSet = user.getFavorites();
+//        Comparator<Favorite> comparator = new FavoriteComparator();
+//        List<Favorite> favoriteList = new LinkedList<>(favoritesSet);
+//        Collections.sort(favoriteList, Collections.reverseOrder(comparator));
+//        for (Favorite favorite : favoriteList) {
+//            favorite.getPost().setFavorite(true);
+//            favorite.getPost().getComments().size();
+//        }
+//        return favoriteList;
+//    }
+
+    @Override
+    public List<Favorite> getUserFavorites(String username, int page) {
+        List<Favorite> favorites = userDao.getUserFavorites(getUser(username), page, DEFAULT_POSTS_PER_PAGE);
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!loggedUser.equals(GUEST_NAME))
+            for (Favorite favorite : favorites) {
+                favorite.getPost().getComments().size();
+                isFavoritePost(loggedUser, favorite.getPost());
+            }
+        else
+            for (Favorite favorite : favorites)
+                favorite.getPost().getComments().size();
+        return favorites;
+    }
+
+    @Override
+    public long getUserFavoritesCount(String username) {
+        return userDao.getUserFavoritesCount(getUser(username));
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public void saveProfile(Profile profile) {
         if (profile.getId() == 0) {
             profileDao.addProfile(profile);
             userDao.setUserAuthority(profile.getUser());
         } else
-            modifyUser(profile);
+            authorizedUpdateProfile(profile);
     }
 
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #profile.user.username)")
     @Transactional(readOnly = false)
-    private void modifyUser(Profile profile) {
+    private void authorizedUpdateProfile(Profile profile) {
         profileDao.updateProfile(profile);
     }
 
@@ -291,11 +349,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public long getUserPostsCount(User user) {
-        return userDao.getUserPostCount(user);
-    }
-
-    @Override
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void saveFavorite(long postId) {
@@ -315,20 +368,6 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
-    public List<Favorite> getFavorites(String username) {
-        User user = getUser(username);
-        Set<Favorite> favoritesSet = user.getFavorites();
-        Comparator<Favorite> comparator = new FavoriteComparator();
-        List<Favorite> favoriteList = new LinkedList<>(favoritesSet);
-        Collections.sort(favoriteList, Collections.reverseOrder(comparator));
-        for (Favorite favorite : favoriteList) {
-            favorite.getPost().setFavorite(true);
-            favorite.getPost().getComments().size();
-        }
-        return favoriteList;
-    }
-
-    @Override
     @Transactional(readOnly = false)
     @PreAuthorize("hasRole('ROLE_USER')")
     public void removeFavorite(long postId) {
@@ -343,7 +382,7 @@ public class SmartServiceImpl implements SmartService {
 
     private void checkPostListForFavorites(List<Post> pagePosts) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Favorite> favorites = getFavorites(loggedUser);
+        List<Favorite> favorites = new LinkedList<>(getUser(loggedUser).getFavorites());
         List<Post> favoritePosts = new LinkedList<>();
         for (Favorite favorite : favorites)
             favoritePosts.add(favorite.getPost());
@@ -353,7 +392,7 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    private boolean isFavoritePost(String loggedUser, Post post) {
+    private boolean isFavoritePost(String loggedUser, Post post) {   //get all user favorites
         User user = getUser(loggedUser);
         for (Favorite favorite : user.getFavorites())
             if (favorite.getPost().equals(post)) {
@@ -369,7 +408,8 @@ public class SmartServiceImpl implements SmartService {
             throw new TagNotFoundException();
         Tag tag = tagDao.getTag(name);
         tag.getAuthor().toString();
-        checkPostListForFavorites(tag.getPosts());
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(GUEST_NAME))
+            checkPostListForFavorites(tag.getPosts());
         for (Post post : tag.getPosts())
             post.getComments().size();
         Collections.sort(tag.getPosts(), Collections.reverseOrder(new PostComparator()));

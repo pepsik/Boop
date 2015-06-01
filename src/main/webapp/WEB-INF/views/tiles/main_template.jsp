@@ -7,7 +7,7 @@
     <link rel="shortcut icon"
           href="http://emojipedia.org/wp-content/uploads/2014/04/128x128x1f60e-google-android.png.pagespeed.ic.f3O6TlEr2A.png"/>
     <!-- Main css =(-->
-    <link href="<s:url value="/resources" />/css/smart.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/resources/css/smart.css" rel="stylesheet" type="text/css"/>
 
     <!-- Bootstrap -->
     <link href="${pageContext.request.contextPath}/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"
@@ -30,16 +30,15 @@
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
     <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
-    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
+    <%--<script src="${pageContext.request.contextPath}/bower_components/readmore/jquery.mockjax.js"></script>--%>
 
     <!-- SmartSite js,css-->
-    <%--<script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>--%>
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
-    <link href="<s:url value="/resources" />/css/after.css" rel="stylesheet" type="text/css"/>
+    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
+    <link href="${pageContext.request.contextPath}/resources/css/after.css" rel="stylesheet" type="text/css"/>
 
     <%--<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.min.js"></script>--%>
     <%--<script src="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.min.css"></script>--%>
@@ -60,6 +59,9 @@
                 </div>
                 <div class="item">
                     <img src="<s:url value="/resources" />/images/logo1.png">
+                </div>
+                <div class="item">
+                    <img src="<s:url value="/resources" />/images/logo3.png">
                 </div>
                 <div class="item">
                     <img src="<s:url value="/resources" />/images/logo4.png">

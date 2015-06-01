@@ -1,11 +1,8 @@
 package org.pepsik.web;
 
-import org.pepsik.model.Comment;
 import org.pepsik.service.SmartService;
 import org.pepsik.web.exception.BadRequestException;
 import org.pepsik.web.exception.ResourceNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +30,7 @@ public class PageController {
             throw new BadRequestException();
         }
 
-        long postsCount = service.getPostsCount();
+        long postsCount = service.getAllPostsCount();
         if (pageId > service.getPagesCount(postsCount))
             throw new ResourceNotFoundException();
 

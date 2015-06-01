@@ -19,7 +19,7 @@ public class HomeController {
     @RequestMapping(value = {"/", "/home"})
     public String showHomePage(Model model) {
         model.addAttribute(model.addAttribute(service.getPostsByPage(1)));
-        model.addAttribute("pagination", service.getPagination(1, service.getPostsCount()));
+        model.addAttribute("pagination", service.getPagination(1, service.getAllPostsCount()));
         model.addAttribute("currentPageIndex", 1);
         return "home";
     }

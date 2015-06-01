@@ -1,5 +1,6 @@
 package org.pepsik.persistence;
 
+import org.pepsik.model.Comment;
 import org.pepsik.model.Favorite;
 import org.pepsik.model.Post;
 import org.pepsik.model.User;
@@ -23,7 +24,15 @@ public interface UserDao {
 
     void setUserAuthority(User user);
 
-    List<Post> getUserPosts(User user, int pageIndex, int DEFAULT_POSTS_PER_PAGE);
+    List<Post> getUserPosts(User user, int pageIndex, int postsPerPage);
+
+    List<Comment> getUserComments(User user, int pageIndex, int commentsPerPage);
+
+    List<Favorite> getUserFavorites(User user, int pageIndex, int favoritesPerPage);
+
+    long getUserFavoritesCount(User user);
 
     long getUserPostCount(User user);
+
+    long getUserCommentsCount(User user);
 }

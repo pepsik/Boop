@@ -147,4 +147,5 @@
     </ul>
 </div>
 
+<script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>

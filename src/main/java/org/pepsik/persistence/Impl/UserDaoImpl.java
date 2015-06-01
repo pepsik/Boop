@@ -1,5 +1,7 @@
 package org.pepsik.persistence.Impl;
 
+import org.pepsik.model.Comment;
+import org.pepsik.model.Favorite;
 import org.pepsik.model.Post;
 import org.pepsik.model.User;
 import org.pepsik.persistence.UserDao;
@@ -70,13 +72,51 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public long getUserPostCount(User user) {
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Long> q = cb.createQuery(Long.class);
-//        q.select(cb.count(q.from(Post.class))).where(cb.equal(from.get("user").get("id"), user.getId()));
-//        return em.createQuery(q).getSingleResult();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
         Root<Post> from = countQuery.from(Post.class);
+        countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.equal(from.get("user").get("id"), user.getId()));
+        return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
+    public List<Comment> getUserComments(User user, int pageIndex, int commentsPerPage) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Comment> q = cb.createQuery(Comment.class);
+        Root<Comment> from = q.from(Comment.class);
+        CriteriaQuery<Comment> select = q.select(from).where(cb.equal(from.get("user").get("id"), user.getId())).orderBy(cb.desc(from.get("when")));
+        TypedQuery<Comment> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((pageIndex - 1) * commentsPerPage);
+        typedQuery.setMaxResults(commentsPerPage);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public long getUserCommentsCount(User user) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Comment> from = countQuery.from(Comment.class);
+        countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.equal(from.get("user").get("id"), user.getId()));
+        return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
+    public List<Favorite> getUserFavorites(User user, int pageIndex, int favoritesPerPage) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Favorite> q = cb.createQuery(Favorite.class);
+        Root<Favorite> from = q.from(Favorite.class);
+        CriteriaQuery<Favorite> select = q.select(from).where(cb.equal(from.get("user").get("id"), user.getId())).orderBy(cb.desc(from.get("addedDate")));
+        TypedQuery<Favorite> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((pageIndex - 1) * favoritesPerPage);
+        typedQuery.setMaxResults(favoritesPerPage);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public long getUserFavoritesCount(User user) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Favorite> from = countQuery.from(Favorite.class);
         countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.equal(from.get("user").get("id"), user.getId()));
         return em.createQuery(countQuery).getSingleResult();
     }

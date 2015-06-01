@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container" style="width: 930px">
+    <div class="container-fluid" style="width: 1000px">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
                     aria-expanded="false" aria-controls="navbar">
@@ -17,11 +17,11 @@
             <a class="navbar-brand" href="/home"><span class="glyphicon glyphicon-home"></span> </a>
         </div>
 
-        <form class="navbar-form navbar-left" role="search">
-            <button type="button" class="btn btn-info">
-                <span class="glyphicon glyphicon-search"></span> <spring:message code="navbar.search.placeholder"/>
-            </button>
-        </form>
+        <%--<form class="navbar-form navbar-left" role="search">--%>
+            <%--<button type="button" class="btn btn-info">--%>
+                <%--<span class="glyphicon glyphicon-search"></span> <spring:message code="navbar.search.placeholder"/>--%>
+            <%--</button>--%>
+        <%--</form>--%>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -34,32 +34,18 @@
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
+                    <sec:authentication var="username" property="principal.username"/>
                     <li class="padding-top">
-                        <img src="http://mmsmake.com/wp-content/themes/jupiter/images/cloud/default-avatar_ie.png"
-                             alt="" width="40px"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/avatars/${username}.jpeg" alt=""
+                             width="40px"
+                             onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
                     </li>
                     <li>
-                        <sec:authentication var="username" property="principal.username"/>
                         <a href="/user/${username}" role="button" aria-expanded="false" data-toggle="tooltip"
                            data-placement="bottom"
                            title="Public profile">
                             <b>${username}</b>
                         </a>
-
-                            <%--<ul class="dropdown-menu" role="menu">--%>
-                            <%--<s:url value="/user/${username}" var="user_profile_url"/>--%>
-                            <%--<li><a href="${user_profile_url}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<spring:message--%>
-                            <%--code="navbar.dropdown.button.profile"/></a></li>--%>
-                            <%--<li><a href="#"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp<spring:message--%>
-                            <%--code="navbar.dropdown.button.messages"/></a></li>--%>
-                            <%--<li><a href="/settings/${username}/profile"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;<spring:message--%>
-                            <%--code="navbar.dropdown.button.settings"/></a></li>--%>
-                            <%--<li class="divider"></li>--%>
-                            <%--<s:url value="/static/j_spring_security_logout" var="logout_url"/>--%>
-                            <%--<li><a href="${logout_url}"><span--%>
-                            <%--class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;<spring:message--%>
-                            <%--code="navbar.dropdown.button.logout"/></a></li>--%>
-                            <%--</ul>--%>
                     </li>
                     <li>
                         <a href="/post/new" role="button" aria-expanded="false" data-toggle="tooltip"
@@ -69,7 +55,7 @@
                         </a>
                     </li>
                     <%--<li><a href="${user_profile_url}"><span class="glyphicon glyphicon-user"></span></a></li>--%>
-                    <li><a href="/user/${username}/favorites" data-toggle="tooltip" data-placement="bottom"
+                    <li><a href="/user/${username}/favorites/1" data-toggle="tooltip" data-placement="bottom"
                            title="Favorites"><span class="glyphicon glyphicon-star"></span></a></li>
                     <li><a href="/messages" data-toggle="tooltip" data-placement="bottom"
                            title="<spring:message code="navbar.dropdown.button.messages"/>"><span
@@ -109,7 +95,8 @@
                         <label><input type="checkbox" name="_spring_security_remember_me"><spring:message
                                 code="navbar.modal.label.remember"/></label>
                     </div>
-                    <button form="login" type="submit" class="btn btn-success"><spring:message code="button.login"/></button>
+                    <button form="login" type="submit" class="btn btn-success"><spring:message
+                            code="button.login"/></button>
                     <button form="login" type="reset" class="btn"><spring:message code="button.clear"/></button>
                 </form>
             </div>

@@ -14,8 +14,24 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="container-fluid">
+<head>
+    <title>Posts / ${username}</title>
+</head>
 
+<div class="container-fluid">
+    <br>
+    <ul class="nav nav-tabs">
+        <li><a href="/user/${username}">Public Profile</a></li>
+        <li class="active"><a href="#">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
+        <li><a href="/user/${username}/comments/1">Comments</a></li>
+        <li><a href="/user/${username}/favorites/1">Favorites</a></li>
+        <li><a href="#">Friends</a></li>
+    </ul>
+    <br>
+</div>
+
+<div class="container-fluid">
+    <h2><span class="label label-default">Posts &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -121,7 +137,7 @@
     <ul class="pagination">
         <c:choose>
             <c:when test="${1 != currentPageIndex}">
-                <li><a href="/user/${postList[0].user.username}/posts/${currentPageIndex - 1}">&laquo;</a></li>
+                <li><a href="/user/${username}/posts/${currentPageIndex - 1}">&laquo;</a></li>
             </c:when>
         </c:choose>
         <c:forEach items="${pagination}" var="pageIndex">
@@ -130,16 +146,17 @@
                     <li class="active"><a>${pageIndex}</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="/user/${postList[0].user.username}/posts/${pageIndex}">${pageIndex}</a></li>
+                    <li><a href="/user/${username}/posts/${pageIndex}">${pageIndex}</a></li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:choose>
             <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
-                <li><a href="/user/${postList[0].user.username}/posts/${currentPageIndex + 1}">&raquo;</a></li>
+                <li><a href="/user/${username}/posts/${currentPageIndex + 1}">&raquo;</a></li>
             </c:when>
         </c:choose>
     </ul>
 </div>
 
+<script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>

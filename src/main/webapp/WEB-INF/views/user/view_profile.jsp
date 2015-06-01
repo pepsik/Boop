@@ -17,10 +17,21 @@
     <title>Profile / ${profile.user.username}</title>
 </head>
 
-<div>
+<div class="container-fluid">
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Public Profile</a></li>
+        <li><a href="/user/${username}/posts/1">Posts</a></li>
+        <li><a href="/user/${username}/comments/1">Comments</a></li>
+        <li><a href="/user/${username}/favorites/1">Favorites</a></li>
+        <li><a href="#">Friends</a></li>
+    </ul>
+    <br>
+</div>
+<div class="container-fluid">
     <s:url var="user_url" value="/settings/profile"/>
 
-    <div class="container col-md-7">
+    <div class="container-fluid col-md-7">
         <div class="panel panel-success">
             <div class="panel-heading"><h4><spring:message code="label.user.view.title"/></h4></div>
             <div class="panel-body">
@@ -101,19 +112,8 @@
             </div>
         </div>
     </div>
-    <div class="container col-md-5">
-        <img src="<s:url value="/resources" />/images/def-ava.png"/>
+    <div class="container-fluid col-md-5">
+        <img src="${pageContext.request.contextPath}/resources/images/avatars/${username}.jpeg" width="350"
+             onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
     </div>
-
-    <div class="container col-md-5" style="margin-top: 30px">
-        <div class="panel panel-success">
-            <div class="panel-body">
-                <a href="/user/${profile.user.username}/favorites" class="btn btn-info btn-block">Favorites</a>
-                <a href="#/user/${profile.user.username}/friends" class="btn btn-success btn-block">Friends</a>
-                <a href="/user/${profile.user.username}/posts/1" class="btn btn-primary btn-block">Posts</a>
-                <a href="#/user/${profile.user.username}/comments" class="btn btn-warning btn-block">Comments</a>
-            </div>
-        </div>
-    </div>
-
 </div>

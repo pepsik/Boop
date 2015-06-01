@@ -18,13 +18,15 @@ public interface SmartService {
 
     void saveFavorite(long postId);
 
-    List<Favorite> getFavorites(String username);
-
     void removeFavorite(long id);
 
     List<String> getPagination(int pageIndex, long postCount);
 
-    long getPostsCount();
+    long getAllPostsCount();
+
+    long getPagesCount(long postCount);
+
+    boolean isExistPost(long id);
 
     User getUser(long id);
 
@@ -33,6 +35,24 @@ public interface SmartService {
     void saveUser(User user);
 
     void deleteUser(long id);
+
+    List<Post> getUserPosts(String username, int page);
+
+    long getUserPostsCount(String username);
+
+    List<Comment> getUserComments(String username, int page);
+
+    long getUserCommentsCount(String username);
+
+//    List<Favorite> getAllUserFavorites(String username);
+
+    List<Favorite> getUserFavorites(String username, int page);
+
+    long getUserFavoritesCount(String username);
+
+    boolean isExistUsername(String username);
+
+    boolean isExistUsername(long id);
 
     void saveProfile(Profile profile);
 
@@ -46,10 +66,6 @@ public interface SmartService {
 
     void deletePost(long id);
 
-    List<Post> getUserPosts(String username, int page);
-
-    long getUserPostsCount(User user);
-
     Comment getComment(long id);
 
     void saveComment(Comment message);
@@ -57,14 +73,6 @@ public interface SmartService {
     void deleteComment(long id);
 
     boolean isExistComment(long id);
-
-    boolean isExistUsername(String username);
-
-    boolean isExistUsername(long id);
-
-    boolean isExistPost(long id);
-
-    long getPagesCount(long postCount);
 
     void saveTag(Tag tag);
 

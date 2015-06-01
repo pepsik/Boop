@@ -84,12 +84,13 @@
                             &nbsp;&nbsp;
                             <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
                         </c:forEach>
-
-                        <article>
+                        <section>
                             <div class="post summernote">
-                                    ${post.text}
+                                <article>
+                                        ${post.text}
+                                </article>
                             </div>
-                        </article>
+                        </section>
                         <div class="formHolder author text-info">
                             <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                                 <c:out value="by "/>
