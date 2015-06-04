@@ -7,4 +7,8 @@
         <put-attribute name="content" value="/WEB-INF/views/tag/tag_page.jsp"/>
     </definition>
 
+    <definition name="tag/edit" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/tag/edit.jsp"/>
+    </definition>
+
 </tiles-definitions>

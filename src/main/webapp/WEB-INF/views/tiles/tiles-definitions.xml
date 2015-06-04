@@ -17,4 +17,8 @@
         <put-attribute name="content" value="/WEB-INF/views/tiles/login_fail.jsp"/>
     </definition>
 
+    <definition name="search" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/tiles/search.jsp"/>
+    </definition>
+
 </tiles-definitions>

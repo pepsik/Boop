@@ -22,29 +22,26 @@
     <div class="panel panel-default">
         <div class="panel-heading"><b>Public Profile</b></div>
         <div class="panel-body">
-
-            <form action="#">
+            <form id="imageForm" action="#">
                 <div class="image-editor">
-                    <div class="btns">
-                        <div class="btn select-image-btn"><span class="icon icon-image"></span>Select new image</div>
-                        <input name="image" type="file" class="cropit-image-input">
+                    <div id="leftcolumn">
+                        <div class="cropit-image-preview"></div>
+                        <br>
                     </div>
-                    <div class="cropit-image-preview"></div>
-                    <div class="image-size-label">
+                    <div id="rightcolumn">
+                        <input name="image" type="file" class="cropit-image-input"/>
                         Resize image
+                        <input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01"/>
+                        <input type="hidden" name="image-data" class="hidden-image-data"/>
+                        <br>
+                        <button form="imageForm" class="btn btn-success" type="submit">Upload Image</button>
                     </div>
-                    <div class="slider-wrapper">
-                        <span class="icon icon-image small-image"></span>
-                        <input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01">
-                        <span class="icon icon-image large-image"></span>
-                    </div>
-                    <input type="hidden" name="image-data" class="hidden-image-data"/>
-                    <br>
-                    <button class="btn" type="submit">Upload Image</button>
                 </div>
             </form>
-            <br>
-            <form:form id="profile" modelAttribute="profile" class="form-horizontal" method="put" action="${user_url}">
+
+            <form:form id="profileForm" modelAttribute="profile" class="form-horizontal" method="put"
+                       action="${user_url}">
+
                 <div class="form-group col-md-10">
                     <label for="fullname" class="col-md-6"><spring:message code="label.fullname"/></label>
                     <spring:bind path="profile.fullname">
@@ -71,9 +68,9 @@
                     <label for="gender" class="col-md-6"><spring:message code="label.gender"/></label>
                     <spring:bind path="profile.gender">
                         <select name="${status.expression}" id="gender" class="form-control">
+                            <option id="no_gender" value="">Choose your gender</option>
                             <option id="male" value="male"><spring:message code="label.gender.male"/></option>
                             <option id="female" value="female"><spring:message code="label.gender.female"/></option>
-                            <option id="no_gender" value="">Choose your gender</option>
                         </select>
                     </spring:bind>
                 </div>
@@ -112,8 +109,7 @@
             </form:form>
         </div>
         <div class="panel-footer">
-            <button form="profile" type="submit" class="btn btn-success">Update profile</button>
-            <button form="profile" type="reset" class="btn"><spring:message code="button.clear"/></button>
+            <button form="profileForm" type="submit" class="btn btn-success">Update profile</button>
         </div>
         <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not
             valid.</p>

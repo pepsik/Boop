@@ -29,15 +29,15 @@
     <script src="${pageContext.request.contextPath}/resources/tags/bootstrap-tagsinput.js"></script>
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
     <link rel="stylesheet" href="http://timschlechter.github.io/bootstrap-tagsinput/examples/assets/app.css">
-    <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+    <%--<script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>--%>
     <%--<script src="${pageContext.request.contextPath}/bower_components/readmore/jquery.mockjax.js"></script>--%>
 
     <!-- SmartSite js,css-->
     <script src="${pageContext.request.contextPath}/resources/js/comments.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/favorites.js"></script>
+    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/autolinked_conf.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/smooth_scroll.js"></script>
-    <script src="${pageContext.request.contextPath}/bower/Autolinker.js/dist/Autolinker.min.js"></script>
     <link href="${pageContext.request.contextPath}/resources/css/after.css" rel="stylesheet" type="text/css"/>
 
     <%--<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.min.js"></script>--%>

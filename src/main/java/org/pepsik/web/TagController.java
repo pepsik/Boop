@@ -1,17 +1,22 @@
 package org.pepsik.web;
 
+import org.pepsik.model.Tag;
 import org.pepsik.service.SmartService;
 import org.pepsik.web.exception.BadRequestException;
 import org.pepsik.web.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Created by pepsik on 5/26/15.
@@ -32,7 +37,34 @@ public class TagController {
         } catch (UnsupportedEncodingException e) {
             throw new BadRequestException();
         }
-
         return "tag/posts";
+    }
+
+    @RequestMapping(value = "/{tagName}/edit", method = RequestMethod.GET, produces = "text/html")
+    public String editTag(@PathVariable String tagName, Model model, HttpSession session) {
+        Tag tag = service.getTag(tagName);
+        session.setAttribute("tag", tag);
+        model.addAttribute(tag);
+        return "tag/edit";
+    }
+
+    @RequestMapping(value = "/{tagName}", method = RequestMethod.PUT, produces = "text/html")
+    public String updateTag(@Valid Tag updatedTag, BindingResult result, @PathVariable String tagName, HttpSession session) {
+        if (result.hasErrors())
+            return "tag/edit";
+
+        final Tag tag = (Tag) session.getAttribute("tag");
+        updatedTag.setId(tag.getId());
+        updatedTag.setCreateDate(tag.getCreateDate());
+        updatedTag.setPostsCount(tag.getPostsCount());
+        updatedTag.setAuthor(tag.getAuthor());
+        service.saveTag(updatedTag);
+        try {
+            tagName = URLEncoder.encode(tagName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new BadRequestException();
+        }
+        System.out.println(tagName);
+        return "redirect:/tag/" + tagName;
     }
 }

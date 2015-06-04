@@ -4,6 +4,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import org.pepsik.model.Post;
 import org.pepsik.model.Tag;
+import org.pepsik.model.support.PostLabel;
 import org.pepsik.persistence.PostDao;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pepsik on 5/23/15.
@@ -28,6 +30,7 @@ public class PostDaoImpl implements PostDao {
     private EntityManager em;
 
     @Override
+    @SuppressWarnings("unchecked")
     @Cacheable(cacheName = "postCache")
     public List<Post> getAllPosts() {
         return em.createQuery(SELECT_ALL_POSTS).getResultList();
@@ -80,6 +83,12 @@ public class PostDaoImpl implements PostDao {
     public void deletePost(long id) {
         em.remove(getPostById(id));
         em.flush();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PostLabel> getSimilarPosts(String name) {
+        return em.createNativeQuery("SELECT post_id, title FROM posts", "PostLabelResult").getResultList();
     }
 }
 

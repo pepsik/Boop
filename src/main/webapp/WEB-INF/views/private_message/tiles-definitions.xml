@@ -3,15 +3,44 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="messages/input" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/private_message/input.jsp"/>
+    <definition name="main_template.private_message_content"
+                template="/WEB-INF/views/private_message/private_message_template.jsp">
+        <put-attribute name="menu" value="/WEB-INF/views/private_message/menu_list.jsp"/>
     </definition>
 
-    <definition name="messages/output" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/private_message/output.jsp"/>
+    <definition name="private_message/new" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.private_message_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/private_message/new_message.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
-    <definition name="messages/main" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/private_message/main.jsp"/>
+    <definition name="private_message/output" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.private_message_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/private_message/output.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
+
+    <definition name="private_message/input" extends="main_template">
+        <put-attribute name="content">
+            <definition extends="main_template.private_message_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/private_message/input.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <!--<definition name="messages/input" extends="main_template">-->
+        <!--<put-attribute name="content" value="/WEB-INF/views/private_message/input.jsp"/>-->
+    <!--</definition>-->
+
+    <!--<definition name="messages/output" extends="main_template">-->
+        <!--<put-attribute name="content" value="/WEB-INF/views/private_message/output.jsp"/>-->
+    <!--</definition>-->
+
+    <!--<definition name="messages/new" extends="main_template">-->
+        <!--<put-attribute name="content" value="/WEB-INF/views/private_message/new_message.jsp"/>-->
+    <!--</definition>-->
 </tiles-definitions>

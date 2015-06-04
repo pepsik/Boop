@@ -24,8 +24,8 @@
     <br>
     <ul class="nav nav-tabs">
         <li><a href="/user/${username}">Public Profile</a></li>
-        <li><a href="/user/${username}/posts/1">Posts</a></li>
-        <li><a href="/user/${username}/comments/1">Comments</a></li>
+        <li><a href="/user/${username}/posts/1">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
+        <li><a href="/user/${username}/comments/1">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a></li>
         <li class="active"><a href="#">Favorites&nbsp;&nbsp;<span class="badge">${favoritesCount}</span></a></li>
         <li><a href="#">Friends</a></li>
     </ul>
@@ -82,32 +82,72 @@
                     </article>
 
                     <div class="formHolder author text-info">
-                        <small><joda:format value="${favorite.post.when}" pattern="HH:mm MMM d, yyyy"/>
-                            <c:out value="by "/>
-                            <a href="${user_url}">${favorite.post.user.username}</a>
-                        </small>
-                        <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
-                                data-target="#button${loop.count}">
-                            <spring:message code="button.comment.hide"/> &nbsp;<span
-                                class="badge">${favorite.post.comments.size()}</span>
-                        </button>
-                        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <c:set var="access" value="${true}" scope="page"/>
-                            </sec:authorize>
-                            <c:if test="${authorizedUser.equals(favorite.post.user.username) or access}">
-                                <sf:form action="${post_url}" method="delete">
-                                    <button type="submit" class="btn btn-xs btn-danger">
-                                        <spring:message code="button.delete"/>
+                        <%--<small><joda:format value="${favorite.post.when}" pattern="HH:mm MMM d, yyyy"/>--%>
+                            <%--<c:out value="by "/>--%>
+                            <%--<a href="${user_url}">${favorite.post.user.username}</a>--%>
+                        <%--</small>--%>
+                        <%--<button class="btn btn-xs btn-success" type="button" data-toggle="collapse"--%>
+                                <%--data-target="#button${loop.count}">--%>
+                            <%--<spring:message code="button.comment.hide"/> &nbsp;<span--%>
+                                <%--class="badge">${favorite.post.comments.size()}</span>--%>
+                        <%--</button>--%>
+                        <%--<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">--%>
+                            <%--<sec:authorize access="hasRole('ROLE_ADMIN')">--%>
+                                <%--<c:set var="access" value="${true}" scope="page"/>--%>
+                            <%--</sec:authorize>--%>
+                            <%--<c:if test="${authorizedUser.equals(favorite.post.user.username) or access}">--%>
+                                <%--<sf:form action="${post_url}" method="delete">--%>
+                                    <%--<button type="submit" class="btn btn-xs btn-danger">--%>
+                                        <%--<spring:message code="button.delete"/>--%>
+                                    <%--</button>--%>
+                                <%--</sf:form>--%>
+                                <%--<sf:form action="${post_url}/edit" method="get">--%>
+                                    <%--<button type="submit" class="btn btn-xs">--%>
+                                        <%--<spring:message code="button.edit"/>--%>
+                                    <%--</button>--%>
+                                <%--</sf:form>--%>
+                            <%--</c:if>--%>
+                        <%--</sec:authorize>--%>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <small><joda:format value="${favorite.post.when}" pattern="HH:mm MMM d, yyyy"/></small>
+                                    by&nbsp;
+                                    <img src="${pageContext.request.contextPath}/resources/images/avatars/${favorite.post.user.username}.jpeg"
+                                         alt=""
+                                         width="40px" class="img-rounded"
+                                         onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
+                                    <a href="${user_url}">${favorite.post.user.username}</a>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
+                                            data-target="#button${loop.count}">
+                                        <spring:message code="button.comment.hide"/> &nbsp;<span
+                                            class="badge">${favorite.post.comments.size()}</span>
                                     </button>
-                                </sf:form>
-                                <sf:form action="${post_url}/edit" method="get">
-                                    <button type="submit" class="btn btn-xs">
-                                        <spring:message code="button.edit"/>
-                                    </button>
-                                </sf:form>
-                            </c:if>
-                        </sec:authorize>
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-3">
+                                    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                            <c:set var="access" value="${true}" scope="page"/>
+                                        </sec:authorize>
+                                        <c:if test="${authorizedUser.equals(favorite.post.user.username) or access}">
+                                            <sf:form action="${post_url}" method="delete">
+                                                <button type="submit" class="btn btn-xs btn-danger">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                    <spring:message code="button.delete"/>
+                                                </button>
+                                            </sf:form>
+                                            <sf:form action="${post_url}/edit" method="get">
+                                                <button type="submit" class="btn btn-xs">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                    <spring:message code="button.edit"/>
+                                                </button>
+                                            </sf:form>
+                                        </c:if>
+                                    </sec:authorize>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </li>

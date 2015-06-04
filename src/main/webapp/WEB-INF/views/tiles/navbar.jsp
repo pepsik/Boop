@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid" style="width: 1000px">
+    <div class="container-fluid" style="width: 1010px">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
                     aria-expanded="false" aria-controls="navbar">
@@ -17,11 +17,15 @@
             <a class="navbar-brand" href="/home"><span class="glyphicon glyphicon-home"></span> </a>
         </div>
 
-        <%--<form class="navbar-form navbar-left" role="search">--%>
-            <%--<button type="button" class="btn btn-info">--%>
-                <%--<span class="glyphicon glyphicon-search"></span> <spring:message code="navbar.search.placeholder"/>--%>
-            <%--</button>--%>
-        <%--</form>--%>
+        <form id="searchForm" class="navbar-form navbar-left" role="search" method="post" action="/search/posts">
+            <div class="form-group">
+                <input name="name" type="text" class="form-control"
+                       placeholder="<spring:message code="navbar.search.placeholder"/>"/>
+            </div>
+            <button form="searchForm" type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </form>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -37,7 +41,7 @@
                     <sec:authentication var="username" property="principal.username"/>
                     <li class="padding-top">
                         <img src="${pageContext.request.contextPath}/resources/images/avatars/${username}.jpeg" alt=""
-                             width="40px"
+                             width="40px" class="img-rounded"
                              onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
                     </li>
                     <li>

@@ -5,8 +5,8 @@ import org.joda.time.DateTime;
 import org.pepsik.model.*;
 import org.pepsik.model.Post;
 import org.pepsik.model.Profile;
-import org.pepsik.model.support.FavoriteComparator;
 import org.pepsik.model.support.PostComparator;
+import org.pepsik.model.support.PostLabel;
 import org.pepsik.persistence.*;
 import org.pepsik.web.exception.*;
 import org.slf4j.Logger;
@@ -52,6 +52,9 @@ public class SmartServiceImpl implements SmartService {
     @Autowired
     private FavoriteDao favoriteDao;
 
+    @Autowired
+    private PrivateMessageDao privateMessageDao;
+
     @Override
     public List<Post> getAllPosts() {
         return postDao.getAllPosts();
@@ -87,17 +90,7 @@ public class SmartServiceImpl implements SmartService {
     public void savePost(Post post) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (post.getTags() != null) {
-            Set<Tag> postTags = post.getTags();
-            Set<Tag> finalTags = new HashSet<>();
-            for (Tag tag : postTags)
-                if (isExistTag(tag.getName()))
-                    finalTags.add(tagDao.getTag(tag.getName()));
-                else {
-                    tag.setCreateDate(new DateTime());
-                    tag.setAuthor(getUser(loggedUser));
-                    finalTags.add(tag);
-                }
-            post.setTags(finalTags);
+            checkPostTags(post);
         }
         if (post.getId() == 0) {
             User user = getUser(loggedUser);
@@ -107,10 +100,32 @@ public class SmartServiceImpl implements SmartService {
             postDao.updatePost(post);
     }
 
+    //checking existing tags and its post_counters
+    private void checkPostTags(Post post) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Set<Tag> postTags = post.getTags();
+        Set<Tag> finalTags = new HashSet<>();
+        for (Tag tag : postTags)
+            if (isExistTag(tag.getName())) {
+                Tag existTag = tagDao.getTag(tag.getName());
+                existTag.setPostsCount(existTag.getPostsCount() + 1);
+                finalTags.add(existTag);
+            } else {
+                tag.setPostsCount(1);
+                tag.setCreateDate(new DateTime());
+                tag.setAuthor(getUser(loggedUser));
+                finalTags.add(tag);
+            }
+        post.setTags(finalTags);
+    }
+
     @Override
     @Transactional(readOnly = false)
     @PreAuthorize("(hasRole('ROLE_USER') and principal.username == this.getPost(#id).user.username) or hasRole('ROLE_ADMIN')")
     public void deletePost(long id) {
+        for (Tag tag : getPost(id).getTags())
+            tag.setPostsCount(tag.getPostsCount() - 1);
+
         postDao.deletePost(id);
     }
 
@@ -313,15 +328,20 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     @Transactional(readOnly = false)
-    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == post.user.username) or hasRole('ROLE_ADMIN')")
-    public void saveComment(Comment post) {
-        if (post.getId() == 0) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void saveComment(Comment comment) {
+        if (comment.getId() == 0) {
             String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = getUser(loggedUser);
-            post.setUser(user);
-            commentDao.addComment(post);
+            comment.setUser(user);
+            commentDao.addComment(comment);
         } else
-            commentDao.updateComment(post);
+            authorizedUpdatedUpdateComment(comment);
+    }
+
+    @PreAuthorize("(hasRole('ROLE_USER') and principal.username == #comment.user.username) or hasRole('ROLE_ADMIN')")
+    private void authorizedUpdatedUpdateComment(Comment comment) {
+        commentDao.updateComment(comment);
     }
 
     @Override
@@ -423,7 +443,12 @@ public class SmartServiceImpl implements SmartService {
         if (tag.getId() == 0)
             tagDao.createTag(tag);
         else
-            tagDao.updateTag(tag);
+            moderatorAuthorityUpdateTag(tag);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    private void moderatorAuthorityUpdateTag(Tag tag) {
+        tagDao.updateTag(tag);
     }
 
     @Override
@@ -436,4 +461,60 @@ public class SmartServiceImpl implements SmartService {
         return true;
     }
 
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void sendPrivateMessage(PrivateMessage message) {
+        User recipient = getUser(message.getRecipient().getUsername());
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        User sender = getUser(loggedUser);
+        message.setSender(sender);
+        message.setRecipient(recipient);
+        message.setDispatchDate(new DateTime());
+        privateMessageDao.createPrivateMessage(message);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<PrivateMessage> getOutputPrivateMessages() {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return privateMessageDao.getOutputPrivateMessages(getUser(loggedUser).getId());
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<PrivateMessage> getInputPrivateMessages() {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<PrivateMessage> privateMessages = privateMessageDao.getInputPrivateMessages(getUser(loggedUser).getId());
+        for (PrivateMessage message : privateMessages)
+            message.setIsRead(true); //TODO: realize isRead modification PM
+        return privateMessages;
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public long getOutputPMCount() {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return privateMessageDao.getOutputPrivateMessageCount(
+                getUser(loggedUser));
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public long getInputPMCount() {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return privateMessageDao.getInputPrivateMessageCount(
+                getUser(loggedUser));
+    }
+
+    @Override
+    public List<Post> getSimilarPosts(String name) {
+        logger.info(postDao.getSimilarPosts(name).toString());
+        List<PostLabel> matchesList = postDao.getSimilarPosts(name);
+        List<Post> resultPostList = new LinkedList<>();
+        for (PostLabel postLabel : matchesList)
+            if (postLabel.getTitle().toLowerCase().contains(name.toLowerCase()))
+                resultPostList.add(getPost(postLabel.getId()));
+
+        return resultPostList;
+    }
 }

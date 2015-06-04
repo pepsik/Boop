@@ -19,7 +19,8 @@
             <div>
                 <spring:bind path="post.tags">
                     <label id="${status.expression}">Tags</label>
-                    <input type="text" name="${status.expression}" id="tags" value="${status.value}" data-role="tagsinput"/>
+                    <input type="text" name="${status.expression}" id="tags" value="${status.value}"
+                           data-role="tagsinput"/>
                 </spring:bind>
             </div>
 
@@ -30,7 +31,8 @@
             <br>
 
             <div class="submit">
-                <button type="submit" onclick="autolink('summernote')" class="btn btn-success"><spring:message code="button.post.new.create"/></button>
+                <button type="submit" onclick="autolink('summernote')" class="btn btn-success"><spring:message
+                        code="button.post.new.create"/></button>
             </div>
         </sf:form>
     </div>
@@ -42,7 +44,25 @@
             height: 450,
             minHeight: 200,
             maxHeight: null,
-            focus: true
+            focus: true,
+            onImageUpload: function (files, editor, welEditable) {
+                sendFile(files[0], editor, welEditable);
+            }
         });
+        function sendFile(file, editor, welEditable) {
+            var formData = new FormData();
+            formData.append("image", file);
+            $.ajax({
+                data: formData,
+                type: "POST",
+                url: "/user/upload/image",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (url) {
+                    editor.insertImage(welEditable, url);
+                }
+            });
+        }
     });
 </script>

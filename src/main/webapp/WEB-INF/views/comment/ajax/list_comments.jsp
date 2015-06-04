@@ -31,7 +31,25 @@
             lang: '<spring:message code="summernote.lang"/>',  //wtf
             height: 150,
             minHeight: 100,
-            maxHeight: null
+            maxHeight: null,
+            onImageUpload: function (files, editor, welEditable) {
+                sendFile(files[0], editor, welEditable);
+            }
         });
+        function sendFile(file, editor, welEditable) {
+            var formData = new FormData();
+            formData.append("image", file);
+            $.ajax({
+                data: formData,
+                type: "POST",
+                url: "/user/upload/image",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (url) {
+                    editor.insertImage(welEditable, url);
+                }
+            });
+        }
     });
 </script>

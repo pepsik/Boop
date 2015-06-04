@@ -9,6 +9,10 @@
     <title>${post.title}</title>
 </head>
 
+<s:url value="/user/{name}" var="user_url">
+    <s:param name="name" value="${post.user.username}"/>
+</s:url>
+
 <div>
     <div>
         <s:url value="/post/{id}" var="post_url">
@@ -42,9 +46,7 @@
         </h3>
         <c:forEach var="tag" items="${post.tags}">
             &nbsp;&nbsp;
-                            <span class="tag label label-default">
-                                <span>${tag.name}</span>
-                            </span>
+            <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
         </c:forEach>
 
         <div class="post">
@@ -52,18 +54,40 @@
         </div>
 
         <div class="formHolder author text-info">
-                    <span class="padding-top">
-                    <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                        <c:out value="by ${post.user.username}"/></small>
-                    </span>
-
-            <sf:form action="${post_url}" method="delete">
-                <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
-            </sf:form>
-
-            <sf:form action="${post_url}/edit" method="get">
-                <input type="submit" class="btn btn-xs" value="Edit"/>
-            </sf:form>
+            <div class="row">
+                <div class="col-md-6">
+                    <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
+                    by&nbsp;
+                    <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
+                         alt=""
+                         width="40px" class="img-rounded"
+                         onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
+                    <a href="${user_url}">${post.user.username}</a>
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
+                    <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <c:set var="access" value="${true}" scope="page"/>
+                        </sec:authorize>
+                        <c:if test="${authorizedUser.equals(post.user.username) or access}">
+                            <sf:form action="${post_url}" method="delete">
+                                <button type="submit" class="btn btn-xs btn-danger">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    <spring:message code="button.delete"/>
+                                </button>
+                            </sf:form>
+                            <sf:form action="${post_url}/edit" method="get">
+                                <button type="submit" class="btn btn-xs">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    <spring:message code="button.edit"/>
+                                </button>
+                            </sf:form>
+                        </c:if>
+                    </sec:authorize>
+                </div>
+            </div>
         </div>
     </div>
 

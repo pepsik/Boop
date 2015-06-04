@@ -68,34 +68,46 @@
                     </section>
 
                     <div class="formHolder author text-info">
-                        <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                            <c:out value="by "/>
-                            <a href="${user_url}">${post.user.username}</a>
-                        </small>
-                        <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
-                                data-target="#button${loop.count}">
-                            <spring:message code="button.comment.hide"/> &nbsp;<span
-                                class="badge">${post.comments.size()}</span>
-                        </button>
-                        <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <c:set var="access" value="${true}" scope="page"/>
-                            </sec:authorize>
-                            <c:if test="${authorizedUser.equals(post.user.username) or access}">
-                                <sf:form action="${post_url}" method="delete">
-                                    <button type="submit" class="btn btn-xs btn-danger">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                        <spring:message code="button.delete"/>
-                                    </button>
-                                </sf:form>
-                                <sf:form action="${post_url}/edit" method="get">
-                                    <button type="submit" class="btn btn-xs">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                        <spring:message code="button.edit"/>
-                                    </button>
-                                </sf:form>
-                            </c:if>
-                        </sec:authorize>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
+                                by&nbsp;
+                                <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
+                                     alt=""
+                                     width="40px" class="img-rounded"
+                                     onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
+                                <a href="${user_url}">${post.user.username}</a>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
+                                        data-target="#button${loop.count}">
+                                    <spring:message code="button.comment.hide"/> &nbsp;<span
+                                        class="badge">${post.comments.size()}</span>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-3">
+                                <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+                                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                        <c:set var="access" value="${true}" scope="page"/>
+                                    </sec:authorize>
+                                    <c:if test="${authorizedUser.equals(post.user.username) or access}">
+                                        <sf:form action="${post_url}" method="delete">
+                                            <button type="submit" class="btn btn-xs btn-danger">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                                <spring:message code="button.delete"/>
+                                            </button>
+                                        </sf:form>
+                                        <sf:form action="${post_url}/edit" method="get">
+                                            <button type="submit" class="btn btn-xs">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                                <spring:message code="button.edit"/>
+                                            </button>
+                                        </sf:form>
+                                    </c:if>
+                                </sec:authorize>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -109,16 +121,16 @@
                     getComments(${post.id}, ${loop.count});
                 });
 
-                collapseButton.on('shown.bs.collapse', function (e) {
-                    var id = $(e.target).prev().find("[id]")[0].id;
-                    navigateToElement(id);
-                })
-
-                function navigateToElement(id) {
-                    $('html, body').animate({
-                        scrollTop: $("#" + id).offset().top
-                    }, 1000);
-                }
+//                collapseButton.on('shown.bs.collapse', function (e) {
+//                    var id = $(e.target).prev().find("[id]")[0].id;
+//                    navigateToElement(id);
+//                })
+//
+//                function navigateToElement(id) {
+//                    $('html, body').animate({
+//                        scrollTop: $("#" + id).offset().top
+//                    }, 700);
+//                }
             </script>
 
         </c:forEach>

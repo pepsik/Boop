@@ -1,6 +1,6 @@
 $(function () {
 
-    $('form').submit(function (e) {
+    $('#imageForm').submit(function (e) {
         e.preventDefault();
         // Move cropped image data to hidden input
         var imageData = $('.image-editor').cropit('export');

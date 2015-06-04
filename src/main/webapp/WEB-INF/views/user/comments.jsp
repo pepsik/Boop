@@ -22,9 +22,10 @@
     <br>
     <ul class="nav nav-tabs">
         <li><a href="/user/${username}">Public Profile</a></li>
-        <li><a href="/user/${username}/posts/1">Posts</a></li>
+        <li><a href="/user/${username}/posts/1">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
         <li class="active"><a href="#">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a></li>
-        <li><a href="/user/${username}/favorites/1">Favorites</a></li>
+        <li><a href="/user/${username}/favorites/1">Favorites&nbsp;&nbsp;<span
+                class="badge">${favoritesCount}</span></a></li>
         <li><a href="#">Friends</a></li>
     </ul>
     <br>
@@ -44,6 +45,7 @@
             <li type="none" class="spittle-list">
                 <h5><a class="label label-primary" href="${post_url}">
                     <c:out value="${comment.post.title}"/></a></h5>
+
                 <div class="comment" id="${comment.id}">
                     <div id="summernoteComment${comment.id}">
                             ${comment.text}

@@ -23,15 +23,18 @@ public class Tag {
 
     @NotNull
     @Size(min = 2, max = 30)
+    @Column
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id_fk", referencedColumnName = "user_id")
     private User author;
 
-    @Size(min = 3, max = 300)
+    @Size(max = 2000)
+    @Column
     private String description;
 
+    @Size(max = 100)
     @Column(name = "image")
     private String imageUrl;
 

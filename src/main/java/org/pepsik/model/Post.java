@@ -1,6 +1,8 @@
 package org.pepsik.model;
 
 
+import org.pepsik.model.support.PostLabel;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -9,6 +11,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+@SqlResultSetMapping(name = "PostLabelResult", classes = {
+        @ConstructorResult(targetClass = PostLabel.class,
+                columns = {@ColumnResult(name = "post_id", type = long.class), @ColumnResult(name = "title", type = String.class)})
+})
 @Entity
 @Table(name = "posts")
 @PrimaryKeyJoinColumn(name = "post_id")
@@ -106,8 +112,7 @@ public class Post extends MessageEntity implements Serializable {
     public String toString() {
         return "Post{" +
                 "title='" + title + '\'' +
-                ", tags=" + tags +
                 ", isFavorite=" + isFavorite +
-                "} " + super.toString();
+                "} ";
     }
 }

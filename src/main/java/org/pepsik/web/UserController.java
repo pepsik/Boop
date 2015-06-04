@@ -1,5 +1,6 @@
 package org.pepsik.web;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -7,11 +8,14 @@ import org.pepsik.model.Profile;
 import org.pepsik.model.User;
 import org.pepsik.service.SmartService;
 import org.pepsik.web.exception.BadRequestException;
+import org.pepsik.web.exception.ImageUploadException;
 import org.pepsik.web.exception.ResourceNotFoundException;
 import org.pepsik.web.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,7 @@ import java.beans.PropertyEditorSupport;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 @Controller
@@ -100,6 +105,9 @@ public class UserController {
     public String getUserProfile(@PathVariable("username") String username, Model model) {
         model.addAttribute(service.getProfile(username));
         model.addAttribute("username", username);
+        model.addAttribute("commentsCount", service.getUserCommentsCount(username));
+        model.addAttribute("postsCount", service.getUserPostsCount(username));
+        model.addAttribute("favoritesCount", service.getUserFavoritesCount(username));
         return "user/view_profile";
     }
 
@@ -137,6 +145,8 @@ public class UserController {
         model.addAttribute("currentPageIndex", pageId);
         model.addAttribute("username", username);
         model.addAttribute("favoritesCount", favoritesCount);
+        model.addAttribute("postsCount", service.getUserPostsCount(username));
+        model.addAttribute("commentsCount", service.getUserCommentsCount(username));
         return "user/favorites";
     }
 
@@ -169,6 +179,8 @@ public class UserController {
         model.addAttribute("currentPageIndex", pageId);
         model.addAttribute("username", username);
         model.addAttribute("postsCount", postsCount);
+        model.addAttribute("favoritesCount", service.getUserFavoritesCount(username));
+        model.addAttribute("commentsCount", service.getUserCommentsCount(username));
         return "user/posts";
     }
 
@@ -200,11 +212,14 @@ public class UserController {
         model.addAttribute("currentPageIndex", pageId);
         model.addAttribute("username", username);
         model.addAttribute("commentsCount", commentsCount);
+        model.addAttribute("postsCount", service.getUserPostsCount(username));
+        model.addAttribute("favoritesCount", service.getUserFavoritesCount(username));
         return "user/comments";
     }
 
+    //TODO: crutch
     @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public void uploadUserAvatar(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
+    public String uploadUserAvatar(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
 //        String name = file.getName();
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!file.isEmpty()) {
@@ -242,5 +257,52 @@ public class UserController {
             } catch (Exception e) {
             }
         }
+        return "redirect:/settings/profile";
+    }
+
+    @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
+    public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
+        String path = new String();
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+
+                // Creating the directory to store file
+                File dir = new File(request.getSession().getServletContext().getRealPath("/resources/images/"));
+                File dir2 = new File("C:\\Users\\pepsik\\IdeaProjects\\SmartSite\\src\\main\\webapp\\resources\\images\\");
+                if (!dir.exists())
+                    dir.mkdirs();
+
+                if (!dir2.exists())
+                    dir2.mkdirs();
+
+                File serverFile = new File(dir.getAbsolutePath()
+                        + File.separator + file.getOriginalFilename());
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+
+                File serverFile2 = new File(dir2.getAbsolutePath()
+                        + File.separator + file.getOriginalFilename());
+                BufferedOutputStream stream2 = new BufferedOutputStream(
+                        new FileOutputStream(serverFile2));
+                stream2.write(bytes);
+                stream2.close();
+
+                logger.info("Server File Location="
+                        + serverFile.getAbsolutePath());
+
+                logger.info("Server File Location="
+                        + serverFile2.getAbsolutePath());
+
+                path = "http://109.86.236.28:8080/resources/images/" + URLEncoder.encode(serverFile.getName(), "UTF-8");
+                logger.info(serverFile.getCanonicalPath());
+            } catch (Exception e) {
+                throw new ImageUploadException();
+            }
+        }
+        return new HttpEntity<>(path);
     }
 }

@@ -79,4 +79,16 @@ public interface SmartService {
     Tag getTag(String name);
 
     boolean isExistTag(String tag);
+
+    void sendPrivateMessage(PrivateMessage message);
+
+    List<PrivateMessage> getOutputPrivateMessages();
+
+    List<PrivateMessage> getInputPrivateMessages();
+
+    List<Post> getSimilarPosts(String name);
+
+    long getInputPMCount();
+
+    long getOutputPMCount();
 }

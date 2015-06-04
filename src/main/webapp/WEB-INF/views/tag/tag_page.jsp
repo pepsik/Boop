@@ -17,8 +17,13 @@
     <title>Tag</title>
 </head>
 
+<%--<sec:authentication property="principal.username" var="authorizedUser"/>--%>
+<s:url value="/tag/{name}" var="tag_url">
+    <s:param name="name" value="${tag.name}"/>
+</s:url>
+
 <div class="container-fluid">
-    <img src="${tag.imageUrl}">
+    <img src="${tag.imageUrl}" style="max-width: 900px; max-height: 400px"/>
 
     <h1><span class="tag label label-default">${tag.name}</span></h1>
 
@@ -37,13 +42,23 @@
             </div>
         </div>
     </div>
+    <br>
 
+    <div class="container-fluid" style="float: right;">
+        <sec:authorize access="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')">
+            <sf:form action="${tag_url}/edit" method="get">
+                <button type="submit" class="btn btn-xs">
+                    <spring:message code="button.edit"/>
+                </button>
+            </sf:form>
+        </sec:authorize>
+    </div>
     <br>
     <br>
 
     <div class="container-fluid">
 
-        <ol>
+        <ol type="none">
             <c:forEach var="post" items="${tag.posts}" varStatus="loop">
                 <s:url value="/post/{id}" var="post_url">
                     <s:param name="id" value="${post.id}"/>
@@ -102,7 +117,6 @@
                                     class="badge">${post.comments.size()}</span>
                             </button>
                             <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                                <sec:authentication property="principal.username" var="authorizedUser"/>
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                                     <c:set var="access" value="${true}" scope="page"/>
                                 </sec:authorize>
@@ -149,4 +163,6 @@
     </div>
 </div>
 
+<script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>
+

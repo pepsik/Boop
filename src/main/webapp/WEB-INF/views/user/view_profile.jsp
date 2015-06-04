@@ -21,81 +21,74 @@
     <br>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#">Public Profile</a></li>
-        <li><a href="/user/${username}/posts/1">Posts</a></li>
-        <li><a href="/user/${username}/comments/1">Comments</a></li>
-        <li><a href="/user/${username}/favorites/1">Favorites</a></li>
+        <li><a href="/user/${username}/posts/1">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
+        <li><a href="/user/${username}/comments/1">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a>
+        </li>
+        <li><a href="/user/${username}/favorites/1">Favorites&nbsp;&nbsp;<span
+                class="badge">${favoritesCount}</span></a></li>
         <li><a href="#">Friends</a></li>
     </ul>
     <br>
 </div>
+
+<div class="container-fluid col-md-5" style="margin-left: 40px">
+    <img src="${pageContext.request.contextPath}/resources/images/avatars/${username}.jpeg" width="350"
+         class="img-rounded"
+         onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
+
+    <div class="container-fluid" style="margin-left:10px ">
+        <span class="glyphicon glyphicon-time margin-top"></span>&nbsp;&nbsp;Joined on Feb 18, 2013
+        <br>
+        <span class="glyphicon glyphicon-user margin-top"></span>&nbsp;&nbsp;as Member
+        <br>
+        <span class="glyphicon glyphicon-flag margin-top"></span>&nbsp;&nbsp;Last seen at Feb 18, 2013
+        <br>
+        <span class="glyphicon glyphicon-thumbs-up margin-top"></span>&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp; <span
+            class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;0
+    </div>
+</div>
+
 <div class="container-fluid">
     <s:url var="user_url" value="/settings/profile"/>
-
-    <div class="container-fluid col-md-7">
+    <div class="col-md-6">
         <div class="panel panel-success">
-            <div class="panel-heading"><h4><spring:message code="label.user.view.title"/></h4></div>
+            <div class="panel-heading" style="padding-left: 40px"><h3><b>${username}</b></h3></div>
             <div class="panel-body">
-                <table class="table table-striped">
+                <table class="table">
+                    <tbody>
                     <tr>
-                        <th><spring:message code="label.fullname"/></th>
-                        <td><b><c:out value="${profile.fullname}"/></b></td>
+                        <td><spring:message code="label.fullname"/></td>
+                        <td>${profile.fullname}</td>
                     </tr>
                     <tr>
-                        <th></th>
-                        <td></td>
+                        <td><spring:message code="label.email"/></td>
+                        <td>${profile.email}</td>
                     </tr>
                     <tr>
-                        <th><spring:message code="label.email"/></th>
-                        <td><b><c:out value="${profile.email}"/></b></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th><spring:message code="label.birthdate"/></th>
+                        <td><spring:message code="label.birthdate"/></td>
                         <td><joda:format value="${profile.birthdate}" pattern="MMM d, yyyy"/></td>
                     </tr>
                     <tr>
-                        <th></th>
-                        <td></td>
+                        <td><spring:message code="label.gender"/></td>
+                        <td>${profile.gender}</td>
                     </tr>
                     <tr>
-                        <th><spring:message code="label.gender"/></th>
-                        <td><b>${profile.gender}</b></td>
+                        <td><spring:message code="label.country"/></td>
+                        <td>${profile.country}</td>
                     </tr>
                     <tr>
-                        <th></th>
-                        <td></td>
+                        <td><spring:message code="label.city"/></td>
+                        <td>${profile.city}</td>
                     </tr>
                     <tr>
-                        <th><spring:message code="label.country"/></th>
-                        <td><b><c:out value="${profile.country}"/></b></td>
+                        <td><spring:message code="label.job"/></td>
+                        <td>${profile.job}</td>
                     </tr>
                     <tr>
-                        <th></th>
-                        <td></td>
+                        <td><spring:message code="label.about"/></td>
+                        <td>${profile.about}</td>
                     </tr>
-                    <tr>
-                        <th><spring:message code="label.city"/></th>
-                        <td><b><c:out value="${profile.city}"/></b></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th><spring:message code="label.job"/></th>
-                        <td><b><c:out value="${profile.job}"/></b></td>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th><spring:message code="label.about"/></th>
-                        <td><b><c:out value="${profile.about}"/></b></td>
-                    </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="panel-footer">
@@ -111,9 +104,5 @@
                 </sec:authorize>
             </div>
         </div>
-    </div>
-    <div class="container-fluid col-md-5">
-        <img src="${pageContext.request.contextPath}/resources/images/avatars/${username}.jpeg" width="350"
-             onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
     </div>
 </div>
