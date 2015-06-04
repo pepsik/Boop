@@ -10,13 +10,13 @@
     <div class="col-sm-3">
         <ul class="nav nav-pills nav-stacked">
             <li role="presentation">
-                <a href="/messages">New private message</a></li>
+                <a href="${relativePath}/messages">New private message</a></li>
             <li role="presentation">
-                <a href="/messages/input">Inbox (${inputPMCount})
+                <a href="${relativePath}/messages/input">Inbox (${inputPMCount})
                     <span class="badge" style="float: right">1</span>
                 </a></li>
             <li role="presentation">
-                <a href="/messages/output">Sent messages (${outputPMCount})
+                <a href="${relativePath}/messages/output">Sent messages (${outputPMCount})
                 </a></li>
         </ul>
     </div>

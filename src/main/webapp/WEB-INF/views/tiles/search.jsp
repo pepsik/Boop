@@ -25,7 +25,7 @@
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${post.id}"/>
             </s:url>
-            <s:url value="/user/{id}" var="user_url">
+            <s:url value="/user/{id}" var="edit_profile_url">
                 <s:param name="id" value="${post.user.username}"/>
             </s:url>
 
@@ -76,7 +76,7 @@
                                      alt=""
                                      width="40px" class="img-rounded"
                                      onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
-                                <a href="${user_url}">${post.user.username}</a>
+                                <a href="${edit_profile_url}">${post.user.username}</a>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                         data-target="#button${loop.count}">

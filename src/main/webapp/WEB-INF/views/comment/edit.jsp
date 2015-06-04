@@ -6,7 +6,7 @@
 
 <div>
 
-    <s:url value="/post/${thread_id}/post/${post.id}" var="post_url"/>
+    <s:url value="${relativePath}/post/${post_id}/comment/${comment.id}" var="post_url"/>
 
     <h2>Edit Comment</h2>
 

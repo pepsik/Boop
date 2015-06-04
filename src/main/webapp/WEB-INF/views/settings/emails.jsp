@@ -18,7 +18,7 @@
         <div class="panel-heading"><b>Email</b></div>
         <div class="panel-body">
             <form:form id="email_form" modelAttribute="emailForm" class="form-horizontal" method="put"
-                       action="/settings/emails">
+                       action="">
                 <div class="form-group  col-md-10">
                     <label for="email" class="col-md-6"><spring:message code="label.email"/></label>
                     <input type="email" name="email" id="email"

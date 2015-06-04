@@ -15,7 +15,7 @@
 
 <div style="margin-top: 10px">
     <div class="well col-sm-9" style="padding: 5px">
-        <sf:form modelAttribute="privateMessage" method="post" action="/messages">
+        <sf:form modelAttribute="privateMessage" method="post" action="${relativePath}/messages">
             <sf:label path="recipient">Recipient name</sf:label>
             <div class="form-group">
                 <sf:errors path="recipient" cssClass="label label-danger"/>

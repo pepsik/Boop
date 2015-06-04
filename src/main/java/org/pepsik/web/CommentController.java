@@ -33,8 +33,8 @@ public class CommentController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editComment(@PathVariable("id") long id, HttpSession session, Model model) {
         Comment comment = service.getComment(id);
-        session.setAttribute("post", comment);
-        model.addAttribute("post", comment);
+        session.setAttribute("comment", comment);
+        model.addAttribute("comment", comment);
         model.addAttribute("post_id", comment.getPost().getId());
         return "comment/edit";
     }
@@ -58,14 +58,14 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updateComment(@PathVariable("id") long id, HttpSession session, Model model, @Valid Comment editedComment, BindingResult result) {
+    public String updateComment(@PathVariable("id") long id, HttpSession session, @Valid Comment editedComment, BindingResult result) {
         if (result.hasErrors())
             return "comment/edit";
 
-        Comment comment = (Comment) session.getAttribute("post");
+        Comment comment = (Comment) session.getAttribute("comment");
         comment.setText(editedComment.getText());
-        model.addAttribute("post", comment);
         service.saveComment(comment);
+        session.removeAttribute("comment");
         return "redirect:/post/" + comment.getPost().getId();
     }
 

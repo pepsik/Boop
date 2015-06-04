@@ -10,7 +10,7 @@
 
 <div>
     <div class="well">
-        <sf:form modelAttribute="post" method="post" action="/post">
+        <sf:form modelAttribute="post" method="post" action="${pageContext.request.contextPath}/post">
             <sf:label path="title"><spring:message code="label.post.title"/></sf:label>
             <div class="form-group">
                 <sf:errors path="title" cssClass="label label-danger"/>

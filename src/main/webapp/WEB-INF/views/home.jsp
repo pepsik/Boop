@@ -20,12 +20,10 @@
 <div class="container-fluid">
     <ol type="none">
         <c:forEach var="post" items="${postList}" varStatus="loop">
-            <s:url value="/post/{id}" var="post_url">
-                <s:param name="id" value="${post.id}"/>
-            </s:url>
-            <s:url value="/user/{id}" var="user_url">
-                <s:param name="id" value="${post.user.username}"/>
-            </s:url>
+            <s:url value="/post/${post.id}" var="post_url"/>
+            <s:url value="/user/${post.user.username}" var="edit_profile_url"/>
+            <s:url value="uploads/avatars/def-ava.png" var="default_avatar_url"/>
+            <s:url value="uploads/avatars/${post.user.username}.jpeg" var="user_avatar_url"/>
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
@@ -72,11 +70,10 @@
                             <div class="col-md-6">
                                 <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
                                 by&nbsp;
-                                <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
-                                     alt=""
+                                <img src="/uploads/avatars/${post.user.username}.jpeg"
                                      width="40px" class="img-rounded"
-                                     onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
-                                <a href="${user_url}">${post.user.username}</a>
+                                     onError="uploads/avatars/def-ava.png"/>
+                                <a href="${edit_profile_url}">${post.user.username}</a>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                         data-target="#button${loop.count}">
@@ -121,16 +118,16 @@
                     getComments(${post.id}, ${loop.count});
                 });
 
-//                collapseButton.on('shown.bs.collapse', function (e) {
-//                    var id = $(e.target).prev().find("[id]")[0].id;
-//                    navigateToElement(id);
-//                })
-//
-//                function navigateToElement(id) {
-//                    $('html, body').animate({
-//                        scrollTop: $("#" + id).offset().top
-//                    }, 700);
-//                }
+                //                collapseButton.on('shown.bs.collapse', function (e) {
+                //                    var id = $(e.target).prev().find("[id]")[0].id;
+                //                    navigateToElement(id);
+                //                })
+                //
+                //                function navigateToElement(id) {
+                //                    $('html, body').animate({
+                //                        scrollTop: $("#" + id).offset().top
+                //                    }, 700);
+                //                }
             </script>
 
         </c:forEach>
@@ -138,7 +135,7 @@
     <ul class="pagination">
         <c:choose>
             <c:when test="${1 != currentPageIndex}">
-                <li><a href="/page/${currentPageIndex - 1}">&laquo;</a></li>
+                <li><a href="${pageContext.request.contextPath}/page/${currentPageIndex - 1}">&laquo;</a></li>
             </c:when>
         </c:choose>
         <c:forEach items="${pagination}" var="pageIndex">
@@ -147,13 +144,13 @@
                     <li class="active"><a>${pageIndex}</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="/page/${pageIndex}">${pageIndex}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/page/${pageIndex}">${pageIndex}</a></li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:choose>
             <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
-                <li><a href="/page/${currentPageIndex + 1}">&raquo;</a></li>
+                <li><a href="${pageContext.request.contextPath}/page/${currentPageIndex + 1}">&raquo;</a></li>
             </c:when>
         </c:choose>
     </ul>

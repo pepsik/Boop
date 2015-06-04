@@ -1,5 +1,6 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,16 +56,16 @@
         <div id="carousel-generic" class="carousel slide" data-ride="carousel" data-interval="15000">
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                    <img src="<s:url value="/resources" />/images/logo2.png">
+                    <img src="/uploads/logo2.png">
                 </div>
                 <div class="item">
-                    <img src="<s:url value="/resources" />/images/logo1.png">
+                    <img src="/uploads/logo1.png">
                 </div>
                 <div class="item">
-                    <img src="<s:url value="/resources" />/images/logo3.png">
+                    <img src="/uploads/logo3.png">
                 </div>
                 <div class="item">
-                    <img src="<s:url value="/resources" />/images/logo4.png">
+                    <img src="/uploads/logo4.png">
                 </div>
             </div>
 

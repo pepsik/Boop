@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -7,16 +8,17 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <div class="container-fluid col-sm-4">
     <div class="list-group">
             <span class="list-group-item list-group-item-info">
                 <b>Personal Settings</b>
             </span>
-        <a href="/settings/profile" class="list-group-item">Profile</a>
-        <a href="/settings/account" class="list-group-item">Account</a>
-        <a href="/settings/emails" class="list-group-item">Emails</a>
-        <a href="/settings/security" class="list-group-item">Security</a>
-        <a href="/settings/view" class="list-group-item disabled">Accessibility</a>
+        <a href="${relativePath}/settings/profile" class="list-group-item">Profile</a>
+        <a href="${relativePath}/settings/account" class="list-group-item">Account</a>
+        <a href="${relativePath}/settings/emails" class="list-group-item">Emails</a>
+        <a href="${relativePath}/settings/security" class="list-group-item">Security</a>
+        <a href="${relativePath}/settings/view" class="list-group-item disabled">Accessibility</a>
     </div>
 </div>
 

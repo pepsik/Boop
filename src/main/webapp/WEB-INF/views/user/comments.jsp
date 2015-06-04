@@ -38,7 +38,7 @@
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${comment.post.id}"/>
             </s:url>
-            <s:url value="/user/{id}" var="user_url">
+            <s:url value="/user/{id}" var="edit_profile_url">
                 <s:param name="id" value="${comment.user.username}"/>
             </s:url>
 
@@ -53,7 +53,7 @@
                     <div class="author text-info">
                         <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${user_url}">${comment.user.username}</a>
+                            <a href="${edit_profile_url}">${comment.user.username}</a>
                         </small>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>

@@ -5,11 +5,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
+<s:url value="${relativePath}/post/${post_id}/comment" var="comment_url"/>
+
 <div>
     <h2>New Comment</h2>
 
     <div class="well">
-        <sf:form modelAttribute="comment" method="post" id="commentForm" action="/post/${post_id}/comment">
+        <sf:form modelAttribute="comment" method="post" id="commentForm" action="${comment_url}">
             <form:textarea path="text" id="summernote"/>
             <br>
 

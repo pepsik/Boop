@@ -15,7 +15,7 @@
 
 <c:set var="comment" value="${requestScope.get('comment')}"/>
 
-<s:url value="/user/{id}" var="user_url">
+<s:url value="${relativePath}/user/{id}" var="edit_profile_url">
     <s:param name="id" value="${comment.user.id}"/>
 </s:url>
 
@@ -26,7 +26,7 @@
     <div class="author text-info">
         <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
             <c:out value="by "/>
-            <a href="${user_url}">${comment.user.username}</a>
+            <a href="${edit_profile_url}">${comment.user.username}</a>
         </small>
         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
             <sec:authentication property="principal.username" var="authorizedUser"/>

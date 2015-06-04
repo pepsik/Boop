@@ -9,16 +9,17 @@
     <title>${post.title}</title>
 </head>
 
-<s:url value="/user/{name}" var="user_url">
+<s:url value="${relativePath}/user/{name}" var="edit_profile_url">
     <s:param name="name" value="${post.user.username}"/>
 </s:url>
 
+<s:url value="${relativePath}/post/{id}" var="post_url">
+    <s:param name="id" value="${post.id}"/>
+</s:url>
+<s:url value="${relativePath}/tag/${tag.name}" var="post_url"></s:url>
+
 <div>
     <div>
-        <s:url value="/post/{id}" var="post_url">
-            <s:param name="id" value="${post.id}"/>
-        </s:url>
-
         <h3><a class="label label-primary" href="${post_url}">
             <c:out value="${post.title}"/>
         </a>
@@ -58,11 +59,11 @@
                 <div class="col-md-6">
                     <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
                     by&nbsp;
-                    <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
+                    <img src="${relativePath}/resources/images/avatars/${post.user.username}.jpeg"
                          alt=""
                          width="40px" class="img-rounded"
-                         onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
-                    <a href="${user_url}">${post.user.username}</a>
+                         onError="this.src='<s:url value="${relativePath}/resources/images/avatars"/>/def-ava.png';"/>
+                    <a href="${edit_profile_url}">${post.user.username}</a>
                 </div>
                 <div class="col-md-3">
                 </div>
