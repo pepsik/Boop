@@ -17,13 +17,15 @@
     <title>Welcome</title>
 </head>
 
+<s:url var="previous_page_url" value="/page/${currentPageIndex - 1}"/>
+<s:url var="next_page_url" value="/page/${currentPageIndex + 1}"/>
+
 <div class="container-fluid">
     <ol type="none">
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/${post.id}" var="post_url"/>
-            <s:url value="/user/${post.user.username}" var="edit_profile_url"/>
-            <s:url value="uploads/avatars/def-ava.png" var="default_avatar_url"/>
-            <s:url value="uploads/avatars/${post.user.username}.jpeg" var="user_avatar_url"/>
+            <s:url value="/post/${post.id}/edit" var="post_edit_url"/>
+            <s:url value="/user/${post.user.username}/profile" var="profile_url"/>
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
@@ -53,10 +55,10 @@
                         </sec:authorize>
                     </h3>
                     <c:forEach var="tag" items="${post.tags}">
+                        <s:url value="/tag/${tag.name}" var="tag_url"/>
                         &nbsp;&nbsp;
-                        <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
+                        <a href="${tag_url}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
-
                     <section>
                         <article>
                             <div class="post summernote">
@@ -64,7 +66,6 @@
                             </div>
                         </article>
                     </section>
-
                     <div class="formHolder author text-info">
                         <div class="row">
                             <div class="col-md-6">
@@ -72,8 +73,8 @@
                                 by&nbsp;
                                 <img src="/uploads/avatars/${post.user.username}.jpeg"
                                      width="40px" class="img-rounded"
-                                     onError="uploads/avatars/def-ava.png"/>
-                                <a href="${edit_profile_url}">${post.user.username}</a>
+                                     onError="this.src='/uploads/avatars/def-ava.png';"/>
+                                <a href="${profile_url}">${post.user.username}</a>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                         data-target="#button${loop.count}">
@@ -95,7 +96,7 @@
                                                 <spring:message code="button.delete"/>
                                             </button>
                                         </sf:form>
-                                        <sf:form action="${post_url}/edit" method="get">
+                                        <sf:form action="${post_edit_url}" method="get">
                                             <button type="submit" class="btn btn-xs">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 <spring:message code="button.edit"/>
@@ -135,22 +136,23 @@
     <ul class="pagination">
         <c:choose>
             <c:when test="${1 != currentPageIndex}">
-                <li><a href="${pageContext.request.contextPath}/page/${currentPageIndex - 1}">&laquo;</a></li>
+                <li><a href="${previous_page_url}">&laquo;</a></li>
             </c:when>
         </c:choose>
         <c:forEach items="${pagination}" var="pageIndex">
+            <s:url var="page_url" value="/page/${pageIndex}"/>
             <c:choose>
                 <c:when test="${pageIndex == currentPageIndex}">
                     <li class="active"><a>${pageIndex}</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="${pageContext.request.contextPath}/page/${pageIndex}">${pageIndex}</a></li>
+                    <li><a href="${page_url}">${pageIndex}</a></li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:choose>
             <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
-                <li><a href="${pageContext.request.contextPath}/page/${currentPageIndex + 1}">&raquo;</a></li>
+                <li><a href="${next_page_url}">&raquo;</a></li>
             </c:when>
         </c:choose>
     </ul>

@@ -19,26 +19,13 @@
 </head>
 
 <div class="container-fluid">
-    <br>
-    <ul class="nav nav-tabs">
-        <li><a href="/user/${username}">Public Profile</a></li>
-        <li><a href="/user/${username}/posts/1">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
-        <li class="active"><a href="#">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a></li>
-        <li><a href="/user/${username}/favorites/1">Favorites&nbsp;&nbsp;<span
-                class="badge">${favoritesCount}</span></a></li>
-        <li><a href="#">Friends</a></li>
-    </ul>
-    <br>
-</div>
-
-<div class="container-fluid">
     <h2><span class="label label-default">Comments &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="comment" items="${commentList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${comment.post.id}"/>
             </s:url>
-            <s:url value="/user/{id}" var="edit_profile_url">
+            <s:url value="/user/{id}/profile" var="profile_url">
                 <s:param name="id" value="${comment.user.username}"/>
             </s:url>
 
@@ -53,7 +40,7 @@
                     <div class="author text-info">
                         <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
                             <c:out value="by "/>
-                            <a href="${edit_profile_url}">${comment.user.username}</a>
+                            <a href="${profile_url}">${comment.user.username}</a>
                         </small>
                         <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                             <sec:authentication property="principal.username" var="authorizedUser"/>

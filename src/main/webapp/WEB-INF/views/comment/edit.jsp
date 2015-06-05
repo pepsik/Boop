@@ -6,12 +6,12 @@
 
 <div>
 
-    <s:url value="${relativePath}/post/${post_id}/comment/${comment.id}" var="post_url"/>
+    <s:url value="/post/${post_id}/comment/${comment.id}" var="comment_url"/>
 
     <h2>Edit Comment</h2>
 
     <div class="well">
-        <sf:form modelAttribute="post" method="PUT" action="${post_url}">
+        <sf:form modelAttribute="post" method="PUT" action="${comment_url}">
             <form:textarea path="text" id="summernote"/>
             <sf:errors path="text"/>
             <br>

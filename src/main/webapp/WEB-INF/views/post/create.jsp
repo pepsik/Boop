@@ -3,14 +3,17 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <head>
     <title>New post</title>
 </head>
 
+<s:url value="/post/" var="post_url"/>
+
 <div>
     <div class="well">
-        <sf:form modelAttribute="post" method="post" action="${pageContext.request.contextPath}/post">
+        <sf:form modelAttribute="post" method="post" action="${post_url}">
             <sf:label path="title"><spring:message code="label.post.title"/></sf:label>
             <div class="form-group">
                 <sf:errors path="title" cssClass="label label-danger"/>

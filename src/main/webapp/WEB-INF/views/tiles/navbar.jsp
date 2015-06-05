@@ -8,17 +8,16 @@
     <sec:authentication var="username" property="principal.username"/>
 </sec:authorize>
 
-<s:url value="/user/${username}" var="public_profile_url"/>
-<s:url value="/user/${username}/favorites/1" var="favorite_url"/>
-<s:url value="/post/new" var="new_post__url"/>
-<s:url value="/messages" var="pm_url"/>
+<s:url value="/user/${username}/profile" var="public_profile_url"/>
+<s:url value="/user/${username}/favorites/1" var="user_favorites_url"/>
+<s:url value="/post/new" var="new_post_url"/>
+<s:url value="/messages" var="user_pm_url"/>
 <s:url value="/search/posts" var="search_form_url"/>
 <s:url value="/home" var="home_url"/>
 <s:url value="/user" var="sign_up_url"/>
 <s:url value="/settings/profile" var="settings_profile_url"/>
 <s:url value="/static/j_spring_security_logout" var="logout_url"/>
 <s:url value="/static/j_spring_security_check" var="login_url"/>
-<s:url value="/search/posts" var="user_profile_url"/>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid" style="width: 1010px">
@@ -59,9 +58,9 @@
                     <li class="padding-top">
                         <img src="/uploads/avatars/${username}.jpeg" alt=""
                              width="40px" class="img-rounded"
-                             onError="/uploads/avatars/def-ava.png';"/>
+                             onError="this.src='/uploads/avatars/def-ava.png';"/>
                     </li>
-                    <li>
+                    <li id="public_profile_nav">
                         <a href="${public_profile_url}" role="button" aria-expanded="false" data-toggle="tooltip"
                            data-placement="bottom"
                            title="Public profile">
@@ -69,19 +68,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="${new_post__url}" role="button" aria-expanded="false" data-toggle="tooltip"
+                        <a href="${new_post_url}" role="button" aria-expanded="false" data-toggle="tooltip"
                            data-placement="bottom"
                            title="<spring:message code="button.post.new"/>">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </li>
-                    <%--<li><a href="${user_profile_url}"><span class="glyphicon glyphicon-user"></span></a></li>--%>
-                    <li><a href="${favorite_url}" data-toggle="tooltip" data-placement="bottom"
+                    <li id="favorites_nav"><a href="${user_favorites_url}" data-toggle="tooltip" data-placement="bottom"
                            title="Favorites"><span class="glyphicon glyphicon-star"></span></a></li>
-                    <li><a href="${pm_url}" data-toggle="tooltip" data-placement="bottom"
+                    <li id="messages_nav"><a href="${user_pm_url}" data-toggle="tooltip" data-placement="bottom"
                            title="<spring:message code="navbar.dropdown.button.messages"/>"><span
                             class="glyphicon glyphicon-envelope"></span></a></li>
-                    <li><a href="${settings_profile_url}" data-toggle="tooltip" data-placement="bottom"
+                    <li id="settings_nav"><a href="${settings_profile_url}" data-toggle="tooltip" data-placement="bottom"
                            title="<spring:message code="navbar.dropdown.button.settings"/>"><span
                             class="glyphicon glyphicon-cog"></span></a></li>
                     <li><a href="${logout_url}" data-toggle="tooltip" data-placement="bottom"

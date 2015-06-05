@@ -17,31 +17,16 @@
     <title>Profile / ${profile.user.username}</title>
 </head>
 
-<s:url var="edit_profile_url" value="/settings/profile"/>
+<s:url var="profile_url" value="/settings/profile"/>
 <s:url var="user_posts_url" value="/user/${username}/posts/1"/>
 <s:url var="user_comments_url" value="/user/${username}/comments/1"/>
 <s:url var="user_favorites_url" value="/user/${username}/favorites/1"/>
 <s:url var="user_friends_url" value="#"/>
 
-
-<div class="container-fluid">
-    <br>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#">Public Profile</a></li>
-        <li><a href="${user_posts_url}">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
-        <li><a href="${user_comments_url}">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a>
-        </li>
-        <li><a href="${user_favorites_url}">Favorites&nbsp;&nbsp;<span
-                class="badge">${favoritesCount}</span></a></li>
-        <li><a href="${user_friends_url}">Friends</a></li>
-    </ul>
-    <br>
-</div>
-
 <div class="container-fluid col-md-5" style="margin-left: 40px">
     <img src="/uploads/avatars/${username}.jpeg" width="350"
          class="img-rounded"
-         onError="/uploads/avatars/def-ava.png"/>
+         onError="this.src='/uploads/avatars/def-ava.png';"/>
 
     <div class="container-fluid" style="margin-left:10px ">
         <span class="glyphicon glyphicon-time margin-top"></span>&nbsp;&nbsp;Joined on Feb 18, 2013
@@ -50,8 +35,8 @@
         <br>
         <span class="glyphicon glyphicon-flag margin-top"></span>&nbsp;&nbsp;Last seen at Feb 18, 2013
         <br>
-        <span class="glyphicon glyphicon-thumbs-up margin-top"></span>&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp; <span
-            class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;0
+        <%--<span class="glyphicon glyphicon-thumbs-up margin-top"></span>&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp; <span--%>
+            <%--class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;0--%>
     </div>
 </div>
 
@@ -100,12 +85,9 @@
             <div class="panel-footer">
                 <sec:authorize access="hasRole('ROLE_USER')">
                     <sec:authentication property="principal.username" var="authorizedUser"/>
-
                     <c:if test="${authorizedUser.equals(profile.user.username)}">
-
-                        <a href="${edit_profile_url}" class="btn btn-default"><span
+                        <a href="${profile_url}" class="btn btn-default"><span
                                 class="glyphicon glyphicon-pencil"></span>&nbsp;<spring:message code="button.edit"/></a>
-
                     </c:if>
                 </sec:authorize>
             </div>

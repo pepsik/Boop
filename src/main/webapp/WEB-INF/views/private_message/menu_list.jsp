@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -6,17 +7,22 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<s:url value="/messages" var="messages_url"/>
+<s:url value="/messages/input" var="input_messages_url"/>
+<s:url value="/messages/output" var="output_messages_url"/>
+
 <div style="margin-top: 10px">
     <div class="col-sm-3">
         <ul class="nav nav-pills nav-stacked">
             <li role="presentation">
-                <a href="${relativePath}/messages">New private message</a></li>
+                <a href="${messages_url}">New private message</a></li>
             <li role="presentation">
-                <a href="${relativePath}/messages/input">Inbox (${inputPMCount})
+                <a href="${input_messages_url}">Inbox (${inputPMCount})
                     <span class="badge" style="float: right">1</span>
                 </a></li>
             <li role="presentation">
-                <a href="${relativePath}/messages/output">Sent messages (${outputPMCount})
+                <a href="${output_messages_url}">Sent messages (${outputPMCount})
                 </a></li>
         </ul>
     </div>

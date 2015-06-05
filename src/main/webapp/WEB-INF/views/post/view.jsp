@@ -9,14 +9,12 @@
     <title>${post.title}</title>
 </head>
 
-<s:url value="${relativePath}/user/{name}" var="edit_profile_url">
-    <s:param name="name" value="${post.user.username}"/>
-</s:url>
-
-<s:url value="${relativePath}/post/{id}" var="post_url">
-    <s:param name="id" value="${post.id}"/>
-</s:url>
-<s:url value="${relativePath}/tag/${tag.name}" var="post_url"></s:url>
+<s:url value="/user/${post.user.username}/profile" var="profile_url"/>
+<s:url value="/post/${post.id}/edit" var="post_edit_url"/>
+<s:url value="/post/${post.id}" var="post_url"/>
+<s:url value="${post_url}/comment/${post.id}" var="comment_url"/>
+<s:url value="${post_url}/comment/${post.id}/edit" var="comment_edit_url"/>
+<s:url value="${post_url}/comment/new" var="new_comment_url"/>
 
 <div>
     <div>
@@ -46,8 +44,9 @@
 
         </h3>
         <c:forEach var="tag" items="${post.tags}">
+            <s:url value="/tag/${tag.name}" var="tag_url"/>
             &nbsp;&nbsp;
-            <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
+            <a href="${tag_url}" class="tag label label-default"> ${tag.name} </a>
         </c:forEach>
 
         <div class="post">
@@ -59,11 +58,10 @@
                 <div class="col-md-6">
                     <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
                     by&nbsp;
-                    <img src="${relativePath}/resources/images/avatars/${post.user.username}.jpeg"
-                         alt=""
+                    <img src="/uploads/avatars/${post.user.username}.jpeg"
                          width="40px" class="img-rounded"
-                         onError="this.src='<s:url value="${relativePath}/resources/images/avatars"/>/def-ava.png';"/>
-                    <a href="${edit_profile_url}">${post.user.username}</a>
+                         onError="this.src='/uploads/avatars/def-ava.png';"/>
+                    <a href="${profile_url}">${post.user.username}</a>
                 </div>
                 <div class="col-md-3">
                 </div>
@@ -79,7 +77,7 @@
                                     <spring:message code="button.delete"/>
                                 </button>
                             </sf:form>
-                            <sf:form action="${post_url}/edit" method="get">
+                            <sf:form action="${post_edit_url}" method="get">
                                 <button type="submit" class="btn btn-xs">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     <spring:message code="button.edit"/>
@@ -110,11 +108,11 @@
 
                     <c:if test="${authorizedUser.equals(post.user.username) or access}"> <!-- Shit -->
 
-                        <sf:form action="${post_url}/comment/${post.id}" method="delete">
+                        <sf:form action="${comment_url}" method="delete">
                             <input type="submit" class="btn btn-xs btn-danger" value="Delete"/>
                         </sf:form>
 
-                        <sf:form action="${post_url}/comment/${post.id}/edit" method="get">
+                        <sf:form action="${comment_edit_url}" method="get">
                             <input type="submit" class="btn btn-xs btn-default" value="Edit"/>
                         </sf:form>
 
@@ -125,7 +123,7 @@
     </c:forEach>
 
     <sec:authorize access="isAuthenticated()">
-        <sf:form action="${post_url}/comment/new" method="get">
+        <sf:form action="${new_comment_url}" method="get">
             <div class="submit">
                 <button type="submit" class="btn btn-success margin-top"><spring:message
                         code="button.comment.new"/></button>

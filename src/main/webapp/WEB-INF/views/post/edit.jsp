@@ -8,9 +8,8 @@
     <title>Post edit</title>
 </head>
 
+<s:url value="/post/${post.id}" var="post_url"/>
 <div>
-    <s:url value="/post/${post.id}" var="post_url"/>
-
     <div class="well">
         <sf:form modelAttribute="post" method="PUT" action="${post_url}">
             <sf:label path="title"><spring:message code="label.post.edit.title"/></sf:label>

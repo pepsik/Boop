@@ -101,7 +101,7 @@ public class UserController {
         return "redirect:/registration_successful";
     }
 
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{username}/profile", method = RequestMethod.GET)
     public String getUserProfile(@PathVariable("username") String username, Model model) {
         model.addAttribute(service.getProfile(username));
         model.addAttribute("username", username);

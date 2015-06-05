@@ -3,6 +3,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -15,9 +16,11 @@
     <title>Edit tag</title>
 </head>
 
+<s:url value="/tag/${tag.name}" var="tag_url"/>
+
 <div>
     <div class="well">
-        <sf:form modelAttribute="tag" method="put" action="/tag/${tag.name}">
+        <sf:form modelAttribute="tag" method="put" action="${tag_url}">
             <div class="form-group">
                 <sf:label path="name">Tag Name</sf:label>
                 <sf:errors path="name" cssClass="label label-danger"/>

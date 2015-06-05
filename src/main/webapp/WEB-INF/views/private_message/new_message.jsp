@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -13,9 +14,11 @@
     <title>New Private message</title>
 </head>
 
+<s:url value="/messages" var="messages_url"/>
+
 <div style="margin-top: 10px">
     <div class="well col-sm-9" style="padding: 5px">
-        <sf:form modelAttribute="privateMessage" method="post" action="${relativePath}/messages">
+        <sf:form modelAttribute="privateMessage" method="post" action="${messages_url}">
             <sf:label path="recipient">Recipient name</sf:label>
             <div class="form-group">
                 <sf:errors path="recipient" cssClass="label label-danger"/>

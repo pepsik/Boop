@@ -18,9 +18,7 @@
 </head>
 
 <%--<sec:authentication property="principal.username" var="authorizedUser"/>--%>
-<s:url value="/tag/{name}" var="tag_url">
-    <s:param name="name" value="${tag.name}"/>
-</s:url>
+<s:url value="/tag/${tag.name}" var="tag_url"/>
 
 <div class="container-fluid">
     <img src="${tag.imageUrl}" style="max-width: 900px; max-height: 400px"/>
@@ -63,7 +61,7 @@
                 <s:url value="/post/{id}" var="post_url">
                     <s:param name="id" value="${post.id}"/>
                 </s:url>
-                <s:url value="/user/{id}" var="edit_profile_url">
+                <s:url value="/user/{id}/profile" var="profile_url">
                     <s:param name="id" value="${post.user.username}"/>
                 </s:url>
 
@@ -109,7 +107,7 @@
                         <div class="formHolder author text-info">
                             <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
                                 <c:out value="by "/>
-                                <a href="${edit_profile_url}">${post.user.username}</a>
+                                <a href="${profile_url}">${post.user.username}</a>
                             </small>
                             <button class="btn btn-xs btn-success" type="button" data-toggle="collapse"
                                     data-target="#button${loop.count}">

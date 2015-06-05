@@ -14,6 +14,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<s:url value="/tag/${tag.name}" var="tag_url"/>
+<s:url value="/post/${post.id}/edit" var="post_edit_url"/>
+
 <div class="container-fluid">
     <h2><span class="label label-default">Search Results </span></h2>
     <br>
@@ -25,7 +28,7 @@
             <s:url value="/post/{id}" var="post_url">
                 <s:param name="id" value="${post.id}"/>
             </s:url>
-            <s:url value="/user/{id}" var="edit_profile_url">
+            <s:url value="/user/{id}" var="profile_url">
                 <s:param name="id" value="${post.user.username}"/>
             </s:url>
 
@@ -59,7 +62,7 @@
 
                     <c:forEach var="tag" items="${post.tags}">
                         &nbsp;&nbsp;
-                        <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
+                        <a href="${tag_url}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
 
                     <article>
@@ -72,11 +75,10 @@
                             <div class="col-md-6">
                                 <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
                                 by&nbsp;
-                                <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
-                                     alt=""
+                                <img src="/uploads/avatars/${post.user.username}.jpeg"
                                      width="40px" class="img-rounded"
-                                     onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
-                                <a href="${edit_profile_url}">${post.user.username}</a>
+                                     onError="this.src='/uploads/avatars/def-ava.png';"/>
+                                <a href="${profile_url}">${post.user.username}</a>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                         data-target="#button${loop.count}">
@@ -98,7 +100,7 @@
                                                 <spring:message code="button.delete"/>
                                             </button>
                                         </sf:form>
-                                        <sf:form action="${post_url}/edit" method="get">
+                                        <sf:form action="${post_edit_url}" method="get">
                                             <button type="submit" class="btn btn-xs">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 <spring:message code="button.edit"/>
@@ -120,43 +122,9 @@
                 collapseButton.on('show.bs.collapse', function () {               //exclude to js file?
                     getComments(${post.id}, ${loop.count});
                 });
-
-                collapseButton.on('shown.bs.collapse', function (e) {
-                    var id = $(e.target).prev().find("[id]")[0].id;
-                    navigateToElement(id);
-                })
-
-                function navigateToElement(id) {
-                    $('html, body').animate({
-                        scrollTop: $("#" + id).offset().top
-                    }, 1000);
-                }
             </script>
         </c:forEach>
     </ol>
-
-    <%--<ul class="pagination">--%>
-    <%--<c:choose>--%>
-    <%--<c:when test="${1 != currentPageIndex}">--%>
-    <%--<li><a href="/user/${username}/posts/${currentPageIndex - 1}">&laquo;</a></li>--%>
-    <%--</c:when>--%>
-    <%--</c:choose>--%>
-    <%--<c:forEach items="${pagination}" var="pageIndex">--%>
-    <%--<c:choose>--%>
-    <%--<c:when test="${pageIndex == currentPageIndex}">--%>
-    <%--<li class="active"><a>${pageIndex}</a></li>--%>
-    <%--</c:when>--%>
-    <%--<c:otherwise>--%>
-    <%--<li><a href="/user/${username}/posts/${pageIndex}">${pageIndex}</a></li>--%>
-    <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-    <%--</c:forEach>--%>
-    <%--<c:choose>--%>
-    <%--<c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">--%>
-    <%--<li><a href="/user/${username}/posts/${currentPageIndex + 1}">&raquo;</a></li>--%>
-    <%--</c:when>--%>
-    <%--</c:choose>--%>
-    <%--</ul>--%>
 </div>
 
 <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>

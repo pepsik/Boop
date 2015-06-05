@@ -3,28 +3,56 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
+    <definition name="main_template.user_content" template="/WEB-INF/views/user/user_template.jsp">
+        <put-attribute name="menu" value="/WEB-INF/views/user/menu_list.jsp"/>
+    </definition>
+
     <definition name="user/create" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/create_user.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/create_user.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
     <definition name="user/view_profile" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/view_profile.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/view_profile.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
     <definition name="user/favorites" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/favorites.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/favorites.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
     <definition name="user/posts" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/posts.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/posts.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
     <definition name="user/comments" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/comments.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/comments.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
     <definition name="user/registration_successful" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/user/registration_successful.jsp"/>
+        <put-attribute name="content">
+            <definition extends="main_template.user_content">
+                <put-attribute name="menu_content" value="/WEB-INF/views/user/registration_successful.jsp"/>
+            </definition>
+        </put-attribute>
     </definition>
 
 </tiles-definitions>

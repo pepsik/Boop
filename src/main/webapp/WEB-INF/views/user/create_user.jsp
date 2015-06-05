@@ -2,14 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <title>New user</title>
+
+<s:url value="/user" var="create_user_url"/>
 
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><h4><b><spring:message code="label.user.create.title"/></b></h4></div>
         <div class="panel-body">
-            <form:form id="new_user" modelAttribute="profile" class="form-horizontal" method="post" action="/user">
+            <form:form id="new_user" modelAttribute="profile" class="form-horizontal" method="post"
+                       action="${create_user_url}">
                 <div class="form-group col-xs-10">
                     <label for="email" class="col-xs-6"><spring:message code="label.email"/></label>
                     <spring:bind path="profile.email">

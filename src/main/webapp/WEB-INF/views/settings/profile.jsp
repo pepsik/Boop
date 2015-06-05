@@ -16,7 +16,7 @@
     <script src="${pageContext.request.contextPath}/bower/cropit/dist/jquery.cropit.min.js"></script>
 </head>
 
-<s:url var="edit_profile_url" value="/settings/profile"/>
+<s:url var="profile_url" value="/settings/profile"/>
 
 <div class="container-fluid col-sm-8">
     <div class="panel panel-default">
@@ -40,7 +40,7 @@
             </form>
 
             <form:form id="profileForm" modelAttribute="profile" class="form-horizontal" method="put"
-                       action="${edit_profile_url}">
+                       action="${profile_url}">
 
                 <div class="form-group col-md-10">
                     <label for="fullname" class="col-md-6"><spring:message code="label.fullname"/></label>
@@ -129,7 +129,7 @@
 
     $('.image-editor').cropit({
         imageState: {
-            src: '${pageContext.request.contextPath}/resources/images/avatars/${profile.user.username}.jpeg'
+            src: '/uploads/avatars/${profile.user.username}.jpeg'
         }
     });
 </script>

@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<s:url value="${relativePath}/post/${post_id}/comment" var="comment_url"/>
+<s:url value="/post/${post_id}/comment" var="comment_url"/>
 
 <div>
     <h2>New Comment</h2>

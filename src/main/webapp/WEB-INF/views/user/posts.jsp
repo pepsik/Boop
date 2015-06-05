@@ -22,30 +22,16 @@
     <sec:authentication property="principal.username" var="authorizedUser"/>
 </sec:authorize>
 
-<div class="container-fluid">
-    <br>
-    <ul class="nav nav-tabs">
-        <li><a href="/user/${username}">Public Profile</a></li>
-        <li class="active"><a href="#">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
-        <li><a href="/user/${username}/comments/1">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a>
-        </li>
-        <li><a href="/user/${username}/favorites/1">Favorites&nbsp;&nbsp;<span
-                class="badge">${favoritesCount}</span></a></li>
-        <li><a href="#">Friends</a></li>
-    </ul>
-    <br>
-</div>
+<s:url var="previous_page_url" value="/user/${username}/posts/${currentPageIndex - 1}"/>
+<s:url var="next_page_url" value="/user/${username}/posts/${currentPageIndex + 1}"/>
 
 <div class="container-fluid">
     <h2><span class="label label-default">Posts &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="post" items="${postList}" varStatus="loop">
-            <s:url value="/post/{id}" var="post_url">
-                <s:param name="id" value="${post.id}"/>
-            </s:url>
-            <s:url value="/user/{id}" var="edit_profile_url">
-                <s:param name="id" value="${post.user.username}"/>
-            </s:url>
+            <s:url value="/post/${post.id}" var="post_url"/>
+            <s:url value="/post/${post.id}/edit" var="post_edit_url"/>
+            <s:url value="/user/${post.user.username}/profile" var="profile_url"/>
 
             <li type="none" class="spittle-list">
                 <div class="postListText">
@@ -76,8 +62,9 @@
                     </h3>
 
                     <c:forEach var="tag" items="${post.tags}">
+                        <s:url var="tag_url" value="/tag/${tag.name}"/>
                         &nbsp;&nbsp;
-                        <a href="/tag/${tag.name}" class="tag label label-default"> ${tag.name} </a>
+                        <a href="${tag_url}" class="tag label label-default"> ${tag.name} </a>
                     </c:forEach>
 
                     <article>
@@ -90,11 +77,10 @@
                             <div class="col-md-6">
                                 <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/></small>
                                 by&nbsp;
-                                <img src="${pageContext.request.contextPath}/resources/images/avatars/${post.user.username}.jpeg"
-                                     alt=""
+                                <img src="/uploads/avatars/${post.user.username}.jpeg"
                                      width="40px" class="img-rounded"
-                                     onError="this.src='<s:url value="${pageContext.request.contextPath}/resources/images/avatars"/>/def-ava.png';"/>
-                                <a href="${edit_profile_url}">${post.user.username}</a>
+                                     onError="this.src='/uploads/avatars/def-ava.png';"/>
+                                <a href="${profile_url}">${post.user.username}</a>
                                 &nbsp;&nbsp;
                                 <button class="btn btn-xs btn-default" type="button" data-toggle="collapse"
                                         data-target="#button${loop.count}">
@@ -116,7 +102,7 @@
                                                 <spring:message code="button.delete"/>
                                             </button>
                                         </sf:form>
-                                        <sf:form action="${post_url}/edit" method="get">
+                                        <sf:form action="${post_edit_url}" method="get">
                                             <button type="submit" class="btn btn-xs">
                                                 <span class="glyphicon glyphicon-pencil"></span>
                                                 <spring:message code="button.edit"/>
@@ -139,16 +125,16 @@
                     getComments(${post.id}, ${loop.count});
                 });
 
-                collapseButton.on('shown.bs.collapse', function (e) {
-                    var id = $(e.target).prev().find("[id]")[0].id;
-                    navigateToElement(id);
-                })
-
-                function navigateToElement(id) {
-                    $('html, body').animate({
-                        scrollTop: $("#" + id).offset().top
-                    }, 1000);
-                }
+//                collapseButton.on('shown.bs.collapse', function (e) {
+//                    var id = $(e.target).prev().find("[id]")[0].id;
+//                    navigateToElement(id);
+//                })
+//
+//                function navigateToElement(id) {
+//                    $('html, body').animate({
+//                        scrollTop: $("#" + id).offset().top
+//                    }, 1000);
+//                }
             </script>
         </c:forEach>
     </ol>
@@ -156,22 +142,23 @@
     <ul class="pagination">
         <c:choose>
             <c:when test="${1 != currentPageIndex}">
-                <li><a href="/user/${username}/posts/${currentPageIndex - 1}">&laquo;</a></li>
+                <li><a href="${previous_page_url}">&laquo;</a></li>
             </c:when>
         </c:choose>
         <c:forEach items="${pagination}" var="pageIndex">
+            <s:url var="page_url" value="/user/${username}/posts/${pageIndex}"/>
             <c:choose>
                 <c:when test="${pageIndex == currentPageIndex}">
                     <li class="active"><a>${pageIndex}</a></li>
                 </c:when>
                 <c:otherwise>
-                    <li><a href="/user/${username}/posts/${pageIndex}">${pageIndex}</a></li>
+                    <li><a href="${page_url}">${pageIndex}</a></li>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
         <c:choose>
             <c:when test="${pagination.get(pagination.size()- 1) != currentPageIndex}">
-                <li><a href="/user/${username}/posts/${currentPageIndex + 1}">&raquo;</a></li>
+                <li><a href="${next_page_url}">&raquo;</a></li>
             </c:when>
         </c:choose>
     </ul>
