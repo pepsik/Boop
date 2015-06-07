@@ -21,7 +21,7 @@
             </div>
             <div>
                 <spring:bind path="post.tags">
-                    <label id="${status.expression}">Tags</label>
+                    <label id="${status.expression}"><spring:message code="label.post.tags"/></label>
                     <input type="text" name="${status.expression}" id="tags" value="${status.value}"
                            data-role="tagsinput"/>
                 </spring:bind>
@@ -52,6 +52,8 @@
                 sendFile(files[0], editor, welEditable);
             }
         });
+
+        $('#new_post_nav').addClass('active');
         function sendFile(file, editor, welEditable) {
             var formData = new FormData();
             formData.append("image", file);

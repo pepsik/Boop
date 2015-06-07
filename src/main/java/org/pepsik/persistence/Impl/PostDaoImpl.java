@@ -82,7 +82,6 @@ public class PostDaoImpl implements PostDao {
     @TriggersRemove(cacheName = "postCache", removeAll = true)
     public void deletePost(long id) {
         em.remove(getPostById(id));
-        em.flush();
     }
 
     @Override

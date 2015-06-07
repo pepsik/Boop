@@ -173,7 +173,7 @@ public class UserSettingsController {
     }
 
     @RequestMapping(value = "/emails", method = RequestMethod.PUT, produces = "text/html")
-    public String updateEmails(@Valid EmailForm emailForm, BindingResult result, Model model) {
+    public String updateEmails(@Valid EmailForm emailForm, BindingResult result) {
         if (result.hasErrors())
             return "settings/emails";
 

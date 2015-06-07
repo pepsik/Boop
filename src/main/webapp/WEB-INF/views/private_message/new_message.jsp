@@ -11,7 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>New Private message</title>
+    <title><spring:message code="button.private_message.new"/></title>
 </head>
 
 <s:url value="/messages" var="messages_url"/>
@@ -19,7 +19,7 @@
 <div style="margin-top: 10px">
     <div class="well col-sm-9" style="padding: 5px">
         <sf:form modelAttribute="privateMessage" method="post" action="${messages_url}">
-            <sf:label path="recipient">Recipient name</sf:label>
+            <sf:label path="recipient"><spring:message code="button.private_message.recipient_name"/></sf:label>
             <div class="form-group">
                 <sf:errors path="recipient" cssClass="label label-danger"/>
                 <sf:input path="recipient" cssClass="form-control" maxlength="20"/>

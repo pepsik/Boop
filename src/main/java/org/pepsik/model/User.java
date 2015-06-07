@@ -22,9 +22,9 @@ public class User {
     @Column
     private String username;
 
-    @Valid
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
+    @Valid
     private Password userPassword;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

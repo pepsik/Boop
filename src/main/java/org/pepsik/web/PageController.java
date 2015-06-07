@@ -31,7 +31,7 @@ public class PageController {
         }
 
         long postsCount = service.getAllPostsCount();
-        if (pageId > service.getPagesCount(postsCount))
+        if (pageId > service.getPagesCount(postsCount) || pageId <= 0)
             throw new ResourceNotFoundException();
 
         model.addAttribute(service.getPostsByPage(pageId));

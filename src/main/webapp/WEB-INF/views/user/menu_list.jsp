@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -16,13 +17,13 @@
 <div class="container-fluid">
     <br>
     <ul class="nav nav-tabs">
-        <li id="public_profile"><a href="${public_profile_url}">Public Profile</a></li>
-        <li id="posts"><a href="${user_posts_url}">Posts&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
-        <li id="comments"><a href="${user_comments_url}">Comments&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a>
+        <li id="public_profile"><a href="${public_profile_url}"><spring:message code="label.user.profile"/></a></li>
+        <li id="posts"><a href="${user_posts_url}"><spring:message code="label.user.posts"/>&nbsp;&nbsp;<span class="badge">${postsCount}</span></a></li>
+        <li id="comments"><a href="${user_comments_url}"><spring:message code="label.user.comments"/>&nbsp;&nbsp;<span class="badge">${commentsCount}</span></a>
         </li>
-        <li id="favorites"><a href="${user_favorites_url}">Favorites&nbsp;&nbsp;<span
+        <li id="favorites"><a href="${user_favorites_url}"><spring:message code="label.user.favorites"/>&nbsp;&nbsp;<span
                 class="badge">${favoritesCount}</span></a></li>
-        <li id="friends"><a href="#">Friends</a></li>
+        <li id="friends"><a href="#"><spring:message code="label.user.friends"/></a></li>
     </ul>
     <br>
 </div>

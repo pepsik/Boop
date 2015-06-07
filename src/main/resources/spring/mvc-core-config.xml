@@ -13,6 +13,7 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <import resource="mvc-view-config.xml"/>
+    <context:property-placeholder location="classpath:file-upload.properties"/>
 
     <context:component-scan base-package="org.pepsik.web"/>
 
@@ -24,6 +25,8 @@
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>
     </mvc:interceptors>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
         <property name="maxUploadSize" value="5242880"/>

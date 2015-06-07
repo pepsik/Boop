@@ -15,7 +15,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-    <title>Posts / ${username}</title>
+    <title><spring:message code="label.user.posts"/> / ${username}</title>
 </head>
 
 <sec:authorize access="isAuthenticated()">
@@ -26,7 +26,7 @@
 <s:url var="next_page_url" value="/user/${username}/posts/${currentPageIndex + 1}"/>
 
 <div class="container-fluid">
-    <h2><span class="label label-default">Posts &nbsp;${username}</span></h2>
+    <h2><span class="label label-default"><spring:message code="label.user.posts"/> &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="post" items="${postList}" varStatus="loop">
             <s:url value="/post/${post.id}" var="post_url"/>

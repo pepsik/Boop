@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -18,12 +19,12 @@
 <div class="container-fluid col-sm-4">
     <div class="list-group">
             <span class="list-group-item list-group-item-info">
-                <b>Personal Settings</b>
+                <b><spring:message code="label.personal_settings"/></b>
             </span>
-        <a href="${profile_url}" class="list-group-item">Profile</a>
-        <a href="${account_url}" class="list-group-item">Account</a>
-        <a href="${email_url}" class="list-group-item">Emails</a>
-        <a href="${security_url}" class="list-group-item">Security</a>
+        <a href="${profile_url}" class="list-group-item"><spring:message code="button.profile"/></a>
+        <a href="${account_url}" class="list-group-item"><spring:message code="button.account"/></a>
+        <a href="${email_url}" class="list-group-item"><spring:message code="button.emails"/></a>
+        <a href="${security_url}" class="list-group-item"><spring:message code="button.security"/></a>
         <a href="${acc_url}" class="list-group-item disabled">Accessibility</a>
     </div>
 </div>

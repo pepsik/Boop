@@ -10,15 +10,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-    <title>Emails</title>
+    <title><spring:message code="label.email"/></title>
 </head>
 
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><b>Email</b></div>
         <div class="panel-body">
-            <form:form id="email_form" modelAttribute="emailForm" class="form-horizontal" method="put"
-                       action="">
+            <form:form id="email_form" modelAttribute="emailForm" class="form-horizontal" method="put" action="">
                 <div class="form-group  col-md-10">
                     <label for="email" class="col-md-6"><spring:message code="label.email"/></label>
                     <input type="email" name="email" id="email"
@@ -32,7 +31,7 @@
             </form:form>
         </div>
         <div class="panel-footer">
-            <button form="email_form" type="submit" class="btn btn-default">Update email</button>
+            <button form="email_form" type="submit" class="btn btn-success"><spring:message code="button.email.update"/></button>
         </div>
     </div>
 </div>

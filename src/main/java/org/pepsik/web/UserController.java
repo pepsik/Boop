@@ -4,16 +4,15 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.pepsik.model.Password;
 import org.pepsik.model.Profile;
 import org.pepsik.model.User;
 import org.pepsik.service.SmartService;
-import org.pepsik.web.exception.BadRequestException;
-import org.pepsik.web.exception.ImageUploadException;
-import org.pepsik.web.exception.ResourceNotFoundException;
-import org.pepsik.web.exception.UserNotFoundException;
+import org.pepsik.web.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +45,12 @@ public class UserController {
     @Autowired
     private SmartService service;
 
+    @Autowired
+    SmartValidator validator;
+
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
 
@@ -65,19 +71,6 @@ public class UserController {
                 return fmt.print((DateTime) getValue());
             }
         });
-
-        binder.registerCustomEditor(String.class, "user.userPassword.password", new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) throws IllegalArgumentException {
-                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                setValue(encoder.encode(text));
-            }
-
-            @Override
-            public String getAsText() {
-                return "";
-            }
-        });
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -92,10 +85,13 @@ public class UserController {
     public String createUser(@Valid Profile profile, BindingResult bindingResult) {
         if (service.isExistUsername(profile.getUser().getUsername()))
             bindingResult.rejectValue("user.username", "username.exist");
+        logger.info(bindingResult.toString());
         if (bindingResult.hasErrors())
             return "user/create";
         User user = profile.getUser();
         user.setProfile(profile);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.getUserPassword().setPassword(encoder.encode(user.getUserPassword().getPassword()));
         user.getUserPassword().setUser(user);
         service.saveUser(user);
         return "redirect:/registration_successful";
@@ -217,92 +213,66 @@ public class UserController {
         return "user/comments";
     }
 
-    //TODO: crutch
     @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public String uploadUserAvatar(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
-//        String name = file.getName();
+    public String uploadUserAvatar(@RequestParam("image") MultipartFile file) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
+        if (!loggedUser.equals("guest")) {
+            if (!file.isEmpty())
+                try {
+                    byte[] bytes = file.getBytes();
 
-                // Creating the directory to store file
-                File dir = new File(request.getSession().getServletContext().getRealPath("/resources/images/avatars/"));
-                File dir2 = new File("C:\\Users\\pepsik\\IdeaProjects\\SmartSite\\src\\main\\webapp\\resources\\images\\avatars");
-                if (!dir.exists())
-                    dir.mkdirs();
+                    //TODO: to prop file
+                    File dir = new File(uploadPath + "\\avatars\\");
+                    if (!dir.exists())
+                        dir.mkdirs();
 
-                if (!dir2.exists())
-                    dir2.mkdirs();
+                    File serverFile = new File(dir.getAbsolutePath()
+                            + File.separator + loggedUser + ".jpeg");
+                    BufferedOutputStream stream = new BufferedOutputStream(
+                            new FileOutputStream(serverFile));
+                    stream.write(bytes);
+                    stream.close();
 
-                File serverFile = new File(dir.getAbsolutePath()
-                        + File.separator + loggedUser + ".jpeg");
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(serverFile));
-                stream.write(bytes);
-                stream.close();
-
-                File serverFile2 = new File(dir2.getAbsolutePath()
-                        + File.separator + loggedUser + ".jpeg");
-                BufferedOutputStream stream2 = new BufferedOutputStream(
-                        new FileOutputStream(serverFile2));
-                stream2.write(bytes);
-                stream2.close();
-
-                logger.info("Server File Location="
-                        + serverFile.getAbsolutePath());
-
-                logger.info("Server File Location="
-                        + serverFile2.getAbsolutePath());
-            } catch (Exception e) {
-            }
-        }
+                    logger.info("Server File Location="
+                            + serverFile.getAbsolutePath());
+                } catch (Exception e) {
+                    throw new ImageUploadException();
+                }
+        } else
+            throw new NoAuthorizationException();
         return "redirect:/settings/profile";
     }
 
     @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
     public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
-        String path = new String();
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
+        String path = "";
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("guest")) {
+            if (!file.isEmpty())
+                try {
+                    byte[] bytes = file.getBytes();
+                    //TODO: to prop file
+                    File dir = new File(uploadPath + "\\images\\");
+                    if (!dir.exists())
+                        dir.mkdirs();
 
-                // Creating the directory to store file
-                File dir = new File(request.getSession().getServletContext().getRealPath("/resources/images/"));
-                File dir2 = new File("C:\\Users\\pepsik\\IdeaProjects\\SmartSite\\src\\main\\webapp\\resources\\images\\");
-                if (!dir.exists())
-                    dir.mkdirs();
+                    File serverFile = new File(dir.getAbsolutePath()
+                            + File.separator + file.getOriginalFilename());
+                    BufferedOutputStream stream = new BufferedOutputStream(
+                            new FileOutputStream(serverFile));
+                    stream.write(bytes);
+                    stream.close();
 
-                if (!dir2.exists())
-                    dir2.mkdirs();
+                    logger.info("Server File Location="
+                            + serverFile.getAbsolutePath());
 
-                File serverFile = new File(dir.getAbsolutePath()
-                        + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(serverFile));
-                stream.write(bytes);
-                stream.close();
+                    path = "/uploads/images/" + URLEncoder.encode(serverFile.getName(), "UTF-8");
+                    logger.info(serverFile.getCanonicalPath());
+                } catch (Exception e) {
+                    throw new ImageUploadException();
+                }
+        } else
+            throw new NoAuthorizationException();
 
-                File serverFile2 = new File(dir2.getAbsolutePath()
-                        + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream2 = new BufferedOutputStream(
-                        new FileOutputStream(serverFile2));
-                stream2.write(bytes);
-                stream2.close();
-
-                logger.info("Server File Location="
-                        + serverFile.getAbsolutePath());
-
-                logger.info("Server File Location="
-                        + serverFile2.getAbsolutePath());
-
-                path = "http://109.86.236.28:8080/resources/images/" + URLEncoder.encode(serverFile.getName(), "UTF-8");
-                logger.info(serverFile.getCanonicalPath());
-            } catch (Exception e) {
-                throw new ImageUploadException();
-            }
-        }
         return new HttpEntity<>(path);
     }
 }

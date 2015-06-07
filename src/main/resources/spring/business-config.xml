@@ -13,7 +13,7 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="datasource-config.xml"/>
-    <context:property-placeholder location="classpath:spring/data-access.properties"/>
+    <context:property-placeholder location="classpath:data-access.properties"/>
 
     <context:component-scan base-package="org.pepsik.service"/>
     <context:component-scan base-package="org.pepsik.persistence"/>

@@ -7,14 +7,6 @@
         <put-attribute name="menu" value="/WEB-INF/views/user/menu_list.jsp"/>
     </definition>
 
-    <definition name="user/create" extends="main_template">
-        <put-attribute name="content">
-            <definition extends="main_template.user_content">
-                <put-attribute name="menu_content" value="/WEB-INF/views/user/create_user.jsp"/>
-            </definition>
-        </put-attribute>
-    </definition>
-
     <definition name="user/view_profile" extends="main_template">
         <put-attribute name="content">
             <definition extends="main_template.user_content">
@@ -48,11 +40,10 @@
     </definition>
 
     <definition name="user/registration_successful" extends="main_template">
-        <put-attribute name="content">
-            <definition extends="main_template.user_content">
-                <put-attribute name="menu_content" value="/WEB-INF/views/user/registration_successful.jsp"/>
-            </definition>
-        </put-attribute>
+        <put-attribute name="content" value="/WEB-INF/views/user/registration_successful.jsp"/>
     </definition>
 
+    <definition name="user/create" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/user/create_user.jsp"/>
+    </definition>
 </tiles-definitions>

@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -16,13 +17,13 @@
     <div class="col-sm-3">
         <ul class="nav nav-pills nav-stacked">
             <li role="presentation">
-                <a href="${messages_url}">New private message</a></li>
+                <a href="${messages_url}"><spring:message code="button.private_message.new"/></a></li>
             <li role="presentation">
-                <a href="${input_messages_url}">Inbox (${inputPMCount})
-                    <span class="badge" style="float: right">1</span>
+                <a href="${input_messages_url}"><spring:message code="button.private_message.inbox"/> (${inputPMCount})
+                    <%--<span class="badge" style="float: right">1</span>--%>
                 </a></li>
             <li role="presentation">
-                <a href="${output_messages_url}">Sent messages (${outputPMCount})
+                <a href="${output_messages_url}"><spring:message code="button.private_message.outbox"/> (${outputPMCount})
                 </a></li>
         </ul>
     </div>

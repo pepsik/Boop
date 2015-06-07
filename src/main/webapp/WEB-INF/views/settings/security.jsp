@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -7,7 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>Security</title>
+    <title><spring:message code="label.security"/></title>
 </head>
 
 <div class="container col-md-8">

@@ -17,7 +17,7 @@
                 <div class="form-group col-xs-10">
                     <label for="email" class="col-xs-6"><spring:message code="label.email"/></label>
                     <spring:bind path="profile.email">
-                        <input type="text" name="${status.expression}" id="email"
+                        <input type="email" name="${status.expression}" id="email"
                                class="form-control email required"
                                data-placement="top"
                                value="${status.value}"
@@ -55,7 +55,7 @@
                                data-content="Must be at least 3 characters long, must contain 1 number, 1 lowercase, 1 uppercase letters">
 
                         <div class="container">
-                            <form:errors path="${status.expression}" cssClass="label label-danger"/>
+                            <form:errors path="user.userPassword.password" cssClass="label label-danger"/>
                         </div>
                     </spring:bind>
                 </div>

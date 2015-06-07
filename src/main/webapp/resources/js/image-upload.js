@@ -12,9 +12,8 @@ $(function () {
         formData.append("image", blob);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/user/avatar");
+        xhr.open("POST", "/user/avatar", false);
         xhr.send(formData);
-
         return false;
     });
 });

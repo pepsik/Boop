@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -9,7 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<title>Inbox</title>
+<title><spring:message code="button.private_message.inbox"/></title>
 
 <div style="margin-top: 10px">
     <div class="col-md-8">
@@ -18,15 +19,15 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <td width="150px">Sender</td>
+                        <td width="150px"><spring:message code="button.private_message.sender"/></td>
                         <td>${privateMessage.sender.username}</td>
                     </tr>
                     <tr>
-                        <td>Send date</td>
+                        <td><spring:message code="button.private_message.send_date"/></td>
                         <td><joda:format value="${privateMessage.dispatchDate}" pattern="HH:mm MMM d, yyyy"/></td>
                     </tr>
                     <tr>
-                        <td>Message</td>
+                        <td><spring:message code="button.private_message.message"/></td>
                         <td>${privateMessage.text}</td>
                     </tr>
                     <tr>

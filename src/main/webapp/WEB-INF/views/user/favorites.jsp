@@ -17,14 +17,14 @@
     <sec:authentication property="principal.username" var="authorizedUser"/>
 </sec:authorize>
 <head>
-    <title>Favorites / ${username}</title>
+    <title><spring:message code="label.user.favorites"/> / ${username}</title>
 </head>
 
 <s:url var="previous_page_url" value="/user/${username}/favorites/${currentPageIndex - 1}"/>
 <s:url var="next_page_url" value="/user/${username}/favorites/${currentPageIndex + 1}"/>
 
 <div class="container-fluid">
-    <h2><span class="label label-default">Favorites &nbsp;${username}</span></h2>
+    <h2><span class="label label-default"><spring:message code="label.user.favorites"/> &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="favorite" items="${favoriteList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">
@@ -165,6 +165,13 @@
         </c:choose>
     </ul>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (${username.equals(authorizedUser)})
+            $('#favorites_nav').addClass('active');
+    });
+</script>
 
 <script src="${pageContext.request.contextPath}/bower/readmore/readmore.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/readmore_conf.js"></script>

@@ -15,11 +15,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-    <title>Comments / ${username}</title>
+    <title><spring:message code="label.user.comments"/> / ${username}</title>
 </head>
 
 <div class="container-fluid">
-    <h2><span class="label label-default">Comments &nbsp;${username}</span></h2>
+    <h2><span class="label label-default"><spring:message code="label.user.comments"/> &nbsp;${username}</span></h2>
     <ol>
         <c:forEach var="comment" items="${commentList}" varStatus="loop">
             <s:url value="/post/{id}" var="post_url">

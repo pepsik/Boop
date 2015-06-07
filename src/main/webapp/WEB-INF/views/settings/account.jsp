@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-    <title>Account</title>
+    <title><spring:message code="label.account"/></title>
 </head>
 
 <s:url value="/settings/account/password" var="change_password_url"/>
@@ -19,12 +19,12 @@
 
 <div class="container col-md-8">
     <div class="panel panel-default">
-        <div class="panel-heading"><b>Change password</b></div>
+        <div class="panel-heading"><b><spring:message code="label.password.change"/></b></div>
         <div class="panel-body">
             <form:form id="account_password_change" modelAttribute="passwordForm" method="put" class="form-horizontal"
                        action="${change_password_url}">
                 <div class="form-group col-md-10">
-                    <label for="old_password" class="col-md-6">Old password</label>
+                    <label for="old_password" class="col-md-6"><spring:message code="label.password.old"/></label>
                     <input type="password" name="old_password" id="old_password"
                            class="form-control password required"
                            data-placement="bottom"
@@ -34,7 +34,7 @@
                     <form:errors path="old_password" cssClass="label label-danger"/>
                 </div>
                 <div class="form-group col-md-10">
-                    <label for="new_password" class="col-md-6">New password</label>
+                    <label for="new_password" class="col-md-6"><spring:message code="label.password.new"/></label>
                     <input type="password" name="new_password" id="new_password"
                            class="form-control password required"
                            data-placement="bottom"
@@ -44,7 +44,7 @@
                     <form:errors path="new_password" cssClass="label label-danger"/>
                 </div>
                 <div class="form-group col-md-10">
-                    <label for="repeat_new_password" class="col-md-6">Confirm new password</label>
+                    <label for="repeat_new_password" class="col-md-6"><spring:message code="label.password.confirm"/></label>
                     <input type="password" name="repeat_new_password" id="repeat_new_password"
                            class="form-control password required"
                            data-placement="bottom"
@@ -56,12 +56,12 @@
             </form:form>
         </div>
         <div class="panel-footer">
-            <button form="account_password_change" type="submit" class="btn btn-default">Update password</button>
+            <button form="account_password_change" type="submit" class="btn btn-success"><spring:message code="button.password.update"/></button>
         </div>
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading"><b>Change username</b></div>
+        <div class="panel-heading"><b><spring:message code="label.username.change"/></b></div>
         <div class="panel-body">
             <form:form id="account_username_change" modelAttribute="user" class="form-horizontal" method="put"
                        action="${change_username_url}">
@@ -83,17 +83,17 @@
             </form:form>
         </div>
         <div class="panel-footer">
-            <button form="account_username_change" type="submit" class="btn btn-default">Update username</button>
+            <button form="account_username_change" type="submit" class="btn btn-success"><spring:message code="button.username.update"/></button>
         </div>
     </div>
 
     <div class="panel panel-danger">
-        <div class="panel-heading"><b>Delete user</b></div>
+        <div class="panel-heading"><b><spring:message code="label.user.delete"/></b></div>
         <div class="panel-body">
             Once you delete your user, there is no going back. Please be certain.
         </div>
         <div class="panel-footer">
-            <button type="submit" class="btn btn-danger" disabled>Delete your user</button>
+            <button type="submit" class="btn btn-danger" disabled><spring:message code="button.delete.user"/></button>
         </div>
     </div>
 </div>

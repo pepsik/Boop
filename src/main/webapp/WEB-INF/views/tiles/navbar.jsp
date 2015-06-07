@@ -36,7 +36,7 @@
               action="${search_form_url}">
             <div class="form-group">
                 <input name="name" type="text" class="form-control"
-                       placeholder="<spring:message code="navbar.search.placeholder"/>"/>
+                       placeholder="<spring:message code="placeholder.search"/>"/>
             </div>
             <button form="searchForm" type="submit" class="btn btn-info">
                 <span class="glyphicon glyphicon-search"></span>
@@ -63,11 +63,11 @@
                     <li id="public_profile_nav">
                         <a href="${public_profile_url}" role="button" aria-expanded="false" data-toggle="tooltip"
                            data-placement="bottom"
-                           title="Public profile">
+                           title="<spring:message code="button.profile"/>">
                             <b>${username}</b>
                         </a>
                     </li>
-                    <li>
+                    <li id="new_post_nav">
                         <a href="${new_post_url}" role="button" aria-expanded="false" data-toggle="tooltip"
                            data-placement="bottom"
                            title="<spring:message code="button.post.new"/>">
@@ -75,15 +75,15 @@
                         </a>
                     </li>
                     <li id="favorites_nav"><a href="${user_favorites_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="Favorites"><span class="glyphicon glyphicon-star"></span></a></li>
+                           title="<spring:message code="button.favorites"/>"><span class="glyphicon glyphicon-star"></span></a></li>
                     <li id="messages_nav"><a href="${user_pm_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="navbar.dropdown.button.messages"/>"><span
+                           title="<spring:message code="button.messages"/>"><span
                             class="glyphicon glyphicon-envelope"></span></a></li>
                     <li id="settings_nav"><a href="${settings_profile_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="navbar.dropdown.button.settings"/>"><span
+                           title="<spring:message code="button.settings"/>"><span
                             class="glyphicon glyphicon-cog"></span></a></li>
                     <li><a href="${logout_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="navbar.dropdown.button.logout"/>"><span
+                           title="<spring:message code="button.logout"/>"><span
                             class="glyphicon glyphicon-log-out"></span></a></li>
                 </sec:authorize>
             </ul>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox" name="_spring_security_remember_me"><spring:message
-                                code="navbar.modal.label.remember"/></label>
+                                code="label.remember"/></label>
                     </div>
                     <button form="login" type="submit" class="btn btn-success"><spring:message
                             code="button.login"/></button>
@@ -119,7 +119,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message
-                        code="navbar.modal.button.close"/></button>
+                        code="button.close"/></button>
             </div>
         </div>
     </div>

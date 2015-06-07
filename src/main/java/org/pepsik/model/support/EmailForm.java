@@ -2,6 +2,7 @@ package org.pepsik.model.support;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * Created by pepsik on 5/29/15.
@@ -9,6 +10,7 @@ import javax.validation.constraints.Pattern;
 public class EmailForm {
 
     @NotNull
+    @Size(min = 8, max = 40)
     @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 

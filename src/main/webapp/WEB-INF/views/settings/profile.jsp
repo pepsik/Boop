@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-    <title>Public profile</title>
+    <title><spring:message code="label.profile"/></title>
     <script src="${pageContext.request.contextPath}/resources/js/image-upload.js"></script>
     <script src="${pageContext.request.contextPath}/bower/cropit/dist/jquery.cropit.min.js"></script>
 </head>
@@ -20,7 +20,7 @@
 
 <div class="container-fluid col-sm-8">
     <div class="panel panel-default">
-        <div class="panel-heading"><b>Public Profile</b></div>
+        <div class="panel-heading"><b><spring:message code="label.profile"/></b></div>
         <div class="panel-body">
             <form id="imageForm" action="#">
                 <div class="image-editor">
@@ -34,7 +34,8 @@
                         <input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01"/>
                         <input type="hidden" name="image-data" class="hidden-image-data"/>
                         <br>
-                        <button form="imageForm" class="btn btn-success" type="submit">Upload Image</button>
+                        after upload refresh page =/
+                        <button form="imageForm" class="btn btn-success" type="submit"><spring:message code="button.image.upload"/></button>
                     </div>
                 </div>
             </form>
@@ -109,7 +110,7 @@
             </form:form>
         </div>
         <div class="panel-footer">
-            <button form="profileForm" type="submit" class="btn btn-success">Update profile</button>
+            <button form="profileForm" type="submit" class="btn btn-success"><spring:message code="button.profile.upload"/></button>
         </div>
         <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not
             valid.</p>

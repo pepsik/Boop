@@ -11,4 +11,9 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#settings_nav').addClass('active');
+    });
+</script>
 <%--<script src="${pageContext.request.contextPath}/resources/js/accountValidation.js"></script>--%>
