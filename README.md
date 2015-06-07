@@ -23,7 +23,7 @@ After gitclone you need to do some steps to startup this project:
 0. Edit in **Tomcat_folder/conf/server.xml** where you find 
     					
     					
-    					<Connector port="80" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" /> 
+    	<Connector port="80" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" /> 
 or something about that and add **URIEncoding="UTF-8"** for supporting cyrillic chars in urls
 
 0. Before you deploying artifact be sure that you set application context url to **"/"** (in some ajax request i could not change absolute to relative url paths, so if you deploy war like that "http:/domenname/abc/myprojecthome" some functions will not work because "abc" will be app context. You can deploy project from intellij idea where deploy settings are simple or if u using native tomcat u need to change **server.xml**)
