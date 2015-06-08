@@ -12,9 +12,6 @@
 <s:url value="/user/${post.user.username}/profile" var="profile_url"/>
 <s:url value="/post/${post.id}/edit" var="post_edit_url"/>
 <s:url value="/post/${post.id}" var="post_url"/>
-<s:url value="${post_url}/comment/${post.id}" var="comment_url"/>
-<s:url value="${post_url}/comment/${post.id}/edit" var="comment_edit_url"/>
-<s:url value="${post_url}/comment/new" var="new_comment_url"/>
 
 <div>
     <div>
@@ -91,13 +88,18 @@
     </div>
 
 
-    <c:forEach var="post" items="${post.comments}">
+    <c:forEach var="comment" items="${post.comments}">
+
+        <s:url value="/post/${post.id}/comment/${comment.id}" var="comment_url"/>
+        <s:url value="/post/${post.id}/comment/${comment.id}/edit" var="comment_edit_url"/>
+        <s:url value="/post/${post.id}/comment/new" var="new_comment_url"/>
+
         <div class="comment">
-            <div class="summernote margin-bottom">${post.text}</div>
+            <div class="summernote margin-bottom">${comment.text}</div>
 
             <div class="formHolder author text-info">
-                <small><joda:format value="${post.when}" pattern="HH:mm MMM d, yyyy"/>
-                    <c:out value="by ${post.user.username}"/></small>
+                <small><joda:format value="${comment.when}" pattern="HH:mm MMM d, yyyy"/>
+                    <a href="${profile_url}">${comment.user.username}</a></small>
 
                 <sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
                     <sec:authentication property="principal.username" var="authorizedUser"/>

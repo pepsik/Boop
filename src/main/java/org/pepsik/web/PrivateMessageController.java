@@ -75,12 +75,15 @@ public class PrivateMessageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String sendPrivateMessage(@Valid PrivateMessage privateMessage, BindingResult result) {
+    public String sendPrivateMessage(@Valid PrivateMessage privateMessage, BindingResult result, Model model) {
         if (!service.isExistUsername(privateMessage.getRecipient().getUsername()))
             result.rejectValue("recipient", "recipient.notExist");
 
-        if (result.hasErrors())
+        if (result.hasErrors()) {
+            model.addAttribute("outputPMCount", service.getOutputPMCount());
+            model.addAttribute("inputPMCount", service.getInputPMCount());
             return "private_message/new";
+        }
 
         service.sendPrivateMessage(privateMessage);
         return "redirect:/messages/output";

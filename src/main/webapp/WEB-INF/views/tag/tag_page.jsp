@@ -17,6 +17,9 @@
     <title>Tag</title>
 </head>
 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.username" var="authorizedUser"/>
+</sec:authorize>
 <%--<sec:authentication property="principal.username" var="authorizedUser"/>--%>
 <s:url value="/tag/${tag.name}" var="tag_url"/>
 

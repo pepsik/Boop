@@ -56,16 +56,10 @@
         <div id="carousel-generic" class="carousel slide" data-ride="carousel" data-interval="15000">
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                    <img src="/uploads/logo2.png">
+                    <img src="/resources/images/logo2.png">
                 </div>
                 <div class="item">
-                    <img src="/uploads/logo1.png">
-                </div>
-                <div class="item">
-                    <img src="/uploads/logo3.png">
-                </div>
-                <div class="item">
-                    <img src="/uploads/logo4.png">
+                    <img src="/resources/images/logo1.png">
                 </div>
             </div>
 

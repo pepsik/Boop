@@ -131,11 +131,15 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public boolean isExistPost(long id) {
+        Post post;
         try {
-            postDao.getPostById(id);
+            post = postDao.getPostById(id);
         } catch (NoResultException ex) {
             return false;
         }
+        if (post == null)
+            return false;
+
         return true;
     }
 
