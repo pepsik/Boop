@@ -21,8 +21,11 @@ After gitclone you need to do some steps to start this project up:
 
 0. Edit in **Tomcat_folder/conf/server.xml** where you find 
     					
-    					
     	<Connector port="80" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" /> 
+
 and add **URIEncoding="UTF-8"** for supporting cyrillic chars in urls
 			
-			
+>login - **admin**
+>pswd - **1111**
+		
+Recommended using Chrome browser
