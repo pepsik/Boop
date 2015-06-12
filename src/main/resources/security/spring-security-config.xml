@@ -10,6 +10,10 @@
 
     <beans:import resource="jdbc-user-service.xml"/>
 
+    <http pattern="/resources/**" security="none"/>
+    <http pattern="/bower/**" security="none"/>
+    <http pattern="/webjars/**" security="none"/>
+
     <http>
         <form-login login-processing-url="/static/j_spring_security_check"
                     login-page="/home"
@@ -17,8 +21,14 @@
         <logout logout-url="/static/j_spring_security_logout" logout-success-url="/home"/>
         <remember-me key="UserKey" token-validity-seconds="2419200" user-service-ref="jdbcUserDetailsManager"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
-        <intercept-url pattern="/post/*/" access="ROLE_USER"/>
-        <intercept-url pattern="/settings/**" access="ROLE_USER"/>
+
+        <intercept-url pattern="/" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/home" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/post/*" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/post/*/comments" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/user/**" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/login_fail" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
         <remember-me/>
     </http>
 

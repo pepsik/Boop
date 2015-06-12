@@ -30,10 +30,6 @@
                         <td><spring:message code="button.private_message.message"/></td>
                         <td>${privateMessage.text}</td>
                     </tr>
-                    <tr>
-                        <td>Viewed(temp)</td>
-                        <td>${privateMessage.read}</td>
-                    </tr>
                     </tbody>
                 </table>
             </div>

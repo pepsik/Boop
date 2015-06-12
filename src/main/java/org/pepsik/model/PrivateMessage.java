@@ -39,8 +39,8 @@ public class PrivateMessage {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private DateTime dispatchDate;
 
-    @Column
-    private boolean isRead;
+//    @Column
+//    private boolean isRead;
 
     public long getId() {
         return id;
@@ -82,13 +82,13 @@ public class PrivateMessage {
         this.dispatchDate = dispatchDate;
     }
 
-    public boolean isRead() {
-        return isRead;
-    }
-
-    public void setIsRead(boolean isRead) {
-        this.isRead = isRead;
-    }
+//    public boolean isRead() {
+//        return isRead;
+//    }
+//
+//    public void setIsRead(boolean isRead) {
+//        this.isRead = isRead;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -114,7 +114,7 @@ public class PrivateMessage {
 //                ", recipient=" + recipient.getUsername() +
                 ", text='" + text + '\'' +
                 ", dispatchDate=" + dispatchDate +
-                ", isRead=" + isRead +
+//                ", isRead=" + isRead +
                 '}';
     }
 }

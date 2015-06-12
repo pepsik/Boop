@@ -42,8 +42,27 @@
             height: 450,
             minHeight: 200,
             maxHeight: null,
-            focus: true
+            focus: true,
+            onImageUpload: function (files, editor, welEditable) {
+                sendFile(files[0], editor, welEditable);
+            }
         });
-    });
 
+        $('#new_post_nav').addClass('active');
+        function sendFile(file, editor, welEditable) {
+            var formData = new FormData();
+            formData.append("image", file);
+            $.ajax({
+                data: formData,
+                type: "POST",
+                url: "/user/upload/image",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (url) {
+                    editor.insertImage(welEditable, url);
+                }
+            });
+        }
+    });
 </script>

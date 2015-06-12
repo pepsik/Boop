@@ -5,7 +5,7 @@ var postComment = function (post_id) {
     var json = {text: postMessage};
     $.ajax({
         type: 'POST',
-        url: '/post/' + post_id + '/comment.ajax',
+        url: '/post/' + post_id + '/comment',
         dataType: 'html',
         data: JSON.stringify(json),
         beforeSend: function (xhr) {
@@ -26,7 +26,7 @@ var postComment = function (post_id) {
 var getComments = function (post_id, count) {
     $.ajax({
         type: 'GET',
-        url: '/post/' + post_id + '/comments.ajax',
+        url: '/post/' + post_id + '/comments',
         dataType: 'html',
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Accept", "text/html");
@@ -43,7 +43,10 @@ var getComments = function (post_id, count) {
 var deleteComment = function (post_id, comment_id) {
     $.ajax({
         type: 'DELETE',
-        url: "/post/" + post_id + "/comment/" + comment_id + ".ajax",
+        url: "/post/" + post_id + "/comment/" + comment_id,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
         success: function () {
             $("#" + comment_id).remove();
         },
@@ -58,8 +61,29 @@ var editComment = function (comment_id) {
         height: 100,
         minHeight: 100,
         maxHeight: null,
-        focus: true
+        focus: true,
+        onImageUpload: function (files, editor, welEditable) {
+            sendFile(files[0], editor, welEditable);
+        }
     });
+
+    $('#new_post_nav').addClass('active');
+    function sendFile(file, editor, welEditable) {
+        var formData = new FormData();
+        formData.append("image", file);
+        $.ajax({
+            data: formData,
+            type: "POST",
+            url: "/user/upload/image",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (url) {
+                editor.insertImage(welEditable, url);
+            }
+        });
+    }
+
     document.getElementById("delete" + comment_id).style.display = 'none';             //refactor repeats
     document.getElementById("edit" + comment_id).style.display = 'none';
     document.getElementById("save" + comment_id).style.display = 'inline-block';

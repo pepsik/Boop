@@ -489,8 +489,8 @@ public class SmartServiceImpl implements SmartService {
     public List<PrivateMessage> getInputPrivateMessages() {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         List<PrivateMessage> privateMessages = privateMessageDao.getInputPrivateMessages(getUser(loggedUser).getId());
-        for (PrivateMessage message : privateMessages)
-            message.setIsRead(true); //TODO: realize isRead modification PM
+//        for (PrivateMessage message : privateMessages)
+//            message.setIsRead(true); //TODO: realize isRead modification PM
         return privateMessages;
     }
 

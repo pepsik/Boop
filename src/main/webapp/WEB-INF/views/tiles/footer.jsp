@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="container">
-    Language : <a href="?locale=en_US">English</a>|<a href="?locale=uk_UA">Ukraine</a>
+    Language : <a href="?locale=en_US">English</a>|<a href="?locale=uk_UA">Ukrainian</a>
 
     Current Locale : ${pageContext.response.locale}
 </div>
