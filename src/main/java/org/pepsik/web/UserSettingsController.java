@@ -1,5 +1,7 @@
 package org.pepsik.web;
 
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -10,19 +12,23 @@ import org.pepsik.model.support.EmailForm;
 import org.pepsik.model.support.MutableUserDetails;
 import org.pepsik.service.SmartService;
 import org.pepsik.model.support.PasswordForm;
+import org.pepsik.web.exception.InsufficientAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.*;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -188,5 +194,34 @@ public class UserSettingsController {
     public String getSecurity(Model model) {
         //TODO: security
         return "settings/security";
+    }
+
+    @ExceptionHandler(InsufficientAuthorizationException.class)
+    public ModelAndView insufficientAuthorizationError(HttpServletRequest req) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
+        mav.addObject("targetUrl", req.getRequestURI());
+        return mav;
+    }
+}
+
+@Aspect
+@Component
+class RememberMeCheckAspect {
+
+    @Before("execution(String org.pepsik.web.UserSettingsController.update* (..))")
+    public void securityControllerMethods() {
+        if (rememberMeAuthenticated())
+            throw new InsufficientAuthorizationException();
+    }
+
+    private boolean rememberMeAuthenticated() {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+
+        return RememberMeAuthenticationToken.class.isAssignableFrom(authentication.getClass());
     }
 }

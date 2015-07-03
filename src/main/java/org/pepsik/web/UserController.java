@@ -244,13 +244,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
-    public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
+    public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file) {
         String path = "";
         if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("guest")) {
             if (!file.isEmpty())
                 try {
                     byte[] bytes = file.getBytes();
-                    //TODO: to prop file
                     File dir = new File(uploadPath + "\\images\\");
                     if (!dir.exists())
                         dir.mkdirs();

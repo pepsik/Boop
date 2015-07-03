@@ -16,21 +16,45 @@
 
     <http>
         <form-login login-processing-url="/static/j_spring_security_check"
-                    login-page="/home"
-                    authentication-failure-url="/login_fail"/>
-        <logout logout-url="/static/j_spring_security_logout" logout-success-url="/home"/>
-        <remember-me key="UserKey" token-validity-seconds="2419200" user-service-ref="jdbcUserDetailsManager"/>
+                    login-page="/"
+                    authentication-failure-url="/login_fail"
+                    authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
+        <logout logout-url="/static/j_spring_security_logout" delete-cookies="JSESSIONID"/>
+        <remember-me services-ref="rememberMeServices" key="secretKeyForRememberMeAuthBoopProj"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
+        <csrf/>
 
-        <intercept-url pattern="/" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/home" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/post/*" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/post/*/comments" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/user/**" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/login_fail" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/home" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/post/*" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/post/*/comments" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/user/**" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/login_fail" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
+        <intercept-url pattern="/login" method="GET" access="ROLE_ANONYMOUS,ROLE_USER"/>
         <intercept-url pattern="/**" access="ROLE_USER"/>
-        <remember-me/>
     </http>
+
+    <beans:bean id="savedRequestAwareAuthenticationSuccessHandler"
+          class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+        <beans:property name="targetUrlParameter" value="targetUrl" />
+    </beans:bean>
+
+    <beans:bean id="rememberMeServices"
+                class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+        <beans:constructor-arg name="tokenRepository">
+            <beans:bean
+                    class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+                <beans:property name="dataSource" ref="dataSource"/>
+            </beans:bean>
+        </beans:constructor-arg>
+        <beans:constructor-arg name="key" value="secretKeyForRememberMeAuthBoopProj"/>
+        <beans:constructor-arg name="userDetailsService" ref="jdbcUserDetailsManager"/>
+        <beans:property name="cookieName" value="REMEMBER_ME_COOKIE"/>
+        <beans:property name="tokenValiditySeconds" value="#{48*3600}"/>
+    </beans:bean>
+
+    <beans:bean id="webSecurityExpressionHandler"
+                class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
 
     <authentication-manager>
         <authentication-provider user-service-ref="jdbcUserDetailsManager">
@@ -39,8 +63,5 @@
     </authentication-manager>
 
     <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
-
-    <beans:bean id="webSecurityExpressionHandler"
-                class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
 
 </beans:beans>

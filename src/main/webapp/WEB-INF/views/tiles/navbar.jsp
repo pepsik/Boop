@@ -75,16 +75,24 @@
                         </a>
                     </li>
                     <li id="favorites_nav"><a href="${user_favorites_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="button.favorites"/>"><span class="glyphicon glyphicon-star"></span></a></li>
+                                              title="<spring:message code="button.favorites"/>"><span
+                            class="glyphicon glyphicon-star"></span></a></li>
                     <li id="messages_nav"><a href="${user_pm_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="button.messages"/>"><span
+                                             title="<spring:message code="button.messages"/>"><span
                             class="glyphicon glyphicon-envelope"></span></a></li>
-                    <li id="settings_nav"><a href="${settings_profile_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="button.settings"/>"><span
+                    <li id="settings_nav"><a href="${settings_profile_url}" data-toggle="tooltip"
+                                             data-placement="bottom"
+                                             title="<spring:message code="button.settings"/>"><span
                             class="glyphicon glyphicon-cog"></span></a></li>
-                    <li><a href="${logout_url}" data-toggle="tooltip" data-placement="bottom"
-                           title="<spring:message code="button.logout"/>"><span
-                            class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li id="logout_nav">
+                        <form id="logout_form" method="post" action="${logout_url}">
+                            <input type="hidden"
+                                   name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                        <a onclick="document.getElementById('logout_form').submit();" data-toggle="tooltip"
+                           data-placement="bottom" title="<spring:message code="button.logout"/>">
+                            <span class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
                 </sec:authorize>
             </ul>
         </div>
@@ -99,7 +107,7 @@
                 <h3>SmartSite Login</h3>
             </div>
             <div class="modal-body">
-                <form id="login" action="${login_url}" method="post">
+                <form id="login_nav" action="${login_url}" method="post">
                     <div class="form-group">
                         <label for="username" class="control-label"><spring:message code="label.username"/></label>
                         <input type="text" class="form-control" id="username" name="j_username"/>
@@ -112,9 +120,11 @@
                         <label><input type="checkbox" name="_spring_security_remember_me"><spring:message
                                 code="label.remember"/></label>
                     </div>
-                    <button form="login" type="submit" class="btn btn-success"><spring:message
+                    <input type="hidden"
+                           name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <button form="login_nav" type="submit" class="btn btn-success"><spring:message
                             code="button.login"/></button>
-                    <button form="login" type="reset" class="btn"><spring:message code="button.clear"/></button>
+                    <button form="login_nav" type="reset" class="btn"><spring:message code="button.clear"/></button>
                 </form>
             </div>
             <div class="modal-footer">

@@ -13,6 +13,10 @@
         <put-attribute name="content" value="/WEB-INF/views/home.jsp"/>
     </definition>
 
+    <definition name="login" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/tiles/login.jsp"/>
+    </definition>
+
     <definition name="login_fail" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/tiles/login_fail.jsp"/>
     </definition>

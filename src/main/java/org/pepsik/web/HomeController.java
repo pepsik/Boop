@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by pepsik on 4/8/15.
@@ -16,7 +17,7 @@ public class HomeController {
     @Autowired
     private SmartService service;
 
-    @RequestMapping(value = {"/", "/home"})
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String showHomePage(Model model) {
         model.addAttribute(model.addAttribute(service.getPostsByPage(1)));
         model.addAttribute("pagination", service.getPagination(1, service.getAllPostsCount()));
@@ -24,12 +25,12 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = {"/login_fail"})
+    @RequestMapping(value = "/login_fail", method = RequestMethod.GET)
     public String loginFailPage() {
         return "login_fail";
     }
 
-    @RequestMapping(value = "/registration_successful")
+    @RequestMapping(value = "/registration_successful", method = RequestMethod.GET)
     public String registrationSuccessful() {
         return "user/registration_successful";
     }
