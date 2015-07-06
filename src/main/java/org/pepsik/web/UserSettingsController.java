@@ -13,6 +13,7 @@ import org.pepsik.model.support.MutableUserDetails;
 import org.pepsik.service.SmartService;
 import org.pepsik.model.support.PasswordForm;
 import org.pepsik.web.exception.InsufficientAuthorizationException;
+import org.pepsik.web.support.HttpSessionCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.security.authentication.RememberMeAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -34,6 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Created by pepsik on 5/17/15.
@@ -41,15 +47,18 @@ import java.beans.PropertyEditorSupport;
 
 @Controller
 @RequestMapping("/settings")
+//TODO: Session attr lifecycle
 public class UserSettingsController {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";
 
     private static final Logger logger = LoggerFactory.getLogger(UserSettingsController.class);
 
-
     @Autowired
     private SmartService service;
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -191,8 +200,15 @@ public class UserSettingsController {
     }
 
     @RequestMapping(value = "/security", method = RequestMethod.GET, produces = "text/html")
-    public String getSecurity(Model model) {
-        //TODO: security
+    public String getSecurity(HttpServletRequest request, Model model) {
+        List<HttpSession> sessions = new ArrayList<>();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        for (SessionInformation si : sessionRegistry.getAllSessions(principal, false)) {
+            HttpSession httpSession = HttpSessionCollector.find(si.getSessionId());
+            sessions.add(httpSession);
+            request.getRemoteAddr();
+        }
+        model.addAttribute("sessions", sessions);
         return "settings/security";
     }
 
@@ -205,23 +221,3 @@ public class UserSettingsController {
     }
 }
 
-@Aspect
-@Component
-class RememberMeCheckAspect {
-
-    @Before("execution(String org.pepsik.web.UserSettingsController.update* (..))")
-    public void securityControllerMethods() {
-        if (rememberMeAuthenticated())
-            throw new InsufficientAuthorizationException();
-    }
-
-    private boolean rememberMeAuthenticated() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-
-        return RememberMeAuthenticationToken.class.isAssignableFrom(authentication.getClass());
-    }
-}

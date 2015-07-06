@@ -89,7 +89,7 @@
                             <input type="hidden"
                                    name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </form>
-                        <a onclick="document.getElementById('logout_form').submit();" data-toggle="tooltip"
+                        <a href="#" onclick="document.getElementById('logout_form').submit();" data-toggle="tooltip"
                            data-placement="bottom" title="<spring:message code="button.logout"/>">
                             <span class="glyphicon glyphicon-log-out"></span></a>
                     </li>

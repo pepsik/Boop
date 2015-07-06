@@ -23,7 +23,7 @@
         <tiles-jsp.version>3.0.5</tiles-jsp.version>
         <joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
         <servlet-api.version>6.0.43</servlet-api.version>
-        <spring-security.version>3.2.5.RELEASE</spring-security.version>
+        <spring-security.version>4.0.1.RELEASE</spring-security.version>
 
         <!-- Web dependencies -->
         <webjars-bootstrap.version>3.3.4</webjars-bootstrap.version>

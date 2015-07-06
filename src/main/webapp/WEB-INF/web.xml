@@ -15,12 +15,22 @@
 
     <!-- embedded hsql, mysql(spring/data-access.prop) -->
     <!--<context-param>-->
-        <!--<param-name>spring.profiles.active</param-name>-->
-        <!--<param-value>mysql</param-value>-->
+    <!--<param-name>spring.profiles.active</param-name>-->
+    <!--<param-value>mysql</param-value>-->
     <!--</context-param>-->
 
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            org.springframework.security.web.session.HttpSessionEventPublisher
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.pepsik.web.support.HttpSessionCollector</listener-class>
     </listener>
 
     <!-- Filters -->
