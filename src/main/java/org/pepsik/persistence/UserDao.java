@@ -35,4 +35,6 @@ public interface UserDao {
     long getUserPostCount(User user);
 
     long getUserCommentsCount(User user);
+
+    void deleteUserPersistenceRememberMeTokens(String username);
 }

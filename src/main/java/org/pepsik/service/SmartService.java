@@ -91,4 +91,6 @@ public interface SmartService {
     long getInputPMCount();
 
     long getOutputPMCount();
+
+    void removeUserRememberMeTokens(String username);
 }

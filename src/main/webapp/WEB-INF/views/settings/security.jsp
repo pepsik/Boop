@@ -1,5 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: pepsik
@@ -12,6 +15,8 @@
     <title><spring:message code="label.security"/></title>
 </head>
 
+<s:url var="session_url" value="/settings/security/session"/>
+
 <div class="container col-md-8">
     <div class="panel panel-default">
         <div class="panel-heading"><b>Sessions</b></div>
@@ -19,15 +24,16 @@
             This is a list of devices that have logged into your user. Revoke any sessions that you do not recognize.
             <ul type="none">
                 <li class="spittle-list"></li>
-                <c:forEach items="${sessions}" var="sessionInfo" varStatus="loop">
+                <c:forEach items="${sessionsInfo}" var="sessionInfo" varStatus="loop">
                     <li class="spittle-list postListText">
-                        <span>${sessionInfo.getAttribute("User-Agent")}</span><br>
-                        CreationTime - ${sessionInfo.creationTime}<br>
-                        LastAccessedTime - ${sessionInfo.lastAccessedTime}<br>
-                        <button class="btn btn-sm btn-danger" formmethod="post"
-                                formaction="/settings/security/session/${loop.count}/revoke">
-                            Revoke
-                        </button>
+                        Session Id - ${sessionInfo.sessionId} <br>
+                        <span>${sessionInfo.userAgent}</span><br>
+                        CreationTime - <joda:format value="${sessionInfo.creationDate}" pattern="HH:mm:ss MMM d, yyyy"/><br>
+                        LastAccessedTime - <joda:format value="${sessionInfo.lastAccessedTime}" pattern="HH:mm:ss MMM d, yyyy"/><br>
+                        Remote Ip - ${sessionInfo.userRemoteIp}  <br>
+                        <form:form method="post" action="${session_url}/${loop.count}/revoke">
+                            <button class="btn btn-sm btn-danger">Revoke</button>
+                        </form:form>
                     </li>
                 </c:forEach>
             </ul>

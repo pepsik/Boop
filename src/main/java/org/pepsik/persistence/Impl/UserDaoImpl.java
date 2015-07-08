@@ -24,6 +24,7 @@ public class UserDaoImpl implements UserDao {
 
     public static final String SELECT_USER_BY_USERNAME = "SELECT user FROM User user WHERE user.username=:username";
     public static final String INSERT_USER_AUTHORITY = "INSERT INTO users_authority (user_id_fk, role_id_fk)  values (:id , 2)";
+    public static final String REMOVE_USER_TOKENS_SQL = "delete from persistent_logins where username = :username";
 
     @PersistenceContext
     private EntityManager em;
@@ -119,5 +120,10 @@ public class UserDaoImpl implements UserDao {
         Root<Favorite> from = countQuery.from(Favorite.class);
         countQuery.select(criteriaBuilder.count(from)).where(criteriaBuilder.equal(from.get("user").get("id"), user.getId()));
         return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
+    public void deleteUserPersistenceRememberMeTokens(String username) {
+        em.createNativeQuery("delete from persistent_logins where username = ?").setParameter(1, username).executeUpdate();
     }
 }

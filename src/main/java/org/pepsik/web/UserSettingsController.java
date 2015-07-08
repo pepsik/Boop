@@ -1,7 +1,5 @@
 package org.pepsik.web;
 
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -14,10 +12,10 @@ import org.pepsik.service.SmartService;
 import org.pepsik.model.support.PasswordForm;
 import org.pepsik.web.exception.InsufficientAuthorizationException;
 import org.pepsik.web.support.HttpSessionCollector;
+import org.pepsik.web.support.PojoSessionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +23,7 @@ import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.*;
@@ -38,8 +36,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pepsik on 5/17/15.
@@ -201,15 +200,41 @@ public class UserSettingsController {
 
     @RequestMapping(value = "/security", method = RequestMethod.GET, produces = "text/html")
     public String getSecurity(HttpServletRequest request, Model model) {
-        List<HttpSession> sessions = new ArrayList<>();
+        List<PojoSessionInfo> pojoSessionsInfo = new ArrayList<>();
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        HttpSession httpSession;
+        int count = 1;
+        Map<String, String> sessionAliases = new HashMap<>();
         for (SessionInformation si : sessionRegistry.getAllSessions(principal, false)) {
-            HttpSession httpSession = HttpSessionCollector.find(si.getSessionId());
-            sessions.add(httpSession);
-            request.getRemoteAddr();
+            httpSession = HttpSessionCollector.find(si.getSessionId());
+            PojoSessionInfo pojoSessionInfo = new PojoSessionInfo();
+            pojoSessionInfo.setCreationDate(new DateTime(httpSession.getCreationTime()));
+            pojoSessionInfo.setLastAccessedTime(new DateTime(httpSession.getLastAccessedTime()));
+            pojoSessionInfo.setSessionId(httpSession.getId());
+            pojoSessionInfo.setUserAgent((String) httpSession.getAttribute("User-Agent"));
+            pojoSessionInfo.setUserRemoteIp((String) httpSession.getAttribute("RemoteAddress"));
+            pojoSessionsInfo.add(pojoSessionInfo);
+            sessionAliases.put("" + count++, httpSession.getId());
         }
-        model.addAttribute("sessions", sessions);
+
+        httpSession = request.getSession();
+        httpSession.setAttribute("sessionAliases", sessionAliases);
+        model.addAttribute("sessionsInfo", pojoSessionsInfo);
         return "settings/security";
+    }
+
+    @RequestMapping(value = "/security/session/{id}/revoke", method = RequestMethod.POST, produces = "text/html")
+    public String revokeSession(HttpServletRequest request, @PathVariable("id") String sessionAlias) {
+        HttpSession httpSession = request.getSession();
+        Map<String, String> sessionAliasesMap = (Map<String, String>) httpSession.getAttribute("sessionAliases");
+        if (sessionAliasesMap.containsKey(sessionAlias)) {
+            SessionInformation sessionInformation = sessionRegistry.getSessionInformation(sessionAliasesMap.get(sessionAlias));
+            sessionInformation.expireNow();
+            sessionAliasesMap.remove(sessionAlias);
+            service.removeUserRememberMeTokens(SecurityContextHolder.getContext().getAuthentication().getName());
+        } else
+            logger.error("Can't revoke session because session doesn't exist with given alias - " + sessionAlias);
+        return "redirect:/settings/security";
     }
 
     @ExceptionHandler(InsufficientAuthorizationException.class)

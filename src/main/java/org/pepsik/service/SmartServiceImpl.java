@@ -521,4 +521,9 @@ public class SmartServiceImpl implements SmartService {
 
         return resultPostList;
     }
+
+    @Override
+    public void removeUserRememberMeTokens(String username) {
+        userDao.deleteUserPersistenceRememberMeTokens(username);
+    }
 }

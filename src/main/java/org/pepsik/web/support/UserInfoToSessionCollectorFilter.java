@@ -24,7 +24,7 @@ public class UserInfoToSessionCollectorFilter extends GenericFilterBean {
         HttpSession session = request.getSession(true);
         session.setAttribute("User-Agent", request.getHeader("User-Agent"));
         session.setAttribute("RemoteAddress", request.getRemoteAddr());
-        logger.debug("User-Agent info successful added to HttpSession");
+        logger.debug("User-Agent info, ip successful added to HttpSession");
         filterChain.doFilter(request, response);
     }
 }
