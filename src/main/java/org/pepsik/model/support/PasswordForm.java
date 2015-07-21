@@ -5,13 +5,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * Created by pepsik on 5/20/15.
+ * Support class which used in {@link org.pepsik.web.UserSettingsController} as mapping password
+ * POST form for easier Spring {@code @Valid} process
  */
 
-//@FieldMatch.List({
-//        @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match"),
-//        @FieldMatch(first = "email", second = "confirmEmail", message = "The email fields must match")
-//})
 public class PasswordForm {
 
     @NotNull

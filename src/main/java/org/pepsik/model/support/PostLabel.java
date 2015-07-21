@@ -1,8 +1,9 @@
 package org.pepsik.model.support;
 
 /**
- * Created by pepsik on 6/3/15.
+ * Used for simple search mechanism {@link org.pepsik.web.SearchController SearchController}
  */
+
 public class PostLabel {
 
     private long id;

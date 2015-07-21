@@ -34,9 +34,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Favorite> favorites;
 
-//    private Settings settings;
-
-
     public long getId() {
         return id;
     }

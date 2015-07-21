@@ -5,8 +5,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * Created by pepsik on 5/29/15.
+ * Support class which used in {@link org.pepsik.web.UserSettingsController} as mapping email
+ * POST form for easier Spring {@code @Valid} process
  */
+
 public class EmailForm {
 
     @NotNull

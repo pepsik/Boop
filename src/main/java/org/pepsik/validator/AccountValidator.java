@@ -5,9 +5,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-/**
- * Created by pepsik on 4/18/15.
- */
 public class AccountValidator implements Validator {
 
     @Override

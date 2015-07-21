@@ -19,6 +19,12 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 
+/**
+ *  Controller is responsible to handle ajax request sent by the client browser.
+ *  It have several methods that performs add, get(all), delete, edit operations with comments.
+ *
+ */
+
 @Controller
 @RequestMapping("/post/{postId}")
 public class CommentAjaxController {

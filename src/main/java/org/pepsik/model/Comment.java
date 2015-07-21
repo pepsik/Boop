@@ -1,6 +1,5 @@
 package org.pepsik.model;
 
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;

@@ -32,8 +32,10 @@
             <a class="navbar-brand" href="${home_url}"><span class="glyphicon glyphicon-home"></span> </a>
         </div>
 
-        <form id="searchForm" class="navbar-form navbar-left" role="search" method="post"
-              action="${search_form_url}">
+        <form id="searchForm" class="navbar-form navbar-left" role="search" method="post" action="${search_form_url}">
+            <input type="hidden"
+                   name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
             <div class="form-group">
                 <input name="name" type="text" class="form-control"
                        placeholder="<spring:message code="placeholder.search"/>"/>

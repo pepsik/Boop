@@ -512,7 +512,6 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public List<Post> getSimilarPosts(String name) {
-        logger.info(postDao.getSimilarPosts(name).toString());
         List<PostLabel> matchesList = postDao.getSimilarPosts(name);
         List<Post> resultPostList = new LinkedList<>();
         for (PostLabel postLabel : matchesList)

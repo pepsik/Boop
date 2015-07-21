@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+/**
+ *
+ */
+
 @Controller
 @RequestMapping(value = "/post/{post_id}/comment")
 public class CommentController {

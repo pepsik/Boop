@@ -1,13 +1,20 @@
 package org.pepsik.model.support;
 
+import org.pepsik.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
 /**
- * Created by pepsik on 5/29/15.
+ * Decorator class for {@link UserDetails} used for auto-authentication after username changes
+ * in {@link org.pepsik.web.UserSettingsController#updateAccountUsername(User, BindingResult, HttpSession, Model, HttpServletRequest) UserSettingsController}
  */
+
 public class MutableUserDetails implements UserDetails {
 
     private UserDetails userDetails;

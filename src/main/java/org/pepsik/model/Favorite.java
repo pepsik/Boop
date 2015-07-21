@@ -69,9 +69,7 @@ public class Favorite {
         if (o == null || getClass() != o.getClass()) return false;
 
         Favorite favorite = (Favorite) o;
-
         return post.equals(favorite.post);
-
     }
 
     @Override

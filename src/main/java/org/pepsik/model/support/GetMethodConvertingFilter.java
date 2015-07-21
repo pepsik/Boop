@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 
 /**
- * Created by pepsik on 6/7/15.
+ * solution for "HTTP Status 405 - JSPs only permit GET POST or HEAD"
+ * <p>
+ * more http://stackoverflow.com/questions/24673041/405-jsp-error-with-put-method
  */
 
-//solution for "HTTP Status 405 - JSPs only permit GET POST or HEAD"
-//more on http://stackoverflow.com/questions/24673041/405-jsp-error-with-put-method
 public class GetMethodConvertingFilter implements Filter {
 
     @Override

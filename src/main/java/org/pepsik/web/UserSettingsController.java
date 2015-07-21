@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by pepsik on 5/17/15.
+ * Responsible for
  */
 
 @Controller
@@ -132,6 +132,7 @@ public class UserSettingsController {
 
         final User user = (User) session.getAttribute("user");
 
+        //TODO: try to hide validations in PasswordForm class
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(password.getOld_password(), user.getUserPassword().getPassword()))
             result.addError(new FieldError("passwordForm", "old_password", "Old password isn't valid"));
