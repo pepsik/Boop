@@ -1,5 +1,6 @@
 package org.pepsik.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +27,7 @@ public class Tag {
     @Column
     private String name;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id_fk", referencedColumnName = "user_id")
     private User author;
@@ -46,6 +48,7 @@ public class Tag {
     @Column(name = "created_date")
     private DateTime createDate;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private List<Post> posts;
 

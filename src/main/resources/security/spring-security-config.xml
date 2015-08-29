@@ -10,9 +10,9 @@
 
     <beans:import resource="jdbc-user-service.xml"/>
 
-    <http pattern="/resources/**" security="none"/>
-    <http pattern="/bower/**" security="none"/>
-    <http pattern="/webjars/**" security="none"/>
+    <!--<http pattern="/css/**" security="none"/>-->
+    <!--<http pattern="/bower_components/**" security="none"/>-->
+    <http pattern="/js/**" security="none"/>
 
     <http authentication-manager-ref="authenticationManager" use-expressions="false">
         <form-login login-processing-url="/static/j_spring_security_check"
@@ -23,7 +23,7 @@
                     authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
         <logout logout-url="/static/j_spring_security_logout" delete-cookies="JSESSIONID"/>
         <remember-me services-ref="rememberMeServices" key="secretKeyForRememberMeAuthBoopProj"/>
-        <custom-filter after="SECURITY_CONTEXT_FILTER" ref="testFilter"/>
+        <!--<custom-filter after="SECURITY_CONTEXT_FILTER" ref="testFilter"/>-->
         <custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrentFilter"/>
         <session-management session-authentication-strategy-ref="sessionAuthStrategy" invalid-session-url="/home"/>
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
@@ -48,9 +48,9 @@
                 class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
         <beans:constructor-arg name="tokenRepository">
             <beans:bean
-                class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
-            <beans:property name="dataSource" ref="dataSource"/>
-        </beans:bean>
+                    class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+                <beans:property name="dataSource" ref="dataSource"/>
+            </beans:bean>
         </beans:constructor-arg>
         <beans:constructor-arg name="key" value="secretKeyForRememberMeAuthBoopProj"/>
         <beans:constructor-arg name="userDetailsService" ref="jdbcUserDetailsManager"/>
@@ -67,7 +67,7 @@
         <beans:constructor-arg name="expiredUrl" value="/session-expired.htm"/>
     </beans:bean>
 
-    <beans:bean id="testFilter" class="org.pepsik.web.support.UserInfoToSessionCollectorFilter"/>
+    <!--<beans:bean id="testFilter" class="org.pepsik.web.support.UserInfoToSessionCollectorFilter"/>-->
 
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
 

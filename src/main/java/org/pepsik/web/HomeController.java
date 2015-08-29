@@ -1,28 +1,28 @@
 package org.pepsik.web;
 
+import org.pepsik.model.Post;
 import org.pepsik.service.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by pepsik on 4/8/15.
- */
+import java.util.List;
 
-@Controller
+@RestController
 public class HomeController {
 
     @Autowired
     private SmartService service;
 
-    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public String showHomePage(Model model) {
-        model.addAttribute(model.addAttribute(service.getPostsByPage(1)));
-        model.addAttribute("pagination", service.getPagination(1, service.getAllPostsCount()));
-        model.addAttribute("currentPageIndex", 1);
-        return "home";
+    @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
+    public List<Post> showHomePage(Model model) {
+//        model.addAttribute(model.addAttribute(service.getPostsByPage(1)));
+//        model.addAttribute("pagination", service.getPagination(1, service.getAllPostsCount()));
+//        model.addAttribute("currentPageIndex", 1);
+        return service.getPostsByPage(1);
     }
 
     @RequestMapping(value = "/login_fail", method = RequestMethod.GET)

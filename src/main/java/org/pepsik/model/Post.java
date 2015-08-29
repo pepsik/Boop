@@ -1,6 +1,7 @@
 package org.pepsik.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.pepsik.model.support.PostLabel;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Post extends MessageEntity implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
     private Set<Tag> tags;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private Set<Favorite> favorites;
 

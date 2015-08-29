@@ -1,5 +1,7 @@
 package org.pepsik.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -22,15 +24,18 @@ public class User {
     @Column
     private String username;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
     @Valid
     private Password userPassword;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn
     private Profile profile;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Favorite> favorites;
 

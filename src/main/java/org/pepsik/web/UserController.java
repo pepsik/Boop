@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.SmartValidator;
+//import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,8 +45,8 @@ public class UserController {
     @Autowired
     private SmartService service;
 
-    @Autowired
-    SmartValidator validator;
+//    @Autowired
+//    SmartValidator validator;
 
     @Value("${upload.path}")
     private String uploadPath;

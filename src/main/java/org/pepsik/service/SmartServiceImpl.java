@@ -20,18 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
 import java.util.*;
 
-/**
- * Created by pepsik on 4/9/15.
- */
-
 @Service
 @Transactional(readOnly = true)
 public class SmartServiceImpl implements SmartService {
 
+    private static final Logger log = LoggerFactory.getLogger(SmartServiceImpl.class);
+
     private static final int DEFAULT_POSTS_PER_PAGE = 7;
     private static final int DEFAULT_PAGINATION_ON_PAGE = 5;
-
-    private static final Logger logger = LoggerFactory.getLogger(SmartServiceImpl.class);
     public static final String GUEST_NAME = "guest";
 
     @Autowired
@@ -62,13 +58,13 @@ public class SmartServiceImpl implements SmartService {
 
     @Override
     public List<Post> getPostsByPage(int pageIndex) {
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Post> postsByPage = postDao.getPostsByPage(pageIndex, DEFAULT_POSTS_PER_PAGE);
         for (Post post : postsByPage)
             post.getComments().size();
-        if (loggedUser.equals(GUEST_NAME))
-            return postsByPage;
-        checkPostListForFavorites(postsByPage);
+//        if (loggedUser.equals(GUEST_NAME))
+//            return postsByPage;
+//        checkPostListForFavorites(postsByPage);
         return postsByPage;
     }
 

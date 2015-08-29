@@ -1,4 +1,4 @@
-package org.pepsik.validator;
+package org.pepsik.web.validator;
 
 import org.pepsik.model.User;
 import org.springframework.validation.Errors;

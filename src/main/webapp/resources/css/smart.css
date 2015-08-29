@@ -225,8 +225,6 @@ ol.spittle-list li:first-child {
 
 .postListText {
     width: auto;
-    /*margin-right: 10px;*/
-    /*padding-right: 10px;*/
     word-wrap: break-word;
     font-size: 15px;
     line-height: 1.3;

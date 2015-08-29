@@ -15,12 +15,12 @@
     <import resource="mvc-view-config.xml"/>
     <context:property-placeholder location="classpath:file-upload.properties"/>
 
-    <context:component-scan base-package="org.pepsik.web"/>
+    <!--<context:component-scan base-package="org.pepsik.web"/>-->
 
-    <mvc:annotation-driven/>
-    <mvc:resources mapping="/resources/**" location="resources/"/>
-    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
-    <mvc:resources mapping="/bower/**" location="bower_components/"/>
+    <!--<mvc:annotation-driven/>-->
+    <!--<mvc:resources mapping="/resources/**" location="resources/"/>-->
+    <mvc:resources mapping="/js/**" location="/js/" />
+    <mvc:resources mapping="/bower_components/**" location="bower_components/"/>
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>
