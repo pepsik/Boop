@@ -30,6 +30,10 @@ angular.module('myApp', [
                 templateUrl: 'views/home.html',
                 controller: 'PostListController'
             })
+            .when('/post/:postId', {
+                templateUrl: 'views/post.html',
+                controller: 'PostController'
+            })
             .when('/view2', {
                 templateUrl: 'views/view2.html',
                 controller: 'View2Ctrl'

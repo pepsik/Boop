@@ -1,0 +1,15 @@
+<div ng-controller="PostController">
+    <div class="postListText">
+
+        <h3><a class="label label-default" href="#/post/{{post.id}}">{{post.title}}</a></h3>
+
+
+        <div class="post" ng-bind-html="makeTrust(post.text)"></div>
+
+        comments - {{post.comments.length}}
+                <span style="float:right"><small>Posted by {{post.user.username}} on {{post.when | date:'medium'}}
+                </small></span> <br/>
+
+    </div>
+
+</div>

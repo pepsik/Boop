@@ -74,9 +74,9 @@ public class SmartServiceImpl implements SmartService {
             throw new ResourceNotFoundException();
         Post post = postDao.getPostById(postId);
         post.getComments().size();
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!loggedUser.equals(GUEST_NAME))
-            isFavoritePost(loggedUser, post);
+//        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (!loggedUser.equals(GUEST_NAME))
+//            isFavoritePost(loggedUser, post);
         return post;
     }
 

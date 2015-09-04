@@ -17,7 +17,7 @@ body {
     flex-direction: column; /*Direction of the items, can be row or column*/
 }
 
-header, footer {
+header {
     height: 100px;
     color: white;
 }
@@ -30,8 +30,10 @@ header {
 
 footer {
     display: none;
-    background-color: #919191;
-    margin-top: 30px;
+    height: 30px;
+    padding: 0 200px 0;
+    background-color: #000000;
+    color: white;
 }
 
 main {
@@ -80,19 +82,24 @@ menu {
     width: 80%;
     display: inline-block;
 }
-/*----------PostList(main content)------------------*/
-li {
-    clear: both;
-    height: auto;
-    padding-top: 15px;
-}
 
+/*----------PostList(main content)------------------*/
 .post-list {
     font-size: 1.2em;
     border-bottom: 1px solid #996633;
     line-height: 1.1em;
     padding: 2em 0 0.6em;
     position: relative;
+}
+
+ul {
+    padding: 0;
+}
+
+.post-list li {
+    clear: both;
+    height: auto;
+    padding-top: 15px;
 }
 
 .postListText {
@@ -107,6 +114,7 @@ li {
     padding: 15px 10px;
     overflow: hidden;
 }
+
 /*-------------Pagination---------------*/
 .menu {
     list-style: none;
