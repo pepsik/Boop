@@ -15,8 +15,8 @@
     <import resource="datasource-config.xml"/>
     <context:property-placeholder location="classpath:application.properties"/>
 
-    <!--<context:component-scan base-package="org.pepsik.service"/>-->
-    <!--<context:component-scan base-package="org.pepsik.persistence"/>-->
+    <!--<context:component-scan base-package="org.pepsik.core.service"/>-->
+    <!--<context:component-scan base-package="org.pepsik.core.persistence"/>-->
     <!--<tx:annotation-driven/>-->
 
     <bean id="em" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"

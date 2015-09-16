@@ -67,7 +67,7 @@
         <beans:constructor-arg name="expiredUrl" value="/session-expired.htm"/>
     </beans:bean>
 
-    <!--<beans:bean id="testFilter" class="org.pepsik.web.support.UserInfoToSessionCollectorFilter"/>-->
+    <!--<beans:bean id="testFilter" class="org.pepsik.rest.utility.support.UserInfoToSessionCollectorFilter"/>-->
 
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
 

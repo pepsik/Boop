@@ -2,18 +2,7 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/spring/business-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/datasource-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/cache/eh-cache-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/security/jdbc-user-service.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/mvc-core-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/spring/mvc-view-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/security/spring-security-config.xml</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/pepsik/config/SecurityConfiguration.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
     <facet type="web" name="Web">
       <configuration>
@@ -126,5 +115,7 @@
     <orderEntry type="library" name="jquery" level="project" />
     <orderEntry type="library" name="summernote" level="project" />
     <orderEntry type="library" name="readmore" level="project" />
+    <orderEntry type="library" name="angular-ui" level="project" />
+    <orderEntry type="library" name="ui-router" level="project" />
   </component>
 </module>

@@ -1,12 +1,11 @@
 package org.pepsik;
 
-import org.pepsik.web.UserController;
-import org.pepsik.web.UserSettingsController;
+import org.pepsik.rest.mvc.UserController;
+import org.pepsik.rest.mvc.UserSettingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.ImportResource;
