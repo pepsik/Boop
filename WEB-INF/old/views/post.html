@@ -1,0 +1,40 @@
+<div ng-controller="PostController">
+    <div class="post_list">
+        <h3><a class="label label-default" href="#/post/{{post.id}}">{{post.title}}</a></h3>
+
+        <div class="post_text" ng-bind-html="makeTrust(post.text)"></div>
+
+        <div class="post_bottom">
+                <span class="comments_button">
+                    comments - {{post.comments.length}}
+                </span>
+                <span class="post_date">
+                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}
+                </span>
+        </div>
+
+    </div>
+
+    <br/>
+    <br/>
+    <ol>
+        <li type="none" class="comment" ng-repeat="comment in post.comments">
+            <div ng-bind-html="makeTrust(comment.text)"></div>
+
+            <div class="comment_bottom">
+                <span>
+                    <b>{{post.user.username}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
+                </span>
+            </div>
+        </li>
+    </ol>
+
+    <div class="comment">
+        <summernote height="250"></summernote>
+        <div style="text-align: right">
+            <button class="btn btn-default">Post message</button>
+        </div>
+    </div>
+
+    <br/>
+</div>

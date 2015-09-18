@@ -1,9 +1,9 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Comment;
-import org.pepsik.core.model.Favorite;
-import org.pepsik.core.model.Post;
-import org.pepsik.core.model.User;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.core.models.entities.Favorite;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.User;
 
 import java.util.List;
 

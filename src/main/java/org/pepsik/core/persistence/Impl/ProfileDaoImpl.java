@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence.Impl;
 
-import org.pepsik.core.model.Profile;
+import org.pepsik.core.models.entities.Profile;
 import org.pepsik.core.persistence.ProfileDao;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package org.pepsik.rest.mvc;
 
 import org.joda.time.DateTime;
-import org.pepsik.core.model.Comment;
-import org.pepsik.core.service.SmartService;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.core.services.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

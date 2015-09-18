@@ -1,7 +1,7 @@
 package org.pepsik.core.persistence.Impl;
 
-import org.pepsik.core.model.PrivateMessage;
-import org.pepsik.core.model.User;
+import org.pepsik.core.models.entities.PrivateMessage;
+import org.pepsik.core.models.entities.User;
 import org.pepsik.core.persistence.PrivateMessageDao;
 import org.springframework.stereotype.Repository;
 

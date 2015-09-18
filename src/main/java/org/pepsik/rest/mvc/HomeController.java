@@ -1,7 +1,7 @@
 package org.pepsik.rest.mvc;
 
-import org.pepsik.core.model.Post;
-import org.pepsik.core.service.SmartService;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.services.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

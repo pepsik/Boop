@@ -1,10 +1,10 @@
 package org.pepsik.rest.mvc;
 
 import org.joda.time.DateTime;
-import org.pepsik.core.model.Comment;
-import org.pepsik.core.service.SmartService;
-import org.pepsik.rest.exception.BadRequestException;
-import org.pepsik.rest.exception.ResourceNotFoundException;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.core.services.SmartService;
+import org.pepsik.rest.exceptions.BadRequestException;
+import org.pepsik.rest.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

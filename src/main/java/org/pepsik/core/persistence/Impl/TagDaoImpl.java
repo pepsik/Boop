@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence.Impl;
 
-import org.pepsik.core.model.Tag;
+import org.pepsik.core.models.entities.Tag;
 import org.pepsik.core.persistence.TagDao;
 import org.springframework.stereotype.Repository;
 

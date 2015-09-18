@@ -1,8 +1,8 @@
 package org.pepsik.rest.mvc;
 
-import org.pepsik.core.model.Tag;
-import org.pepsik.core.service.SmartService;
-import org.pepsik.rest.exception.BadRequestException;
+import org.pepsik.core.models.entities.Tag;
+import org.pepsik.core.services.SmartService;
+import org.pepsik.rest.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

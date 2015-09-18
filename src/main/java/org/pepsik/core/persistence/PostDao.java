@@ -1,7 +1,7 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Post;
-import org.pepsik.core.model.support.PostLabel;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.support.PostLabel;
 
 import java.util.List;
 

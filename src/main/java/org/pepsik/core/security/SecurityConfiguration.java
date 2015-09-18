@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configAuthBuilder(AuthenticationManagerBuilder builder) throws Exception {
         builder
                 .inMemoryAuthentication()
-                    .withUser("username").password("123").roles("USER");
+                .withUser("username").password("123").roles("USER");
     }
 
     @Override
@@ -56,16 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-//                .loginPage("/views/login.html")
-                .and()
+                    .and()
                 .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/views/*").permitAll()
-//                .antMatchers("/api/page/*").permitAll()
-//                .antMatchers("/api/post/*").permitAll()
-//                .antMatchers("/api/pagination").permitAll()
-//                .antMatchers("/api/**").authenticated()
-                .anyRequest().authenticated();
+                .antMatchers("/**").permitAll();
     }
 }

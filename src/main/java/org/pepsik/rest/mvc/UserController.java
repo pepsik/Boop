@@ -3,15 +3,17 @@ package org.pepsik.rest.mvc;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.pepsik.core.model.Profile;
-import org.pepsik.core.model.User;
-import org.pepsik.core.service.SmartService;
-import org.pepsik.rest.exception.*;
+import org.pepsik.core.models.entities.Profile;
+import org.pepsik.core.models.entities.User;
+import org.pepsik.core.services.SmartService;
+import org.pepsik.rest.exceptions.*;
+import org.pepsik.rest.resources.AccountResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,7 +33,7 @@ import java.security.Principal;
 import java.util.Arrays;
 
 @Controller
-@RequestMapping("/api/user")
+@RequestMapping
 public class UserController {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";
@@ -41,7 +43,7 @@ public class UserController {
     @Autowired
     private SmartService service;
 
-    @Value("${upload.path}")
+//    @Value("${upload.path}")
     private String uploadPath;
 
     @InitBinder
@@ -65,36 +67,42 @@ public class UserController {
             }
         });
     }
+//
+//    @RequestMapping(method = RequestMethod.GET)
+//    public String newUser(Model model) {
+//        Profile profile = new Profile();
+//        profile.setUser(new User());
+//        model.addAttribute(profile);
+//        return "user/create";
+//    }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String newUser(Model model) {
-        Profile profile = new Profile();
-        profile.setUser(new User());
-        model.addAttribute(profile);
-        return "user/create";
+    @RequestMapping(value = "/api/accounts", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void user() {
+//        logger.debug("Created new account with name " + sentAccount.getUsername() + " and password" + sentAccount.getPassword());
     }
 
-    @RequestMapping("/user")
-    public Principal user(Principal user) {
-        return user;
+    @RequestMapping(value = "/api/accounts", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public void getuser() {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String createUser(@Valid Profile profile, BindingResult bindingResult) {
-        if (service.isExistUsername(profile.getUser().getUsername()))
-            bindingResult.rejectValue("user.username", "username.exist");
-        logger.info(bindingResult.toString());
-        if (bindingResult.hasErrors())
-            return "user/create";
-        User user = profile.getUser();
-        user.setProfile(profile);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.getUserPassword().setPassword(encoder.encode(user.getUserPassword().getPassword()));
-        user.getUserPassword().setUser(user);
-        service.saveUser(user);
-        return "redirect:/registration_successful";
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String createUser(@Valid Profile profile, BindingResult bindingResult) {
+//        if (service.isExistUsername(profile.getUser().getUsername()))
+//            bindingResult.rejectValue("user.username", "username.exist");
+//        logger.info(bindingResult.toString());
+//        if (bindingResult.hasErrors())
+//            return "user/create";
+//        User user = profile.getUser();
+//        user.setProfile(profile);
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        user.getUserPassword().setPassword(encoder.encode(user.getUserPassword().getPassword()));
+//        user.getUserPassword().setUser(user);
+//        service.saveUser(user);
+//        return "redirect:/registration_successful";
+//    }
 
     @RequestMapping(value = "/{username}/profile", method = RequestMethod.GET)
     public String getUserProfile(@PathVariable("username") String username, Model model) {

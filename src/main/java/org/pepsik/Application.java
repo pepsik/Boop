@@ -22,8 +22,7 @@ import java.util.Arrays;
 
 @ImportResource(value = {"classpath:spring/business-config.xml"})
 @ComponentScan(basePackages = {"org.pepsik"},
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserController.class),
-                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserSettingsController.class)})
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserSettingsController.class)})
 @EnableAutoConfiguration
 public class Application {
 
@@ -67,9 +66,11 @@ public class Application {
     public static class WebMvcAutoConfigurationAdapter extends WebMvcConfigurerAdapter {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            if (!registry.hasMappingForPattern("/js/**")) {
-                registry.addResourceHandler("/js/**").addResourceLocations(
-                        "js/");
+//            if (!registry.hasMappingForPattern("/js/**")) {
+//                registry.addResourceHandler("/js/**").addResourceLocations("js/");
+//            }
+            if (!registry.hasMappingForPattern("/app/**")) {
+                registry.addResourceHandler("/app/**").addResourceLocations("classpath:/build/");
             }
         }
     }

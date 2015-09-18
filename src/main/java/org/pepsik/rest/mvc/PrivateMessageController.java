@@ -1,8 +1,8 @@
 package org.pepsik.rest.mvc;
 
-import org.pepsik.core.model.PrivateMessage;
-import org.pepsik.core.model.User;
-import org.pepsik.core.service.SmartService;
+import org.pepsik.core.models.entities.PrivateMessage;
+import org.pepsik.core.models.entities.User;
+import org.pepsik.core.services.SmartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

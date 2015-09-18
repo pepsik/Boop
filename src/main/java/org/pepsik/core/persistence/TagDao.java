@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Tag;
+import org.pepsik.core.models.entities.Tag;
 
 /**
  * Created by pepsik on 5/26/15.

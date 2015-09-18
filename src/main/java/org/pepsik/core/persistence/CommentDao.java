@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Comment;
+import org.pepsik.core.models.entities.Comment;
 
 /**
  * Created by pepsik on 5/16/15.

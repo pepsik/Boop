@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence.Impl;
 
-import org.pepsik.core.model.Favorite;
+import org.pepsik.core.models.entities.Favorite;
 import org.pepsik.core.persistence.FavoriteDao;
 import org.springframework.stereotype.Repository;
 

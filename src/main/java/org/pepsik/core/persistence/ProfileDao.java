@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Profile;
+import org.pepsik.core.models.entities.Profile;
 
 /**
  * Created by pepsik on 5/23/15.

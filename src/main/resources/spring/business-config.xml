@@ -15,7 +15,7 @@
     <import resource="datasource-config.xml"/>
     <context:property-placeholder location="classpath:application.properties"/>
 
-    <!--<context:component-scan base-package="org.pepsik.core.service"/>-->
+    <!--<context:component-scan base-package="org.pepsik.core.services"/>-->
     <!--<context:component-scan base-package="org.pepsik.core.persistence"/>-->
     <!--<tx:annotation-driven/>-->
 

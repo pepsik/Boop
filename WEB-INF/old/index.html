@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>boo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/summernote/dist/summernote.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body ng-app="routerApp">
+<div class="wrapper ng-cloak" ng-cloak>
+    <div class="development"></div>
+    <header>I'm a 100px tall header</header>
+    <main>
+        <menu class="container">
+            <ul class="topmenu_list">
+                <li class="topmenu_item"><a class="topmenu_link" ui-sref="home">Home</a></li>
+                <li class="topmenu_item"><a class="topmenu_link" ui-sref="login">Login</a></li>
+                <!--<li class="topmenu_item" ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>-->
+            </ul>
+        </menu>
+
+        <!-- MAIN CONTENT -->
+        <!-- THIS IS WHERE WE WILL INJECT OUR CONTENT ============================== -->
+        <!--<div ui-view></div>-->
+
+        <div class="container view-frame" ui-view></div>
+
+    </main>
+    <footer>© 2015 Boo Co. All rights reserved.</footer>
+</div>
+
+<!--<body ng-app="routerApp">-->
+
+<!--&lt;!&ndash; NAVIGATION &ndash;&gt;-->
+<!--<nav class="navbar navbar-inverse" role="navigation">-->
+<!--<div class="navbar-header">-->
+<!--<a class="navbar-brand" ui-sref="#">AngularUI Router</a>-->
+<!--</div>-->
+<!--<ul class="nav navbar-nav">-->
+<!--<li><a ui-sref="home">Home</a></li>-->
+<!--<li><a ui-sref="about">About</a></li>-->
+<!--</ul>-->
+<!--</nav>-->
+
+<!-- In production use:-->
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<!--<script src="bower_components/summernote/dist/summernote.js"></script>-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<!--<script src="bower_components/angular-summernote/dist/angular-summernote.js"></script>-->
+<!--<script src="bower_components/angular-ui/build/angular-ui.js"></script>-->
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+<!--<script src="bower_components/Readmore.js/readmore.js"></script>-->
+
+<script src="js/app.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/services.js"></script>
+
+</body>
+</html>

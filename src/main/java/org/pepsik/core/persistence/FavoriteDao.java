@@ -1,6 +1,6 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.Favorite;
+import org.pepsik.core.models.entities.Favorite;
 
 import java.util.List;
 

@@ -30,7 +30,7 @@
         </listener-class>
     </listener>
     <listener>
-        <listener-class>org.pepsik.rest.utility.support.HttpSessionCollector</listener-class>
+        <listener-class>org.pepsik.rest.utilities.support.HttpSessionCollector</listener-class>
     </listener>
 
     <!-- Filters -->
@@ -73,7 +73,7 @@
     <!-- solution for "HTTP Status 405 - JSPs only permit GET POST or HEAD" on Tomcat 8 -->
     <filter>
         <filter-name>getMethodConvertingFilter</filter-name>
-        <filter-class>org.pepsik.core.model.support.GetMethodConvertingFilter</filter-class>
+        <filter-class>org.pepsik.core.models.entities.support.GetMethodConvertingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>getMethodConvertingFilter</filter-name>

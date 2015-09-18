@@ -1,0 +1,42 @@
+<div ng-controller="PostListController">
+    <ul type="none">
+        <li>
+            <div class="btn-group" ng-hide="isLoggedIn()">
+                <a ui-sref="login" class="btn btn-large btn-default">
+                    Login
+                </a>
+                <a ui-sref="register" class="btn btn-large btn-success">
+                    Register
+                </a>
+            </div>
+            <div class="btn-group" ng-view="isLoggedIn()">
+                <a ng-click="logout()" class="btn btn-large btn-default">
+                    <i class="fa fa-book"></i>
+                    Logout
+                </a>
+            </div>
+            <br/>
+            <br/>
+
+        </li>
+        <li class="post_list" ng-repeat="post in posts">
+            <h3><a class="label label-default" href="#/post/{{post.id}}">{{post.title}}</a></h3>
+
+            <div class="post_text" ng-bind-html="makeTrust(post.text)"></div>
+
+            <div class="post_bottom">
+                <span class="comments_button">
+                    comments - {{post.comments.length}}
+                </span>
+                <span class="post_date">
+                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}
+                </span>
+            </div>
+        </li>
+    </ul>
+
+    <ul class="menu text-center">
+        <li>pages</li>
+        <li ng-repeat="pageId in pagination"><a href="#/page/{{pageId}}">{{pageId}}</a></li>
+    </ul>
+</div>

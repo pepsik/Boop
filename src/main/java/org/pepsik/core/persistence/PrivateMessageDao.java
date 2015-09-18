@@ -1,7 +1,7 @@
 package org.pepsik.core.persistence;
 
-import org.pepsik.core.model.PrivateMessage;
-import org.pepsik.core.model.User;
+import org.pepsik.core.models.entities.PrivateMessage;
+import org.pepsik.core.models.entities.User;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package org.pepsik.rest.mvc;
 
-import org.pepsik.core.model.Post;
-import org.pepsik.core.model.Tag;
-import org.pepsik.core.service.SmartService;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.Tag;
+import org.pepsik.core.services.SmartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

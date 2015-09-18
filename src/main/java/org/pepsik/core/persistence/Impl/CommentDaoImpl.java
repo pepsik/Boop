@@ -4,7 +4,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
 import com.googlecode.ehcache.annotations.KeyGenerator;
 import com.googlecode.ehcache.annotations.Property;
 import com.googlecode.ehcache.annotations.TriggersRemove;
-import org.pepsik.core.model.Comment;
+import org.pepsik.core.models.entities.Comment;
 import org.pepsik.core.persistence.CommentDao;
 import org.springframework.stereotype.Repository;
 
