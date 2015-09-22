@@ -12,6 +12,13 @@ import javax.validation.constraints.Size;
 @Table(name = "passwords")
 public class Password {
 
+    public Password() {
+    }
+
+    public Password(String password) {
+        this.password = password;
+    }
+
     @Id
     @Column(name = "user_id_fk")
     private long id;

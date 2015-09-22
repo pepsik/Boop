@@ -22,6 +22,8 @@ public interface UserDao {
 
     void deleteUser(long id);
 
+    List<User> getAllUsers();
+
     void setUserAuthority(User user);
 
     List<Post> getUserPosts(User user, int pageIndex, int postsPerPage);

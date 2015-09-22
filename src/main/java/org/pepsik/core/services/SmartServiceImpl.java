@@ -206,6 +206,11 @@ public class SmartServiceImpl implements SmartService {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
+    @Override
     public boolean isExistUsername(String username) {
         try {
             userDao.getUserByUsername(username);

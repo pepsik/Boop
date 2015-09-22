@@ -33,6 +33,8 @@ public interface SmartService {
 
     void deleteUser(long id);
 
+    List<User> getAllUsers();
+
     List<Post> getUserPosts(String username, int page);
 
     long getUserPostsCount(String username);

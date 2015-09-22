@@ -55,16 +55,31 @@ angular.module('ngBoilerplate.account', ['ui.router'])
     .factory('accountService', function ($resource) {
         var service = {};
         service.register = function (account, success, failure) {
-            var Account = $resource("/api/accounts");
+            var Account = $resource("/rest/accounts");
             Account.save({}, account, success, failure);
+        };
+        service.UserExists = function (account, success, failure) {
+            var Account = $resource("/rest/accounts");
+            var data = Account.get({name: account.name, password: account.password}, function () {
+                var accounts = data.accounts;
+                if (accounts.length !== 0) {
+                    success(account);
+                } else {
+                    failure();
+                }
+            });
         };
         return service;
     })
 
-    .controller('LoginCtrl', function ($scope, $state, sessionService) {
+    .controller('LoginCtrl', function ($scope, $state, accountService, sessionService) {
         $scope.login = function () {
-            sessionService.login($scope.account);
-            $state.go("home");
+            accountService.UserExists($scope.account, function () {
+                    alert("logging success!");
+                },
+                function () {
+                    alert("logging failed!");
+                });
         };
     })
 

@@ -23,6 +23,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     public static final String SELECT_USER_BY_USERNAME = "SELECT user FROM User user WHERE user.username=:username";
+    public static final String SELECT_USERS = "SELECT user FROM User user";
     public static final String INSERT_USER_AUTHORITY = "INSERT INTO users_authority (user_id_fk, role_id_fk)  values (:id , 2)";
     public static final String REMOVE_USER_TOKENS_SQL = "delete from persistent_logins where username = :username";
 
@@ -52,6 +53,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(long id) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) em.createQuery(SELECT_USERS).getResultList();
     }
 
     @Override
