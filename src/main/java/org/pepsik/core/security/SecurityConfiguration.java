@@ -17,14 +17,16 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AuthenticationSuccessHandler successHandler;
+    private AuthenticationSuccessHandler successHandler;
 
     @Autowired
-    AuthenticationFailureHandler failureHandler;
+    private AuthenticationFailureHandler failureHandler;
+
+    @Autowired
+    private UserDetailServiceImpl userDetailService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,8 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configAuthBuilder(AuthenticationManagerBuilder builder) throws Exception {
         builder
-                .inMemoryAuthentication()
-                .withUser("username").password("123").roles("USER");
+                .userDetailsService(userDetailService)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -56,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
-                    .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
     }

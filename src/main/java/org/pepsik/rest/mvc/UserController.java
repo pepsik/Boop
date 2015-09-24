@@ -8,7 +8,10 @@ import org.pepsik.core.models.entities.Profile;
 import org.pepsik.core.models.entities.User;
 import org.pepsik.core.services.SmartService;
 import org.pepsik.rest.exceptions.*;
+import org.pepsik.rest.resources.AccountListResource;
 import org.pepsik.rest.resources.AccountResource;
+import org.pepsik.rest.resources.asm.AccountListResourceAsm;
+import org.pepsik.rest.resources.asm.AccountResourceAsm;
 import org.pepsik.rest.utilities.AccountList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,7 +37,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -73,24 +79,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "/rest/accounts", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getAccounts(@RequestParam(required = false) String username, @RequestParam(required = false) String password) {
-        AccountList list = null;
+    public ResponseEntity<AccountListResource> getAccounts(@RequestParam(required = false) String username) {
+        AccountList list;
         if (username == null) {
-
+            list = new AccountList(service.getAllUsers());
         } else {
+            User account = null;
+            try {
+                account = service.getUser(username);
+            } catch (Exception e) {/*empty*/}
+
+            list = new AccountList(new ArrayList<>());
+            if (account != null)
+                list.setAccounts(Collections.singletonList(account));
         }
-        return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
+
+        AccountListResource resources = new AccountListResourceAsm().toResource(list);
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/rest/accounts", method = RequestMethod.POST)
     public ResponseEntity<AccountResource> createAccount(@RequestBody AccountResource sentAccount) {
-        logger.debug("User created with login " + sentAccount.getUsername() + " and password " + sentAccount.getPassword());
-
+        logger.debug("Attempt to create account with login " + sentAccount.getUsername() + " and password " + sentAccount.getPassword());
         try {
             service.isExistUsername(sentAccount.getUsername());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-        }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //TODO: refact
+        } catch (Exception e) {/*empty*/ }
 
         User user = new User();
         user.setUsername(sentAccount.getUsername());
@@ -98,7 +112,19 @@ public class UserController {
         user.setUserPassword(new Password(encoder.encode(sentAccount.getPassword())));
         user.getUserPassword().setUser(user);
         service.saveUser(user);
+        logger.debug("User successful created!");
         return new ResponseEntity<>(sentAccount, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/rest/accounts/{accountId}", method = RequestMethod.GET)
+    public ResponseEntity<AccountResource> getAccount(@PathVariable Long accountId) {
+        User account = service.getUser(accountId);
+        if (account != null) {
+            AccountResource res = new AccountResourceAsm().toResource(account);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/{username}/profile", method = RequestMethod.GET)

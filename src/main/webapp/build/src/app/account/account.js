@@ -37,11 +37,18 @@ angular.module('ngBoilerplate.account', ['ui.router'])
                 }
             });
     })
-    .factory('sessionService', function () {
+    .factory('sessionService', function ($http) {
         var session = {};
         session.login = function (data) {
-            localStorage.setItem("session", data);
-            alert("user logIn with name " + data.name + " and password " + data.password);
+            return $http.post("/login", "username=" + data.username +
+                "&password=" + data.password, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (data) {
+                alert("login successful");
+                localStorage.setItem("session", {});
+            }, function (data) {
+                alert("error logging in");
+            });
         };
         session.logout = function () {
             localStorage.removeItem("session");
@@ -58,9 +65,13 @@ angular.module('ngBoilerplate.account', ['ui.router'])
             var Account = $resource("/rest/accounts");
             Account.save({}, account, success, failure);
         };
+        service.getAccountById = function (accountId) {
+            var Account = $resource("/rest/accounts/:paramAccountId");
+            return Account.get({paramAccountId: accountId}).$promise;
+        };
         service.UserExists = function (account, success, failure) {
             var Account = $resource("/rest/accounts");
-            var data = Account.get({name: account.name, password: account.password}, function () {
+            var data = Account.get({username: account.username}, function () {
                 var accounts = data.accounts;
                 if (accounts.length !== 0) {
                     success(account);
@@ -74,19 +85,21 @@ angular.module('ngBoilerplate.account', ['ui.router'])
 
     .controller('LoginCtrl', function ($scope, $state, accountService, sessionService) {
         $scope.login = function () {
-            accountService.UserExists($scope.account, function () {
-                    alert("logging success!");
+            accountService.UserExists($scope.account, function (account) {
+                    sessionService.login($scope.account).then(function () {
+                        $state.go("home");
+                    });
                 },
                 function () {
-                    alert("logging failed!");
+                    alert("User doesn't exist!");
                 });
         };
     })
 
     .controller('RegisterCtrl', function ($scope, $state, sessionService, accountService) {
         $scope.register = function () {
-            accountService.register($scope.account,
-                function (returnedData) {
+            alert("reg username " + $scope.account.username + " psw " + $scope.account.password);
+            accountService.register($scope.account, function (returnedData) {
                     sessionService.login(returnedData);
                     $state.go("home");
                 },

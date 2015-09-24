@@ -279,7 +279,7 @@ angular.module("account/login.tpl.html", []).run(["$templateCache", function($te
     "  <form ng-submit=\"login()\">\n" +
     "      <div class=\"form-group\">\n" +
     "          <label>Username:</label>\n" +
-    "          <input type=\"text\" ng-model=\"account.name\" class=\"form-control\"/>\n" +
+    "          <input type=\"text\" ng-model=\"account.username\" class=\"form-control\"/>\n" +
     "      </div>\n" +
     "      <div class=\"form-group\">\n" +
     "          <label>Password:</label>\n" +
@@ -301,7 +301,7 @@ angular.module("account/register.tpl.html", []).run(["$templateCache", function(
     "  <form ng-submit=\"register()\">\n" +
     "      <div class=\"form-group\">\n" +
     "          <label>Username:</label>\n" +
-    "          <input type=\"text\" ng-model=\"account.name\" class=\"form-control\" />\n" +
+    "          <input type=\"text\" ng-model=\"account.username\" class=\"form-control\" />\n" +
     "      </div>\n" +
     "      <div class=\"form-group\">\n" +
     "          <label>Password:</label>\n" +

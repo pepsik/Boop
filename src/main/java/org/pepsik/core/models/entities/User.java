@@ -25,7 +25,7 @@ public class User {
     private String username;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @PrimaryKeyJoinColumn
     @Valid
     private Password userPassword;
