@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 
 @Configuration
@@ -24,6 +24,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationFailureHandler failureHandler;
+
+    @Autowired
+    private EntryPointUnauthorizedHandler unauthorizedHandler;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
@@ -54,10 +60,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+            .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .formLogin()
                 .successHandler(successHandler)
                 .failureHandler(failureHandler)
+                .and()
+                .logout()
+                .deleteCookies("remove")
+                .invalidateHttpSession(true)
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();

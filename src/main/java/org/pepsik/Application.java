@@ -62,16 +62,4 @@ public class Application {
     private static void addDefaultProfile(SpringApplication app, SimpleCommandLinePropertySource source) {
 
     }
-
-    public static class WebMvcAutoConfigurationAdapter extends WebMvcConfigurerAdapter {
-        @Override
-        public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//            if (!registry.hasMappingForPattern("/js/**")) {
-//                registry.addResourceHandler("/js/**").addResourceLocations("js/");
-//            }
-            if (!registry.hasMappingForPattern("/app/**")) {
-                registry.addResourceHandler("/app/**").addResourceLocations("classpath:/build/");
-            }
-        }
-    }
 }

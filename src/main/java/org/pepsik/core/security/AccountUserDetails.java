@@ -11,9 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by Chris on 10/19/14.
- */
 public class AccountUserDetails implements UserDetails {
     private final User account;
 

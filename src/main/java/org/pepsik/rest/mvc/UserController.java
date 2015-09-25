@@ -137,11 +137,11 @@ public class UserController {
         return "user/view_profile";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String deleteUser(@PathVariable("id") long id) {
-        service.deleteUser(id);
-        return "redirect:/home";
-    }
+//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+//    public String deleteUser(@PathVariable("id") long id) {
+//        service.deleteUser(id);
+//        return "redirect:/home";
+//    }
 
     @RequestMapping(value = "/{username}/favorites/{pageId}", method = RequestMethod.GET, produces = "text/html")
     public String getUserFavorites(@PathVariable String username, @PathVariable(value = "pageId") String strPageId, Model model) {
@@ -243,35 +243,35 @@ public class UserController {
         return "user/comments";
     }
 
-    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
-    public String uploadUserAvatar(@RequestParam("image") MultipartFile file) {
-        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!loggedUser.equals("guest")) {
-            if (!file.isEmpty())
-                try {
-                    byte[] bytes = file.getBytes();
-
-                    //TODO: to prop file
-                    File dir = new File(uploadPath + "\\avatars\\");
-                    if (!dir.exists())
-                        dir.mkdirs();
-
-                    File serverFile = new File(dir.getAbsolutePath()
-                            + File.separator + loggedUser + ".jpeg");
-                    BufferedOutputStream stream = new BufferedOutputStream(
-                            new FileOutputStream(serverFile));
-                    stream.write(bytes);
-                    stream.close();
-
-                    logger.info("Server File Location="
-                            + serverFile.getAbsolutePath());
-                } catch (Exception e) {
-                    throw new ImageUploadException();
-                }
-        } else
-            throw new NoAuthorizationException();
-        return "redirect:/settings/profile";
-    }
+//    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+//    public String uploadUserAvatar(@RequestParam("image") MultipartFile file) {
+//        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (!loggedUser.equals("guest")) {
+//            if (!file.isEmpty())
+//                try {
+//                    byte[] bytes = file.getBytes();
+//
+//                    //TODO: to prop file
+//                    File dir = new File(uploadPath + "\\avatars\\");
+//                    if (!dir.exists())
+//                        dir.mkdirs();
+//
+//                    File serverFile = new File(dir.getAbsolutePath()
+//                            + File.separator + loggedUser + ".jpeg");
+//                    BufferedOutputStream stream = new BufferedOutputStream(
+//                            new FileOutputStream(serverFile));
+//                    stream.write(bytes);
+//                    stream.close();
+//
+//                    logger.info("Server File Location="
+//                            + serverFile.getAbsolutePath());
+//                } catch (Exception e) {
+//                    throw new ImageUploadException();
+//                }
+//        } else
+//            throw new NoAuthorizationException();
+//        return "redirect:/settings/profile";
+//    }
 
     @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
     public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file) {
