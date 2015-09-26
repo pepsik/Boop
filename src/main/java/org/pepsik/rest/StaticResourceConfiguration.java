@@ -15,5 +15,6 @@ public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/build/");
         registry.addResourceHandler("/uploads/**").addResourceLocations("/uploads/");
+        registry.addResourceHandler("/fonts/**").addResourceLocations("/vendor/bootstrap/fonts/"); //temp
     }
 }

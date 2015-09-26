@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'account/search.tpl.html', 'home/home.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'account/search.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/post.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -338,54 +338,7 @@ angular.module("account/search.tpl.html", []).run(["$templateCache", function($t
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "<div class=\"jumbotron\">\n" +
-    "    <ul class=\"list-inline social-buttons\">\n" +
-    "        <li>\n" +
-    "            <iframe\n" +
-    "                    src=\"http://ghbtns.com/github-btn.html?user=ngbp&amp;repo=ngbp&amp;type=watch&amp;count=true\"\n" +
-    "                    allowtransparency=\"true\"\n" +
-    "                    frameborder=\"0\"\n" +
-    "                    scrolling=\"0\"\n" +
-    "                    width=\"110\"\n" +
-    "                    height=\"20\">\n" +
-    "            </iframe>\n" +
-    "        </li>\n" +
-    "        <li>\n" +
-    "            <iframe\n" +
-    "                    src=\"http://ghbtns.com/github-btn.html?user=ngbp&amp;repo=ngbp&amp;type=fork&amp;count=true\"\n" +
-    "                    allowtransparency=\"true\"\n" +
-    "                    frameborder=\"0\"\n" +
-    "                    scrolling=\"0\"\n" +
-    "                    width=\"95\"\n" +
-    "                    height=\"20\">\n" +
-    "            </iframe>\n" +
-    "        </li>\n" +
-    "        <li>\n" +
-    "            <iframe allowtransparency=\"true\" frameborder=\"0\" scrolling=\"no\"\n" +
-    "                    src=\"https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fbit.ly%2FngBoilerplate&counturl=http%3A%2F%2Fngbp.github.com%2Fngbp&text=Check%20out%20%23ngbp%20-%20an%20awesome%20kickstarter%20for%20web%20projects%20%7C&hashtags=angularjs&via=joshdmiller&related=joshdmiller\"\n" +
-    "                    style=\"width:130px; height:20px;\"></iframe>\n" +
-    "        </li>\n" +
-    "        <li plus-one></li>\n" +
-    "    </ul>\n" +
-    "\n" +
-    "    <div class=\"btn-group\" ng-hide=\"isLoggedIn()\">\n" +
-    "        <a ui-sref=\"login\" class=\"btn btn-large btn-default\">\n" +
-    "            Login\n" +
-    "        </a>\n" +
-    "        <a ui-sref=\"register\" class=\"btn btn-large btn-success\">\n" +
-    "            Register\n" +
-    "        </a>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <div class=\"btn-group\" ng-show=\"isLoggedIn()\">\n" +
-    "        <a ng-click=\"logout()\" class=\"btn btn-large btn-default\">\n" +
-    "            Logout\n" +
-    "        </a>\n" +
-    "    </div>\n" +
-    "\n" +
-    "</div>\n" +
-    "\n" +
-    "<div ng-controller=\"PostListController\">\n" +
+    "<div ng-controller=\"PageCtrl\">\n" +
     "    <ul type=\"none\">\n" +
     "        <li class=\"post_list\" ng-repeat=\"post in posts\">\n" +
     "            <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
@@ -408,6 +361,76 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "        <li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>\n" +
     "    </ul>\n" +
     "</div>\n" +
-    "\n" +
     "");
+}]);
+
+angular.module("page/page.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("page/page.tpl.html",
+    "<div ng-controller=\"PageCtrl\">\n" +
+    "    <ul type=\"none\">\n" +
+    "        <li class=\"post_list\" ng-repeat=\"post in posts\">\n" +
+    "            <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
+    "\n" +
+    "            <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "\n" +
+    "            <div class=\"post_bottom\">\n" +
+    "                <span class=\"comments_button\">\n" +
+    "                    comments - {{post.comments.length}}\n" +
+    "                </span>\n" +
+    "                <span class=\"post_date\">\n" +
+    "                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                </span>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <ul class=\"menu text-center\">\n" +
+    "        <li>pages</li>\n" +
+    "        <li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>\n" +
+    "    </ul>\n" +
+    "</div>");
+}]);
+
+angular.module("post/post.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("post/post.tpl.html",
+    "<div ng-controller=\"PostCtrl\">\n" +
+    "    <div class=\"post_list\">\n" +
+    "        <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
+    "\n" +
+    "        <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "\n" +
+    "        <div class=\"post_bottom\">\n" +
+    "                <span class=\"comments_button\">\n" +
+    "                    comments - {{post.comments.length}}\n" +
+    "                </span>\n" +
+    "                <span class=\"post_date\">\n" +
+    "                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                </span>\n" +
+    "        </div>\n" +
+    "\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br/>\n" +
+    "    <br/>\n" +
+    "    <ol>\n" +
+    "        <li type=\"none\" class=\"comment\" ng-repeat=\"comment in post.comments\">\n" +
+    "            <div ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
+    "\n" +
+    "            <div class=\"comment_bottom\">\n" +
+    "                <span>\n" +
+    "                    <b>{{post.user.username}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
+    "                </span>\n" +
+    "            </div>\n" +
+    "        </li>\n" +
+    "    </ol>\n" +
+    "\n" +
+    "    <div class=\"comment\">\n" +
+    "        <summernote height=\"250\"></summernote>\n" +
+    "        <div style=\"text-align: right\">\n" +
+    "            <button class=\"btn btn-default\">Post message</button>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <br/>\n" +
+    "</div>");
 }]);

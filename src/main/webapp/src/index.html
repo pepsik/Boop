@@ -44,12 +44,7 @@
             <span class="icon-bar"></span>
           </button>
           <div class="navbar-brand">
-            ngbp
-            <small>
-              <a href="http://github.com/ngbp/ngbp/blob/v<%= version %>-release/CHANGELOG.md">
-                v<%= version %>
-              </a>
-            </small>
+            boop
           </div>
         </div>
         <div class="collapse navbar-collapse" collapse="menuCollapsed">
@@ -61,15 +56,16 @@
               </a>
             </li>
             <li>
-              <a href="https://github.com/ngbp/ngbp">
+              <a href="https://github.com/pepsik/Example">
                 <i class="fa fa-github-alt"></i>
                 Github
               </a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li ng-hide="isLoggedIn()"><a ui-sref="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li ng-hide="isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li ng-show="isLoggedIn()"><a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
           </ul>
         </div>
       </div>
@@ -86,15 +82,15 @@
             <li><a target="_blank" href="http://linkedin.com/in/joshdmiller"><i class="fa fa-linkedin-sign"></i></a></li>
             <li><a target="_blank" href="http://github.com/ngbp/ngbp"><i class="fa fa-github-sign"></i></a></li>
           </ul>
-          
+
 
           <p>
             (c) 2015 Boop is based on
             <a href="http://www.angularjs.org">AngularJS</a>,
-            <a href="http://getbootstrap.com">Bootstrap</a>, 
+            <a href="http://getbootstrap.com">Bootstrap</a>,
             <a href="http://angular-ui.github.com/bootstrap">UI Bootstrap</a>,
-            and 
-            <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a>.        
+            and
+            <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a>.
           </p>
         </div>
       </div>

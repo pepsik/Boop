@@ -7265,6 +7265,9 @@ li.post_list {
     font-size: 13px;
 }
 
+ul {
+    padding-left: 0;
+}
 /*----------Comment------------------*/
 
 .comment_bottom {

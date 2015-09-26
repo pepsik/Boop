@@ -14,8 +14,7 @@
  */
 angular.module('ngBoilerplate.home', [
     'ui.router',
-    'plusOne',
-    'ngBoilerplate.account'
+    'plusOne'
 ])
 
 /**
@@ -36,45 +35,11 @@ angular.module('ngBoilerplate.home', [
         });
     })
 
-    .factory('PostList', ['$resource', function ($resource) {
-        return $resource('/api/page/:pageId', {}, {
-            query: {method: 'GET', params: {pageId: '1'}, isArray: true}
-        });
-    }])
-
-    .factory('Pagination', ['$resource', function ($resource) {
-        return $resource('/api/pagination', {}, {
-            query: {method: 'GET', params: {activePage: '1'}, isArray: true}
-        });
-    }])
-
-    .factory('Post', ['$resource', function ($resource) {
-        return $resource('/api/post/:postId', {}, {
-            query: {method: 'GET', params: {postId: '1'}, isArray: false}
-        });
-    }])
-
 /**
  * And of course we define a controller for our route.
  */
-    .controller('HomeCtrl', function HomeController($scope, sessionService) {
-        $scope.isLoggedIn = sessionService.isLoggedIn;
-        $scope.logout = sessionService.logout;
-    })
-
-    .controller('PostListController', function ($scope, $sce, PostList, Pagination) {
-        $scope.posts = PostList.query();
-        $scope.makeTrust = function (html) { //TODO: config
-            return $sce.trustAsHtml(html);
-        };
-        $scope.pagination = Pagination.query();
-    })
-
-    .controller('PostController', function ($scope, $routeParams, $sce, Post) {
-        $scope.post = Post.query({postId: $routeParams.postId});
-        $scope.makeTrust = function (html) { //TODO: config
-            return $sce.trustAsHtml(html);
-        };
+    .controller('HomeCtrl', function HomeController($scope, $state) {
+        $state.go("page", {pageId: 1});
     });
 
 
