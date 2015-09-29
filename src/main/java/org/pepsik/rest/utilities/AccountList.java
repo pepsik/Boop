@@ -1,6 +1,6 @@
 package org.pepsik.rest.utilities;
 
-import org.pepsik.core.models.entities.User;
+import org.pepsik.core.models.entities.Reworked.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +10,17 @@ import java.util.List;
  */
 public class AccountList {
 
-    private List<User> accounts = new ArrayList<>();
+    private List<Account> accounts = new ArrayList<>();
 
-    public AccountList(List<User> accounts) {
+    public AccountList(List<Account> accounts) {
         this.accounts = accounts;
     }
 
-    public List<User> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<User> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 }

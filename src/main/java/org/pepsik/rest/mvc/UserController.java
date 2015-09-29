@@ -78,55 +78,6 @@ public class UserController {
         });
     }
 
-    @RequestMapping(value = "/rest/accounts", method = RequestMethod.GET)
-    public ResponseEntity<AccountListResource> getAccounts(@RequestParam(required = false) String username) {
-        AccountList list;
-        if (username == null) {
-            list = new AccountList(service.getAllUsers());
-        } else {
-            User account = null;
-            try {
-                account = service.getUser(username);
-            } catch (Exception e) {/*empty*/}
-
-            list = new AccountList(new ArrayList<>());
-            if (account != null)
-                list.setAccounts(Collections.singletonList(account));
-        }
-
-        AccountListResource resources = new AccountListResourceAsm().toResource(list);
-        return new ResponseEntity<>(resources, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/rest/accounts", method = RequestMethod.POST)
-    public ResponseEntity<AccountResource> createAccount(@RequestBody AccountResource sentAccount) {
-        logger.debug("Attempt to create account with login " + sentAccount.getUsername() + " and password " + sentAccount.getPassword());
-        try {
-            service.isExistUsername(sentAccount.getUsername());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //TODO: refact
-        } catch (Exception e) {/*empty*/ }
-
-        User user = new User();
-        user.setUsername(sentAccount.getUsername());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setUserPassword(new Password(encoder.encode(sentAccount.getPassword())));
-        user.getUserPassword().setUser(user);
-        service.saveUser(user);
-        logger.debug("User successful created!");
-        return new ResponseEntity<>(sentAccount, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/rest/accounts/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<AccountResource> getAccount(@PathVariable Long accountId) {
-        User account = service.getUser(accountId);
-        if (account != null) {
-            AccountResource res = new AccountResourceAsm().toResource(account);
-            return new ResponseEntity<>(res, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @RequestMapping(value = "/{username}/profile", method = RequestMethod.GET)
     public String getUserProfile(@PathVariable("username") String username, Model model) {
         model.addAttribute(service.getProfile(username));
@@ -273,35 +224,35 @@ public class UserController {
 //        return "redirect:/settings/profile";
 //    }
 
-    @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
-    public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file) {
-        String path = "";
-        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("guest")) {
-            if (!file.isEmpty())
-                try {
-                    byte[] bytes = file.getBytes();
-                    File dir = new File(uploadPath + "\\images\\");
-                    if (!dir.exists())
-                        dir.mkdirs();
-
-                    File serverFile = new File(dir.getAbsolutePath()
-                            + File.separator + file.getOriginalFilename());
-                    BufferedOutputStream stream = new BufferedOutputStream(
-                            new FileOutputStream(serverFile));
-                    stream.write(bytes);
-                    stream.close();
-
-                    logger.info("Server File Location="
-                            + serverFile.getAbsolutePath());
-
-                    path = "/uploads/images/" + URLEncoder.encode(serverFile.getName(), "UTF-8");
-                    logger.info(serverFile.getCanonicalPath());
-                } catch (Exception e) {
-                    throw new ImageUploadException();
-                }
-        } else
-            throw new NoAuthorizationException();
-
-        return new HttpEntity<>(path);
-    }
+//    @RequestMapping(value = "/upload/image", method = RequestMethod.POST)
+//    public HttpEntity<String> uploadUserImage(@RequestParam("image") MultipartFile file) {
+//        String path = "";
+//        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals("guest")) {
+//            if (!file.isEmpty())
+//                try {
+//                    byte[] bytes = file.getBytes();
+//                    File dir = new File(uploadPath + "\\images\\");
+//                    if (!dir.exists())
+//                        dir.mkdirs();
+//
+//                    File serverFile = new File(dir.getAbsolutePath()
+//                            + File.separator + file.getOriginalFilename());
+//                    BufferedOutputStream stream = new BufferedOutputStream(
+//                            new FileOutputStream(serverFile));
+//                    stream.write(bytes);
+//                    stream.close();
+//
+//                    logger.info("Server File Location="
+//                            + serverFile.getAbsolutePath());
+//
+//                    path = "/uploads/images/" + URLEncoder.encode(serverFile.getName(), "UTF-8");
+//                    logger.info(serverFile.getCanonicalPath());
+//                } catch (Exception e) {
+//                    throw new ImageUploadException();
+//                }
+//        } else
+//            throw new NoAuthorizationException();
+//
+//        return new HttpEntity<>(path);
+//    }
 }

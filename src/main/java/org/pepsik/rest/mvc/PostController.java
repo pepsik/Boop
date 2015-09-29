@@ -21,39 +21,39 @@ public class PostController {
     @Autowired
     private SmartService service;
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Set.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) throws IllegalArgumentException {
-                if (text.equals(""))
-                    return;
-                List<String> tagsList = Arrays.asList(text.split(","));
-                Set<Tag> tags = new HashSet<>();
-                for (String stringTag : tagsList) {
-                    Tag tag = new Tag();
-                    tag.setName(stringTag);
-                    tags.add(tag);
-                }
-                setValue(tags);
-            }
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder) {
+//        binder.registerCustomEditor(Set.class, new PropertyEditorSupport() {
+//            @Override
+//            public void setAsText(String text) throws IllegalArgumentException {
+//                if (text.equals(""))
+//                    return;
+//                List<String> tagsList = Arrays.asList(text.split(","));
+//                Set<Tag> tags = new HashSet<>();
+//                for (String stringTag : tagsList) {
+//                    Tag tag = new Tag();
+//                    tag.setName(stringTag);
+//                    tags.add(tag);
+//                }
+//                setValue(tags);
+//            }
+//
+//            @Override
+//            public String getAsText() {
+//                Set<Tag> tags = (Set<Tag>) getValue();
+//                String stringTags = "";
+//                if (tags == null || tags.size() == 0)
+//                    return stringTags;
+//                Iterator<Tag> iterator = tags.iterator();
+//                stringTags += iterator.next().getName();
+//                while (iterator.hasNext())
+//                    stringTags += "," + iterator.next().getName();
+//                return stringTags;
+//            }
+//        });
+//    }
 
-            @Override
-            public String getAsText() {
-                Set<Tag> tags = (Set<Tag>) getValue();
-                String stringTags = "";
-                if (tags == null || tags.size() == 0)
-                    return stringTags;
-                Iterator<Tag> iterator = tags.iterator();
-                stringTags += iterator.next().getName();
-                while (iterator.hasNext())
-                    stringTags += "," + iterator.next().getName();
-                return stringTags;
-            }
-        });
-    }
-
-    //    @RequestMapping(value = "/new", method = RequestMethod.GET)
+//    @RequestMapping(value = "/new", method = RequestMethod.GET)
 //    public String newPost(Model model) {
 //        model.addAttribute("post", new Post());
 //        return "post/create";
@@ -66,7 +66,7 @@ public class PostController {
 //        model.addAttribute(post);
 //        return "post/edit";
 //    }
-//
+
 //    @RequestMapping(method = RequestMethod.POST)
 //    public String createPost(@Valid Post post, BindingResult result) {
 //        if (result.hasErrors())
@@ -75,7 +75,7 @@ public class PostController {
 //        service.savePost(post);
 //        return "redirect:/home";
 //    }
-//
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public Post getPost(@PathVariable("id") long id) {
         return service.getPost(id);

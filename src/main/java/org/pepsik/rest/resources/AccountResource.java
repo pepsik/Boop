@@ -2,9 +2,9 @@ package org.pepsik.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.pepsik.core.models.entities.Password;
-import org.pepsik.core.models.entities.User;
+import org.pepsik.core.models.entities.Reworked.Account;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Created by pepsik on 9/17/2015.
@@ -13,6 +13,8 @@ import org.springframework.hateoas.ResourceSupport;
 public class AccountResource extends ResourceSupport {
 
     private String username;
+
+    private String login;
 
     private String password;
 
@@ -35,6 +37,15 @@ public class AccountResource extends ResourceSupport {
     }
 
     @JsonIgnore
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -44,10 +55,12 @@ public class AccountResource extends ResourceSupport {
         this.password = password;
     }
 
-    public User toAccount() {
-        User user = new User();
-        user.setUsername(username);
-        user.setUserPassword(new Password(password));
-        return user;
+    public Account toAccount() {
+        Account account = new Account();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        account.setUsername(username);
+        account.setLogin(login);
+        account.setPassword(encoder.encode(password));
+        return account;
     }
 }

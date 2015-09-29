@@ -40,12 +40,15 @@ angular.module('ngBoilerplate.account', ['ui.router'])
     .factory('sessionService', function ($http) {
         var session = {};
         session.login = function (data) {
-            return $http.post("/login", "username=" + data.username +
+            return $http.post("/login", "login=" + data.login +
                 "&password=" + data.password, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (data) {
                 alert("login successful");
-                localStorage.setItem("session", {});
+                localStorage.setItem("session", JSON.stringify({
+                    'loggedUser': 'username',
+                    'avatarUrl': 'url//'
+                }));
             }, function (data) {
                 alert("error logging in");
             });
@@ -71,7 +74,7 @@ angular.module('ngBoilerplate.account', ['ui.router'])
         };
         service.UserExists = function (account, success, failure) {
             var Account = $resource("/rest/accounts");
-            var data = Account.get({username: account.username}, function () {
+            var data = Account.get({username: account.login}, function () {
                 var accounts = data.accounts;
                 if (accounts.length !== 0) {
                     success(account);
@@ -98,7 +101,7 @@ angular.module('ngBoilerplate.account', ['ui.router'])
 
     .controller('RegisterCtrl', function ($scope, $state, sessionService, accountService) {
         $scope.register = function () {
-            alert("reg username " + $scope.account.username + " psw " + $scope.account.password);
+            alert("reg username " + $scope.account.login + " psw " + $scope.account.password);
             accountService.register($scope.account, function (returnedData) {
                     sessionService.login(returnedData);
                     $state.go("home");

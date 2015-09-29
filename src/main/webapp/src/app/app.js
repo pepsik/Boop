@@ -23,6 +23,11 @@ angular.module('ngBoilerplate', [
         $scope.isLoggedIn = sessionService.isLoggedIn;
         $scope.logout = sessionService.logout;
 
+        var sessionInfo = localStorage.getItem("session");
+        if ($.type(sessionInfo) === "string") {
+            var retVal = JSON.parse(sessionInfo);
+            $scope.loggedUser = retVal.loggedUser;
+        }
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             if (angular.isDefined(toState.data.pageTitle)) {
                 $scope.pageTitle = toState.data.pageTitle + ' | Boop';

@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.rest.mvc.UserController;
+import org.pepsik.rest.mvc.Reworked.AccountController;
 import org.pepsik.rest.resources.AccountListResource;
 import org.pepsik.rest.resources.AccountResource;
 import org.pepsik.rest.utilities.AccountList;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AccountListResourceAsm extends ResourceAssemblerSupport<AccountList, AccountListResource> {
 
     public AccountListResourceAsm() {
-        super(UserController.class, AccountListResource.class);
+        super(AccountController.class, AccountListResource.class);
     }
 
     @Override

@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'account/search.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/post.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/post.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -278,8 +278,8 @@ angular.module("account/login.tpl.html", []).run(["$templateCache", function($te
     "  </h1>\n" +
     "  <form ng-submit=\"login()\">\n" +
     "      <div class=\"form-group\">\n" +
-    "          <label>Username:</label>\n" +
-    "          <input type=\"text\" ng-model=\"account.username\" class=\"form-control\"/>\n" +
+    "          <label>Login:</label>\n" +
+    "          <input type=\"text\" ng-model=\"account.login\" class=\"form-control\"/>\n" +
     "      </div>\n" +
     "      <div class=\"form-group\">\n" +
     "          <label>Password:</label>\n" +
@@ -312,28 +312,6 @@ angular.module("account/register.tpl.html", []).run(["$templateCache", function(
     "</div>\n" +
     "\n" +
     "");
-}]);
-
-angular.module("account/search.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("account/search.tpl.html",
-    "<div class=\"row\">\n" +
-    "    <div class=\"form-group\">\n" +
-    "        <input type=\"text\" class=\"form-control\" ng-model=\"q\" placeholder=\"account name\"/>\n" +
-    "    </div>\n" +
-    "\n" +
-    "    <table class=\"table table-striped\">\n" +
-    "        <th>Account Name</th>\n" +
-    "        <th>Actions</th>\n" +
-    "        <tr ng-repeat=\"account in accounts | filter:q\">\n" +
-    "            <td>{{account.name}}</td>\n" +
-    "            <td>\n" +
-    "                <a ui-sref=\"manageBlogs({accountId:account.rid})\" class=\"btn btn-large btn-default\">\n" +
-    "                    Manage\n" +
-    "                </a>\n" +
-    "            </td>\n" +
-    "        </tr>\n" +
-    "    </table>\n" +
-    "</div>");
 }]);
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -424,7 +402,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "        </li>\n" +
     "    </ol>\n" +
     "\n" +
-    "    <div class=\"comment\">\n" +
+    "    <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
     "        <summernote height=\"250\"></summernote>\n" +
     "        <div style=\"text-align: right\">\n" +
     "            <button class=\"btn btn-default\">Post message</button>\n" +
