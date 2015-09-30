@@ -14,8 +14,6 @@ public class AccountResource extends ResourceSupport {
 
     private String username;
 
-    private String login;
-
     private String password;
 
     private Long rid;
@@ -37,15 +35,6 @@ public class AccountResource extends ResourceSupport {
     }
 
     @JsonIgnore
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -59,7 +48,6 @@ public class AccountResource extends ResourceSupport {
         Account account = new Account();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setUsername(username);
-        account.setLogin(login);
         account.setPassword(encoder.encode(password));
         return account;
     }

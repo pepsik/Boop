@@ -20,36 +20,32 @@ public class AccountServiceImpl implements AccountService {
     private AccountJpaRepo accountJpaRepo;
 
     @Override
-    public void createAccount(Account data) {
+    public Account createAccount(Account data) {
+        return accountJpaRepo.create(data);
     }
 
     @Override
     public Account findAccountById(Long id) {
-        return null;
+        return accountJpaRepo.findById(id);
     }
 
     @Override
     public Account findAccountByUsername(String username) {
-        return accountJpaRepo.getAccountByUsername(username);
+        return accountJpaRepo.findByUsername(username);
     }
 
     @Override
-    public Account findAccountByLogin(String login) {
-        return null;
-    }
-
-    @Override
-    public void deleteAccount(Account data) {
-
+    public List<Account> findAllAccounts() {
+        return accountJpaRepo.findAll();
     }
 
     @Override
     public void updateAccount(Account data) {
-
+        accountJpaRepo.update(data);
     }
 
     @Override
-    public List<Account> getAllAccounts() {
-        return accountJpaRepo.getAllAccounts();
+    public void deleteAccount(Account data) {
+        accountJpaRepo.delete(data);
     }
 }

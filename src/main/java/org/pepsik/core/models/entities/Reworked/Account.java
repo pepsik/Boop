@@ -1,22 +1,19 @@
 package org.pepsik.core.models.entities.Reworked;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * Created by pepsik on 9/29/2015.
  */
 public class Account {
     private Long id;
     private String username;
-    private String login;
     private String password;
 
     public Account() {
     }
 
-    public Account(String username, String login, String password) {
+    public Account(Long id, String username, String password) { //TODO: temp
+        this.id = id;
         this.username = username;
-        this.login = login;
         this.password = password;
     }
 
@@ -36,16 +33,6 @@ public class Account {
         this.username = username;
     }
 
-    @JsonIgnore
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @JsonIgnore
     public String getPassword() {
         return password;
     }

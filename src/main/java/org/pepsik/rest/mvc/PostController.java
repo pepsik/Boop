@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.beans.PropertyEditorSupport;
 import java.util.*;
 
-@RestController
-@RequestMapping("/api/post")
+//@RestController
+//@RequestMapping("/api/post")
 public class PostController {
 
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);

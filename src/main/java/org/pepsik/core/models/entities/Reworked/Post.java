@@ -12,6 +12,17 @@ public class Post {
     private Account owner;
     private LocalDateTime when;
 
+    public Post() {
+    }
+
+    public Post(Long id, String title, String text, Account owner, LocalDateTime when) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.owner = owner;
+        this.when = when;
+    }
+
     public Long getId() {
         return id;
     }

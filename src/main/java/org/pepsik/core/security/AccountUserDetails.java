@@ -4,7 +4,7 @@ package org.pepsik.core.security;
  * Created by pepsik on 9/23/2015.
  */
 
-import org.pepsik.core.models.entities.User;
+import org.pepsik.core.models.entities.Reworked.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,29 +12,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class AccountUserDetails implements UserDetails {
-    private final User account;
+    private final Account account;
 
-    public AccountUserDetails(User account) {
+    public AccountUserDetails(Account account) {
         this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority = new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return "USER";
-            }
-        };
+        GrantedAuthority authority = () -> "USER";
 
-        ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(authority);
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return account.getUserPassword().getPassword();
+        return account.getPassword();
     }
 
     @Override

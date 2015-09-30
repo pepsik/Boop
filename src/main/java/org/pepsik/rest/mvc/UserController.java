@@ -42,8 +42,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@Controller
-@RequestMapping
+//@Controller
+//@RequestMapping
 public class UserController {
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";

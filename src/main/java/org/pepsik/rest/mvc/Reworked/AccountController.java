@@ -10,17 +10,20 @@ import org.pepsik.rest.utilities.AccountList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * Created by pepsik on 9/29/2015.
  */
+@Controller
 @RequestMapping(value = "/rest/accounts")
 public class AccountController {
 
@@ -29,27 +32,33 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @RequestMapping(method = RequestMethod.POST)//TODO: if can't create account (e.g. username conflicts)
+    public ResponseEntity<AccountResource> createAccount(@RequestBody AccountResource sentAccount) {
+        logger.debug("Attempt to create account with username " + sentAccount.getUsername() + " and password " + sentAccount.getPassword());
+        Account createdAccount = accountService.createAccount(sentAccount.toAccount());
+        AccountResource res = new AccountResourceAsm().toResource(createdAccount);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(res.getLink("self").getHref()));
+        logger.debug("User successful created!");
+        return new ResponseEntity<>(res, headers, HttpStatus.CREATED);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<AccountListResource> getAccounts(@RequestParam(required = false) String login) {
+    public ResponseEntity<AccountListResource> getAccounts(@RequestParam(required = false) String username) {
         AccountList list;
-        if (login == null) {
-            list = new AccountList(accountService.getAllAccounts());
+        if (username == null) {
+            list = new AccountList(accountService.findAllAccounts());
         } else {
             list = new AccountList(new ArrayList<>());
-            Account account = accountService.findAccountByLogin(login);
+            Account account = accountService.findAccountByUsername(username);
             if (account != null)
                 list.setAccounts(Collections.singletonList(account));
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
         AccountListResource resources = new AccountListResourceAsm().toResource(list);
         return new ResponseEntity<>(resources, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<AccountResource> createAccount(@RequestBody AccountResource sentAccount) {
-        logger.debug("Attempt to create account with login " + sentAccount.getLogin() + " and password " + sentAccount.getPassword());
-        accountService.createAccount(sentAccount.toAccount());
-        logger.debug("User successful created!");
-        return new ResponseEntity<>(sentAccount, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
@@ -62,5 +71,4 @@ public class AccountController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
