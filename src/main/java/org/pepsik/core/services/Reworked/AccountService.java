@@ -1,6 +1,7 @@
 package org.pepsik.core.services.Reworked;
 
 import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.rest.utilities.AccountList;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface AccountService {
 
     Account findAccountByUsername(String username);
 
-    List<Account> findAllAccounts();
+    AccountList findAllAccounts();
 
     void updateAccount(Account data);
 

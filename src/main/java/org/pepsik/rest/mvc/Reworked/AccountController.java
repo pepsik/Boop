@@ -47,7 +47,7 @@ public class AccountController {
     public ResponseEntity<AccountListResource> getAccounts(@RequestParam(required = false) String username) {
         AccountList list;
         if (username == null) {
-            list = new AccountList(accountService.findAllAccounts());
+            list = accountService.findAllAccounts();
         } else {
             list = new AccountList(new ArrayList<>());
             Account account = accountService.findAccountByUsername(username);
