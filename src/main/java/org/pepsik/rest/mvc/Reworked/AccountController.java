@@ -2,6 +2,7 @@ package org.pepsik.rest.mvc.Reworked;
 
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.services.Reworked.AccountService;
+import org.pepsik.core.services.exceptions.AccountExistsException;
 import org.pepsik.rest.resources.AccountListResource;
 import org.pepsik.rest.resources.AccountResource;
 import org.pepsik.rest.resources.asm.AccountListResourceAsm;
@@ -20,9 +21,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/**
- * Created by pepsik on 9/29/2015.
- */
 @Controller
 @RequestMapping(value = "/rest/accounts")
 public class AccountController {
@@ -32,15 +30,19 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @RequestMapping(method = RequestMethod.POST)//TODO: if can't create account (e.g. username conflicts)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<AccountResource> createAccount(@RequestBody AccountResource sentAccount) {
         logger.debug("Attempt to create account with username " + sentAccount.getUsername() + " and password " + sentAccount.getPassword());
-        Account createdAccount = accountService.createAccount(sentAccount.toAccount());
-        AccountResource res = new AccountResourceAsm().toResource(createdAccount);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(res.getLink("self").getHref()));
-        logger.debug("User successful created!");
-        return new ResponseEntity<>(res, headers, HttpStatus.CREATED);
+        try {
+            Account createdAccount = accountService.createAccount(sentAccount.toAccount());
+            AccountResource res = new AccountResourceAsm().toResource(createdAccount);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(res.getLink("self").getHref()));
+            logger.debug("User successful created!");
+            return new ResponseEntity<>(res, headers, HttpStatus.CREATED);
+        } catch (AccountExistsException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET)

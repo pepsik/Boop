@@ -75,8 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/post/*").authenticated()
-                .antMatchers("/rest/post/*").authenticated()
+                .antMatchers("/rest/posts/*").authenticated()
                 .antMatchers("/**").permitAll();
     }
 }

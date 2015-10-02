@@ -45,9 +45,16 @@ public class PostJpaRepo {
         return posts;
     }
 
-    public void update(Post data) {
+    public Post update(Long postId, Post data) {
+        Post post = posts.get(postId.intValue());
+        post.setTitle(data.getTitle());
+        post.setText(data.getText());
+        return post;
     }
 
-    public void delete(Post data) {
+    public Post delete(Long postId) {
+        Post post = posts.get(postId.intValue());
+        posts.remove(postId.intValue());
+        return post;
     }
 }

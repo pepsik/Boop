@@ -3,12 +3,11 @@ package org.pepsik.core.services.Reworked.Impl;
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.repositories.jpa.AccountJpaRepo;
 import org.pepsik.core.services.Reworked.AccountService;
+import org.pepsik.core.services.exceptions.AccountExistsException;
 import org.pepsik.rest.utilities.AccountList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Created by pepsik on 9/29/2015.
@@ -22,6 +21,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account createAccount(Account data) {
+        Account account = accountJpaRepo.findByUsername(data.getUsername());
+        if (account != null){
+            throw new AccountExistsException();
+        }
         return accountJpaRepo.create(data);
     }
 
