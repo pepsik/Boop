@@ -76,6 +76,8 @@ module.exports = {
             'vendor/angular-summernote/dist/angular-summernote.min.js'
         ],
         css: [
+            'vendor/summernote/dist/summernote.css',
+            'vendor/summernote/dist/summernote-bs3.css'
         ],
         assets: []
     },

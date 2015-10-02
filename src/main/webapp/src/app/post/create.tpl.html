@@ -1,0 +1,8 @@
+<div ng-controller="NewPostCtrl">
+    <div class="comment" ng-show="isLoggedIn()">
+        <summernote config="options" ng-model="text"></summernote>
+        <div style="text-align: right">
+            <button class="btn btn-default" ng-click="click()">Create Post</button>
+        </div>
+    </div>
+</div>

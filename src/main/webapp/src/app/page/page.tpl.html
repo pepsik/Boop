@@ -1,16 +1,16 @@
 <div ng-controller="PageCtrl">
     <ul type="none">
-        <li class="post_list" ng-repeat="post in posts">
-            <h3><a class="label label-default" href="#/post/{{post.id}}">{{post.title}}</a></h3>
+        <li class="post_list" ng-repeat="post in posts.posts">
+
+            <div class="post_title">
+                <h3><a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a></h3>
+            </div>
 
             <div class="post_text" ng-bind-html="makeTrust(post.text)"></div>
 
             <div class="post_bottom">
-                <span class="comments_button">
-                    comments - {{post.comments.length}}
-                </span>
                 <span class="post_date">
-                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}
+                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}
                 </span>
             </div>
         </li>

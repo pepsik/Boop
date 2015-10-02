@@ -18,7 +18,7 @@ public class Favorite {
     @Column(name = "favorite_id")
     private long id;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "added_date")
     private DateTime addedDate;

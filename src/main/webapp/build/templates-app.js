@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/post.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -346,17 +346,17 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
   $templateCache.put("page/page.tpl.html",
     "<div ng-controller=\"PageCtrl\">\n" +
     "    <ul type=\"none\">\n" +
-    "        <li class=\"post_list\" ng-repeat=\"post in posts\">\n" +
-    "            <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
+    "        <li class=\"post_list\" ng-repeat=\"post in posts.posts\">\n" +
+    "\n" +
+    "            <div class=\"post_title\">\n" +
+    "                <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
+    "            </div>\n" +
     "\n" +
     "            <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
     "            <div class=\"post_bottom\">\n" +
-    "                <span class=\"comments_button\">\n" +
-    "                    comments - {{post.comments.length}}\n" +
-    "                </span>\n" +
     "                <span class=\"post_date\">\n" +
-    "                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
     "                </span>\n" +
     "            </div>\n" +
     "        </li>\n" +
@@ -369,23 +369,44 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
     "</div>");
 }]);
 
+angular.module("post/create.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("post/create.tpl.html",
+    "<div ng-controller=\"NewPostCtrl\">\n" +
+    "    <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
+    "        <summernote config=\"options\" ng-model=\"text\"></summernote>\n" +
+    "        <div style=\"text-align: right\">\n" +
+    "            <button class=\"btn btn-default\" ng-click=\"click()\">Create Post</button>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
 angular.module("post/post.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("post/post.tpl.html",
     "<div ng-controller=\"PostCtrl\">\n" +
     "    <div class=\"post_list\">\n" +
-    "        <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
+    "        <div class=\"post_title\">\n" +
+    "            <h3>\n" +
+    "                <a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a>\n" +
+    "\n" +
+    "                <div style=\"float: right\">\n" +
+    "                    <button class=\"btn btn-xs btn-default\">\n" +
+    "                        <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
+    "                    </button>\n" +
+    "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\">\n" +
+    "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "            </h3>\n" +
+    "        </div>\n" +
     "\n" +
     "        <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
     "        <div class=\"post_bottom\">\n" +
-    "                <span class=\"comments_button\">\n" +
-    "                    comments - {{post.comments.length}}\n" +
-    "                </span>\n" +
     "                <span class=\"post_date\">\n" +
-    "                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
     "                </span>\n" +
     "        </div>\n" +
-    "\n" +
     "    </div>\n" +
     "\n" +
     "    <br/>\n" +
@@ -396,19 +417,20 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "            <div class=\"comment_bottom\">\n" +
     "                <span>\n" +
-    "                    <b>{{post.user.username}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
+    "                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
     "                </span>\n" +
     "            </div>\n" +
     "        </li>\n" +
     "    </ol>\n" +
     "\n" +
-    "    <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
-    "        <summernote height=\"250\"></summernote>\n" +
-    "        <div style=\"text-align: right\">\n" +
-    "            <button class=\"btn btn-default\">Post message</button>\n" +
+    "    <div ng-controller=\"CommentCreateCtrl\">\n" +
+    "        <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
+    "            <summernote height=\"250\" ng-model=\"text\"></summernote>\n" +
+    "            <div style=\"text-align: right\">\n" +
+    "                <button class=\"btn btn-default\" ng-click=\"click()\">Post message</button>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "\n" +
     "    <br/>\n" +
     "</div>");
 }]);

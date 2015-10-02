@@ -32,7 +32,7 @@ public class Profile {
     @Column(name = "fullname")
     private String fullname;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "birthdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private DateTime birthdate;

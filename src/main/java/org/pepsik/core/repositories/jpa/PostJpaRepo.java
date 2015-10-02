@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,7 +32,6 @@ public class PostJpaRepo {
 
     public Post create(Post post) {
         post.setId(idCounter++);
-        post.setOwner(accountJpaRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         post.setWhen(LocalDateTime.now());
         posts.add(post);
         return post;
@@ -42,7 +42,9 @@ public class PostJpaRepo {
     }
 
     public List<Post> findAll() {
-        return posts;
+        List returnedData = new ArrayList<>(posts);
+        Collections.reverse(returnedData);
+        return returnedData;
     }
 
     public Post update(Long postId, Post data) {
@@ -53,8 +55,8 @@ public class PostJpaRepo {
     }
 
     public Post delete(Long postId) {
-        Post post = posts.get(postId.intValue());
-        posts.remove(postId.intValue());
+        Post post = posts.get(postId.intValue() - 1);
+        posts.remove(postId.intValue() - 1);
         return post;
     }
 }

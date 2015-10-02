@@ -43,7 +43,7 @@ public class Tag {
     @Column(name = "posts_count")
     private int postsCount;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date")
     private DateTime createDate;

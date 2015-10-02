@@ -11,13 +11,13 @@ angular.module('ngBoilerplate.page', [
                     templateUrl: 'page/page.tpl.html'
                 }
             },
-            data: {pageTitle: ':pageId'}
+            data: {pageTitle: 'Pages'}
         });
     })
 
     .factory('PostList', ['$resource', function ($resource) {
-        return $resource('/api/page/:pageId', {}, {
-            query: {method: 'GET', params: {pageId: '1'}, isArray: true}
+        return $resource('/rest/posts/', {}, {
+            query: {method: 'GET', params: {pageId: '1'}, isArray: false}
         });
     }])
 
@@ -32,5 +32,5 @@ angular.module('ngBoilerplate.page', [
         $scope.makeTrust = function (html) { //TODO: config
             return $sce.trustAsHtml(html);
         };
-        $scope.pagination = Pagination.query({activePage: $stateParams.pageId});
+        //$scope.pagination = Pagination.query({activePage: $stateParams.pageId});
     });

@@ -7287,7 +7287,18 @@ ol {
     padding-left: 0;
 }
 
-.note-codable{
-    display: none;
-}
+/*.note-codable{*/
+    /*display: none;*/
+/*}*/
+
+/*.note-editable{*/
+    /*background-color:white;*/
+    /*overflow:auto;*/
+/*}*/
+/*.note-codable {*/
+    /*display:none;*/
+/*}*/
+/*.note-dropzone {*/
+    /*display: none;*/
+/*}*/
 /*--------------------------------------*/

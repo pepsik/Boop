@@ -1,18 +1,27 @@
 <div ng-controller="PostCtrl">
     <div class="post_list">
-        <h3><a class="label label-default" href="#/post/{{post.id}}">{{post.title}}</a></h3>
+        <div class="post_title">
+            <h3>
+                <a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a>
+
+                <div style="float: right">
+                    <button class="btn btn-xs btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                    </button>
+                    <button class="btn btn-xs btn-danger" ng-click="deletePost()">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+            </h3>
+        </div>
 
         <div class="post_text" ng-bind-html="makeTrust(post.text)"></div>
 
         <div class="post_bottom">
-                <span class="comments_button">
-                    comments - {{post.comments.length}}
-                </span>
                 <span class="post_date">
-                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}
+                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}
                 </span>
         </div>
-
     </div>
 
     <br/>
@@ -23,18 +32,19 @@
 
             <div class="comment_bottom">
                 <span>
-                    <b>{{post.user.username}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
+                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
                 </span>
             </div>
         </li>
     </ol>
 
-    <div class="comment" ng-show="isLoggedIn()">
-        <summernote height="250"></summernote>
-        <div style="text-align: right">
-            <button class="btn btn-default">Post message</button>
+    <div ng-controller="CommentCreateCtrl">
+        <div class="comment" ng-show="isLoggedIn()">
+            <summernote height="250" ng-model="text"></summernote>
+            <div style="text-align: right">
+                <button class="btn btn-default" ng-click="click()">Post message</button>
+            </div>
         </div>
     </div>
-
     <br/>
 </div>

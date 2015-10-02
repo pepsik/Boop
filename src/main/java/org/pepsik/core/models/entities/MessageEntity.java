@@ -36,7 +36,7 @@ public abstract class MessageEntity  {
     protected String text;
 
     @Column(name = "posted_time")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "hh:mma MMM d, YYYY")
     protected DateTime when;
 

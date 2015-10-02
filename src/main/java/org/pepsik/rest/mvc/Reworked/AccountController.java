@@ -56,7 +56,7 @@ public class AccountController {
             if (account != null)
                 list.setAccounts(Collections.singletonList(account));
             else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         AccountListResource resources = new AccountListResourceAsm().toResource(list);

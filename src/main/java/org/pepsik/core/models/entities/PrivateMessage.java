@@ -34,7 +34,7 @@ public class PrivateMessage {
     @Column
     private String text;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Column(name = "dispatch_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private DateTime dispatchDate;

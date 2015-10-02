@@ -55,7 +55,7 @@ public class PostResource extends ResourceSupport {
         this.when = when;
     }
 
-    public Post toPost(){
+    public Post toPost() {
         Post post = new Post();
         post.setTitle(title);
         post.setText(text);
