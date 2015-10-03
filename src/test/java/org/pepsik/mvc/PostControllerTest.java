@@ -61,7 +61,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.title", is("postTitle")))
                 .andExpect(jsonPath("$.text", is("postText")))
                 .andExpect(jsonPath("$.author", is("username")))
-                .andExpect(jsonPath("$.when.*", notNullValue()))
+                .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isCreated());
     }
 
@@ -81,7 +81,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.title", is("postTitle")))
                 .andExpect(jsonPath("$.text", is("postText")))
                 .andExpect(jsonPath("$.author", is("username")))
-                .andExpect(jsonPath("$.when.*", notNullValue()))
+                .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isOk());
     }
 
@@ -118,7 +118,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.posts[*].title", hasItems(is("postTitleB"), is("postTitleA"))))
                 .andExpect(jsonPath("$.posts[*].text", hasItems(is("postTextB"), is("postTextA"))))
                 .andExpect(jsonPath("$.posts[*].author", hasItem("username")))
-                .andExpect(jsonPath("$.posts[*].when.*", notNullValue()))
+                .andExpect(jsonPath("$.posts[*].when", notNullValue()))
                 .andExpect(status().isOk());
     }
 
@@ -140,7 +140,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.title", is("postTitleA")))
                 .andExpect(jsonPath("$.text", is("postTextA")))
                 .andExpect(jsonPath("$.author", is("username")))
-                .andExpect(jsonPath("$.when.*", notNullValue()))
+                .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isOk());
     }
 
@@ -170,7 +170,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.title", is("postTitleA")))
                 .andExpect(jsonPath("$.text", is("postTextA")))
                 .andExpect(jsonPath("$.author", is("username")))
-                .andExpect(jsonPath("$.when.*", notNullValue()))
+                .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isOk());
     }
 

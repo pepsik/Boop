@@ -48,7 +48,7 @@ public class PostJpaRepo {
     }
 
     public Post update(Long postId, Post data) {
-        Post post = posts.get(postId.intValue());
+        Post post = posts.get(postId.intValue() - 1);
         post.setTitle(data.getTitle());
         post.setText(data.getText());
         return post;
@@ -57,6 +57,7 @@ public class PostJpaRepo {
     public Post delete(Long postId) {
         Post post = posts.get(postId.intValue() - 1);
         posts.remove(postId.intValue() - 1);
+        idCounter--;
         return post;
     }
 }

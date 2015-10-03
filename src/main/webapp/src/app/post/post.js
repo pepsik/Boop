@@ -35,10 +35,53 @@ angular.module('ngBoilerplate.post', [
         });
     }])
 
-    .controller('PostCtrl', function ($scope, $stateParams, $sce, $resource, $state, Post) {
+    .factory('EditedPost', ['$resource', function ($resource) { //refact
+        return $resource('/rest/posts/:postId', null,
+            {
+                'update': {method: 'PUT'}
+            });
+    }])
+
+    .controller('PostCtrl', function ($scope, $stateParams, $sce, $resource, $state, Post, EditedPost) {
         $scope.post = Post.query({postId: $stateParams.postId});
-        $scope.makeTrust = function (html) { //TODO: config
+        $scope.makeTrust = function (html) {
             return $sce.trustAsHtml(html);
+        };
+
+        var tempData = {};
+        var summernote = $("#post_text");
+        var editMode = false;
+        $scope.isEditing = function () {
+            return editMode;
+        };
+
+        $scope.editPost = function () {
+            editMode = true;
+            summernote.summernote({
+                height: 350,
+                minHeight: 150,
+                maxHeight: null,
+                focus: true
+            });
+            tempData.title = $scope.post.title;
+            tempData.text = summernote.code();
+        };
+
+        $scope.cancelEdit = function () {
+            summernote.code(tempData.text);
+            $scope.post.title = tempData.title;
+            summernote.destroy();
+            editMode = false;
+        };
+
+        $scope.savePost = function () {
+            var data = {
+                "title": $scope.post.title,
+                "text": summernote.code()
+            };
+            EditedPost.update({postId: $scope.post.rid}, data);
+            summernote.destroy();
+            editMode = false;
         };
 
         $scope.deletePost = function () {
@@ -48,7 +91,7 @@ angular.module('ngBoilerplate.post', [
                     $state.go("page", {pageId: 1});
                 },
                 function () {
-                    alert("failed");
+                    alert("error deleting");
                 });
         };
     })
@@ -61,19 +104,19 @@ angular.module('ngBoilerplate.post', [
             focus: true
         };
 
-        $scope.click = function () {
-            var test = {
-                "title": "testTitle",
-                "text": $scope.text
+        $scope.createPost = function () {
+            var data = {
+                "title": $scope.post.title,
+                "text": $scope.post.text
             };
 
             var post = $resource("/rest/posts");
-            post.save({}, test,
+            post.save({}, data,
                 function (returnedData) {
                     $state.go("post", {postId: returnedData.rid});
                 },
                 function () {
-                    alert("failed");
+                    alert("error saving");
                 });
         };
     });

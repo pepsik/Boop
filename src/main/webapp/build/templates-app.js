@@ -321,7 +321,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "        <li class=\"post_list\" ng-repeat=\"post in posts\">\n" +
     "            <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
     "\n" +
-    "            <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "            <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
     "            <div class=\"post_bottom\">\n" +
     "                <span class=\"comments_button\">\n" +
@@ -352,7 +352,7 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
     "                <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
     "            </div>\n" +
     "\n" +
-    "            <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "            <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
     "            <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
@@ -372,10 +372,16 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
 angular.module("post/create.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("post/create.tpl.html",
     "<div ng-controller=\"NewPostCtrl\">\n" +
-    "    <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
-    "        <summernote config=\"options\" ng-model=\"text\"></summernote>\n" +
+    "    <div class=\"post_body\" ng-show=\"isLoggedIn()\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"col-md-5\">\n" +
+    "                <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" maxlength=\"60\" placeholder=\"Title here ...\"/>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "        <br>\n" +
+    "        <summernote config=\"options\" ng-model=\"post.text\"></summernote>\n" +
     "        <div style=\"text-align: right\">\n" +
-    "            <button class=\"btn btn-default\" ng-click=\"click()\">Create Post</button>\n" +
+    "            <button class=\"btn btn-default\" ng-click=\"createPost()\">Create Post</button>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>");
@@ -390,17 +396,35 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                <a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a>\n" +
     "\n" +
     "                <div style=\"float: right\">\n" +
-    "                    <button class=\"btn btn-xs btn-default\">\n" +
+    "                    <button id=\"edit\" class=\"btn btn-xs btn-default\" ng-click=\"editPost()\" ng-hide=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
     "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\">\n" +
+    "                    <button id=\"delete\" class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\" ng-hide=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                    </button>\n" +
+    "                    <button id=\"save\" class=\"btn btn-xs btn-success\" ng-click=\"savePost()\" ng-show=\"isEditing()\">\n" +
+    "                        <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
+    "                        Save\n" +
+    "                    </button>\n" +
+    "                    <button id=\"cancel\" class=\"btn btn-xs btn-default\" ng-click=\"cancelEdit()\" ng-show=\"isEditing()\">\n" +
+    "                        <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
+    "                        Cancel\n" +
     "                    </button>\n" +
     "                </div>\n" +
     "            </h3>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "        <div class=\"post_body\">\n" +
+    "\n" +
+    "            <div class=\"row\">\n" +
+    "                <div class=\"col-md-5\">\n" +
+    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"isEditing()\" maxlength=\"60\" placeholder=\"Title here ...\"/>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "            <br>\n" +
+    "\n" +
+    "            <div id=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "        </div>\n" +
     "\n" +
     "        <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
@@ -427,7 +451,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "        <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
     "            <summernote height=\"250\" ng-model=\"text\"></summernote>\n" +
     "            <div style=\"text-align: right\">\n" +
-    "                <button class=\"btn btn-default\" ng-click=\"click()\">Post message</button>\n" +
+    "                <button class=\"btn btn-default\" ng-click=\"click()\">Post comment</button>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +

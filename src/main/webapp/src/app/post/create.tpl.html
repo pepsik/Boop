@@ -1,8 +1,14 @@
 <div ng-controller="NewPostCtrl">
-    <div class="comment" ng-show="isLoggedIn()">
-        <summernote config="options" ng-model="text"></summernote>
+    <div class="post_body" ng-show="isLoggedIn()">
+        <div class="row">
+            <div class="col-md-5">
+                <input type="text" class="form-control" ng-model="post.title" maxlength="60" placeholder="Title here ..."/>
+            </div>
+        </div>
+        <br>
+        <summernote config="options" ng-model="post.text"></summernote>
         <div style="text-align: right">
-            <button class="btn btn-default" ng-click="click()">Create Post</button>
+            <button class="btn btn-default" ng-click="createPost()">Create Post</button>
         </div>
     </div>
 </div>
