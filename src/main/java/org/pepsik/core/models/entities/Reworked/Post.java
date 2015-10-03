@@ -15,7 +15,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long id, String title, String text, Account owner, LocalDateTime when) {
+    public Post(Long id, String title, String text, Account owner, LocalDateTime when) { //temp
         this.id = id;
         this.title = title;
         this.text = text;

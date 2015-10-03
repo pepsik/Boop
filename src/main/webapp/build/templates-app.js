@@ -418,7 +418,8 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-5\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"isEditing()\" maxlength=\"60\" placeholder=\"Title here ...\"/>\n" +
+    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"isEditing()\" maxlength=\"60\"\n" +
+    "                           placeholder=\"Title here ...\"/>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "            <br>\n" +
@@ -432,20 +433,21 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                </span>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "    <br>\n" +
     "\n" +
-    "    <br/>\n" +
-    "    <br/>\n" +
-    "    <ol>\n" +
-    "        <li type=\"none\" class=\"comment\" ng-repeat=\"comment in post.comments\">\n" +
-    "            <div ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
+    "    <div ng-controller=\"CommentCtrl\">\n" +
+    "        <ol>\n" +
+    "            <li type=\"none\" class=\"comment\" ng-repeat=\"comment in comments.comments\">\n" +
+    "                <div ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
     "\n" +
-    "            <div class=\"comment_bottom\">\n" +
+    "                <div class=\"comment_bottom\">\n" +
     "                <span>\n" +
     "                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
     "                </span>\n" +
-    "            </div>\n" +
-    "        </li>\n" +
-    "    </ol>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "        </ol>\n" +
+    "    </div>\n" +
     "\n" +
     "    <div ng-controller=\"CommentCreateCtrl\">\n" +
     "        <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +

@@ -27,7 +27,8 @@
 
             <div class="row">
                 <div class="col-md-5">
-                    <input type="text" class="form-control" ng-model="post.title" ng-show="isEditing()" maxlength="60" placeholder="Title here ..."/>
+                    <input type="text" class="form-control" ng-model="post.title" ng-show="isEditing()" maxlength="60"
+                           placeholder="Title here ..."/>
                 </div>
             </div>
             <br>
@@ -41,20 +42,21 @@
                 </span>
         </div>
     </div>
+    <br>
 
-    <br/>
-    <br/>
-    <ol>
-        <li type="none" class="comment" ng-repeat="comment in post.comments">
-            <div ng-bind-html="makeTrust(comment.text)"></div>
+    <div ng-controller="CommentCtrl">
+        <ol>
+            <li type="none" class="comment" ng-repeat="comment in comments.comments">
+                <div ng-bind-html="makeTrust(comment.text)"></div>
 
-            <div class="comment_bottom">
+                <div class="comment_bottom">
                 <span>
                     <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
                 </span>
-            </div>
-        </li>
-    </ol>
+                </div>
+            </li>
+        </ol>
+    </div>
 
     <div ng-controller="CommentCreateCtrl">
         <div class="comment" ng-show="isLoggedIn()">

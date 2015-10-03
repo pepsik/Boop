@@ -11,7 +11,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String username, String password) { //TODO: temp
+    public Account(Long id, String username, String password) { // temp
         this.id = id;
         this.username = username;
         this.password = password;

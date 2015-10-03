@@ -12,7 +12,7 @@ import java.util.*;
 public class AccountJpaRepo {
     private Map<String, Account> accountsByUsername;
     private Map<Long, Account> accountsById;
-    private Long idCounter = 5L;
+    private Long idCounter;
 
     public AccountJpaRepo() {
         Account account1 = new Account(1L, "username1", "$2a$10$CChiQYJx3Y11lgzXt9mBx.adLHFrJh0W9jbPqs4IJOfNRcTKgEMF.");
@@ -31,6 +31,8 @@ public class AccountJpaRepo {
         accountsById.put(2L, account2);
         accountsById.put(3L, account3);
         accountsById.put(4L, account4);
+
+        idCounter = (long) accountsById.size();
     }
 
     public Account create(Account data) {

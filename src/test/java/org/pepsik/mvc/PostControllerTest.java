@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class PostControllerTest {
     @InjectMocks
     private PostController postController;
-
     @Mock
     private PostService service;
 

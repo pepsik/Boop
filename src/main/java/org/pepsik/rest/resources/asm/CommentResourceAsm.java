@@ -1,0 +1,30 @@
+package org.pepsik.rest.resources.asm;
+
+import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.rest.mvc.Reworked.CommentController;
+import org.pepsik.rest.mvc.Reworked.PostController;
+import org.pepsik.rest.resources.CommentResource;
+import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+/**
+ * Created by pepsik on 10/3/2015.
+ */
+public class CommentResourceAsm extends ResourceAssemblerSupport<Comment, CommentResource> {
+
+    public CommentResourceAsm() {
+        super(CommentController.class, CommentResource.class);
+    }
+
+    @Override
+    public CommentResource toResource(Comment comment) {
+        CommentResource res = new CommentResource();
+        res.setRid(comment.getId());
+        res.setText(comment.getText());
+        res.setWhen(comment.getWhen());
+        res.setAuthor(comment.getOwner().getUsername());
+        return res;
+    }
+}

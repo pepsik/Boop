@@ -7237,7 +7237,7 @@ h2 {
     padding: 2em 0 0.6em;
     position: relative;
     word-wrap: break-word;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'FontAwesome', FontAwesome, Helvetica, Arial, sans-serif;
 }
 
 li.post_list {
@@ -7268,6 +7268,7 @@ li.post_list {
 ul {
     padding-left: 0;
 }
+
 /*----------Comment------------------*/
 
 .comment_bottom {
@@ -7275,30 +7276,20 @@ ul {
 }
 
 .comment {
+    background: #ececec;
+    border: 1px solid #d2d2d2;
+    border-radius: 4px;
     color: #000;
+    display: block;
+    line-height: 1.42857143;
     margin-top: 10px;
     padding: 12px 20px;
-    overflow: hidden;
-    background: rgb(216, 216, 216);
-    border-width: thick;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 ol {
     padding-left: 0;
 }
 
-/*.note-codable{*/
-    /*display: none;*/
-/*}*/
-
-/*.note-editable{*/
-    /*background-color:white;*/
-    /*overflow:auto;*/
-/*}*/
-/*.note-codable {*/
-    /*display:none;*/
-/*}*/
-/*.note-dropzone {*/
-    /*display: none;*/
-/*}*/
 /*--------------------------------------*/

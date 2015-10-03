@@ -9,8 +9,19 @@ public class Comment {
     private Long id;
     private String text;
     private Account owner;
-    private Post post;
+    private Long postId;
     private LocalDateTime when;
+
+    public Comment() {
+    }
+
+    public Comment(Long id, String text, Account owner, Long postId, LocalDateTime when) { //temp
+        this.id = id;
+        this.text = text;
+        this.owner = owner;
+        this.postId = postId;
+        this.when = when;
+    }
 
     public Long getId() {
         return id;
@@ -36,12 +47,12 @@ public class Comment {
         this.owner = owner;
     }
 
-    public Post getPost() {
-        return post;
+    public Long getPost() {
+        return postId;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPost(Long postId) {
+        this.postId = postId;
     }
 
     public LocalDateTime getWhen() {

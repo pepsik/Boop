@@ -30,11 +30,11 @@ public class PostJpaRepo {
                 new Account(3L, "username3", "$2a$10$CChiQYJx3Y11lgzXt9mBx.adLHFrJh0W9jbPqs4IJOfNRcTKgEMF."), LocalDateTime.now()));
     }
 
-    public Post create(Post post) {
-        post.setId(idCounter++);
-        post.setWhen(LocalDateTime.now());
-        posts.add(post);
-        return post;
+    public Post create(Post data) {
+        data.setId(idCounter++);
+        data.setWhen(LocalDateTime.now());
+        posts.add(data);
+        return data;
     }
 
     public Post findById(Long id) {
