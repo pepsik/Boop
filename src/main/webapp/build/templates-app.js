@@ -396,17 +396,17 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                <a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a>\n" +
     "\n" +
     "                <div style=\"float: right\">\n" +
-    "                    <button id=\"edit\" class=\"btn btn-xs btn-default\" ng-click=\"editPost()\" ng-hide=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"editPost()\" ng-hide=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
     "                    </button>\n" +
-    "                    <button id=\"delete\" class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\" ng-hide=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\" ng-hide=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
     "                    </button>\n" +
-    "                    <button id=\"save\" class=\"btn btn-xs btn-success\" ng-click=\"savePost()\" ng-show=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-success\" ng-click=\"savePost()\" ng-show=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
     "                        Save\n" +
     "                    </button>\n" +
-    "                    <button id=\"cancel\" class=\"btn btn-xs btn-default\" ng-click=\"cancelEdit()\" ng-show=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"cancelEdit()\" ng-show=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
     "                        Cancel\n" +
     "                    </button>\n" +
@@ -438,22 +438,40 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "    <div ng-controller=\"CommentCtrl\">\n" +
     "        <ol>\n" +
     "            <li type=\"none\" class=\"comment\" ng-repeat=\"comment in comments.comments\">\n" +
-    "                <div ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
+    "                <div id=\"{{comment.rid}}\" ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
     "\n" +
     "                <div class=\"comment_bottom\">\n" +
     "                <span>\n" +
     "                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
     "                </span>\n" +
+    "\n" +
+    "                    <div style=\"float: right\">\n" +
+    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"editComment(comment.rid)\" ng-hide=\"editMode(comment.rid)\">\n" +
+    "                            <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
+    "                        </button>\n" +
+    "                        <button class=\"btn btn-xs btn-danger\" ng-click=\"deleteComment($index)\" ng-hide=\"editMode(comment.rid)\">\n" +
+    "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                        </button>\n" +
+    "                        <button class=\"btn btn-xs btn-success\" ng-click=\"saveComment(comment.rid)\" ng-show=\"editMode(comment.rid)\">\n" +
+    "                            <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
+    "                            Save\n" +
+    "                        </button>\n" +
+    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"cancelComment(comment.rid)\" ng-show=\"editMode(comment.rid)\">\n" +
+    "                            <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
+    "                            Cancel\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
     "            </li>\n" +
     "        </ol>\n" +
-    "    </div>\n" +
     "\n" +
-    "    <div ng-controller=\"CommentCreateCtrl\">\n" +
-    "        <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
-    "            <summernote height=\"250\" ng-model=\"text\"></summernote>\n" +
-    "            <div style=\"text-align: right\">\n" +
-    "                <button class=\"btn btn-default\" ng-click=\"click()\">Post comment</button>\n" +
+    "\n" +
+    "        <div ng-controller=\"CommentCreateCtrl\">\n" +
+    "            <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
+    "                <summernote height=\"250\" ng-model=\"comment\"></summernote>\n" +
+    "                <div style=\"text-align: right\">\n" +
+    "                    <button class=\"btn btn-default\" ng-click=\"createComment()\">Post comment</button>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +

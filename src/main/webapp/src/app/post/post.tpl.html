@@ -5,17 +5,17 @@
                 <a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a>
 
                 <div style="float: right">
-                    <button id="edit" class="btn btn-xs btn-default" ng-click="editPost()" ng-hide="isEditing()">
+                    <button class="btn btn-xs btn-default" ng-click="editPost()" ng-hide="isEditing()">
                         <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
                     </button>
-                    <button id="delete" class="btn btn-xs btn-danger" ng-click="deletePost()" ng-hide="isEditing()">
+                    <button class="btn btn-xs btn-danger" ng-click="deletePost()" ng-hide="isEditing()">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
-                    <button id="save" class="btn btn-xs btn-success" ng-click="savePost()" ng-show="isEditing()">
+                    <button class="btn btn-xs btn-success" ng-click="savePost()" ng-show="isEditing()">
                         <span class="glyphicon glyphicon-ok-sign"></span>
                         Save
                     </button>
-                    <button id="cancel" class="btn btn-xs btn-default" ng-click="cancelEdit()" ng-show="isEditing()">
+                    <button class="btn btn-xs btn-default" ng-click="cancelEdit()" ng-show="isEditing()">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                         Cancel
                     </button>
@@ -47,22 +47,40 @@
     <div ng-controller="CommentCtrl">
         <ol>
             <li type="none" class="comment" ng-repeat="comment in comments.comments">
-                <div ng-bind-html="makeTrust(comment.text)"></div>
+                <div id="{{comment.rid}}" ng-bind-html="makeTrust(comment.text)"></div>
 
                 <div class="comment_bottom">
                 <span>
                     <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
                 </span>
+
+                    <div style="float: right">
+                        <button class="btn btn-xs btn-default" ng-click="editComment(comment.rid)" ng-hide="editMode(comment.rid)">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                        </button>
+                        <button class="btn btn-xs btn-danger" ng-click="deleteComment($index)" ng-hide="editMode(comment.rid)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button class="btn btn-xs btn-success" ng-click="saveComment(comment.rid)" ng-show="editMode(comment.rid)">
+                            <span class="glyphicon glyphicon-ok-sign"></span>
+                            Save
+                        </button>
+                        <button class="btn btn-xs btn-default" ng-click="cancelComment(comment.rid)" ng-show="editMode(comment.rid)">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </li>
         </ol>
-    </div>
 
-    <div ng-controller="CommentCreateCtrl">
-        <div class="comment" ng-show="isLoggedIn()">
-            <summernote height="250" ng-model="text"></summernote>
-            <div style="text-align: right">
-                <button class="btn btn-default" ng-click="click()">Post comment</button>
+
+        <div ng-controller="CommentCreateCtrl">
+            <div class="comment" ng-show="isLoggedIn()">
+                <summernote height="250" ng-model="comment"></summernote>
+                <div style="text-align: right">
+                    <button class="btn btn-default" ng-click="createComment()">Post comment</button>
+                </div>
             </div>
         </div>
     </div>

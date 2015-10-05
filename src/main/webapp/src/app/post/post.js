@@ -35,7 +35,7 @@ angular.module('ngBoilerplate.post', [
         });
     }])
 
-    .factory('EditedPost', ['$resource', function ($resource) { //refact
+    .factory('EditedPost', ['$resource', function ($resource) {
         return $resource('/rest/posts/:postId', null,
             {
                 'update': {method: 'PUT'}
@@ -79,13 +79,13 @@ angular.module('ngBoilerplate.post', [
                 "title": $scope.post.title,
                 "text": summernote.code()
             };
-            EditedPost.update({postId: $scope.post.rid}, data);
+            EditedPost.update({postId: $stateParams.postId}, data);
             summernote.destroy();
             editMode = false;
         };
 
         $scope.deletePost = function () {
-            var post = $resource("/rest/posts/" + $scope.post.rid);
+            var post = $resource("/rest/posts/" + $stateParams.postId);
             post.remove({}, {},
                 function () {
                     $state.go("page", {pageId: 1});

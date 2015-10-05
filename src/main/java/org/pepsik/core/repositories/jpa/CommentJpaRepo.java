@@ -41,7 +41,7 @@ public class CommentJpaRepo {
     }
 
     public Comment create(Long postId, Comment data) { //in serviceComment checkout if post exist
-        data.setId(idCounter++);
+        data.setId(++idCounter);
         data.setWhen(LocalDateTime.now());
         List<Comment> comments = commentsByPost.get(postId);
         if (comments != null) {
@@ -51,6 +51,7 @@ public class CommentJpaRepo {
             commentsByPost.put(postId, comments);
         }
         commentsById.put(data.getId(), data);
+        data.setPost(postId);
         return data;
     }
 
@@ -71,6 +72,7 @@ public class CommentJpaRepo {
     public Comment delete(Long id) {
         Comment comment = commentsById.get(id);
         commentsById.remove(id);
+        commentsByPost.get(comment.getPost()).remove(comment);
         return comment;
     }
 }
