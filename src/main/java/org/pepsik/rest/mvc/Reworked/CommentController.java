@@ -35,10 +35,14 @@ public class CommentController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<CommentListResource> getCommentsByPost(@PathVariable Long postId) {
+    public ResponseEntity<CommentListResource> getCommentsByPost(@PathVariable Long postId) { //todo: not found status if post doest exist
         CommentList commentList = commentService.findAllCommentsByPost(postId);
-        CommentListResource res = new CommentListResourceAsm().toResource(commentList);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        if (commentList.getComments() != null) {
+            CommentListResource res = new CommentListResourceAsm().toResource(commentList);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
