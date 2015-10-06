@@ -55,20 +55,24 @@
                 </span>
 
                     <div style="float: right">
-                        <button class="btn btn-xs btn-default" ng-click="editComment(comment.rid)" ng-hide="editMode(comment.rid)">
-                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
-                        </button>
-                        <button class="btn btn-xs btn-danger" ng-click="deleteComment($index)" ng-hide="editMode(comment.rid)">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                        <button class="btn btn-xs btn-success" ng-click="saveComment(comment.rid)" ng-show="editMode(comment.rid)">
-                            <span class="glyphicon glyphicon-ok-sign"></span>
-                            Save
-                        </button>
-                        <button class="btn btn-xs btn-default" ng-click="cancelComment(comment.rid)" ng-show="editMode(comment.rid)">
-                            <span class="glyphicon glyphicon-remove-sign"></span>
-                            Cancel
-                        </button>
+                        <div ng-show="canManage(comment.rid)">
+                            <button class="btn btn-xs btn-default" ng-click="editComment(comment.rid)">
+                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                            </button>
+                            <button class="btn btn-xs btn-danger" ng-click="deleteComment($index)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                        <div ng-show="canEdit(comment.rid)">
+                            <button class="btn btn-xs btn-success" ng-click="updateComment(comment.rid)">
+                                <span class="glyphicon glyphicon-ok-sign"></span>
+                                Save
+                            </button>
+                            <button class="btn btn-xs btn-default" ng-click="cancelComment(comment.rid)">
+                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </li>

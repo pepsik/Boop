@@ -35,7 +35,7 @@ public class CommentController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<CommentListResource> getCommentsByPost(@PathVariable Long postId) { //todo: not found status if post doest exist
+    public ResponseEntity<CommentListResource> getCommentsByPost(@PathVariable Long postId) {
         CommentList commentList = commentService.findAllCommentsByPost(postId);
         if (commentList.getComments() != null) {
             CommentListResource res = new CommentListResourceAsm().toResource(commentList);

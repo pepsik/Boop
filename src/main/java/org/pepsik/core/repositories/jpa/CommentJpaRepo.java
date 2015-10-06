@@ -60,7 +60,10 @@ public class CommentJpaRepo {
     }
 
     public List<Comment> findCommentsByPost(Long id) {
-        return commentsByPost.get(id);
+        List<Comment> list = commentsByPost.get(id);
+        if (list == null)
+            return new ArrayList<>();
+        return list;
     }
 
     public Comment update(Long id, Comment data) {

@@ -46,7 +46,7 @@ angular.module('ngBoilerplate.account', ['ui.router'])
             }).then(function (data) {
                 alert("login successful");
                 localStorage.setItem("session", JSON.stringify({
-                    'loggedUser': 'username',
+                    'loggedUser': 'username3',
                     'avatarUrl': 'url//'
                 }));
             }, function (data) {

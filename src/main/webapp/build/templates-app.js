@@ -446,20 +446,24 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                </span>\n" +
     "\n" +
     "                    <div style=\"float: right\">\n" +
-    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"editComment(comment.rid)\" ng-hide=\"editMode(comment.rid)\">\n" +
-    "                            <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
-    "                        </button>\n" +
-    "                        <button class=\"btn btn-xs btn-danger\" ng-click=\"deleteComment($index)\" ng-hide=\"editMode(comment.rid)\">\n" +
-    "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
-    "                        </button>\n" +
-    "                        <button class=\"btn btn-xs btn-success\" ng-click=\"saveComment(comment.rid)\" ng-show=\"editMode(comment.rid)\">\n" +
-    "                            <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
-    "                            Save\n" +
-    "                        </button>\n" +
-    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"cancelComment(comment.rid)\" ng-show=\"editMode(comment.rid)\">\n" +
-    "                            <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
-    "                            Cancel\n" +
-    "                        </button>\n" +
+    "                        <div ng-show=\"canManage(comment.rid)\">\n" +
+    "                            <button class=\"btn btn-xs btn-default\" ng-click=\"editComment(comment.rid)\">\n" +
+    "                                <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
+    "                            </button>\n" +
+    "                            <button class=\"btn btn-xs btn-danger\" ng-click=\"deleteComment($index)\">\n" +
+    "                                <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                            </button>\n" +
+    "                        </div>\n" +
+    "                        <div ng-show=\"canEdit(comment.rid)\">\n" +
+    "                            <button class=\"btn btn-xs btn-success\" ng-click=\"updateComment(comment.rid)\">\n" +
+    "                                <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
+    "                                Save\n" +
+    "                            </button>\n" +
+    "                            <button class=\"btn btn-xs btn-default\" ng-click=\"cancelComment(comment.rid)\">\n" +
+    "                                <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
+    "                                Cancel\n" +
+    "                            </button>\n" +
+    "                        </div>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </li>\n" +
