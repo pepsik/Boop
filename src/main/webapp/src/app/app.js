@@ -6,6 +6,7 @@ angular.module('ngBoilerplate', [
     'ngBoilerplate.account',
     'ngBoilerplate.page',
     'ngBoilerplate.post',
+    'ngBoilerplate.comment',
     'ui.router',
     'hateoas',
     'summernote'

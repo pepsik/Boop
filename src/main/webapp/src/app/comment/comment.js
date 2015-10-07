@@ -33,8 +33,8 @@ angular.module('ngBoilerplate.comment', [])
             editor.destroy();
             commentManager.disableEditing();
         };
-        service.deleteComment = function (commentId, success, failure) {
-            performQuery().remove({postId: tempData.postId, commentId: commentId}, success, failure);
+        service.deleteComment = function (id, success, failure) {
+            performQuery().remove({postId: tempData.postId, commentId: id}, success, failure);
         };
         service.editComment = function (id) {
             commentManager.enableEditing(id, tempData);

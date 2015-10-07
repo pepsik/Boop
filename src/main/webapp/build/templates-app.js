@@ -402,11 +402,11 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\" ng-hide=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
     "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-success\" ng-click=\"savePost()\" ng-show=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-success\" ng-click=\"updatePost()\" ng-show=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
     "                        Save\n" +
     "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"cancelEdit()\" ng-show=\"isEditing()\">\n" +
+    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"cancelPost()\" ng-show=\"isEditing()\">\n" +
     "                        <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
     "                        Cancel\n" +
     "                    </button>\n" +

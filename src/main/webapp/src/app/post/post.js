@@ -1,19 +1,19 @@
 angular.module('ngBoilerplate.post', [
-    'ui.router',
-    'ngBoilerplate.comment'
+    'ui.router'
 ])
 
     .config(function ($stateProvider) {
-        $stateProvider.state('view_post', {
-            url: '/post/{postId:[0-9]{1,8}}',
-            views: {
-                "main": {
-                    controller: 'PostCtrl',
-                    templateUrl: 'post/post.tpl.html'
-                }
-            },
-            data: {pageTitle: 'View post'}
-        })
+        $stateProvider
+            .state('view_post', {
+                url: '/post/{postId:[0-9]{1,8}}',
+                views: {
+                    "main": {
+                        controller: 'PostCtrl',
+                        templateUrl: 'post/post.tpl.html'
+                    }
+                },
+                data: {pageTitle: 'View post'}
+            })
             .state('create_post', {
                 url: '/post/new',
                 views: {
@@ -26,17 +26,59 @@ angular.module('ngBoilerplate.post', [
             });
     })
 
-    .factory('postService', ['$resource', function ($resource) {
-        return $resource('/rest/posts/:postId', {}, {
-            create: {method: 'POST'},
-            query: {method: 'GET', isArray: false},
-            update: {method: 'PUT'},
-            remove: {method: 'DELETE'}
-        });
+    .factory('postService', ['$resource', '$state', 'postManager', function ($resource, $state, postManager) {
+        var service = {};
+        var tempData = {
+            id: null,
+            title: null,
+            text: null,
+            editor: null
+        };
+        var performQuery = function () {
+            return $resource('/rest/posts/:postId', {}, {
+                create: {method: 'POST'},
+                get: {method: 'GET', isArray: false},
+                update: {method: 'PUT'},
+                remove: {method: 'DELETE'}
+            });
+        };
+        service.createPost = function (data, success, failure) {
+            performQuery().create({}, data, success, failure);
+        };
+        service.getPost = function (id) {
+            tempData.id = id;
+            return performQuery().get({postId: id});
+        };
+        service.updatePost = function (data, success, failure) {
+            performQuery().update({postId: tempData.id}, data, success, failure);
+            postManager.off();
+        };
+        service.deletePost = function (success, failure) {
+            performQuery().remove({postId: tempData.id}, success, failure);
+        };
+        service.editPost = function (editor, title) {
+            postManager.on();
+            editor.summernote({
+                height: 350,
+                minHeight: 150,
+                maxHeight: null,
+                focus: true
+            });
+            tempData.title = title;
+            tempData.text = editor.code();
+            tempData.editor = editor;
+        };
+        service.cancelPost = function () {
+            tempData.editor.code(tempData.text);
+            tempData.editor.destroy();
+            postManager.off();
+            return tempData.title;
+        };
+        return service;
     }])
 
     /*defines an edit state {save, cancel} when click on 'edit' button of post which can be edited by the user*/
-    .factory('PostEditMode', function () {
+    .factory('postManager', function () {
         var editMode = false;
         var editEnable = function () {
             editMode = true;
@@ -54,59 +96,46 @@ angular.module('ngBoilerplate.post', [
         };
     })
 
-    .controller('PostCtrl', function ($scope, $stateParams, $sce, $state, postService, PostEditMode) {
-        $scope.post = postService.query({postId: $stateParams.postId});
+    .controller('PostCtrl', function ($scope, $stateParams, $sce, $state, postService, postManager) {
+        $scope.post = postService.getPost($stateParams.postId);
         $scope.makeTrust = function (html) {
             return $sce.trustAsHtml(html);
         };
-        var tempData = {};
         var editor = $("#post_text");
-        PostEditMode.off();
-        $scope.isEditing = PostEditMode.getMode;
+        postManager.off();
+        $scope.isEditing = postManager.getMode;
         $scope.editPost = function () {
-            PostEditMode.on();
-            editor.summernote({
-                height: 350,
-                minHeight: 150,
-                maxHeight: null,
-                focus: true
-            });
-            tempData.title = $scope.post.title;
-            tempData.text = editor.code();
+            postService.editPost(editor, $scope.post.title);
         };
-        $scope.savePost = function () {
+        $scope.updatePost = function () {
             var data = {
-                "title": $scope.post.title,
-                "text": editor.code()
+                title: $scope.post.title,
+                text: editor.code()
             };
-            postService.update({postId: $stateParams.postId}, data,
+            postService.updatePost(data,
                 function () {/*success*/
+                    editor.destroy();
                 },
                 function () {
                     alert("failure updating post");
                 });
-            editor.destroy();
-            PostEditMode.off();
         };
         $scope.deletePost = function () {
-            postService.remove({postId: $stateParams.postId},
-                function () {
+            postService.deletePost(
+                function () {/*success*/
                     $state.go("page", {pageId: 1});
                 },
                 function () {
                     alert("error deleting");
                 });
         };
-        $scope.cancelEdit = function () {
-            editor.code(tempData.text);
-            $scope.post.title = tempData.title;
-            editor.destroy();
-            PostEditMode.off();
+        $scope.cancelPost = function () {
+            $scope.post.title = postService.cancelPost();
         };
     })
 
-    .controller('NewPostCtrl', function ($scope, $resource, $state, postService) {
-        $scope.text = "";
+    .
+    controller('NewPostCtrl', function ($scope, $resource, $state, postService) {
         $scope.options = {
             height: 550,
             minHeight: 300,
@@ -117,8 +146,9 @@ angular.module('ngBoilerplate.post', [
                 "title": $scope.post.title,
                 "text": $scope.post.text
             };
-            postService.create({}, data,
+            postService.createPost(data,
                 function (returnedData) {
+                    $scope.text = "";
                     $state.go("view_post", {postId: returnedData.rid});
                 },
                 function () {
