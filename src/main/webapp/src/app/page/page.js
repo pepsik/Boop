@@ -28,7 +28,7 @@ angular.module('ngBoilerplate.page', [
     }])
 
     .controller('PageCtrl', function ($scope, $sce, $stateParams, PostList, Pagination) {
-        $scope.posts = PostList.query({pageId: $stateParams.pageId});
+        $scope.posts = PostList.query(/*{pageId: $stateParams.pageId}*/);
         $scope.makeTrust = function (html) { //TODO: config
             return $sce.trustAsHtml(html);
         };

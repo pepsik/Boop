@@ -413,9 +413,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                </div>\n" +
     "            </h3>\n" +
     "        </div>\n" +
-    "\n" +
     "        <div class=\"post_body\">\n" +
-    "\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-5\">\n" +
     "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"isEditing()\" maxlength=\"60\"\n" +
@@ -469,7 +467,6 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "            </li>\n" +
     "        </ol>\n" +
     "\n" +
-    "\n" +
     "        <div ng-controller=\"CommentCreateCtrl\">\n" +
     "            <div class=\"comment\" ng-show=\"isLoggedIn()\">\n" +
     "                <summernote height=\"250\" ng-model=\"comment\"></summernote>\n" +
@@ -478,7 +475,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "        <br/>\n" +
     "    </div>\n" +
-    "    <br/>\n" +
     "</div>");
 }]);

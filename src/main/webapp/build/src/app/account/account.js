@@ -43,10 +43,10 @@ angular.module('ngBoilerplate.account', ['ui.router'])
             return $http.post("/login", "username=" + data.username +
                 "&password=" + data.password, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(function (data) {
+            }).then(function () {
                 alert("login successful");
                 localStorage.setItem("session", JSON.stringify({
-                    'loggedUser': 'username3',
+                    'loggedUser': data.username,
                     'avatarUrl': 'url//'
                 }));
             }, function (data) {

@@ -22,9 +22,7 @@
                 </div>
             </h3>
         </div>
-
         <div class="post_body">
-
             <div class="row">
                 <div class="col-md-5">
                     <input type="text" class="form-control" ng-model="post.title" ng-show="isEditing()" maxlength="60"
@@ -78,7 +76,6 @@
             </li>
         </ol>
 
-
         <div ng-controller="CommentCreateCtrl">
             <div class="comment" ng-show="isLoggedIn()">
                 <summernote height="250" ng-model="comment"></summernote>
@@ -87,6 +84,6 @@
                 </div>
             </div>
         </div>
+        <br/>
     </div>
-    <br/>
 </div>

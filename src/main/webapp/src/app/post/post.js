@@ -8,7 +8,6 @@ angular.module('ngBoilerplate.post', [
                 url: '/post/{postId:[0-9]{1,8}}',
                 views: {
                     "main": {
-                        controller: 'PostCtrl',
                         templateUrl: 'post/post.tpl.html'
                     }
                 },
@@ -18,7 +17,6 @@ angular.module('ngBoilerplate.post', [
                 url: '/post/new',
                 views: {
                     "main": {
-                        controller: 'NewPostCtrl',
                         templateUrl: 'post/create.tpl.html'
                     }
                 },
