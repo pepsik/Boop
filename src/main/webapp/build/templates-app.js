@@ -396,20 +396,24 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                <a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a>\n" +
     "\n" +
     "                <div style=\"float: right\">\n" +
-    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"editPost()\" ng-hide=\"isEditing()\">\n" +
-    "                        <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
-    "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\" ng-hide=\"isEditing()\">\n" +
-    "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
-    "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-success\" ng-click=\"updatePost()\" ng-show=\"isEditing()\">\n" +
-    "                        <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
-    "                        Save\n" +
-    "                    </button>\n" +
-    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"cancelPost()\" ng-show=\"isEditing()\">\n" +
-    "                        <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
-    "                        Cancel\n" +
-    "                    </button>\n" +
+    "                    <div ng-show=\"canManage()\">\n" +
+    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"editPost()\">\n" +
+    "                            <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
+    "                        </button>\n" +
+    "                        <button class=\"btn btn-xs btn-danger\" ng-click=\"deletePost()\">\n" +
+    "                            <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
+    "                    <div ng-show=\"canEdit()\">\n" +
+    "                        <button class=\"btn btn-xs btn-success\" ng-click=\"updatePost()\">\n" +
+    "                            <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
+    "                            Save\n" +
+    "                        </button>\n" +
+    "                        <button class=\"btn btn-xs btn-default\" ng-click=\"cancelPost()\">\n" +
+    "                            <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
+    "                            Cancel\n" +
+    "                        </button>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
     "            </h3>\n" +
     "        </div>\n" +
@@ -440,11 +444,11 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <div class=\"comment_bottom\">\n" +
     "                <span>\n" +
-    "                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}\n" +
+    "                    <b>{{comment.author}}</b> &nbsp;&nbsp; {{comment.when | date:'short'}}\n" +
     "                </span>\n" +
     "\n" +
     "                    <div style=\"float: right\">\n" +
-    "                        <div ng-show=\"canManage(comment.rid)\">\n" +
+    "                        <div ng-show=\"canManage(comment.author)\">\n" +
     "                            <button class=\"btn btn-xs btn-default\" ng-click=\"editComment(comment.rid)\">\n" +
     "                                <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
     "                            </button>\n" +

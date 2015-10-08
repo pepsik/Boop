@@ -20,14 +20,14 @@ angular.module('ngBoilerplate', [
     .run(function run() {
     })
 
-    .controller('AppCtrl', function AppCtrl($scope, $location, sessionService) {
-        $scope.isLoggedIn = sessionService.isLoggedIn;
-        $scope.logout = sessionService.logout;
+    .controller('AppCtrl', function AppCtrl($rootScope, $scope, $location, sessionService) {
+        $rootScope.isLoggedIn = sessionService.isLoggedIn;
+        $rootScope.logout = sessionService.logout;
 
         var sessionInfo = localStorage.getItem("session");
         if ($.type(sessionInfo) === "string") {
             var retVal = JSON.parse(sessionInfo);
-            $scope.loggedUser = retVal.loggedUser;
+            $rootScope.loggedUser = retVal.loggedUser;
         }
         $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             if (angular.isDefined(toState.data.pageTitle)) {

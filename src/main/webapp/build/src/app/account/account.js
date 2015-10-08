@@ -37,20 +37,20 @@ angular.module('ngBoilerplate.account', ['ui.router'])
                 }
             });
     })
-    .factory('sessionService', function ($http) {
+    .factory('sessionService', function ($http, $state) {
         var session = {};
         session.login = function (data) {
             return $http.post("/login", "username=" + data.username +
                 "&password=" + data.password, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function () {
-                alert("login successful");
                 localStorage.setItem("session", JSON.stringify({
                     'loggedUser': data.username,
                     'avatarUrl': 'url//'
                 }));
+                $state.go("home");
             }, function (data) {
-                alert("error logging in");
+                alert("login and password doesn't match");
             });
         };
         session.logout = function () {
@@ -86,12 +86,15 @@ angular.module('ngBoilerplate.account', ['ui.router'])
         return service;
     })
 
-    .controller('LoginCtrl', function ($scope, $state, accountService, sessionService) {
+    .controller('LoginCtrl', function ($rootScope, $scope, $state, accountService, sessionService) {
         $scope.login = function () {
-            accountService.UserExists($scope.account, function (account) {
-                    sessionService.login($scope.account).then(function () {
-                        $state.go("home");
-                    });
+            accountService.UserExists($scope.account,
+                function (account) {
+                    sessionService.login($scope.account).then(
+                        function () {
+                            $rootScope.loggedUser = $scope.account.username;
+                        }
+                    );
                 },
                 function () {
                     alert("User doesn't exist!");
@@ -99,12 +102,14 @@ angular.module('ngBoilerplate.account', ['ui.router'])
         };
     })
 
-    .controller('RegisterCtrl', function ($scope, $state, sessionService, accountService) {
+    .controller('RegisterCtrl', function ($rootScope, $scope, $state, sessionService, accountService) {
         $scope.register = function () {
-            alert("reg username " + $scope.account.username + " psw " + $scope.account.password);
-            accountService.register($scope.account, function (returnedData) {
-                    sessionService.login(returnedData);
-                    $state.go("home");
+            accountService.register($scope.account,
+                function (returnedData) {
+                    sessionService.login($scope.account).then(function () {
+                        $rootScope.loggedUser = $scope.account.username;
+                        $state.go("home");
+                    });
                 },
                 function () {
                     alert("Error registering user");

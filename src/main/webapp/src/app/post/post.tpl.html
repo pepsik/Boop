@@ -5,20 +5,24 @@
                 <a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a>
 
                 <div style="float: right">
-                    <button class="btn btn-xs btn-default" ng-click="editPost()" ng-hide="isEditing()">
-                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
-                    </button>
-                    <button class="btn btn-xs btn-danger" ng-click="deletePost()" ng-hide="isEditing()">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                    <button class="btn btn-xs btn-success" ng-click="updatePost()" ng-show="isEditing()">
-                        <span class="glyphicon glyphicon-ok-sign"></span>
-                        Save
-                    </button>
-                    <button class="btn btn-xs btn-default" ng-click="cancelPost()" ng-show="isEditing()">
-                        <span class="glyphicon glyphicon-remove-sign"></span>
-                        Cancel
-                    </button>
+                    <div ng-show="canManage()">
+                        <button class="btn btn-xs btn-default" ng-click="editPost()">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                        </button>
+                        <button class="btn btn-xs btn-danger" ng-click="deletePost()">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                    <div ng-show="canEdit()">
+                        <button class="btn btn-xs btn-success" ng-click="updatePost()">
+                            <span class="glyphicon glyphicon-ok-sign"></span>
+                            Save
+                        </button>
+                        <button class="btn btn-xs btn-default" ng-click="cancelPost()">
+                            <span class="glyphicon glyphicon-remove-sign"></span>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </h3>
         </div>
@@ -49,11 +53,11 @@
 
                 <div class="comment_bottom">
                 <span>
-                    <b>{{post.author}}</b> &nbsp;&nbsp; {{post.when | date:'short'}}
+                    <b>{{comment.author}}</b> &nbsp;&nbsp; {{comment.when | date:'short'}}
                 </span>
 
                     <div style="float: right">
-                        <div ng-show="canManage(comment.rid)">
+                        <div ng-show="canManage(comment.author)">
                             <button class="btn btn-xs btn-default" ng-click="editComment(comment.rid)">
                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
                             </button>

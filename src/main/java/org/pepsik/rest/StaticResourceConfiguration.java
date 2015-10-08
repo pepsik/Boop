@@ -2,6 +2,7 @@ package org.pepsik.rest;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -16,5 +17,10 @@ public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/**").addResourceLocations("/build/");
         registry.addResourceHandler("/uploads/**").addResourceLocations("/uploads/");
         registry.addResourceHandler("/fonts/**").addResourceLocations("/vendor/bootstrap/fonts/"); //temp
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/", "index.html");
     }
 }

@@ -80,5 +80,5 @@ module.exports = {
             'vendor/summernote/dist/summernote-bs3.css'
         ],
         assets: []
-    },
+    }
 };

@@ -47,15 +47,27 @@ angular.module('ngBoilerplate.post', [
             tempData.id = id;
             return performQuery().get({postId: id});
         };
-        service.updatePost = function (data, success, failure) {
-            performQuery().update({postId: tempData.id}, data, success, failure);
-            postManager.off();
+        service.updatePost = function (data) {
+            performQuery().update({postId: tempData.id}, data,
+                function () {/*success*/
+                    editor.destroy();
+                    postManager.disableEditing();
+                },
+                function () {
+                    alert("failure updating post");
+                });
         };
-        service.deletePost = function (success, failure) {
-            performQuery().remove({postId: tempData.id}, success, failure);
+        service.deletePost = function () {
+            performQuery().remove({postId: tempData.id},
+                function () {/*success*/
+                    $state.go("page", {pageId: 1});
+                },
+                function () {
+                    alert("error deleting");
+                });
         };
         service.editPost = function (editor, title) {
-            postManager.on();
+            postManager.enableEditing();
             editor.summernote({
                 height: 350,
                 minHeight: 150,
@@ -69,29 +81,33 @@ angular.module('ngBoilerplate.post', [
         service.cancelPost = function () {
             tempData.editor.code(tempData.text);
             tempData.editor.destroy();
-            postManager.off();
+            postManager.disableEditing();
             return tempData.title;
         };
         return service;
     }])
 
-    /*defines an edit state {save, cancel} when click on 'edit' button of post which can be edited by the user*/
-    .factory('postManager', function () {
+    .factory('postManager', function ($rootScope) {
+        var loggedUser = $rootScope.loggedUser;
+        var service = {};
         var editMode = false;
-        var editEnable = function () {
-            editMode = true;
-        };
-        var editDisable = function () {
-            editMode = false;
-        };
-        var getMode = function () {
+        service.canEdit = function () {
             return editMode;
         };
-        return {
-            on: editEnable,
-            off: editDisable,
-            getMode: getMode
+        service.canManage = function (author) {
+            if (editMode === true) {
+                return false;
+            } else {
+                return loggedUser === author;
+            }
         };
+        service.enableEditing = function () {
+            editMode = true;
+        };
+        service.disableEditing = function () {
+            editMode = false;
+        };
+        return service;
     })
 
     .controller('PostCtrl', function ($scope, $stateParams, $sce, $state, postService, postManager) {
@@ -100,8 +116,10 @@ angular.module('ngBoilerplate.post', [
             return $sce.trustAsHtml(html);
         };
         var editor = $("#post_text");
-        postManager.off();
-        $scope.isEditing = postManager.getMode;
+        $scope.canManage = function () {
+            return postManager.canManage($scope.post.author);
+        };
+        $scope.canEdit = postManager.canEdit;
         $scope.editPost = function () {
             postService.editPost(editor, $scope.post.title);
         };
@@ -110,30 +128,16 @@ angular.module('ngBoilerplate.post', [
                 title: $scope.post.title,
                 text: editor.code()
             };
-            postService.updatePost(data,
-                function () {/*success*/
-                    editor.destroy();
-                },
-                function () {
-                    alert("failure updating post");
-                });
+            postService.updatePost(data);
         };
-        $scope.deletePost = function () {
-            postService.deletePost(
-                function () {/*success*/
-                    $state.go("page", {pageId: 1});
-                },
-                function () {
-                    alert("error deleting");
-                });
-        };
+        $scope.deletePost = postService.deletePost;
         $scope.cancelPost = function () {
             $scope.post.title = postService.cancelPost();
         };
+        postManager.disableEditing();
     })
 
-    .
-    controller('NewPostCtrl', function ($scope, $resource, $state, postService) {
+    .controller('NewPostCtrl', function ($scope, $resource, $state, postService) {
         $scope.options = {
             height: 550,
             minHeight: 300,

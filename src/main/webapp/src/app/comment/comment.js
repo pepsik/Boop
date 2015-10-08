@@ -4,7 +4,8 @@ angular.module('ngBoilerplate.comment', [])
         var service = {};
         var tempData = {
             postId: null,
-            text: null
+            commentId: null,
+            commentText: null
         };
         var performQuery = function () {
             return $resource({}, {}, {
@@ -24,20 +25,25 @@ angular.module('ngBoilerplate.comment', [])
             tempData.postId = postId;
             return performQuery().get({postId: postId});
         };
-        service.updateComment = function (id, success, failure) {
+        service.updateComment = function (id) {
             var editor = $("#" + id);
             var data = {
                 "text": editor.code()
             };
-            performQuery().update({postId: tempData.postId, commentId: id}, data, success, failure);
-            editor.destroy();
-            commentManager.disableEditing();
+            performQuery().update({postId: tempData.postId, commentId: id}, data,
+                function () {/*success*/
+                    editor.destroy();
+                    commentManager.disableEditing();
+                },
+                function () {
+                    alert("failure updating comment");
+                });
         };
         service.deleteComment = function (id, success, failure) {
             performQuery().remove({postId: tempData.postId, commentId: id}, success, failure);
         };
         service.editComment = function (id) {
-            commentManager.enableEditing(id, tempData);
+            commentManager.enableEditing(id);
             var editor = $("#" + id);
             editor.summernote({
                 height: 75,
@@ -45,67 +51,48 @@ angular.module('ngBoilerplate.comment', [])
                 maxHeight: 1000,
                 focus: true
             });
-            tempData.text = editor.code();
+            tempData.commentText = editor.code();
         };
         service.cancelComment = function (id) {
             var editor = $("#" + id);
-            editor.code(tempData.text);
+            editor.code(tempData.commentText);
             editor.destroy();
             commentManager.disableEditing();
         };
         return service;
     }])
 
-    .factory('commentManager', function () {
+    .factory('commentManager', function ($rootScope) {
+        var loggedUser = $rootScope.loggedUser;
         var service = {};
-        var commentId = null;
-        var commentText = null;
-        var hasPermission = true;
-        service.canManage = function () {
-            return hasPermission;
+        var comment = {
+            id: null,
+            isEditing: null
+        };
+        service.canManage = function (author) {
+            if (comment.isEditing === true) {
+                return false;
+            } else {
+                return author === loggedUser;
+            }
         };
         service.canEdit = function (id) {
-            if (commentId === undefined) {
-                return false;
-            }
-            else {
-                return commentId === id;
-            }
+            return comment.id === id;
         };
-        service.enableEditing = function (id, tempData) {
-            this.disableManaging();
-            commentId = id;
-            commentText = tempData;
+        service.enableEditing = function (id) {
+            comment.isEditing = true;
+            comment.id = id;
         };
         service.disableEditing = function () {
-            this.enableManaging();
-            if (commentId !== null) {
-                var editor = $("#" + commentId);
-                editor.code(commentText);
-                editor.destroy();
-                commentId = null;
-                commentText = null;
-            }
-        };
-        service.enableManaging = function () {
-            hasPermission = true;
-        };
-        service.disableManaging = function () {
-            hasPermission = false;
+            comment.isEditing = false;
+            comment.id = null;
         };
         return service;
     })
 
     .controller('CommentCtrl', function ($scope, $stateParams, commentService, commentManager) {
         $scope.comments = commentService.getComments($stateParams.postId);
-        $scope.updateComment = function (id) {
-            commentService.updateComment(id,
-                function () {/*success*/
-                },
-                function () {
-                    alert("failure updating comment");
-                });
-        };
+        $scope.updateComment = commentService.updateComment;
         $scope.deleteComment = function (index) {
             commentService.deleteComment($scope.comments.comments[index].rid,
                 function () {/*success*/

@@ -3,6 +3,7 @@ package org.pepsik.core.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -60,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
+                .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
@@ -75,7 +76,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/rest/posts/*").authenticated()
-                .antMatchers("/**").permitAll();
+                .antMatchers("/vendor/**", "/assets/*", "/src/**", "/fonts/**").permitAll()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.GET, "/rest/posts/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/rest/accounts*").permitAll()
+                .antMatchers("/**").authenticated();
     }
 }
