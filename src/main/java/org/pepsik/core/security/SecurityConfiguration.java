@@ -80,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.GET, "/rest/posts/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/rest/accounts*").permitAll()
+                .antMatchers("/rest/accounts*").permitAll()
                 .antMatchers("/**").authenticated();
     }
 }

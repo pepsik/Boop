@@ -47,7 +47,7 @@ angular.module('ngBoilerplate.post', [
             tempData.id = id;
             return performQuery().get({postId: id});
         };
-        service.updatePost = function (data) {
+        service.updatePost = function (editor, data) {
             performQuery().update({postId: tempData.id}, data,
                 function () {/*success*/
                     editor.destroy();
@@ -128,7 +128,7 @@ angular.module('ngBoilerplate.post', [
                 title: $scope.post.title,
                 text: editor.code()
             };
-            postService.updatePost(data);
+            postService.updatePost(editor, data);
         };
         $scope.deletePost = postService.deletePost;
         $scope.cancelPost = function () {
