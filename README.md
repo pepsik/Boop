@@ -1,3 +1,8 @@
+##Rebuild
+--Coming soon--
+
+(progress at new branch)
+
 ## Description
 
 This is my first git project which evolved from simple example Spitter of 'Spring in Action' by Craig Walls.
