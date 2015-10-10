@@ -88,7 +88,6 @@ angular.module('ngBoilerplate.post', [
     }])
 
     .factory('postManager', function ($rootScope) {
-        var loggedUser = $rootScope.loggedUser;
         var service = {};
         var editMode = false;
         service.canEdit = function () {
@@ -98,7 +97,7 @@ angular.module('ngBoilerplate.post', [
             if (editMode === true) {
                 return false;
             } else {
-                return loggedUser === author;
+                return $rootScope.loggedUser === author;
             }
         };
         service.enableEditing = function () {

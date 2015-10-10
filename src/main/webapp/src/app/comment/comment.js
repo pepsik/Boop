@@ -63,7 +63,6 @@ angular.module('ngBoilerplate.comment', [])
     }])
 
     .factory('commentManager', function ($rootScope) {
-        var loggedUser = $rootScope.loggedUser;
         var service = {};
         var comment = {
             id: null,
@@ -73,7 +72,7 @@ angular.module('ngBoilerplate.comment', [])
             if (comment.isEditing === true) {
                 return false;
             } else {
-                return author === loggedUser;
+                return author === $rootScope.loggedUser;
             }
         };
         service.canEdit = function (id) {

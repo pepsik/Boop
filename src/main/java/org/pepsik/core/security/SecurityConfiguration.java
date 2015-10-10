@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -77,10 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/vendor/**", "/assets/*", "/src/**", "/fonts/**").permitAll()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.GET, "/rest/posts/**").permitAll()
-                .antMatchers("/rest/accounts*").permitAll()
+                .antMatchers("/*", "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/rest/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/rest/accounts").permitAll()
                 .antMatchers("/**").authenticated();
     }
 }

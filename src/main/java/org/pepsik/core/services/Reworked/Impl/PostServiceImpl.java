@@ -8,6 +8,8 @@ import org.pepsik.core.services.Reworked.AccountService;
 import org.pepsik.core.services.Reworked.PostService;
 import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private AccountJpaRepo accountJpaRepo;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_USER')")
     public Post createPost(String loggedIn, Post data) {
         Account author = accountJpaRepo.findByUsername(loggedIn);
         data.setOwner(author);
@@ -44,11 +47,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @PreAuthorize("(principal.username == this.findPostById(#postId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
     public Post updatePost(Long postId, Post data) {
         return postJpaRepo.update(postId, data);
     }
 
     @Override
+    @PreAuthorize("(principal.username == this.findPostById(#postId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
     public Post deletePost(Long postId) {
         return postJpaRepo.delete(postId);
     }

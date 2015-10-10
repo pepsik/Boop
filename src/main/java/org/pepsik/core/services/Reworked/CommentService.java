@@ -11,6 +11,8 @@ public interface CommentService {
 
     CommentList findAllCommentsByPost(Long postId);
 
+    Comment findCommentById(Long id);
+
     Comment updateComment(Long commentId, Comment data);
 
     Comment deleteComment(Long commentId);

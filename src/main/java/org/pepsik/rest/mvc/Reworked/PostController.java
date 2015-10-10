@@ -31,11 +31,8 @@ public class PostController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<PostResource> createPost(@RequestBody PostResource sentPost) {
-//        String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        UserDetails details = (UserDetails)principal;
-//        String loggedInUsername = details.getUsername();
-        Post createdPost = postService.createPost("username3", sentPost.toPost());
+        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
+        Post createdPost = postService.createPost(loggedIn, sentPost.toPost());
         PostResource res = new PostResourceAsm().toResource(createdPost);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
@@ -67,6 +64,7 @@ public class PostController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
 
     @RequestMapping(value = "/{postId}", method = RequestMethod.DELETE)

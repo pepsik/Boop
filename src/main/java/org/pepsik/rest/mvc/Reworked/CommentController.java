@@ -10,6 +10,7 @@ import org.pepsik.rest.utilities.CommentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,8 @@ public class CommentController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<CommentResource> createComment(@PathVariable Long postId, @RequestBody CommentResource sentComment) {
-        Comment createdComment = commentService.createComment(postId, "username3", sentComment.toComment());
+        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
+        Comment createdComment = commentService.createComment(postId, loggedIn, sentComment.toComment());
         CommentResource res = new CommentResourceAsm().toResource(createdComment);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }

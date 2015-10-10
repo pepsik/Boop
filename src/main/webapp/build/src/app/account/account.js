@@ -37,7 +37,7 @@ angular.module('ngBoilerplate.account', ['ui.router'])
                 }
             });
     })
-    .factory('sessionService', function ($http, $state) {
+    .factory('sessionService', function ($http, $rootScope, $state) {
         var session = {};
         session.login = function (data) {
             return $http.post("/login", "username=" + data.username +
@@ -54,6 +54,8 @@ angular.module('ngBoilerplate.account', ['ui.router'])
             });
         };
         session.logout = function () {
+            $rootScope.loggedUser = null;
+            $http.post("/logout");
             localStorage.removeItem("session");
         };
         session.isLoggedIn = function () {
