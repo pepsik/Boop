@@ -59,6 +59,14 @@ angular.module('ngBoilerplate.account', ['ui.router'])
         session.isLoggedIn = function () {
             return localStorage.getItem("session") !== null;
         };
+        session.isAuthenticated = function () {
+            $http.get("/rest/accounts/1").then(
+                function () {/*success*/
+                },
+                function () {
+                    localStorage.removeItem("session");
+                });
+        };
         return session;
     })
 

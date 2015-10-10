@@ -2,17 +2,26 @@ package org.pepsik.mvc;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.pepsik.Application;
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Post;
 import org.pepsik.core.services.Reworked.PostService;
 import org.pepsik.rest.mvc.Reworked.PostController;
 import org.pepsik.rest.utilities.PostList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -27,7 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by pepsik on 9/30/2015.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = Application.class)
+@WebAppConfiguration
 public class PostControllerTest {
+
+    @Autowired
+    private WebApplicationContext context;
+
     @InjectMocks
     private PostController postController;
     @Mock
@@ -39,7 +55,11 @@ public class PostControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
+//        mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
     }
 
     @Test

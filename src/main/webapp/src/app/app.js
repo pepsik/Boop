@@ -21,6 +21,7 @@ angular.module('ngBoilerplate', [
     })
 
     .controller('AppCtrl', function AppCtrl($rootScope, $scope, $location, sessionService) {
+        sessionService.isAuthenticated();
         $rootScope.isLoggedIn = sessionService.isLoggedIn;
         $rootScope.logout = sessionService.logout;
 
