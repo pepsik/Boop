@@ -1,7 +1,7 @@
 package org.pepsik.core.services.Reworked.Impl;
 
 import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.repositories.jpa.AccountJpaRepo;
+import org.pepsik.core.repositories.AccountRepo;
 import org.pepsik.core.services.Reworked.AccountService;
 import org.pepsik.core.services.exceptions.AccountExistsException;
 import org.pepsik.rest.utilities.AccountList;
@@ -17,39 +17,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    private AccountJpaRepo accountJpaRepo;
+    private AccountRepo accountRepo;
 
     @Override
     public Account createAccount(Account data) {
-        Account account = accountJpaRepo.findByUsername(data.getUsername());
+        Account account = accountRepo.findByUsername(data.getUsername());
         if (account != null){
             throw new AccountExistsException();
         }
-        return accountJpaRepo.create(data);
+        return accountRepo.create(data);
     }
 
     @Override
     public Account findAccountById(Long id) {
-        return accountJpaRepo.findById(id);
+        return accountRepo.findById(id);
     }
 
     @Override
     public Account findAccountByUsername(String username) {
-        return accountJpaRepo.findByUsername(username);
+        return accountRepo.findByUsername(username);
     }
 
     @Override
     public AccountList findAllAccounts() {
-        return new AccountList(accountJpaRepo.findAll());
+        return new AccountList(accountRepo.findAll());
     }
 
     @Override
     public void updateAccount(Account data) {
-        accountJpaRepo.update(data);
+        accountRepo.update(data);
     }
 
     @Override
     public void deleteAccount(Account data) {
-        accountJpaRepo.delete(data);
+        accountRepo.delete(data);
     }
 }

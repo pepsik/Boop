@@ -2,8 +2,13 @@ package org.pepsik.core.repositories.jpa;
 
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.repositories.CommentRepo;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -13,69 +18,46 @@ import static java.util.Arrays.asList;
  * Created by pepsik on 9/29/2015.
  */
 @Repository
-public class CommentJpaRepo {
-    private Map<Long, Comment> commentsById = new HashMap<>();
-    private Map<Long, List<Comment>> commentsByPost = new HashMap<>();
-    private Long idCounter;
+public class CommentJpaRepo implements CommentRepo {
+    @PersistenceContext
+    private EntityManager em;
 
-    public CommentJpaRepo() {
-        Account account1 = new Account(1L, "username1", "$2a$10$CChiQYJx3Y11lgzXt9mBx.adLHFrJh0W9jbPqs4IJOfNRcTKgEMF.");
-        Account account2 = new Account(2L, "username2", "password");
-        Account account3 = new Account(3L, "username3", "$2a$10$CChiQYJx3Y11lgzXt9mBx.adLHFrJh0W9jbPqs4IJOfNRcTKgEMF.");
-        Account account4 = new Account(4L, "username4", "$2a$10$CChiQYJx3Y11lgzXt9mBx.adLHFrJh0W9jbPqs4IJOfNRcTKgEMF.");
-
-        Comment commentA = new Comment(1L, "comment1", account1, 1L, LocalDateTime.now());
-        Comment commentB = new Comment(2L, "comment2", account2, 1L, LocalDateTime.now());
-        Comment commentC = new Comment(3L, "comment3", account3, 1L, LocalDateTime.now());
-        Comment commentD = new Comment(4L, "comment4", account4, 2L, LocalDateTime.now());
-
-        commentsById.put(1L, commentA);
-        commentsById.put(2L, commentB);
-        commentsById.put(3L, commentC);
-        commentsById.put(4L, commentD);
-
-        commentsByPost.put(1L, new ArrayList<>(asList(commentA, commentB, commentC)));
-        commentsByPost.put(2L, new ArrayList<>(asList(commentD)));
-
-        idCounter = (long) commentsById.size();
-    }
-
-    public Comment create(Long postId, Comment data) { //in serviceComment checkout if post exist
-        data.setId(++idCounter);
+    @Override
+    public Comment create(Long postId, Comment data) {
+        Post post = em.find(Post.class, postId);
+        data.setPost(post);
         data.setWhen(LocalDateTime.now());
-        List<Comment> comments = commentsByPost.get(postId);
-        if (comments != null) {
-            comments.add(data);
-        } else {
-            comments = new ArrayList<>(asList(data));
-            commentsByPost.put(postId, comments);
-        }
-        commentsById.put(data.getId(), data);
-        data.setPost(postId);
+        em.persist(data);
         return data;
     }
 
+    @Override
     public Comment findById(Long id) {
-        return commentsById.get(id);
+        return em.find(Comment.class, id);
     }
 
+    @Override
     public List<Comment> findCommentsByPost(Long id) {
-        List<Comment> list = commentsByPost.get(id);
-        if (list == null)
-            return new ArrayList<>();
-        return list;
+        Post post = em.find(Post.class, id);
+        if (post != null) {
+            return em.createQuery("SELECT c FROM Comment c where c.post = :post order by c.when asc")
+                    .setParameter("post", post).getResultList();
+        } else {
+            return null;
+        }
     }
 
+    @Override
     public Comment update(Long id, Comment data) {
-        Comment comment = commentsById.get(id);
+        Comment comment = em.find(Comment.class, id);
         comment.setText(data.getText());
         return comment;
     }
 
+    @Override
     public Comment delete(Long id) {
-        Comment comment = commentsById.get(id);
-        commentsById.remove(id);
-        commentsByPost.get(comment.getPost()).remove(comment);
+        Comment comment = em.find(Comment.class, id);
+        em.remove(comment);
         return comment;
     }
 }

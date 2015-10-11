@@ -26,7 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-@ImportResource(value = {"classpath:spring/business-config.xml"})
+//@ImportResource(value = {"classpath:spring/business-config.xml"})
 @ComponentScan(basePackages = {"org.pepsik"},
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserSettingsController.class)})
 @EnableAutoConfiguration

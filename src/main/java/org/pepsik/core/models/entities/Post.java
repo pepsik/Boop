@@ -12,13 +12,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-@SqlResultSetMapping(name = "PostLabelResult", classes = {
-        @ConstructorResult(targetClass = PostLabel.class,
-                columns = {@ColumnResult(name = "post_id", type = long.class), @ColumnResult(name = "title", type = String.class)})
-})
-@Entity
-@Table(name = "posts")
-@PrimaryKeyJoinColumn(name = "post_id")
+//@SqlResultSetMapping(name = "PostLabelResult", classes = {
+//        @ConstructorResult(targetClass = PostLabel.class,
+//                columns = {@ColumnResult(name = "post_id", type = long.class), @ColumnResult(name = "title", type = String.class)})
+//})
+//@Entity
+//@Table(name = "posts")
+//@PrimaryKeyJoinColumn(name = "post_id")
 public class Post extends MessageEntity implements Serializable {
 
     @NotNull

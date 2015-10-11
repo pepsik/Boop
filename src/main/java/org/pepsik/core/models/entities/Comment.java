@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "comments")
-@PrimaryKeyJoinColumn(name = "comment_id")
+//@Entity
+//@Table(name = "comments")
+//@PrimaryKeyJoinColumn(name = "comment_id")
 public class Comment extends MessageEntity implements Serializable {
 
     @JsonIgnore

@@ -1,15 +1,25 @@
 package org.pepsik.core.models.entities.Reworked;
 
+import org.pepsik.core.services.converters.LocalDateTimePersistenceConverter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * Created by pepsik on 9/29/2015.
  */
+@Entity
 public class Post {
+    @Id @GeneratedValue
+    @Column(name = "post_id")
     private Long id;
     private String title;
     private String text;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "account_id")
     private Account owner;
+    @Column(name = "`when`")
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime when;
 
     public Post() {

@@ -1,11 +1,22 @@
 package org.pepsik.core.models.entities.Reworked;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by pepsik on 9/29/2015.
  */
+@Entity
 public class Account {
+    @Id
+    @Column(name = "account_id")
+    @GeneratedValue
     private Long id;
+    @Column
     private String username;
+    @Column
     private String password;
 
     public Account() {

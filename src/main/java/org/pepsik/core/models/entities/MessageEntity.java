@@ -8,9 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "messages")
+//@Entity
+//@Inheritance(strategy = InheritanceType.JOINED)
+//@Table(name = "messages")
 public abstract class MessageEntity  {
 
     @Id

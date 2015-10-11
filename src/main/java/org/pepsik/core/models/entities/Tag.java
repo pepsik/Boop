@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Created by pepsik on 5/16/15.
  */
-@Entity
-@Table(name = "tags")
+//@Entity
+//@Table(name = "tags")
 public class Tag {
 
     @Id

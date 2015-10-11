@@ -12,8 +12,8 @@ import javax.validation.constraints.Size;
  * Created by pepsik on 6/2/15.
  */
 
-@Entity
-@Table(name = "private_messages")
+//@Entity
+//@Table(name = "private_messages")
 public class PrivateMessage {
 
     @Id

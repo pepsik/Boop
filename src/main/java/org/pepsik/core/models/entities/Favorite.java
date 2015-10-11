@@ -9,8 +9,8 @@ import javax.persistence.*;
 /**
  * Created by pepsik on 5/27/15.
  */
-@Entity
-@Table(name = "favorites")
+//@Entity
+//@Table(name = "favorites")
 public class Favorite {
 
     @Id

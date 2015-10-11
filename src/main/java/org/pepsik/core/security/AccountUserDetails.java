@@ -20,7 +20,7 @@ public class AccountUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority = () -> "USER";
+        GrantedAuthority authority = () -> "ROLE_USER";
 
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(authority);

@@ -8,8 +8,8 @@ import javax.validation.constraints.Size;
  * Created by pepsik on 5/23/15.
  */
 
-@Entity
-@Table(name = "passwords")
+//@Entity
+//@Table(name = "passwords")
 public class Password {
 
     public Password() {

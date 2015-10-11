@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PostListResource> getAllPosts() { //temp endpoint
+    public ResponseEntity<PostListResource> getAllPosts() {
         PostList postList = postService.findAllPosts();
         PostListResource res = new PostListResourceAsm().toResource(postList);
         return new ResponseEntity<>(res, HttpStatus.OK);

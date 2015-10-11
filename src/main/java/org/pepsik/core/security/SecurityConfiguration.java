@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -80,8 +80,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/vendor/**", "/assets/*", "/src/**", "/fonts/**").permitAll()
                 .antMatchers("/*", "/").permitAll()
-                .antMatchers(HttpMethod.GET, "/rest/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/rest/accounts").permitAll()
+                .antMatchers("/rest/accounts").permitAll()
+                .antMatchers(HttpMethod.GET, "/rest/posts/**").permitAll()
                 .antMatchers("/**").authenticated();
     }
 }

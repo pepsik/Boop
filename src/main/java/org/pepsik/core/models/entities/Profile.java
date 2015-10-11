@@ -9,8 +9,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "profiles")
+//@Entity
+//@Table(name = "profiles")
 public class Profile {
 
     @Id

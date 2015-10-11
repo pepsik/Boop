@@ -1,27 +1,28 @@
 package org.pepsik.core.models.entities.Reworked;
 
+import org.pepsik.core.services.converters.LocalDateTimePersistenceConverter;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * Created by pepsik on 9/29/2015.
  */
+@Entity
 public class Comment {
+    @Id @GeneratedValue
+    @Column(name = "comment_id")
     private Long id;
     private String text;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "account_id")
     private Account owner;
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+    @Column(name = "`when`")
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime when;
-
-    public Comment() {
-    }
-
-    public Comment(Long id, String text, Account owner, Long postId, LocalDateTime when) { //temp
-        this.id = id;
-        this.text = text;
-        this.owner = owner;
-        this.postId = postId;
-        this.when = when;
-    }
 
     public Long getId() {
         return id;
@@ -47,12 +48,12 @@ public class Comment {
         this.owner = owner;
     }
 
-    public Long getPost() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPost(Long postId) {
-        this.postId = postId;
+    public void setPost(Post postId) {
+        this.post = postId;
     }
 
     public LocalDateTime getWhen() {

@@ -2,8 +2,8 @@ package org.pepsik.core.models.entities;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Settings")
+//@Entity
+//@Table(name = "Settings")
 public class Settings {
 
     @Id

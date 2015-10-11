@@ -420,7 +420,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "        <div class=\"post_body\">\n" +
     "            <div class=\"row\">\n" +
     "                <div class=\"col-md-5\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"isEditing()\" maxlength=\"60\"\n" +
+    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"canEdit()\" maxlength=\"60\"\n" +
     "                           placeholder=\"Title here ...\"/>\n" +
     "                </div>\n" +
     "            </div>\n" +
