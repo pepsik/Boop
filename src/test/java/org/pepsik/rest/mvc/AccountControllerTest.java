@@ -1,4 +1,4 @@
-package org.pepsik.mvc;
+package org.pepsik.rest.mvc;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,7 +6,7 @@ import org.mockito.*;
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.services.Reworked.AccountService;
 import org.pepsik.core.services.exceptions.AccountExistsException;
-import org.pepsik.rest.mvc.Reworked.AccountController;
+import org.pepsik.rest.mvc.reworked.AccountController;
 import org.pepsik.rest.utilities.AccountList;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

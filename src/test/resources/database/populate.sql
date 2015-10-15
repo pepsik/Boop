@@ -1,0 +1,3 @@
+INSERT INTO account VALUES (1,'username1','$2a$10$mVKCQ4Y9/asZM0QbbZOUUeamfA/sdg6h9l44TBz5n7mK0tje28FI.'),(2,'username2','$2a$10$G52uld.J0hMiq2l4p/4Lgem3oadOSefEKsxz9b4BvtNNbLcB3kVWm');
+INSERT INTO post VALUES (1,'postTitleA','postTextA','2014-03-19 20:10:34.920759',1),(2,'postTitleB','postTitleB','2015-02-19 20:10:34.920759',1),(3,'postTitleC','postTitleC','2015-06-19 20:10:34.920759',1);
+INSERT INTO comment VALUES (6,'commentTextA',2,2,'2014-03-19 20:10:34.920759'),(7,'commentTextB',1,1,'2014-03-19 20:10:34.920759'),(8,'commentTextC',1,1,'2014-03-19 20:10:34.920759');

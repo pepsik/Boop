@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.rest.mvc.Reworked.CommentController;
+import org.pepsik.rest.mvc.reworked.CommentController;
 import org.pepsik.rest.resources.CommentListResource;
 import org.pepsik.rest.resources.CommentResource;
 import org.pepsik.rest.utilities.CommentList;

@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.rest.mvc.Reworked.AccountController;
+import org.pepsik.rest.mvc.reworked.AccountController;
 import org.pepsik.rest.resources.AccountListResource;
 import org.pepsik.rest.resources.AccountResource;
 import org.pepsik.rest.utilities.AccountList;

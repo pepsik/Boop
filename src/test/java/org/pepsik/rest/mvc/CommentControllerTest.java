@@ -1,23 +1,20 @@
-package org.pepsik.mvc;
+package org.pepsik.rest.mvc;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Comment;
 import org.pepsik.core.services.Reworked.CommentService;
-import org.pepsik.rest.mvc.Reworked.CommentController;
+import org.pepsik.rest.mvc.reworked.CommentController;
 import org.pepsik.rest.utilities.CommentList;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.regex.Matcher;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;

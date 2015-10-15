@@ -1,18 +1,12 @@
 package org.pepsik.core.repositories.jpa;
 
-import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Post;
 import org.pepsik.core.repositories.PostRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

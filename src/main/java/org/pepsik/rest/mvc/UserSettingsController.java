@@ -43,8 +43,8 @@ import java.util.Map;
  * Responsible for
  */
 
-@Controller
-@RequestMapping("/settings")
+//@Controller
+//@RequestMapping("/settings")
 //TODO: Session attr lifecycle
 public class UserSettingsController {
 

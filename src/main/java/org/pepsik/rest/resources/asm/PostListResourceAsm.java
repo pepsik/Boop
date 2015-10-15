@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.rest.mvc.Reworked.PostController;
+import org.pepsik.rest.mvc.reworked.PostController;
 import org.pepsik.rest.resources.PostListResource;
 import org.pepsik.rest.resources.PostResource;
 import org.pepsik.rest.utilities.PostList;

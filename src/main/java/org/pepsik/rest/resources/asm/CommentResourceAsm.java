@@ -1,13 +1,11 @@
 package org.pepsik.rest.resources.asm;
 
 import org.pepsik.core.models.entities.Reworked.Comment;
-import org.pepsik.rest.mvc.Reworked.CommentController;
-import org.pepsik.rest.mvc.Reworked.PostController;
+import org.pepsik.rest.mvc.reworked.CommentController;
 import org.pepsik.rest.resources.CommentResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * Created by pepsik on 10/3/2015.

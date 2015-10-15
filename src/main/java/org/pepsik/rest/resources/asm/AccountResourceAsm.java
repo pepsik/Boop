@@ -1,7 +1,7 @@
 package org.pepsik.rest.resources.asm;
 
 import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.rest.mvc.Reworked.AccountController;
+import org.pepsik.rest.mvc.reworked.AccountController;
 import org.pepsik.rest.resources.AccountResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
