@@ -44,7 +44,6 @@ public class CommentControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
     }
 
-    @Ignore
     @Test
     public void createComment() throws Exception {
         Comment commentA = new Comment();
@@ -53,7 +52,7 @@ public class CommentControllerTest {
         commentA.setOwner(new Account(1L, "user", "pass"));
         commentA.setWhen(LocalDateTime.now());
 
-        when(service.createComment(any(Long.class), any(String.class), any(Comment.class)))
+        when(service.createComment(any(Long.class),any(Comment.class)))
                 .thenReturn(commentA);
 
         mockMvc.perform(post("/rest/posts/2/comments").with(user("user"))
@@ -108,7 +107,7 @@ public class CommentControllerTest {
         commentB.setOwner(new Account(1L, "userB", "pass"));
         commentB.setWhen(LocalDateTime.now());
 
-        when(service.updateComment(any(Long.class), any(Comment.class))).thenReturn(commentB);
+        when(service.updateComment(any(Long.class), any(Long.class), any(Comment.class))).thenReturn(commentB);
 
         mockMvc.perform(put("/rest/posts/1/comments/1")
                 .content("{\"text\":\"test\"}")
@@ -122,7 +121,7 @@ public class CommentControllerTest {
 
     @Test
     public void updateNonExistingComment() throws Exception {
-        when(service.updateComment(any(Long.class), any(Comment.class))).thenReturn(null);
+        when(service.updateComment(any(Long.class), any(Long.class), any(Comment.class))).thenReturn(null);
 
         mockMvc.perform(put("/rest/posts/1/comments/1")
                 .content("{\"text\":\"test\"}")
@@ -138,7 +137,7 @@ public class CommentControllerTest {
         commentB.setOwner(new Account(1L, "userB", "pass"));
         commentB.setWhen(LocalDateTime.now());
 
-        when(service.deleteComment(any(Long.class))).thenReturn(commentB);
+        when(service.deleteComment(any(Long.class), any(Long.class))).thenReturn(commentB);
 
         mockMvc.perform(delete("/rest/posts/1/comments/1")
                 .content("{\"text\":\"test\"}")
@@ -152,7 +151,7 @@ public class CommentControllerTest {
 
     @Test
     public void deleteNonExistingComment() throws Exception {
-        when(service.deleteComment(any(Long.class))).thenReturn(null);
+        when(service.deleteComment(any(Long.class), any(Long.class))).thenReturn(null);
 
         mockMvc.perform(delete("/rest/posts/1/comments/1")
                 .content("{\"text\":\"test\"}")

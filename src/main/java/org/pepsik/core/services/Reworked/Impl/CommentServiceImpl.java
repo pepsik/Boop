@@ -4,10 +4,12 @@ import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Comment;
 import org.pepsik.core.repositories.jpa.AccountJpaRepo;
 import org.pepsik.core.repositories.jpa.CommentJpaRepo;
+import org.pepsik.core.repositories.jpa.PostJpaRepo;
 import org.pepsik.core.services.Reworked.CommentService;
 import org.pepsik.rest.utilities.CommentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Comment createComment(Long postId, String loggedIn, Comment data) {
+    public Comment createComment(Long postId, Comment data) {
+        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
         Account author = accountJpaRepo.findByUsername(loggedIn);
         data.setOwner(author);
         return commentJpaRepo.create(postId, data);
@@ -43,14 +46,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize("(principal.username == this.findCommentById(#commentId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
-    public Comment updateComment(Long commentId, Comment data) {
-        return commentJpaRepo.update(commentId, data);
+    @PreAuthorize("hasRole('ROLE_USER') and @securityService.canUpdateComment(#commentId)")
+    public Comment updateComment(Long commentId, Long postId, Comment data) {
+        return commentJpaRepo.update(commentId, postId, data);
     }
 
     @Override
-    @PreAuthorize("(principal.username == this.findCommentById(#commentId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
-    public Comment deleteComment(Long commentId) {
-        return commentJpaRepo.delete(commentId);
+    @PreAuthorize("hasRole('ROLE_USER') and @securityService.canDeleteComment(#commentId)")
+    public Comment deleteComment(Long commentId, Long postId) {
+        return commentJpaRepo.delete(commentId, postId);
     }
 }

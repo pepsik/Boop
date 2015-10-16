@@ -47,7 +47,6 @@ public class PostControllerModuleTest {
     }
 
     @Test
-    @Ignore
     public void createPost() throws Exception {
         Account account = new Account(1L, "username", "password");
         Post post = new Post();
@@ -57,7 +56,7 @@ public class PostControllerModuleTest {
         post.setOwner(account);
         post.setWhen(LocalDateTime.now());
 
-        when(service.createPost(any(String.class), any(Post.class))).thenReturn(post);
+        when(service.createPost(any(Post.class))).thenReturn(post);
 
         mockMvc.perform(post("/rest/posts").with(user(new AccountUserDetails(account)))
                 .content("{\"title\":\"testT\",\"text\":\"testT\"}")

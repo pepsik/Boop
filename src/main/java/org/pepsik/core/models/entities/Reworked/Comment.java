@@ -20,7 +20,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
-    @Column(name = "`when`")
+    @Column(name = "date")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime when;
 

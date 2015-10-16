@@ -14,7 +14,7 @@ public interface CommentRepo {
 
     List<Comment> findCommentsByPost(Long id);
 
-    Comment update(Long id, Comment data);
+    Comment update(Long commentId, Long postId, Comment data);
 
-    Comment delete(Long id);
+    Comment delete(Long commentId, Long postId);
 }

@@ -1,6 +1,7 @@
 package org.pepsik.rest.mvc;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -127,6 +128,16 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
+    public void updateExistingPostWhenLoggedInButNotAuthor() throws Exception {
+        Account account = accountService.findAccountById(2L);
+
+        mockMvc.perform(put("/rest/posts/1").with(user(new AccountUserDetails(account)))
+                .content("{\"title\":\"titleUpdated\",\"text\":\"textUpdated\"}")
+                .contentType("application/json"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void updateNonExistingPostWhenLoggedIn() throws Exception {
         Account account = accountService.findAccountById(1L);
 
@@ -137,7 +148,7 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
-    public void updateExistingPostWhenNonLoggedIn() throws Exception {
+    public void updateExistingPostWhenNotLoggedIn() throws Exception {
         mockMvc.perform(put("/rest/posts/1")
                 .content("{\"title\":\"testT\",\"text\":\"testT\"}")
                 .contentType("application/json"))
@@ -145,7 +156,7 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
-    public void updateNonExistingPostWhenNonLoggedIn() throws Exception {
+    public void updateNonExistingPostWhenNotLoggedIn() throws Exception {
         mockMvc.perform(put("/rest/posts/1124")
                 .content("{\"title\":\"testT\",\"text\":\"testT\"}")
                 .contentType("application/json"))
@@ -153,6 +164,7 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
+    @Ignore //required Cascade delete option
     public void deleteExistingPostWhenLoggedIn() throws Exception {
         Account account = accountService.findAccountById(1L);
 
@@ -166,7 +178,15 @@ public class PostControllerIntegrationTest {
     }
 
     @Test
-    public void deleteExistingPostWhenNonLoggedIn() throws Exception {
+    public void deleteExistingPostWhenLoggedInButNotAuthor() throws Exception {
+        Account account = accountService.findAccountById(2L);
+
+        mockMvc.perform(delete("/rest/posts/1").with(user(new AccountUserDetails(account))))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void deleteExistingPostWhenNotLoggedIn() throws Exception {
         mockMvc.perform(delete("/rest/posts/1"))
                 .andExpect(status().isUnauthorized());
     }

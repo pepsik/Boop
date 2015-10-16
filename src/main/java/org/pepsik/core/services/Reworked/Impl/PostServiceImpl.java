@@ -8,6 +8,7 @@ import org.pepsik.core.services.Reworked.PostService;
 import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    public Post createPost(String loggedIn, Post data) {
+    public Post createPost(Post data) {
+        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
         Account author = accountJpaRepo.findByUsername(loggedIn);
         data.setOwner(author);
         data.setWhen(LocalDateTime.now());
@@ -46,13 +48,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @PreAuthorize("(principal.username == this.findPostById(#postId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') and @securityService.canUpdatePost(#postId)")
     public Post updatePost(Long postId, Post data) {
         return postRepo.update(postId, data);
     }
 
     @Override
-    @PreAuthorize("(principal.username == this.findPostById(#postId).getOwner().getUsername()) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') and @securityService.canDeletePost(#postId)")
     public Post deletePost(Long postId) {
         return postRepo.delete(postId);
     }

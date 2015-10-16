@@ -37,15 +37,19 @@ public class PostJpaRepo implements PostRepo {
     @Override
     public Post update(Long id, Post data) {
         Post post = em.find(Post.class, id);
-        post.setText(data.getText());
-        post.setTitle(data.getTitle());
+        if (post != null) {
+            post.setText(data.getText());
+            post.setTitle(data.getTitle());
+        }
         return post;
     }
 
     @Override
     public Post delete(Long id) {
         Post post = em.find(Post.class, id);
-        em.remove(post);
+        if (post != null) {
+            em.remove(post);
+        }
         return post;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by pepsik on 9/30/2015.
  */
 public interface PostService {
-    Post createPost(String author, Post data);
+    Post createPost(Post data);
 
     Post findPostById(Long id);
 

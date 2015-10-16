@@ -25,10 +25,14 @@ public class CommentJpaRepo implements CommentRepo {
     @Override
     public Comment create(Long postId, Comment data) {
         Post post = em.find(Post.class, postId);
-        data.setPost(post);
-        data.setWhen(LocalDateTime.now());
-        em.persist(data);
-        return data;
+        if (post != null) {
+            data.setPost(post);
+            data.setWhen(LocalDateTime.now());
+            em.persist(data);
+            return data;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -48,16 +52,28 @@ public class CommentJpaRepo implements CommentRepo {
     }
 
     @Override
-    public Comment update(Long id, Comment data) {
-        Comment comment = em.find(Comment.class, id);
-        comment.setText(data.getText());
+    public Comment update(Long commentId, Long postId, Comment data) {
+        Comment comment = em.find(Comment.class, commentId);
+        if (comment != null) {
+            if (comment.getPost().getId() == postId) {
+                comment.setText(data.getText());
+            } else {
+                return null;
+            }
+        }
         return comment;
     }
 
     @Override
-    public Comment delete(Long id) {
-        Comment comment = em.find(Comment.class, id);
-        em.remove(comment);
+    public Comment delete(Long commentId, Long postId) {
+        Comment comment = em.find(Comment.class, commentId);
+        if (comment != null) {
+            if (comment.getPost().getId() == postId) {
+                em.remove(comment);
+            } else {
+                return null;
+            }
+        }
         return comment;
     }
 }
