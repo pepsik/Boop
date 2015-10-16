@@ -32,10 +32,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles(profiles = "production")
+@ActiveProfiles(profiles = "development")
 @ContextConfiguration(classes = Application.class)
 @WebAppConfiguration
-@Sql(scripts = {"/database/init.sql", "/database/populate.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = {"/database/populate.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/database/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class PostControllerIntegrationTest {
 
@@ -87,8 +87,8 @@ public class PostControllerIntegrationTest {
     public void getExistingPostById() throws Exception {
         mockMvc.perform(get("/rest/posts/1"))
                 .andExpect(jsonPath("$.rid", is(1)))
-                .andExpect(jsonPath("$.title", is("testTitleA")))
-                .andExpect(jsonPath("$.text", is("testTextA")))
+                .andExpect(jsonPath("$.title", is("Title1")))
+                .andExpect(jsonPath("$.text", is("Post1")))
                 .andExpect(jsonPath("$.author", is("username1")))
                 .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isOk());
@@ -104,8 +104,8 @@ public class PostControllerIntegrationTest {
     public void getAllPosts() throws Exception {
         mockMvc.perform(get("/rest/posts"))
                 .andExpect(jsonPath("$.posts[*].rid", hasItems(is(1), is(2))))
-                .andExpect(jsonPath("$.posts[*].title", hasItems(is("testTitleA"), is("testTitleB"))))
-                .andExpect(jsonPath("$.posts[*].text", hasItems(is("testTextA"), is("testTextB"))))
+                .andExpect(jsonPath("$.posts[*].title", hasItems(is("Title1"), is("Title2"), is("Title3"))))
+                .andExpect(jsonPath("$.posts[*].text", hasItems(is("Post1"), is("Post2"), is("Post3"))))
                 .andExpect(jsonPath("$.posts[*].author", hasItems(is("username1"), is("username2"))))
                 .andExpect(jsonPath("$.posts[*].when", notNullValue()))
                 .andExpect(status().isOk());
@@ -121,46 +121,67 @@ public class PostControllerIntegrationTest {
                 .andExpect(jsonPath("$.rid", is(1)))
                 .andExpect(jsonPath("$.title", is("titleUpdated")))
                 .andExpect(jsonPath("$.text", is("textUpdated")))
-                .andExpect(jsonPath("$.author", is("username")))
+                .andExpect(jsonPath("$.author", is("username1")))
                 .andExpect(jsonPath("$.when", notNullValue()))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void updateNonExistingPost() throws Exception {
-//        when(service.updatePost(any(Long.class), any(Post.class))).thenReturn(null);
-//
-//        mockMvc.perform(put("/rest/posts/1")
-//                .content("{\"title\":\"testT\",\"text\":\"testT\"}")
-//                .contentType("application/json"))
-//                .andExpect(status().isNotFound());
+    public void updateNonExistingPostWhenLoggedIn() throws Exception {
+        Account account = accountService.findAccountById(1L);
+
+        mockMvc.perform(put("/rest/posts/1124").with(user(new AccountUserDetails(account)))
+                .content("{\"title\":\"titleUpdated\",\"text\":\"textUpdated\"}")
+                .contentType("application/json"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    public void deleteExistingPost() throws Exception {
-//        Post postA = new Post();
-//        postA.setId(1L);
-//        postA.setTitle("postTitleA");
-//        postA.setText("postTextA");
-//        postA.setOwner(new Account(1L, "username", "password"));
-//        postA.setWhen(LocalDateTime.now());
-//
-//        when(service.deletePost(any(Long.class))).thenReturn(postA);
-//
-//        mockMvc.perform(delete("/rest/posts/1"))
-//                .andExpect(jsonPath("$.rid", is(1)))
-//                .andExpect(jsonPath("$.title", is("postTitleA")))
-//                .andExpect(jsonPath("$.text", is("postTextA")))
-//                .andExpect(jsonPath("$.author", is("username")))
-//                .andExpect(jsonPath("$.when", notNullValue()))
-//                .andExpect(status().isOk());
+    public void updateExistingPostWhenNonLoggedIn() throws Exception {
+        mockMvc.perform(put("/rest/posts/1")
+                .content("{\"title\":\"testT\",\"text\":\"testT\"}")
+                .contentType("application/json"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void deleteNonExistingPost() throws Exception {
-//        when(service.deletePost(any(Long.class))).thenReturn(null);
-//
-//        mockMvc.perform(delete("/rest/posts/1"))
-//                .andExpect(status().isNotFound());
+    public void updateNonExistingPostWhenNonLoggedIn() throws Exception {
+        mockMvc.perform(put("/rest/posts/1124")
+                .content("{\"title\":\"testT\",\"text\":\"testT\"}")
+                .contentType("application/json"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void deleteExistingPostWhenLoggedIn() throws Exception {
+        Account account = accountService.findAccountById(1L);
+
+        mockMvc.perform(delete("/rest/posts/1").with(user(new AccountUserDetails(account))))
+                .andExpect(jsonPath("$.rid", is(1)))
+                .andExpect(jsonPath("$.title", is("Title1")))
+                .andExpect(jsonPath("$.text", is("Post1")))
+                .andExpect(jsonPath("$.author", is("username1")))
+                .andExpect(jsonPath("$.when", notNullValue()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteExistingPostWhenNonLoggedIn() throws Exception {
+        mockMvc.perform(delete("/rest/posts/1"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void deleteNonExistingPostWhenLoggedIn() throws Exception {
+        Account account = accountService.findAccountById(1L);
+
+        mockMvc.perform(delete("/rest/posts/1124").with(user(new AccountUserDetails(account))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteNonExistingPostWhenNonLoggedIn() throws Exception {
+        mockMvc.perform(delete("/rest/posts/1124"))
+                .andExpect(status().isUnauthorized());
     }
 }

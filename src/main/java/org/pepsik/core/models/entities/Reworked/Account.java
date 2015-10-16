@@ -14,9 +14,9 @@ public class Account {
     @Column(name = "account_id")
     @GeneratedValue
     private Long id;
-    @Column
+    @Column(name = "username")
     private String username;
-    @Column
+    @Column(name = "password")
     private String password;
 
     public Account() {
@@ -50,5 +50,14 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -18,7 +18,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "account_id")
     private Account owner;
-    @Column(name = "`when`")
+    @Column(name = "date")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime when;
 

@@ -12,6 +12,7 @@ import org.pepsik.core.security.AccountUserDetails;
 import org.pepsik.core.services.Reworked.PostService;
 import org.pepsik.rest.mvc.reworked.PostController;
 import org.pepsik.rest.utilities.PostList;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
