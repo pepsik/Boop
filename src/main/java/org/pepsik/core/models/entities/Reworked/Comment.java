@@ -63,4 +63,14 @@ public class Comment {
     public void setWhen(LocalDateTime when) {
         this.when = when;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", owner=" + owner +
+                ", when=" + when +
+                '}';
+    }
 }

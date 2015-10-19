@@ -72,4 +72,15 @@ public class Post {
     public void setWhen(LocalDateTime when) {
         this.when = when;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", owner=" + owner +
+                ", when=" + when +
+                '}';
+    }
 }

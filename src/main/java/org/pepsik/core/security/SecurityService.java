@@ -1,5 +1,6 @@
 package org.pepsik.core.security;
 
+import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Comment;
 import org.pepsik.core.models.entities.Reworked.Post;
 import org.pepsik.core.services.Reworked.CommentService;
@@ -44,5 +45,14 @@ public class SecurityService {
 
     public boolean canDeleteComment(Long commentId) {
         return canUpdateComment(commentId);
+    }
+
+    public boolean canUpdateProfile(Long id) {
+        Account loggedIn = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return id.equals(loggedIn.getId());
+    }
+
+    public boolean canDeleteProfile(Long id) {
+        return canUpdateProfile(id);
     }
 }
