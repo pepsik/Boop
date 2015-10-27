@@ -3,8 +3,8 @@ package org.pepsik.core.services;
 import org.apache.commons.collections.ListUtils;
 import org.joda.time.DateTime;
 import org.pepsik.core.models.entities.*;
-import org.pepsik.core.models.entities.support.PostComparator;
-import org.pepsik.core.models.entities.support.PostLabel;
+import org.pepsik.core.models.entities.util.PostComparator;
+import org.pepsik.core.models.entities.util.PostLabel;
 import org.pepsik.core.persistence.*;
 import org.pepsik.rest.exceptions.*;
 import org.slf4j.Logger;
@@ -435,7 +435,7 @@ public class SmartServiceImpl implements SmartService {
             checkPostListForFavorites(tag.getPosts());
         for (Post post : tag.getPosts())
             post.getComments().size();
-        Collections.sort(tag.getPosts(), Collections.reverseOrder(new PostComparator()));
+//        Collections.sort(tag.getPosts(), Collections.reverseOrder(new PostComparator()));
         return tag;
     }
 

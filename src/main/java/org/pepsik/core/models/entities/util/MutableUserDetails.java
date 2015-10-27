@@ -1,4 +1,4 @@
-package org.pepsik.core.models.entities.support;
+package org.pepsik.core.models.entities.util;
 
 import org.pepsik.core.models.entities.User;
 import org.pepsik.rest.mvc.UserSettingsController;

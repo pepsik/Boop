@@ -1,4 +1,4 @@
-package org.pepsik.core.models.entities.support;
+package org.pepsik.core.models.entities.util;
 
 import org.pepsik.rest.mvc.SearchController;
 

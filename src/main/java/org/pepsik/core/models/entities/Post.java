@@ -2,7 +2,6 @@ package org.pepsik.core.models.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.pepsik.core.models.entities.support.PostLabel;
 
 import javax.persistence.*;
 import javax.validation.Valid;

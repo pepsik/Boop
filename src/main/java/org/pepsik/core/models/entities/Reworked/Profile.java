@@ -2,6 +2,7 @@ package org.pepsik.core.models.entities.Reworked;
 
 import org.pepsik.core.services.converters.LocalDatePersistenceConverter;
 
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,8 +13,8 @@ import java.time.LocalDate;
  */
 @Entity
 public class Profile {
-    @Id
-    private long account_id;
+    @Id @Column(name = "profile_id")
+    private Long id;
     private String email;
     private String firstname;
     private String lastname;
@@ -25,12 +26,12 @@ public class Profile {
     private String job;
     private String about;
 
-    public long getAccount_id() {
-        return account_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setAccount_id(long account_id) {
-        this.account_id = account_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -108,7 +109,7 @@ public class Profile {
     @Override
     public String toString() {
         return "Profile{" +
-                "account_id=" + account_id +
+                "id=" + id +
                 ", email='" + email + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +

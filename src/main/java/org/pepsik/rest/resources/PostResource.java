@@ -1,9 +1,12 @@
 package org.pepsik.rest.resources;
 
 import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Reworked.Tag;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by pepsik on 9/29/2015.
@@ -12,6 +15,7 @@ public class PostResource extends ResourceSupport {
     private Long rid;
     private String title;
     private String text;
+    private Set<String> tagNames;
     private String author;
     private LocalDateTime when;
 
@@ -39,6 +43,14 @@ public class PostResource extends ResourceSupport {
         this.text = text;
     }
 
+    public Set<String> getTagNames() {
+        return tagNames;
+    }
+
+    public void setTagNames(Set<String> tags) {
+        this.tagNames = tags;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -59,6 +71,16 @@ public class PostResource extends ResourceSupport {
         Post post = new Post();
         post.setTitle(title);
         post.setText(text);
+
+        Set<Tag> tags = new HashSet<>();
+        if (tagNames != null) {
+            for (String tagName : tagNames) {
+                Tag tag = new Tag();
+                tag.setName(tagName);
+                tags.add(tag);
+            }
+        }
+        post.setTags(tags);
         return post;
     }
 }

@@ -10,7 +10,7 @@ public interface ProfileService {
 
     Profile findProfile(Long id);
 
-    Profile updateProfile(Long id, Profile data);
+    Profile updateProfile(Profile data);
 
     Profile deleteProfile(Long id);
 }

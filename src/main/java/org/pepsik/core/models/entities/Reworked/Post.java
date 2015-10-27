@@ -4,6 +4,7 @@ import org.pepsik.core.services.converters.LocalDateTimePersistenceConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Created by pepsik on 9/29/2015.
@@ -15,6 +16,10 @@ public class Post {
     private Long id;
     private String title;
     private String text;
+    @ManyToMany
+    @JoinTable(name = "tag_owner", joinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
+    private Set<Tag> tags;
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "account_id")
     private Account owner;
@@ -57,6 +62,14 @@ public class Post {
         this.text = text;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public Account getOwner() {
         return owner;
     }
@@ -79,7 +92,7 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", owner=" + owner +
+                ", owner=" + owner.getUsername() +
                 ", when=" + when +
                 '}';
     }

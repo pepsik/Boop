@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * Created by pepsik on 10/19/2015.
  */
 public class ProfileResource extends ResourceSupport {
-    private long rid;
+    private Long rid;
     private String email;
     private String firstname;
     private String lastname;
@@ -20,11 +20,11 @@ public class ProfileResource extends ResourceSupport {
     private String job;
     private String about;
 
-    public long getRid() {
+    public Long getRid() {
         return rid;
     }
 
-    public void setRid(long rid) {
+    public void setRid(Long rid) {
         this.rid = rid;
     }
 

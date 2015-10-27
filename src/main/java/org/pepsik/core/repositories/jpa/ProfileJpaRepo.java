@@ -2,6 +2,7 @@ package org.pepsik.core.repositories.jpa;
 
 import org.pepsik.core.models.entities.Reworked.Profile;
 import org.pepsik.core.repositories.ProfileRepo;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,6 +10,7 @@ import javax.persistence.PersistenceContext;
 /**
  * Created by pepsik on 10/19/2015.
  */
+@Repository
 public class ProfileJpaRepo implements ProfileRepo {
     @PersistenceContext
     private EntityManager em;

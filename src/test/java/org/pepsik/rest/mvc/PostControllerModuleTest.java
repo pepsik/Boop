@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.any;
@@ -53,6 +54,7 @@ public class PostControllerModuleTest {
         post.setId(1L);
         post.setTitle("postTitle");
         post.setText("postText");
+        post.setTags(Collections.emptySet());
         post.setOwner(account);
         post.setWhen(LocalDateTime.now());
 
@@ -75,6 +77,7 @@ public class PostControllerModuleTest {
         post.setId(1L);
         post.setTitle("postTitle");
         post.setText("postText");
+        post.setTags(Collections.emptySet());
         post.setOwner(new Account(1L, "username", "password"));
         post.setWhen(LocalDateTime.now());
 
@@ -104,12 +107,14 @@ public class PostControllerModuleTest {
         postA.setTitle("postTitleA");
         postA.setText("postTextA");
         postA.setOwner(new Account(1L, "username", "password"));
+        postA.setTags(Collections.emptySet());
         postA.setWhen(LocalDateTime.now());
 
         Post postB = new Post();
         postB.setId(2L);
         postB.setTitle("postTitleB");
         postB.setText("postTextB");
+        postB.setTags(Collections.emptySet());
         postB.setOwner(new Account(1L, "username", "password"));
         postB.setWhen(LocalDateTime.now());
 
@@ -132,6 +137,7 @@ public class PostControllerModuleTest {
         postA.setId(1L);
         postA.setTitle("postTitleA");
         postA.setText("postTextA");
+        postA.setTags(Collections.emptySet());
         postA.setOwner(new Account(1L, "username", "password"));
         postA.setWhen(LocalDateTime.now());
 
@@ -164,6 +170,7 @@ public class PostControllerModuleTest {
         postA.setId(1L);
         postA.setTitle("postTitleA");
         postA.setText("postTextA");
+        postA.setTags(Collections.emptySet());
         postA.setOwner(new Account(1L, "username", "password"));
         postA.setWhen(LocalDateTime.now());
 

@@ -3,7 +3,7 @@ package org.pepsik.core.persistence.Impl;
 import com.googlecode.ehcache.annotations.Cacheable;
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import org.pepsik.core.models.entities.Post;
-import org.pepsik.core.models.entities.support.PostLabel;
+import org.pepsik.core.models.entities.util.PostLabel;
 import org.pepsik.core.persistence.PostDao;
 import org.springframework.stereotype.Repository;
 

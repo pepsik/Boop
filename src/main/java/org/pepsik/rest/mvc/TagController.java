@@ -20,10 +20,9 @@ import java.net.URLEncoder;
 /**
  * Created by pepsik on 5/26/15.
  */
-@Controller
-@RequestMapping(value = "/tag")
+//@Controller
+//@RequestMapping(value = "/tag")
 public class TagController {
-
     @Autowired
     private SmartService service;
 

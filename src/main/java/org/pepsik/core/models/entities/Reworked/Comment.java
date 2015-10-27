@@ -69,7 +69,7 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
-                ", owner=" + owner +
+                ", owner=" + owner.getUsername() +
                 ", when=" + when +
                 '}';
     }

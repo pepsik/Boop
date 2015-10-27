@@ -1,4 +1,4 @@
-package org.pepsik.core.models.entities.support;
+package org.pepsik.core.models.entities.util;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

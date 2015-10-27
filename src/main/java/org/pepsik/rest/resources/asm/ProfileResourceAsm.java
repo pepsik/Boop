@@ -18,18 +18,18 @@ public class ProfileResourceAsm extends ResourceAssemblerSupport<Profile, Profil
     }
 
     @Override
-    public ProfileResource toResource(Profile data) {
+    public ProfileResource toResource(Profile profile) {
         ProfileResource res = new ProfileResource();
-        res.setAbout(data.getAbout());
-        res.setBirthdate(data.getBirthdate());
-        res.setCountry(data.getCountry());
-        res.setCity(data.getCity());
-        res.setEmail(data.getEmail());
-        res.setFirstname(data.getFirstname());
-        res.setGender(data.getGender());
-        res.setJob(data.getJob());
-        res.setLastname(data.getLastname());
-        res.add(linkTo(methodOn(ProfileController.class).getProfile(data.getAccount_id())).withSelfRel());
+        res.setAbout(profile.getAbout());
+        res.setBirthdate(profile.getBirthdate());
+        res.setCountry(profile.getCountry());
+        res.setCity(profile.getCity());
+        res.setEmail(profile.getEmail());
+        res.setFirstname(profile.getFirstname());
+        res.setGender(profile.getGender());
+        res.setJob(profile.getJob());
+        res.setLastname(profile.getLastname());
+        res.add(linkTo(methodOn(ProfileController.class).getProfile(profile.getId())).withSelfRel());
         return res;
     }
 }

@@ -1,6 +1,6 @@
-package org.pepsik.core.models.entities.support;
+package org.pepsik.core.models.entities.util;
 
-import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.Reworked.Post;
 
 import java.util.Comparator;
 

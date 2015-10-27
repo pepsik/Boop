@@ -1,7 +1,9 @@
 package org.pepsik.core.services.Reworked.Impl;
 
 import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Reworked.Profile;
 import org.pepsik.core.repositories.AccountRepo;
+import org.pepsik.core.repositories.ProfileRepo;
 import org.pepsik.core.services.Reworked.AccountService;
 import org.pepsik.core.services.exceptions.AccountExistsException;
 import org.pepsik.rest.utilities.AccountList;
@@ -19,13 +21,20 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepo accountRepo;
 
+    @Autowired
+    private ProfileRepo profileRepo;
+
     @Override
     public Account createAccount(Account data) {
         Account account = accountRepo.findByUsername(data.getUsername());
-        if (account != null){
+        if (account != null) {
             throw new AccountExistsException();
         }
-        return accountRepo.create(data);
+        Account createdAccount = accountRepo.create(data);
+        Profile profile = new Profile();
+        profile.setId(createdAccount.getId());
+        profileRepo.create(profile);
+        return createdAccount;
     }
 
     @Override
