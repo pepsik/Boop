@@ -2,10 +2,7 @@ package org.pepsik.core.models.entities.Reworked;
 
 import org.pepsik.core.services.converters.LocalDatePersistenceConverter;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -25,6 +22,9 @@ public class Profile {
     private String city;
     private String job;
     private String about;
+    @OneToOne
+    @JoinColumn(name = "profile_id", referencedColumnName = "account_id")
+    private Account owner;
 
     public Long getId() {
         return id;
@@ -104,6 +104,14 @@ public class Profile {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public Account getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Account owner) {
+        this.owner = owner;
     }
 
     @Override

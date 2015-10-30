@@ -1,0 +1,52 @@
+<div style="width: 50%;margin: 0 auto;" ng-controller="ProfileCtrl">
+    <div class="container col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Profile</b></div>
+            <div class="panel-body">
+                <form id="profile_form" class="form-horizontal" ng-submit="updateProfile()">
+                    <div class="form-group col-md-12">
+                        <label for="firstname">Firstname</label>
+                        <input type="text" id="firstname" class="form-control name" ng-model="profile.firstname"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="lastname">Lastname</label>
+                        <input type="text" id="lastname" class="form-control name" ng-model="profile.lastname"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="birthdate">Birthdate</label>
+                        <input type="date" id="birthdate" class="form-control date" ng-model="profile.birthdate"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="gender" class="col-md-6">Gender</label>
+                        <select id="gender" class="form-control" ng-model="profile.gender">
+                            <option id="no_gender" value="N">Choose your gender</option>
+                            <option id="male" value="M">Male</option>
+                            <option id="female" value="F">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="country" class="col-md-6">Country</label>
+                        <input type="text" id="country" class="form-control" ng-model="profile.country"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="city" class="col-md-6">City</label>
+                        <input type="text" id="city" class="form-control" ng-model="profile.city"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="job" class="col-md-6">Job</label>
+                        <input type="text" id="job" class="form-control" ng-model="profile.job"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="about" class="col-md-6">About</label>
+                        <textarea id="about" rows="5" maxlength="500" class="form-control"
+                                  ng-model="profile.about"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <button form="profile_form" type="submit" class="btn btn-success">Update</button>
+            </div>
+            <uib-alert type="danger">1234</uib-alert>
+        </div>
+    </div>
+</div>

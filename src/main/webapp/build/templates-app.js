@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -482,4 +482,61 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "        <br/>\n" +
     "    </div>\n" +
     "</div>");
+}]);
+
+angular.module("profile/profile.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("profile/profile.tpl.html",
+    "<div style=\"width: 50%;margin: 0 auto;\" ng-controller=\"ProfileCtrl\">\n" +
+    "    <div class=\"container col-md-10\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\"><b>Profile</b></div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <form id=\"profile_form\" class=\"form-horizontal\" ng-submit=\"updateProfile()\">\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"firstname\">Firstname</label>\n" +
+    "                        <input type=\"text\" id=\"firstname\" class=\"form-control name\" ng-model=\"profile.firstname\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"lastname\">Lastname</label>\n" +
+    "                        <input type=\"text\" id=\"lastname\" class=\"form-control name\" ng-model=\"profile.lastname\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"birthdate\">Birthdate</label>\n" +
+    "                        <input type=\"date\" id=\"birthdate\" class=\"form-control date\" ng-model=\"profile.birthdate\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"gender\" class=\"col-md-6\">Gender</label>\n" +
+    "                        <select id=\"gender\" class=\"form-control\" ng-model=\"profile.gender\">\n" +
+    "                            <option id=\"no_gender\" value=\"N\">Choose your gender</option>\n" +
+    "                            <option id=\"male\" value=\"M\">Male</option>\n" +
+    "                            <option id=\"female\" value=\"F\">Female</option>\n" +
+    "                        </select>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"country\" class=\"col-md-6\">Country</label>\n" +
+    "                        <input type=\"text\" id=\"country\" class=\"form-control\" ng-model=\"profile.country\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"city\" class=\"col-md-6\">City</label>\n" +
+    "                        <input type=\"text\" id=\"city\" class=\"form-control\" ng-model=\"profile.city\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"job\" class=\"col-md-6\">Job</label>\n" +
+    "                        <input type=\"text\" id=\"job\" class=\"form-control\" ng-model=\"profile.job\"/>\n" +
+    "                    </div>\n" +
+    "                    <div class=\"form-group col-md-12\">\n" +
+    "                        <label for=\"about\" class=\"col-md-6\">About</label>\n" +
+    "                        <textarea id=\"about\" rows=\"5\" maxlength=\"500\" class=\"form-control\"\n" +
+    "                                  ng-model=\"profile.about\"></textarea>\n" +
+    "                    </div>\n" +
+    "                </form>\n" +
+    "            </div>\n" +
+    "            <div class=\"panel-footer\">\n" +
+    "                <button form=\"profile_form\" type=\"submit\" class=\"btn btn-success\">Update</button>\n" +
+    "            </div>\n" +
+    "            <uib-alert type=\"danger\">1234</uib-alert>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
 }]);

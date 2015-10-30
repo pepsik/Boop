@@ -2,7 +2,9 @@ package org.pepsik.core.services.Reworked.Impl;
 
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.models.entities.Reworked.Profile;
+import org.pepsik.core.repositories.AccountRepo;
 import org.pepsik.core.repositories.ProfileRepo;
+import org.pepsik.core.security.AccountUserDetails;
 import org.pepsik.core.services.Reworked.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,21 +22,35 @@ public class ProfileServiceImpl implements ProfileService {
     @Autowired
     private ProfileRepo profileRepo;
 
+    @Autowired
+    private AccountRepo accountRepo;
+
     @Override
     public Profile createProfile(Profile data) {
         return profileRepo.create(data);
     }
 
     @Override
-    public Profile findProfile(Long id) {
+    public Profile findProfileById(Long id) {
         return profileRepo.findById(id);
+    }
+
+    @Override
+    public Profile findProfileByUsername(String username) {
+        Account account = accountRepo.findByUsername(username);
+        Profile profile = null;
+        if (account != null) {
+            profile = profileRepo.findById(account.getId());
+        }
+        return profile;
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public Profile updateProfile(Profile data) {
-        Account loggedIn = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return profileRepo.update(loggedIn.getId(), data);
+        String loggedIn = ((AccountUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        Account account = accountRepo.findByUsername(loggedIn);
+        return profileRepo.update(account.getId(), data);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ProfileResourceAsm extends ResourceAssemblerSupport<Profile, Profil
         res.setGender(profile.getGender());
         res.setJob(profile.getJob());
         res.setLastname(profile.getLastname());
-        res.add(linkTo(methodOn(ProfileController.class).getProfile(profile.getId())).withSelfRel());
+        res.add(linkTo(methodOn(ProfileController.class).getProfile(profile.getOwner().getUsername())).withSelfRel());
         return res;
     }
 }

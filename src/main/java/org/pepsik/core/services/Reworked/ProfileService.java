@@ -8,7 +8,9 @@ import org.pepsik.core.models.entities.Reworked.Profile;
 public interface ProfileService {
     Profile createProfile(Profile data);
 
-    Profile findProfile(Long id);
+    Profile findProfileById(Long id);
+
+    Profile findProfileByUsername(String username);
 
     Profile updateProfile(Profile data);
 

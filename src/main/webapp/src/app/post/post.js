@@ -109,7 +109,7 @@ angular.module('ngBoilerplate.post', [
         return service;
     })
 
-    .controller('PostCtrl', function ($scope, $stateParams, $sce, $state, postService, postManager) {
+    .controller('PostCtrl', function ($scope, $stateParams, $sce, postService, postManager) {
         $scope.post = postService.getPost($stateParams.postId);
         $scope.makeTrust = function (html) {
             return $sce.trustAsHtml(html);

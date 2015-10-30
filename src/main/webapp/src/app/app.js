@@ -7,7 +7,9 @@ angular.module('ngBoilerplate', [
     'ngBoilerplate.page',
     'ngBoilerplate.post',
     'ngBoilerplate.comment',
+    'ngBoilerplate.profile',
     'ui.router',
+    'ui.bootstrap',
     'hateoas',
     'summernote'
 ])
