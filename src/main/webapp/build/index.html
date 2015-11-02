@@ -30,6 +30,8 @@
     
     <link rel="stylesheet" type="text/css" href="vendor/summernote/dist/summernote-bs3.css"/>
     
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css"/>
+    
     <link rel="stylesheet" type="text/css" href="assets/ngbp-0.3.2.css"/>
     
 
@@ -39,6 +41,8 @@
     <script type="text/javascript" src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     
     <script type="text/javascript" src="vendor/summernote/dist/summernote.min.js"></script>
+    
+    <script type="text/javascript" src="vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
     
     <script type="text/javascript" src="vendor/angular/angular.js"></script>
     
@@ -123,7 +127,8 @@
                 </li>
                 <li ng-hide="isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                 </li>
-                <li ng-show="isLoggedIn()"><a ui-sref="create_post"><span class="glyphicon glyphicon-plus"></span></a></li>
+                <li ng-show="isLoggedIn()"><a ui-sref="create_post"><span class="glyphicon glyphicon-plus"></span></a>
+                </li>
                 <li ng-show="isLoggedIn()"><a ui-sref="profile">{{ loggedUser }}</a></li>
                 <li ng-show="isLoggedIn()"><a href="#" ng-click="logout()"><span
                         class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -131,9 +136,7 @@
         </div>
     </div>
 </div>
-
 <div class="container" ui-view="main"></div>
-
 <footer class="footer">
     <div class="container">
         <div class="footer-inner">

@@ -77,7 +77,8 @@
                 </li>
                 <li ng-hide="isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                 </li>
-                <li ng-show="isLoggedIn()"><a ui-sref="create_post"><span class="glyphicon glyphicon-plus"></span></a></li>
+                <li ng-show="isLoggedIn()"><a ui-sref="create_post"><span class="glyphicon glyphicon-plus"></span></a>
+                </li>
                 <li ng-show="isLoggedIn()"><a ui-sref="profile">{{ loggedUser }}</a></li>
                 <li ng-show="isLoggedIn()"><a href="#" ng-click="logout()"><span
                         class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -85,9 +86,7 @@
         </div>
     </div>
 </div>
-
 <div class="container" ui-view="main"></div>
-
 <footer class="footer">
     <div class="container">
         <div class="footer-inner">

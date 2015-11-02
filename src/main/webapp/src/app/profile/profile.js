@@ -1,5 +1,6 @@
 angular.module('ngBoilerplate.profile', [
-    'ui.router'
+    'ui.router',
+    'ui.bootstrap'
 ])
 
     .config(function ($stateProvider) {
@@ -40,12 +41,17 @@ angular.module('ngBoilerplate.profile', [
             return performQuery().get();
         };
         service.updateProfile = function (data) {
-            performQuery().update(data);
+            performQuery().update({}, data, function () {
+                    alert("success updated");
+                },
+                function () {
+                    alert("failure");
+                });
         };
         return service;
     }])
 
-    .controller('ProfileCtrl', function ($scope, $stateParams, $state, profileService) {
+    .controller('ProfileCtrl', function ($scope, profileService) {
         $scope.profile = profileService.getProfile();
         $scope.updateProfile = function () {
             var profileData = $scope.profile;
@@ -61,4 +67,8 @@ angular.module('ngBoilerplate.profile', [
             };
             profileService.updateProfile(data);
         };
+    })
+
+    .controller('PublicProfileCtrl', function ($scope, $stateParams, $state, profileService) {
+        $scope.profile = profileService.getPublicProfile($stateParams.username);
     });

@@ -1,5 +1,6 @@
 angular.module('ngBoilerplate.post', [
-    'ui.router'
+    'ui.router',
+    'bootstrap-tagsinput'
 ])
 
     .config(function ($stateProvider) {

@@ -43,6 +43,9 @@ public class PostServiceImpl implements PostService {
             Tag existing = tagRepo.find(tag.getName());
             if (existing != null){
                 tags.add(existing);
+            }else{
+                tag.setAuthor(author);
+                tag.setCreateDate(LocalDateTime.now());
             }
         }
         return postRepo.create(data);

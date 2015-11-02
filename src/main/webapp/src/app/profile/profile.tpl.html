@@ -1,5 +1,5 @@
-<div style="width: 50%;margin: 0 auto;" ng-controller="ProfileCtrl">
-    <div class="container col-md-10">
+<div ng-controller="ProfileCtrl">
+    <div class="container-fluid col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading"><b>Profile</b></div>
             <div class="panel-body">
@@ -46,7 +46,24 @@
             <div class="panel-footer">
                 <button form="profile_form" type="submit" class="btn btn-success">Update</button>
             </div>
-            <uib-alert type="danger">1234</uib-alert>
+        </div>
+    </div>
+
+    <div class="container-fluid col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading"><b>Avatar</b></div>
+            <div class="panel-body">
+
+                <img src="/uploads/avatars/{{username}.jpeg" width="350"
+                     class="img-rounded"
+                     onError="this.src='/uploads/avatars/def-ava.png';"/>
+                <br>
+                Resize image
+                <input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01"/>
+                <input type="hidden" name="image-data" class="hidden-image-data"/>
+                <br>
+                <button form="imageForm" class="btn btn-success" type="submit">Upload</button>
+            </div>
         </div>
     </div>
 </div>

@@ -113,7 +113,6 @@ public class Tag {
         return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author=" + author.getUsername() +
                 ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", postsCount=" + postsCount +

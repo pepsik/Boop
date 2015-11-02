@@ -6,11 +6,18 @@
                 <h3><a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a></h3>
             </div>
 
+            <div class="post_tags">
+                 <span ng-repeat="tagName in post.tagNames">
+                &nbsp;&nbsp;
+                <a href="#" class="tag label label-default">{{tagName}} </a>
+                 </span>
+            </div>
+
             <div class="post_body" ng-bind-html="makeTrust(post.text)"></div>
 
             <div class="post_bottom">
                 <span class="post_date">
-                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}
+                    Posted by <a ui-sref="public_profile({username:'{{post.author}}'})">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}
                 </span>
             </div>
         </li>

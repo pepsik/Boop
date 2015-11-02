@@ -65,6 +65,7 @@ module.exports = {
             'vendor/jquery/dist/jquery.min.js',
             'vendor/bootstrap/dist/js/bootstrap.min.js',
             'vendor/summernote/dist/summernote.min.js',
+            'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
             'vendor/angular/angular.js',
             'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
@@ -77,7 +78,8 @@ module.exports = {
         ],
         css: [
             'vendor/summernote/dist/summernote.css',
-            'vendor/summernote/dist/summernote-bs3.css'
+            'vendor/summernote/dist/summernote-bs3.css',
+            'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
         ],
         assets: []
     }

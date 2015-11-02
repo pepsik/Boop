@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html', 'profile/public_profile.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -352,11 +352,18 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
     "                <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
     "            </div>\n" +
     "\n" +
+    "            <div class=\"post_tags\">\n" +
+    "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
+    "                &nbsp;&nbsp;\n" +
+    "                <a href=\"#\" class=\"tag label label-default\">{{tagName}} </a>\n" +
+    "                 </span>\n" +
+    "            </div>\n" +
+    "\n" +
     "            <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
     "            <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
-    "                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                    Posted by <a ui-sref=\"public_profile({username:'{{post.author}}'})\">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
     "                </span>\n" +
     "            </div>\n" +
     "        </li>\n" +
@@ -375,8 +382,13 @@ angular.module("post/create.tpl.html", []).run(["$templateCache", function($temp
     "    <div class=\"post_body\" ng-show=\"isLoggedIn()\">\n" +
     "        <div class=\"row\">\n" +
     "            <div class=\"col-md-5\">\n" +
-    "                <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" maxlength=\"60\" placeholder=\"Title here ...\"/>\n" +
+    "                <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" maxlength=\"60\"\n" +
+    "                       placeholder=\"Title here ...\"/>\n" +
     "            </div>\n" +
+    "        </div>\n" +
+    "        <div>\n" +
+    "            <label id=\"tagNames\">Tags</label>\n" +
+    "            <input type=\"text\" value=\"Amsterdam,Washington,Sydney,Beijing,Cairo\" data-role=\"tagsinput\"/>\n" +
     "        </div>\n" +
     "        <br>\n" +
     "        <summernote config=\"options\" ng-model=\"post.text\"></summernote>\n" +
@@ -416,6 +428,12 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                    </div>\n" +
     "                </div>\n" +
     "            </h3>\n" +
+    "            <div class=\"post_tags\">\n" +
+    "                <span ng-repeat=\"tagName in post.tagNames\">\n" +
+    "                &nbsp;&nbsp;\n" +
+    "                <a href=\"#\" class=\"tag label label-default\">{{tagName}} </a>\n" +
+    "                </span>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"post_body\">\n" +
     "            <div class=\"row\">\n" +
@@ -431,7 +449,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "        <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
-    "                    Posted by {{post.author}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                    Posted by <a ui-sref=\"public_profile({username:'{{post.author}}'})\">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
     "                </span>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -444,7 +462,7 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <div class=\"comment_bottom\">\n" +
     "                <span>\n" +
-    "                    <b>{{comment.author}}</b> &nbsp;&nbsp; {{comment.when | date:'short'}}\n" +
+    "                    <b><a ui-sref=\"public_profile({username:'{{comment.author}}'})\">{{comment.author}}</a></b> &nbsp;&nbsp; {{comment.when | date:'short'}}\n" +
     "                </span>\n" +
     "\n" +
     "                    <div style=\"float: right\">\n" +
@@ -486,8 +504,8 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("profile/profile.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("profile/profile.tpl.html",
-    "<div style=\"width: 50%;margin: 0 auto;\" ng-controller=\"ProfileCtrl\">\n" +
-    "    <div class=\"container col-md-10\">\n" +
+    "<div ng-controller=\"ProfileCtrl\">\n" +
+    "    <div class=\"container-fluid col-md-6\">\n" +
     "        <div class=\"panel panel-default\">\n" +
     "            <div class=\"panel-heading\"><b>Profile</b></div>\n" +
     "            <div class=\"panel-body\">\n" +
@@ -534,9 +552,94 @@ angular.module("profile/profile.tpl.html", []).run(["$templateCache", function($
     "            <div class=\"panel-footer\">\n" +
     "                <button form=\"profile_form\" type=\"submit\" class=\"btn btn-success\">Update</button>\n" +
     "            </div>\n" +
-    "            <uib-alert type=\"danger\">1234</uib-alert>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"container-fluid col-md-5\">\n" +
+    "        <div class=\"panel panel-default\">\n" +
+    "            <div class=\"panel-heading\"><b>Avatar</b></div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "\n" +
+    "                <img src=\"/uploads/avatars/{{username}.jpeg\" width=\"350\"\n" +
+    "                     class=\"img-rounded\"\n" +
+    "                     onError=\"this.src='/uploads/avatars/def-ava.png';\"/>\n" +
+    "                <br>\n" +
+    "                Resize image\n" +
+    "                <input type=\"range\" class=\"cropit-image-zoom-input custom\" min=\"0\" max=\"1\" step=\"0.01\"/>\n" +
+    "                <input type=\"hidden\" name=\"image-data\" class=\"hidden-image-data\"/>\n" +
+    "                <br>\n" +
+    "                <button form=\"imageForm\" class=\"btn btn-success\" type=\"submit\">Upload</button>\n" +
+    "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "");
+}]);
+
+angular.module("profile/public_profile.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("profile/public_profile.tpl.html",
+    "<div ng-controller=\"PublicProfileCtrl\">\n" +
+    "    <div class=\"container-fluid col-md-5\" style=\"margin-left: 40px\">\n" +
+    "        <img src=\"/uploads/avatars/{{username}.jpeg\" width=\"350\"\n" +
+    "             class=\"img-rounded\"\n" +
+    "             onError=\"this.src='/uploads/avatars/def-ava.png';\"/>\n" +
+    "\n" +
+    "        <div class=\"container-fluid\" style=\"margin-left:10px \">\n" +
+    "            <span class=\"glyphicon glyphicon-time margin-top\"></span>&nbsp;&nbsp;Joined on Feb 18, 2013\n" +
+    "            <br>\n" +
+    "            <span class=\"glyphicon glyphicon-user margin-top\"></span>&nbsp;&nbsp;as Member\n" +
+    "            <br>\n" +
+    "            <span class=\"glyphicon glyphicon-flag margin-top\"></span>&nbsp;&nbsp;Last seen at Feb 18, 2013\n" +
+    "            <br>\n" +
+    "            <span class=\"glyphicon glyphicon-thumbs-up margin-top\"></span>&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "\n" +
+    "    <div class=\"container-fluid\">\n" +
+    "        <div class=\"col-md-6\">\n" +
+    "            <div class=\"panel panel-success\">\n" +
+    "                <div class=\"panel-heading\" style=\"padding-left: 40px\"><h3><b>{{username}}</b></h3></div>\n" +
+    "                <div class=\"panel-body\">\n" +
+    "                    <table class=\"table\">\n" +
+    "                        <tbody>\n" +
+    "                        <tr>\n" +
+    "                            <td>Firstname</td>\n" +
+    "                            <td>{{profile.firstname}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>Lastname</td>\n" +
+    "                            <td>{{profile.lastname}}</td>\n" +
+    "                        </tr>\n" +
+    "\n" +
+    "                        <tr>\n" +
+    "                            <td>Birthdate</td>\n" +
+    "                            <td>{{profile.birthdate}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>Gender</td>\n" +
+    "                            <td>{{profile.gender}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>Country</td>\n" +
+    "                            <td>{{profile.country}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>City</td>\n" +
+    "                            <td>{{profile.city}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>Job</td>\n" +
+    "                            <td>{{profile.job}}</td>\n" +
+    "                        </tr>\n" +
+    "                        <tr>\n" +
+    "                            <td>About</td>\n" +
+    "                            <td>{{profile.about}}</td>\n" +
+    "                        </tr>\n" +
+    "                        </tbody>\n" +
+    "                    </table>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
 }]);

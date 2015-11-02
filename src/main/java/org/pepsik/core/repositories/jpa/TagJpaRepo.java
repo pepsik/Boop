@@ -7,6 +7,7 @@ import org.pepsik.rest.utilities.PostList;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,10 @@ public class TagJpaRepo implements TagRepo {
 
     @Override
     public Tag find(String name) {
-        return (Tag) em.createQuery(SELECT_TAG_BY_NAME).setParameter("name", name).getSingleResult();
+        List<Tag> results = em.createQuery(SELECT_TAG_BY_NAME).setParameter("name", name).getResultList();
+        if (results.isEmpty()) return null;
+        else if (results.size() == 1) return results.get(0);
+        throw new NonUniqueResultException();
     }
 
     @Override

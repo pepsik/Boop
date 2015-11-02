@@ -16,7 +16,7 @@ public class Post {
     private Long id;
     private String title;
     private String text;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "tag_owner", joinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
     private Set<Tag> tags;
