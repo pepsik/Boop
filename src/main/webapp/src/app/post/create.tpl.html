@@ -8,7 +8,9 @@
         </div>
         <div>
             <label id="tagNames">Tags</label>
-            <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput"/>
+            <tags-input class="bootstrap" ng-model="tags">
+                <!--<auto-complete source="loadTags($query)"></auto-complete>-->
+            </tags-input>
         </div>
         <br>
         <summernote config="options" ng-model="post.text"></summernote>

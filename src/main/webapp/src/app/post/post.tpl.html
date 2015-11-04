@@ -26,23 +26,25 @@
                 </div>
             </h3>
             <div class="post_tags">
-                <span ng-repeat="tagName in post.tagNames">
+                 <span ng-repeat="tagName in post.tagNames">
                 &nbsp;&nbsp;
-                <a href="#" class="tag label label-default">{{tagName}} </a>
-                </span>
+                <a ui-sref="tag({name:'{{tagName}}', page:'1'})" class="tag label label-default">{{tagName.text}} </a>
+                 </span>
             </div>
         </div>
         <div class="post_body">
-            <div class="row">
-                <div class="col-md-5">
-                    <input type="text" class="form-control" ng-model="post.title" ng-show="canEdit()" maxlength="60"
-                           placeholder="Title here ..."/>
-                </div>
+            <div class="form-group col-md-5">
+                <input type="text" class="form-control" ng-model="post.title" ng-show="canEdit()" maxlength="60"
+                       placeholder="Title here ..."/>
+            </div>
+            <div class="form-group col-md-12">
+                <tags-input class="bootstrap" ng-model="post.tagNames" ng-show="canEdit()"></tags-input>
             </div>
             <br>
-
-            <div id="post_text" ng-bind-html="makeTrust(post.text)"></div>
         </div>
+
+        <div id="post_text" ng-bind-html="makeTrust(post.text)"></div>
+
 
         <div class="post_bottom">
                 <span class="post_date">

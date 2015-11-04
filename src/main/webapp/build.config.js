@@ -64,22 +64,23 @@ module.exports = {
         js: [
             'vendor/jquery/dist/jquery.min.js',
             'vendor/bootstrap/dist/js/bootstrap.min.js',
+            'vendor/bootstrap/dist/js/bootstrap3-typeahead.min.js',
             'vendor/summernote/dist/summernote.min.js',
-            'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
             'vendor/angular/angular.js',
             'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
             'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
-            'vendor/angular-ui-router/release/angular-ui-router.js',
-            'vendor/angular-ui-utils/modules/route/route.js',
+            'vendor/angular-ui-router/release/angular-ui-router.min.js',
+            'vendor/angular-ui-utils/modules/route/route.min.js',
             'vendor/angular-resource/angular-resource.min.js',
             'vendor/angular-base64/angular-base64.min.js',
             'vendor/angular-hateoas/src/angular-hateoas.js',
-            'vendor/angular-summernote/dist/angular-summernote.min.js'
+            'vendor/angular-summernote/dist/angular-summernote.min.js',
+            'vendor/ng-tags-input/ng-tags-input.min.js'
         ],
         css: [
             'vendor/summernote/dist/summernote.css',
             'vendor/summernote/dist/summernote-bs3.css',
-            'vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
+            'vendor/ng-tags-input/ng-tags-input.min.css'
         ],
         assets: []
     }

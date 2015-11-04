@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -37,17 +38,18 @@ public class PostServiceImpl implements PostService {
         Account author = accountRepo.findByUsername(loggedIn);
         data.setOwner(author);
         data.setWhen(LocalDateTime.now());
-
-        Set<Tag> tags = data.getTags();
-        for (Tag tag : tags){
+        Set<Tag> tags = new HashSet<>();
+        for (Tag tag : data.getTags()) {
             Tag existing = tagRepo.find(tag.getName());
-            if (existing != null){
+            if (existing != null) {
                 tags.add(existing);
-            }else{
+            } else {
                 tag.setAuthor(author);
                 tag.setCreateDate(LocalDateTime.now());
+                tags.add(tag);
             }
         }
+        data.setTags(tags);
         return postRepo.create(data);
     }
 
@@ -64,13 +66,20 @@ public class PostServiceImpl implements PostService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER') and @securityService.canUpdatePost(#postId)")
     public Post updatePost(Long postId, Post data) {
-        Set<Tag> tags = data.getTags();
-        for (Tag tag : tags){
+        Set<Tag> tags = new HashSet<>();
+        for (Tag tag : data.getTags()) {
             Tag existing = tagRepo.find(tag.getName());
-            if (existing != null){
+            if (existing != null) {
                 tags.add(existing);
+            } else {
+                String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
+                Account author = accountRepo.findByUsername(loggedIn);
+                tag.setAuthor(author);
+                tag.setCreateDate(LocalDateTime.now());
+                tags.add(tag);
             }
         }
+        data.setTags(tags);
         return postRepo.update(postId, data);
     }
 

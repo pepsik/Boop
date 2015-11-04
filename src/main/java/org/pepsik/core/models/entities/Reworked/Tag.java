@@ -27,7 +27,6 @@ public class Tag {
     @Column(name = "date")
     @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime createDate;
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private List<Post> posts;
 

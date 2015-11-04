@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html', 'profile/public_profile.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html', 'profile/public_profile.tpl.html', 'tag/tag.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -355,7 +355,7 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
     "            <div class=\"post_tags\">\n" +
     "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
     "                &nbsp;&nbsp;\n" +
-    "                <a href=\"#\" class=\"tag label label-default\">{{tagName}} </a>\n" +
+    "                <a ui-sref=\"tag({name:'{{tagName}}', page:'1'})\" class=\"tag label label-default\">{{tagName}} </a>\n" +
     "                 </span>\n" +
     "            </div>\n" +
     "\n" +
@@ -388,7 +388,9 @@ angular.module("post/create.tpl.html", []).run(["$templateCache", function($temp
     "        </div>\n" +
     "        <div>\n" +
     "            <label id=\"tagNames\">Tags</label>\n" +
-    "            <input type=\"text\" value=\"Amsterdam,Washington,Sydney,Beijing,Cairo\" data-role=\"tagsinput\"/>\n" +
+    "            <tags-input class=\"bootstrap\" ng-model=\"tags\">\n" +
+    "                <!--<auto-complete source=\"loadTags($query)\"></auto-complete>-->\n" +
+    "            </tags-input>\n" +
     "        </div>\n" +
     "        <br>\n" +
     "        <summernote config=\"options\" ng-model=\"post.text\"></summernote>\n" +
@@ -429,23 +431,25 @@ angular.module("post/post.tpl.html", []).run(["$templateCache", function($templa
     "                </div>\n" +
     "            </h3>\n" +
     "            <div class=\"post_tags\">\n" +
-    "                <span ng-repeat=\"tagName in post.tagNames\">\n" +
+    "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
     "                &nbsp;&nbsp;\n" +
-    "                <a href=\"#\" class=\"tag label label-default\">{{tagName}} </a>\n" +
-    "                </span>\n" +
+    "                <a ui-sref=\"tag({name:'{{tagName}}', page:'1'})\" class=\"tag label label-default\">{{tagName.text}} </a>\n" +
+    "                 </span>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"post_body\">\n" +
-    "            <div class=\"row\">\n" +
-    "                <div class=\"col-md-5\">\n" +
-    "                    <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"canEdit()\" maxlength=\"60\"\n" +
-    "                           placeholder=\"Title here ...\"/>\n" +
-    "                </div>\n" +
+    "            <div class=\"form-group col-md-5\">\n" +
+    "                <input type=\"text\" class=\"form-control\" ng-model=\"post.title\" ng-show=\"canEdit()\" maxlength=\"60\"\n" +
+    "                       placeholder=\"Title here ...\"/>\n" +
+    "            </div>\n" +
+    "            <div class=\"form-group col-md-12\">\n" +
+    "                <tags-input class=\"bootstrap\" ng-model=\"post.tagNames\" ng-show=\"canEdit()\"></tags-input>\n" +
     "            </div>\n" +
     "            <br>\n" +
-    "\n" +
-    "            <div id=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "        </div>\n" +
+    "\n" +
+    "        <div id=\"post_text\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "\n" +
     "\n" +
     "        <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
@@ -640,6 +644,54 @@ angular.module("profile/public_profile.tpl.html", []).run(["$templateCache", fun
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("tag/tag.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tag/tag.tpl.html",
+    "<div ng-controller=\"TagCtrl\">\n" +
+    "    <div class=\"container\">\n" +
+    "        <img ng-src=\"{{tag.imageUrl}}\" style=\"max-width: 900px; max-height: 400px\"/>\n" +
+    "\n" +
+    "        <h1><span class=\"tag label label-default\">{{tag.name}}</span></h1>\n" +
+    "\n" +
+    "        <p class=\"bg-primary\">\n" +
+    "            &nbsp;&nbsp;&nbsp;Date created: {{tag.createDate | date:'MMM d, y H:mm:ss'}}\n" +
+    "            &nbsp;&nbsp;&nbsp;Author: {{tag.author}}\n" +
+    "            &nbsp;&nbsp;&nbsp;Posts count: {{tag.postsCount}}\n" +
+    "            &nbsp;&nbsp;&nbsp;Ratings: 0\n" +
+    "            &nbsp;&nbsp;&nbsp;Subscribers count: 0\n" +
+    "        </p>\n" +
+    "\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"container col-sm-offset-0\" style=\"background-color:lavender;\">\n" +
+    "                {{tag.description}}\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <ul type=\"none\">\n" +
+    "            <li class=\"post_list\" ng-repeat=\"post in posts.posts\">\n" +
+    "                <div class=\"post_title\">\n" +
+    "                    <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"post_tags\">\n" +
+    "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
+    "                &nbsp;&nbsp;\n" +
+    "                <a ui-sref=\"tag({name:'{{tagName}}', page:'1'})\" class=\"tag label label-default\">{{tagName}} </a>\n" +
+    "                 </span>\n" +
+    "                </div>\n" +
+    "\n" +
+    "                <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "\n" +
+    "                <div class=\"post_bottom\">\n" +
+    "                <span class=\"post_date\">\n" +
+    "                    Posted by <a ui-sref=\"public_profile({username:'{{post.author}}'})\">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
+    "                </span>\n" +
+    "                </div>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
     "    </div>\n" +
     "</div>");
 }]);

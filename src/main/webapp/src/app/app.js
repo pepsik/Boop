@@ -8,6 +8,7 @@ angular.module('ngBoilerplate', [
     'ngBoilerplate.post',
     'ngBoilerplate.comment',
     'ngBoilerplate.profile',
+    'ngBoilerplate.tag',
     'ui.router',
     'ui.bootstrap',
     'hateoas',

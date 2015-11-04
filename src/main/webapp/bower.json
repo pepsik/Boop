@@ -2,11 +2,13 @@
   "name": "Boop",
   "version": "0.2",
   "devDependencies": {
-    "angular": "~1.2",
-    "angular-mocks": "~1.2",
+    "angular": "~1.4.7",
+    "angular-mocks": "~1.4.7",
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.10.0",
     "angular-ui-router": "~0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ng-tags-input": "~3.0.0"
+  }
 }

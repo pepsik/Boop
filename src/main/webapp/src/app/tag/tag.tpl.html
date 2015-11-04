@@ -1,0 +1,44 @@
+<div ng-controller="TagCtrl">
+    <div class="container">
+        <img ng-src="{{tag.imageUrl}}" style="max-width: 900px; max-height: 400px"/>
+
+        <h1><span class="tag label label-default">{{tag.name}}</span></h1>
+
+        <p class="bg-primary">
+            &nbsp;&nbsp;&nbsp;Date created: {{tag.createDate | date:'MMM d, y H:mm:ss'}}
+            &nbsp;&nbsp;&nbsp;Author: {{tag.author}}
+            &nbsp;&nbsp;&nbsp;Posts count: {{tag.postsCount}}
+            &nbsp;&nbsp;&nbsp;Ratings: 0
+            &nbsp;&nbsp;&nbsp;Subscribers count: 0
+        </p>
+
+        <div class="row">
+            <div class="container col-sm-offset-0" style="background-color:lavender;">
+                {{tag.description}}
+            </div>
+        </div>
+
+        <ul type="none">
+            <li class="post_list" ng-repeat="post in posts.posts">
+                <div class="post_title">
+                    <h3><a class="label label-default" href="#/post/{{post.rid}}">{{post.title}}</a></h3>
+                </div>
+
+                <div class="post_tags">
+                 <span ng-repeat="tagName in post.tagNames">
+                &nbsp;&nbsp;
+                <a ui-sref="tag({name:'{{tagName}}', page:'1'})" class="tag label label-default">{{tagName}} </a>
+                 </span>
+                </div>
+
+                <div class="post_body" ng-bind-html="makeTrust(post.text)"></div>
+
+                <div class="post_bottom">
+                <span class="post_date">
+                    Posted by <a ui-sref="public_profile({username:'{{post.author}}'})">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}
+                </span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

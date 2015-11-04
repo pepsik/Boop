@@ -1,6 +1,6 @@
 angular.module('ngBoilerplate.post', [
     'ui.router',
-    'bootstrap-tagsinput'
+    'ngTagsInput'
 ])
 
     .config(function ($stateProvider) {
@@ -126,7 +126,10 @@ angular.module('ngBoilerplate.post', [
         $scope.updatePost = function () {
             var data = {
                 title: $scope.post.title,
-                text: editor.code()
+                text: editor.code(),
+                tagNames: $scope.post.tagNames.map(function (tag) {
+                    return tag.text;
+                })
             };
             postService.updatePost(editor, data);
         };
@@ -145,8 +148,11 @@ angular.module('ngBoilerplate.post', [
         };
         $scope.createPost = function () {
             var data = {
-                "title": $scope.post.title,
-                "text": $scope.post.text
+                title: $scope.post.title,
+                text: $scope.post.text,
+                tagNames: $scope.tags.map(function (tag) {
+                    return tag.text;
+                })
             };
             postService.createPost(data,
                 function (returnedData) {
@@ -157,4 +163,15 @@ angular.module('ngBoilerplate.post', [
                     alert("error saving");
                 });
         };
+
+        $scope.tags = [
+            {text: 'just'},
+            {text: 'some'},
+            {text: 'cool'},
+            {text: 'tags'}
+        ];
+
+        //$scope.loadTags = function(query) {
+        //    return $http.get('/tags?query=' + query);
+        //};
     });

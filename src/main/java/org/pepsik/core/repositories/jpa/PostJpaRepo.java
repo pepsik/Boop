@@ -40,6 +40,7 @@ public class PostJpaRepo implements PostRepo {
         if (post != null) {
             post.setText(data.getText());
             post.setTitle(data.getTitle());
+            post.setTags(data.getTags());
         }
         return post;
     }
