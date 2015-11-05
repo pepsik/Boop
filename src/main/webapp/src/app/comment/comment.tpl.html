@@ -31,6 +31,6 @@
     </li>
 </ol>
 <div class="text-center" style="margin-top: 30px">
-    <uib-pagination total-items="totalPosts.postCount" items-per-page="postsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" num-pages="numPages" ng-change="setPage(currentPage)"></uib-pagination>
+    <uib-pagination total-items="totalComments.countItems" items-per-page="commentsPerPage" ng-model="currentCommentPage" max-size="maxSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" num-pages="numPages" ng-change="setCommentPage(currentCommentPage)"></uib-pagination>
 </div>

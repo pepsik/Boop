@@ -15,7 +15,7 @@ angular.module('ngBoilerplate.page', [
         });
     })
 
-    .factory('PostService', ['$resource', function ($resource) {
+    .factory('pageService', ['$resource', function ($resource) {
         var service = {};
 
         var performQuery = function () {
@@ -33,17 +33,17 @@ angular.module('ngBoilerplate.page', [
         return service;
     }])
 
-    .controller('PageCtrl', function ($scope, $sce, $stateParams, PostService) {
-        $scope.posts = PostService.getPosts($stateParams.page);
+    .controller('PageCtrl', function ($scope, $sce, $stateParams, pageService) {
+        $scope.posts = pageService.getPosts($stateParams.page);
         $scope.makeTrust = function (html) {
             return $sce.trustAsHtml(html);
         };
         $scope.maxSize = 5;
-        $scope.totalPosts = PostService.getMaxPosts();
-        $scope.currentPage = 1;
+        $scope.totalPosts = pageService.getMaxPosts();
+        $scope.currentPostPage = 1;
         $scope.postsPerPage = 3;
-        $scope.setPage = function (page) {
-            $scope.currentPage = page;
-            $scope.posts = PostService.getPosts(page);
+        $scope.setPostPage = function (page) {
+            $scope.currentPostPage = page;
+            $scope.posts = pageService.getPosts(page);
         };
     });

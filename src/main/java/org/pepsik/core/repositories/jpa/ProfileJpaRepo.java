@@ -74,6 +74,15 @@ public class ProfileJpaRepo implements ProfileRepo {
     }
 
     @Override
+    public Long getPostCount(Account account) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Post> from = countQuery.from(Post.class);
+        countQuery.select(cb.count(from)).where(cb.equal(from.get("owner").get("id"), account.getId()));
+        return em.createQuery(countQuery).getSingleResult();
+    }
+
+    @Override
     public List<Comment> getComments(Account account, Integer requestedPage, Integer commentsPerPage) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Comment> q = cb.createQuery(Comment.class);
@@ -84,5 +93,14 @@ public class ProfileJpaRepo implements ProfileRepo {
         typedQuery.setFirstResult((requestedPage - 1) * commentsPerPage);
         typedQuery.setMaxResults(commentsPerPage);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public Long getCommentCount(Account account) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Comment> from = countQuery.from(Comment.class);
+        countQuery.select(cb.count(from)).where(cb.equal(from.get("owner").get("id"), account.getId()));
+        return em.createQuery(countQuery).getSingleResult();
     }
 }

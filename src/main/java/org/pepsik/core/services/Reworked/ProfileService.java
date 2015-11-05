@@ -18,15 +18,15 @@ public interface ProfileService {
 
     Profile deleteProfile(Long id);
 
-    PostList getUserPostsByPage(String username, Integer page);
+    PostList findUserPostsByPage(String username, Integer page);
 
-    Long getUserPostsCount(String username);
+    Long findUserPostsCount(String username);
 
-    CommentList getUserCommentsByPage(String username, Integer page);
+    CommentList findUserCommentsByPage(String username, Integer page);
 
-    Long getUserCommentsCount(String username);
+    Long findUserCommentsCount(String username);
 
-    PostList getUserFavorites(String username, Integer page);
+    PostList findUserFavorites(String username, Integer page);
 
-    Long getUserFavoritesCount(String username);
+    Long findUserFavoritesCount(String username);
 }

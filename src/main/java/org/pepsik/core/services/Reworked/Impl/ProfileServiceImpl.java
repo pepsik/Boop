@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ProfileServiceImpl implements ProfileService {
-    private static final int DEFAULT_POSTS_PER_PAGE = 7;
-    private static final int DEFAULT_COMMENTS_PER_PAGE = 20;
+    private static final int DEFAULT_POSTS_PER_PAGE = 3;
+    private static final int DEFAULT_COMMENTS_PER_PAGE = 1;
     @Autowired
     private ProfileRepo profileRepo;
     @Autowired
@@ -50,7 +50,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
     public Profile updateProfile(Profile data) {
-        String loggedIn = ((AccountUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
         Account account = accountRepo.findByUsername(loggedIn);
         return profileRepo.update(account.getId(), data);
     }
@@ -62,34 +62,36 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public PostList getUserPostsByPage(String username, Integer requestedPage) {
+    public PostList findUserPostsByPage(String username, Integer requestedPage) {
         Account account = accountRepo.findByUsername(username);
         return new PostList(profileRepo.getPosts(account, requestedPage, DEFAULT_POSTS_PER_PAGE));
     }
 
     @Override
-    public Long getUserPostsCount(String username) {
-        return null;
+    public Long findUserPostsCount(String username) {
+        Account account = accountRepo.findByUsername(username);
+        return profileRepo.getPostCount(account);
     }
 
     @Override
-    public CommentList getUserCommentsByPage(String username, Integer requestedPage) {
+    public CommentList findUserCommentsByPage(String username, Integer requestedPage) {
         Account account = accountRepo.findByUsername(username);
         return new CommentList(profileRepo.getComments(account, requestedPage, DEFAULT_COMMENTS_PER_PAGE));
     }
 
     @Override
-    public Long getUserCommentsCount(String username) {
+    public Long findUserCommentsCount(String username) {
+        Account account = accountRepo.findByUsername(username);
+        return profileRepo.getCommentCount(account);
+    }
+
+    @Override
+    public PostList findUserFavorites(String username, Integer page) {
         return null;
     }
 
     @Override
-    public PostList getUserFavorites(String username, Integer page) {
-        return null;
-    }
-
-    @Override
-    public Long getUserFavoritesCount(String username) {
+    public Long findUserFavoritesCount(String username) {
         return null;
     }
 }

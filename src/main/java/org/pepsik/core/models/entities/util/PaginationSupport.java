@@ -4,17 +4,17 @@ package org.pepsik.core.models.entities.util;
  * Created by pepsik on 11/4/2015.
  */
 public class PaginationSupport {
-    private Long postCount;
+    private Long countItems;
 
     public PaginationSupport(Long pagesCount) {
-        this.postCount = pagesCount;
+        this.countItems = pagesCount;
     }
 
-    public Long getPostCount() {
-        return postCount;
+    public Long getCountItems() {
+        return countItems;
     }
 
-    public void setPostCount(Long pagesCount) {
-        this.postCount = pagesCount;
+    public void setCountItems(Long pagesCount) {
+        this.countItems = pagesCount;
     }
 }
