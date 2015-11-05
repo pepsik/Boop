@@ -1,4 +1,4 @@
-package org.pepsik.rest.mvc.Reworked;
+package org.pepsik.rest.mvc.reworked;
 
 import org.pepsik.core.models.entities.Reworked.Comment;
 import org.pepsik.core.services.Reworked.CommentService;
@@ -30,10 +30,13 @@ public class CommentController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<CommentResource> createComment(@PathVariable Long postId, @RequestBody CommentResource sentComment) {
-        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
-        Comment createdComment = commentService.createComment(postId, loggedIn, sentComment.toComment());
-        CommentResource res = new CommentResourceAsm().toResource(createdComment);
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        Comment createdComment = commentService.createComment(postId, sentComment.toComment());
+        if (createdComment != null) {
+            CommentResource res = new CommentResourceAsm().toResource(createdComment);
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -49,7 +52,7 @@ public class CommentController {
 
     @RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
     public ResponseEntity<CommentResource> updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentResource sentComment) {
-        Comment updatedComment = commentService.updateComment(commentId, sentComment.toComment());
+        Comment updatedComment = commentService.updateComment(commentId, postId, sentComment.toComment());
         if (updatedComment != null) {
             CommentResource res = new CommentResourceAsm().toResource(updatedComment);
             return new ResponseEntity<>(res, HttpStatus.OK);
@@ -60,7 +63,7 @@ public class CommentController {
 
     @RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)
     public ResponseEntity<CommentResource> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
-        Comment comment = commentService.deleteComment(commentId);
+        Comment comment = commentService.deleteComment(commentId, postId);
         if (comment != null) {
             CommentResource res = new CommentResourceAsm().toResource(comment);
             return new ResponseEntity<>(res, HttpStatus.OK);

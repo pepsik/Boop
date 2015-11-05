@@ -1,4 +1,4 @@
-package org.pepsik.rest.mvc.Reworked;
+package org.pepsik.rest.mvc.reworked;
 
 import org.pepsik.core.models.entities.Reworked.Account;
 import org.pepsik.core.services.Reworked.AccountService;
@@ -24,9 +24,7 @@ import java.util.Collections;
 @Controller
 @RequestMapping(value = "/rest/accounts")
 public class AccountController {
-
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
-
     @Autowired
     private AccountService accountService;
 

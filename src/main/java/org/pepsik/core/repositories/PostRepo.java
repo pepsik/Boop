@@ -9,12 +9,10 @@ import java.util.List;
  */
 public interface PostRepo {
     Post create(Post data);
-
     Post findById(Long id);
-
     List<Post> findAll();
-
     Post update(Long postId, Post data);
-
     Post delete(Long postId);
+    List<Post> getPostsByPage(Integer requestedPage, Integer postsPerPage);
+    Long getPostCount();
 }

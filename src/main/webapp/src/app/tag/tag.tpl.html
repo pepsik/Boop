@@ -27,7 +27,7 @@
                 <div class="post_tags">
                  <span ng-repeat="tagName in post.tagNames">
                 &nbsp;&nbsp;
-                <a ui-sref="tag({name:'{{tagName}}', page:'1'})" class="tag label label-default">{{tagName}} </a>
+                <a ui-sref="tag({name:'{{tagName}}'})" class="tag label label-default">{{tagName}} </a>
                  </span>
                 </div>
 
@@ -39,6 +39,10 @@
                 </span>
                 </div>
             </li>
+        </ul>
+        <ul class="menu text-center">
+            <li>pages</li>
+            <li ng-repeat="pageId in pagination"><a href="#/page/{{pageId}}">{{pageId}}</a></li>
         </ul>
     </div>
 </div>

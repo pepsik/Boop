@@ -24,6 +24,7 @@ import java.util.Set;
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
+    private static final int DEFAULT_POSTS_PER_PAGE = 3;
     @Autowired
     private PostRepo postRepo;
     @Autowired
@@ -87,5 +88,15 @@ public class PostServiceImpl implements PostService {
     @PreAuthorize("hasRole('ROLE_USER') and @securityService.canDeletePost(#postId)")
     public Post deletePost(Long postId) {
         return postRepo.delete(postId);
+    }
+
+    @Override
+    public PostList findPostsByPage(Integer requestedPage) {
+        return new PostList(postRepo.getPostsByPage(requestedPage, DEFAULT_POSTS_PER_PAGE));
+    }
+
+    @Override
+    public Long findAllPostCount() {
+        return postRepo.getPostCount();
     }
 }

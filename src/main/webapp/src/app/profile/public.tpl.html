@@ -1,0 +1,63 @@
+<div class="container" style="margin-top: 40px">
+    <div class="col-md-5">
+        <div>
+            <img src="#" width="350"
+                 class="img-rounded"
+                 onError="this.src='/uploads/avatars/def-ava.png';"/>
+        </div>
+        <div style="margin-top:20px ">
+            <span class="glyphicon glyphicon-time margin-top"></span>&nbsp;&nbsp;Joined on Feb 18, 2013
+            <br>
+            <span class="glyphicon glyphicon-user margin-top"></span>&nbsp;&nbsp;as Member
+            <br>
+            <span class="glyphicon glyphicon-flag margin-top"></span>&nbsp;&nbsp;Last seen at Feb 18, 2013
+            <br>
+            <span class="glyphicon glyphicon-thumbs-up margin-top"></span>&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading" style="padding-left: 40px"><h4><b>{{username}}</b></h4></div>
+            <div class="panel-body">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>Firstname</td>
+                        <td>{{profile.firstname}}</td>
+                    </tr>
+                    <tr>
+                        <td>Lastname</td>
+                        <td>{{profile.lastname}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Birthdate</td>
+                        <td>{{profile.birthdate}}</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>{{profile.gender}}</td>
+                    </tr>
+                    <tr>
+                        <td>Country</td>
+                        <td>{{profile.country}}</td>
+                    </tr>
+                    <tr>
+                        <td>City</td>
+                        <td>{{profile.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>Job</td>
+                        <td>{{profile.job}}</td>
+                    </tr>
+                    <tr>
+                        <td>About</td>
+                        <td>{{profile.about}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

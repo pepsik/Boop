@@ -10,12 +10,10 @@ import java.util.List;
  */
 public interface PostService {
     Post createPost(Post data);
-
     Post findPostById(Long id);
-
     PostList findAllPosts();
-
     Post updatePost(Long postId, Post data);
-
     Post deletePost(Long postId);
+    PostList findPostsByPage(Integer requestedPage);
+    Long findAllPostCount();
 }

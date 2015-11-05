@@ -32,14 +32,14 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     @Cacheable(cacheName = "postCache")
-    public List<Post> getPostsByPage(int pageIndex, final int DEFAULT_POSTS_PER_PAGE) {
+    public List<Post> getPostsByPage(int requestedPage, final int DEFAULT_POSTS_PER_PAGE) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Post> criteriaQuery = criteriaBuilder.createQuery(Post.class);
         Root<Post> from = criteriaQuery.from(Post.class);
         CriteriaQuery<Post> select = criteriaQuery.orderBy(criteriaBuilder.desc(from.get("when")));
 
         TypedQuery<Post> typedQuery = em.createQuery(select);
-        typedQuery.setFirstResult((pageIndex - 1) * DEFAULT_POSTS_PER_PAGE);
+        typedQuery.setFirstResult((requestedPage - 1) * DEFAULT_POSTS_PER_PAGE);
         typedQuery.setMaxResults(DEFAULT_POSTS_PER_PAGE);
 
         return typedQuery.getResultList();

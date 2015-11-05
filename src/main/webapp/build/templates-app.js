@@ -1,4 +1,4 @@
-angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html', 'profile/public_profile.tpl.html', 'tag/tag.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/login.tpl.html', 'account/register.tpl.html', 'comment/comment.tpl.html', 'home/home.tpl.html', 'page/page.tpl.html', 'post/create.tpl.html', 'post/post.tpl.html', 'profile/profile.tpl.html', 'profile/public.tpl.html', 'profile/tabs.tpl.html', 'tag/tag.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -314,66 +314,104 @@ angular.module("account/register.tpl.html", []).run(["$templateCache", function(
     "");
 }]);
 
+angular.module("comment/comment.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("comment/comment.tpl.html",
+    "<ol>\n" +
+    "    <li type=\"none\" class=\"comment\" ng-repeat=\"comment in comments.comments\">\n" +
+    "        <div id=\"{{comment.rid}}\" ng-bind-html=\"makeTrust(comment.text)\"></div>\n" +
+    "\n" +
+    "        <div class=\"comment_bottom\">\n" +
+    "                <span>\n" +
+    "                    <b><a ui-sref=\"public_profile({username:'{{comment.author}}'})\">{{comment.author}}</a></b> &nbsp;&nbsp; {{comment.when | date:'short'}}\n" +
+    "                </span>\n" +
+    "\n" +
+    "            <div style=\"float: right\">\n" +
+    "                <div ng-show=\"canManage(comment.author)\">\n" +
+    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"editComment(comment.rid)\">\n" +
+    "                        <span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;&nbsp;Edit\n" +
+    "                    </button>\n" +
+    "                    <button class=\"btn btn-xs btn-danger\" ng-click=\"deleteComment($index)\">\n" +
+    "                        <span class=\"glyphicon glyphicon-trash\"></span>\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "                <div ng-show=\"canEdit(comment.rid)\">\n" +
+    "                    <button class=\"btn btn-xs btn-success\" ng-click=\"updateComment(comment.rid)\">\n" +
+    "                        <span class=\"glyphicon glyphicon-ok-sign\"></span>\n" +
+    "                        Save\n" +
+    "                    </button>\n" +
+    "                    <button class=\"btn btn-xs btn-default\" ng-click=\"cancelComment(comment.rid)\">\n" +
+    "                        <span class=\"glyphicon glyphicon-remove-sign\"></span>\n" +
+    "                        Cancel\n" +
+    "                    </button>\n" +
+    "                </div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </li>\n" +
+    "</ol>\n" +
+    "<div class=\"text-center\" style=\"margin-top: 30px\">\n" +
+    "    <uib-pagination total-items=\"totalPosts.postCount\" items-per-page=\"postsPerPage\" ng-model=\"currentPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setPage(currentPage)\"></uib-pagination>\n" +
+    "</div>");
+}]);
+
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "<div ng-controller=\"PageCtrl\">\n" +
-    "    <ul type=\"none\">\n" +
-    "        <li class=\"post_list\" ng-repeat=\"post in posts\">\n" +
-    "            <h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>\n" +
+    "<!--<div ng-controller=\"PageCtrl\">-->\n" +
+    "    <!--<ul type=\"none\">-->\n" +
+    "        <!--<li class=\"post_list\" ng-repeat=\"post in posts\">-->\n" +
+    "            <!--<h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>-->\n" +
     "\n" +
-    "            <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "            <!--<div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>-->\n" +
     "\n" +
-    "            <div class=\"post_bottom\">\n" +
-    "                <span class=\"comments_button\">\n" +
-    "                    comments - {{post.comments.length}}\n" +
-    "                </span>\n" +
-    "                <span class=\"post_date\">\n" +
-    "                    Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
-    "                </span>\n" +
-    "            </div>\n" +
-    "        </li>\n" +
-    "    </ul>\n" +
+    "            <!--<div class=\"post_bottom\">-->\n" +
+    "                <!--<span class=\"comments_button\">-->\n" +
+    "                    <!--comments - {{post.comments.length}}-->\n" +
+    "                <!--</span>-->\n" +
+    "                <!--<span class=\"post_date\">-->\n" +
+    "                    <!--Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}-->\n" +
+    "                <!--</span>-->\n" +
+    "            <!--</div>-->\n" +
+    "        <!--</li>-->\n" +
+    "    <!--</ul>-->\n" +
     "\n" +
-    "    <ul class=\"menu text-center\">\n" +
-    "        <li>pages</li>\n" +
-    "        <li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>\n" +
-    "    </ul>\n" +
-    "</div>\n" +
+    "    <!--<ul class=\"menu text-center\">-->\n" +
+    "        <!--<li>pages</li>-->\n" +
+    "        <!--<li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>-->\n" +
+    "    <!--</ul>-->\n" +
+    "<!--</div>-->\n" +
     "");
 }]);
 
 angular.module("page/page.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("page/page.tpl.html",
-    "<div ng-controller=\"PageCtrl\">\n" +
-    "    <ul type=\"none\">\n" +
-    "        <li class=\"post_list\" ng-repeat=\"post in posts.posts\">\n" +
+    "<ul type=\"none\">\n" +
+    "    <li class=\"post_list\" ng-repeat=\"post in posts.posts\">\n" +
     "\n" +
-    "            <div class=\"post_title\">\n" +
-    "                <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
-    "            </div>\n" +
+    "        <div class=\"post_title\">\n" +
+    "            <h3><a class=\"label label-default\" href=\"#/post/{{post.rid}}\">{{post.title}}</a></h3>\n" +
+    "        </div>\n" +
     "\n" +
-    "            <div class=\"post_tags\">\n" +
+    "        <div class=\"post_tags\">\n" +
     "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
     "                &nbsp;&nbsp;\n" +
     "                <a ui-sref=\"tag({name:'{{tagName}}', page:'1'})\" class=\"tag label label-default\">{{tagName}} </a>\n" +
     "                 </span>\n" +
-    "            </div>\n" +
+    "        </div>\n" +
     "\n" +
-    "            <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
+    "        <div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>\n" +
     "\n" +
-    "            <div class=\"post_bottom\">\n" +
+    "        <div class=\"post_bottom\">\n" +
     "                <span class=\"post_date\">\n" +
     "                    Posted by <a ui-sref=\"public_profile({username:'{{post.author}}'})\">{{post.author}}</a> on {{post.when | date:'MMM d, y H:mm:ss'}}\n" +
     "                </span>\n" +
-    "            </div>\n" +
-    "        </li>\n" +
-    "    </ul>\n" +
-    "\n" +
-    "    <ul class=\"menu text-center\">\n" +
-    "        <li>pages</li>\n" +
-    "        <li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>\n" +
-    "    </ul>\n" +
-    "</div>");
+    "        </div>\n" +
+    "    </li>\n" +
+    "</ul>\n" +
+    "<div class=\"text-center\" style=\"margin-top: 30px\">\n" +
+    "    <uib-pagination total-items=\"totalPosts.postCount\" items-per-page=\"postsPerPage\" ng-model=\"currentPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setPage(currentPage)\"></uib-pagination>\n" +
+    "</div>\n" +
+    "");
 }]);
 
 angular.module("post/create.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -580,15 +618,16 @@ angular.module("profile/profile.tpl.html", []).run(["$templateCache", function($
     "");
 }]);
 
-angular.module("profile/public_profile.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("profile/public_profile.tpl.html",
-    "<div ng-controller=\"PublicProfileCtrl\">\n" +
-    "    <div class=\"container-fluid col-md-5\" style=\"margin-left: 40px\">\n" +
-    "        <img src=\"/uploads/avatars/{{username}.jpeg\" width=\"350\"\n" +
-    "             class=\"img-rounded\"\n" +
-    "             onError=\"this.src='/uploads/avatars/def-ava.png';\"/>\n" +
-    "\n" +
-    "        <div class=\"container-fluid\" style=\"margin-left:10px \">\n" +
+angular.module("profile/public.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("profile/public.tpl.html",
+    "<div class=\"container\" style=\"margin-top: 40px\">\n" +
+    "    <div class=\"col-md-5\">\n" +
+    "        <div>\n" +
+    "            <img src=\"#\" width=\"350\"\n" +
+    "                 class=\"img-rounded\"\n" +
+    "                 onError=\"this.src='/uploads/avatars/def-ava.png';\"/>\n" +
+    "        </div>\n" +
+    "        <div style=\"margin-top:20px \">\n" +
     "            <span class=\"glyphicon glyphicon-time margin-top\"></span>&nbsp;&nbsp;Joined on Feb 18, 2013\n" +
     "            <br>\n" +
     "            <span class=\"glyphicon glyphicon-user margin-top\"></span>&nbsp;&nbsp;as Member\n" +
@@ -599,52 +638,62 @@ angular.module("profile/public_profile.tpl.html", []).run(["$templateCache", fun
     "        </div>\n" +
     "    </div>\n" +
     "\n" +
-    "    <div class=\"container-fluid\">\n" +
-    "        <div class=\"col-md-6\">\n" +
-    "            <div class=\"panel panel-success\">\n" +
-    "                <div class=\"panel-heading\" style=\"padding-left: 40px\"><h3><b>{{username}}</b></h3></div>\n" +
-    "                <div class=\"panel-body\">\n" +
-    "                    <table class=\"table\">\n" +
-    "                        <tbody>\n" +
-    "                        <tr>\n" +
-    "                            <td>Firstname</td>\n" +
-    "                            <td>{{profile.firstname}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>Lastname</td>\n" +
-    "                            <td>{{profile.lastname}}</td>\n" +
-    "                        </tr>\n" +
+    "    <div class=\"col-md-6\">\n" +
+    "        <div class=\"panel panel-success\">\n" +
+    "            <div class=\"panel-heading\" style=\"padding-left: 40px\"><h4><b>{{username}}</b></h4></div>\n" +
+    "            <div class=\"panel-body\">\n" +
+    "                <table class=\"table\">\n" +
+    "                    <tbody>\n" +
+    "                    <tr>\n" +
+    "                        <td>Firstname</td>\n" +
+    "                        <td>{{profile.firstname}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>Lastname</td>\n" +
+    "                        <td>{{profile.lastname}}</td>\n" +
+    "                    </tr>\n" +
     "\n" +
-    "                        <tr>\n" +
-    "                            <td>Birthdate</td>\n" +
-    "                            <td>{{profile.birthdate}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>Gender</td>\n" +
-    "                            <td>{{profile.gender}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>Country</td>\n" +
-    "                            <td>{{profile.country}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>City</td>\n" +
-    "                            <td>{{profile.city}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>Job</td>\n" +
-    "                            <td>{{profile.job}}</td>\n" +
-    "                        </tr>\n" +
-    "                        <tr>\n" +
-    "                            <td>About</td>\n" +
-    "                            <td>{{profile.about}}</td>\n" +
-    "                        </tr>\n" +
-    "                        </tbody>\n" +
-    "                    </table>\n" +
-    "                </div>\n" +
+    "                    <tr>\n" +
+    "                        <td>Birthdate</td>\n" +
+    "                        <td>{{profile.birthdate}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>Gender</td>\n" +
+    "                        <td>{{profile.gender}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>Country</td>\n" +
+    "                        <td>{{profile.country}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>City</td>\n" +
+    "                        <td>{{profile.city}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>Job</td>\n" +
+    "                        <td>{{profile.job}}</td>\n" +
+    "                    </tr>\n" +
+    "                    <tr>\n" +
+    "                        <td>About</td>\n" +
+    "                        <td>{{profile.about}}</td>\n" +
+    "                    </tr>\n" +
+    "                    </tbody>\n" +
+    "                </table>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("profile/tabs.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("profile/tabs.tpl.html",
+    "<div ng-controller=\"PublicProfileCtrl\">\n" +
+    "    <uib-tabset>\n" +
+    "        <uib-tab ng-repeat=\"tab in tabs\" heading=\"{{tab.title}}\" active=\"tab.active\" disable=\"tab.disabled\">\n" +
+    "            <div ng-include=\"tab.template\"></div>\n" +
+    "        </uib-tab>\n" +
+    "    </uib-tabset>\n" +
     "</div>");
 }]);
 
@@ -679,7 +728,7 @@ angular.module("tag/tag.tpl.html", []).run(["$templateCache", function($template
     "                <div class=\"post_tags\">\n" +
     "                 <span ng-repeat=\"tagName in post.tagNames\">\n" +
     "                &nbsp;&nbsp;\n" +
-    "                <a ui-sref=\"tag({name:'{{tagName}}', page:'1'})\" class=\"tag label label-default\">{{tagName}} </a>\n" +
+    "                <a ui-sref=\"tag({name:'{{tagName}}'})\" class=\"tag label label-default\">{{tagName}} </a>\n" +
     "                 </span>\n" +
     "                </div>\n" +
     "\n" +
@@ -691,6 +740,10 @@ angular.module("tag/tag.tpl.html", []).run(["$templateCache", function($template
     "                </span>\n" +
     "                </div>\n" +
     "            </li>\n" +
+    "        </ul>\n" +
+    "        <ul class=\"menu text-center\">\n" +
+    "            <li>pages</li>\n" +
+    "            <li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "</div>");

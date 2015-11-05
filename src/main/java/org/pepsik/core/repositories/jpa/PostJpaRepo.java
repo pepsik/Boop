@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -52,5 +56,25 @@ public class PostJpaRepo implements PostRepo {
             em.remove(post);
         }
         return post;
+    }
+
+    @Override
+    public List<Post> getPostsByPage(Integer requestedPage, Integer postsPerPage) {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Post> criteriaQuery = criteriaBuilder.createQuery(Post.class);
+        Root<Post> from = criteriaQuery.from(Post.class);
+        CriteriaQuery<Post> select = criteriaQuery.orderBy(criteriaBuilder.desc(from.get("when")));
+        TypedQuery<Post> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((requestedPage - 1) * postsPerPage);
+        typedQuery.setMaxResults(postsPerPage);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public Long getPostCount() {
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+        countQuery.select(criteriaBuilder.count(countQuery.from(Post.class)));
+        return em.createQuery(countQuery).getSingleResult();
     }
 }

@@ -6,6 +6,8 @@ import org.pepsik.core.repositories.AccountRepo;
 import org.pepsik.core.repositories.ProfileRepo;
 import org.pepsik.core.security.AccountUserDetails;
 import org.pepsik.core.services.Reworked.ProfileService;
+import org.pepsik.rest.utilities.CommentList;
+import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ProfileServiceImpl implements ProfileService {
-
+    private static final int DEFAULT_POSTS_PER_PAGE = 7;
+    private static final int DEFAULT_COMMENTS_PER_PAGE = 20;
     @Autowired
     private ProfileRepo profileRepo;
-
     @Autowired
     private AccountRepo accountRepo;
 
@@ -57,5 +59,37 @@ public class ProfileServiceImpl implements ProfileService {
     @PreAuthorize("hasRole('ROLE_USER') and @securityService.canUpdateProfile(#id)")
     public Profile deleteProfile(Long id) {
         return profileRepo.delete(id);
+    }
+
+    @Override
+    public PostList getUserPostsByPage(String username, Integer requestedPage) {
+        Account account = accountRepo.findByUsername(username);
+        return new PostList(profileRepo.getPosts(account, requestedPage, DEFAULT_POSTS_PER_PAGE));
+    }
+
+    @Override
+    public Long getUserPostsCount(String username) {
+        return null;
+    }
+
+    @Override
+    public CommentList getUserCommentsByPage(String username, Integer requestedPage) {
+        Account account = accountRepo.findByUsername(username);
+        return new CommentList(profileRepo.getComments(account, requestedPage, DEFAULT_COMMENTS_PER_PAGE));
+    }
+
+    @Override
+    public Long getUserCommentsCount(String username) {
+        return null;
+    }
+
+    @Override
+    public PostList getUserFavorites(String username, Integer page) {
+        return null;
+    }
+
+    @Override
+    public Long getUserFavoritesCount(String username) {
+        return null;
     }
 }

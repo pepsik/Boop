@@ -1,6 +1,7 @@
-package org.pepsik.rest.mvc.Reworked;
+package org.pepsik.rest.mvc.reworked;
 
 import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.util.PaginationSupport;
 import org.pepsik.core.services.Reworked.PostService;
 import org.pepsik.rest.resources.PostListResource;
 import org.pepsik.rest.resources.PostResource;
@@ -10,13 +11,8 @@ import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by pepsik on 9/30/2015.
@@ -25,14 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping(value = "/rest/posts")
 public class PostController {
-
     @Autowired
     private PostService postService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<PostResource> createPost(@RequestBody PostResource sentPost) {
-        String loggedIn = SecurityContextHolder.getContext().getAuthentication().getName();
-        Post createdPost = postService.createPost(loggedIn, sentPost.toPost());
+        Post createdPost = postService.createPost(sentPost.toPost());
         PostResource res = new PostResourceAsm().toResource(createdPost);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
@@ -49,8 +43,14 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PostListResource> getAllPosts() {
-        PostList postList = postService.findAllPosts();
+    public ResponseEntity<PaginationSupport> getPostCount() {
+        PaginationSupport support = new PaginationSupport(postService.findAllPostCount());
+        return new ResponseEntity<>(support, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "page")
+    public ResponseEntity<PostListResource> getPostsByPage(@RequestParam("page") Integer page) {
+        PostList postList = postService.findPostsByPage(page);
         PostListResource res = new PostListResourceAsm().toResource(postList);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

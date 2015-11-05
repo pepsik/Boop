@@ -1,11 +1,19 @@
 package org.pepsik.core.repositories.jpa;
 
+import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.core.models.entities.Reworked.Post;
 import org.pepsik.core.models.entities.Reworked.Profile;
 import org.pepsik.core.repositories.ProfileRepo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
  * Created by pepsik on 10/19/2015.
@@ -50,5 +58,31 @@ public class ProfileJpaRepo implements ProfileRepo {
             em.remove(profile);
         }
         return profile;
+    }
+
+    @Override
+    public List<Post> getPosts(Account account, Integer requestedPage, Integer postsPerPage) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Post> q = cb.createQuery(Post.class);
+        Root<Post> from = q.from(Post.class);
+        CriteriaQuery<Post> select = q.select(from).where(cb.equal(from.get("owner").get("id"), account.getId()))
+                .orderBy(cb.desc(from.get("when")));
+        TypedQuery<Post> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((requestedPage - 1) * postsPerPage);
+        typedQuery.setMaxResults(postsPerPage);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Comment> getComments(Account account, Integer requestedPage, Integer commentsPerPage) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Comment> q = cb.createQuery(Comment.class);
+        Root<Comment> from = q.from(Comment.class);
+        CriteriaQuery<Comment> select = q.select(from).where(cb.equal(from.get("owner").get("id"), account.getId()))
+                .orderBy(cb.desc(from.get("when")));
+        TypedQuery<Comment> typedQuery = em.createQuery(select);
+        typedQuery.setFirstResult((requestedPage - 1) * commentsPerPage);
+        typedQuery.setMaxResults(commentsPerPage);
+        return typedQuery.getResultList();
     }
 }
