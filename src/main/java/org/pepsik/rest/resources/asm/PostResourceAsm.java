@@ -1,12 +1,11 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.core.models.entities.Reworked.Post;
-import org.pepsik.core.models.entities.Reworked.Tag;
-import org.pepsik.rest.mvc.reworked.PostController;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.Tag;
+import org.pepsik.rest.mvc.PostController;
 import org.pepsik.rest.resources.PostResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 

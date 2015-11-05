@@ -1,7 +1,7 @@
 package org.pepsik.core.security;
 
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.services.Reworked.AccountService;
+import org.pepsik.core.models.entities.Account;
+import org.pepsik.core.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

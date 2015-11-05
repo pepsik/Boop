@@ -1,104 +1,80 @@
 package org.pepsik.rest.mvc;
 
 import org.pepsik.core.models.entities.Post;
-import org.pepsik.core.models.entities.Tag;
-import org.pepsik.core.services.SmartService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.pepsik.rest.utilities.PaginationSupport;
+import org.pepsik.core.services.PostService;
+import org.pepsik.rest.resources.PostListResource;
+import org.pepsik.rest.resources.PostResource;
+import org.pepsik.rest.resources.asm.PostListResourceAsm;
+import org.pepsik.rest.resources.asm.PostResourceAsm;
+import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.WebDataBinder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.beans.PropertyEditorSupport;
-import java.util.*;
+/**
+ * Created by pepsik on 9/30/2015.
+ */
 
-//@RestController
-//@RequestMapping("/api/post")
+@Controller
+@RequestMapping(value = "/rest/posts")
 public class PostController {
-
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-
     @Autowired
-    private SmartService service;
+    private PostService postService;
 
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//        binder.registerCustomEditor(Set.class, new PropertyEditorSupport() {
-//            @Override
-//            public void setAsText(String text) throws IllegalArgumentException {
-//                if (text.equals(""))
-//                    return;
-//                List<String> tagsList = Arrays.asList(text.split(","));
-//                Set<Tag> tags = new HashSet<>();
-//                for (String stringTag : tagsList) {
-//                    Tag tag = new Tag();
-//                    tag.setName(stringTag);
-//                    tags.add(tag);
-//                }
-//                setValue(tags);
-//            }
-//
-//            @Override
-//            public String getAsText() {
-//                Set<Tag> tags = (Set<Tag>) getValue();
-//                String stringTags = "";
-//                if (tags == null || tags.size() == 0)
-//                    return stringTags;
-//                Iterator<Tag> iterator = tags.iterator();
-//                stringTags += iterator.next().getName();
-//                while (iterator.hasNext())
-//                    stringTags += "," + iterator.next().getName();
-//                return stringTags;
-//            }
-//        });
-//    }
-
-//    @RequestMapping(value = "/new", method = RequestMethod.GET)
-//    public String newPost(Model model) {
-//        model.addAttribute("post", new Post());
-//        return "post/create";
-//    }
-//
-//    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-//    public String editPost(@PathVariable("id") long id, HttpSession session, Model model) {
-//        Post post = service.getPost(id);
-//        session.setAttribute("post", post);
-//        model.addAttribute(post);
-//        return "post/edit";
-//    }
-
-//    @RequestMapping(method = RequestMethod.POST)
-//    public String createPost(@Valid Post post, BindingResult result) {
-//        if (result.hasErrors())
-//            return "post/create";
-//        post.setWhen(new DateTime());
-//        service.savePost(post);
-//        return "redirect:/home";
-//    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public Post getPost(@PathVariable("id") long id) {
-        return service.getPost(id);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<PostResource> createPost(@RequestBody PostResource sentPost) {
+        Post createdPost = postService.createPost(sentPost.toPost());
+        PostResource res = new PostResourceAsm().toResource(createdPost);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public String updatePost(@PathVariable("id") long id, @Valid @ModelAttribute("post") Post updatedPost, BindingResult result, HttpSession session) {
-//        if (result.hasErrors())
-//            return "post/edit";
-//        final Post post = (Post) session.getAttribute("post");
-//        updatedPost.setId(post.getId());
-//        updatedPost.setWhen(post.getWhen());
-//        updatedPost.setUser(post.getUser());
-//        updatedPost.setComments(post.getComments());
-//        service.savePost(updatedPost);
-//        session.removeAttribute("post");
-//        return "redirect:/post/" + id;
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public String deletePost(@PathVariable("id") long id) {
-//        service.deletePost(id);
-//        return "redirect:/home";
-//    }
+
+    @RequestMapping(value = "/{postId}", method = RequestMethod.GET)
+    public ResponseEntity<PostResource> getPost(@PathVariable Long postId) {
+        Post post = postService.findPostById(postId);
+        if (post != null) {
+            PostResource res = new PostResourceAsm().toResource(post);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<PaginationSupport> getPostCount() {
+        PaginationSupport support = new PaginationSupport(postService.findAllPostCount());
+        return new ResponseEntity<>(support, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "page")
+    public ResponseEntity<PostListResource> getPostsByPage(@RequestParam("page") Integer page) {
+        PostList postList = postService.findPostsByPage(page);
+        PostListResource res = new PostListResourceAsm().toResource(postList);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{postId}", method = RequestMethod.PUT)
+    public ResponseEntity<PostResource> updatePost(@PathVariable Long postId, @RequestBody PostResource sentPost) {
+        Post updatedPost = postService.updatePost(postId, sentPost.toPost());
+        if (updatedPost != null) {
+            PostResource res = new PostResourceAsm().toResource(updatedPost);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @RequestMapping(value = "/{postId}", method = RequestMethod.DELETE)
+    public ResponseEntity<PostResource> deletePost(@PathVariable Long postId) {
+        Post post = postService.deletePost(postId);
+        if (post != null) {
+            PostResource res = new PostResourceAsm().toResource(post);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

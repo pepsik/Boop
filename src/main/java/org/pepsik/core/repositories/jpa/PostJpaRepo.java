@@ -1,6 +1,6 @@
 package org.pepsik.core.repositories.jpa;
 
-import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Post;
 import org.pepsik.core.repositories.PostRepo;
 import org.springframework.stereotype.Repository;
 

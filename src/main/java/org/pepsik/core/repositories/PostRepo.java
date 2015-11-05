@@ -1,6 +1,6 @@
 package org.pepsik.core.repositories;
 
-import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Post;
 
 import java.util.List;
 

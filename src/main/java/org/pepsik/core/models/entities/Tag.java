@@ -1,62 +1,39 @@
 package org.pepsik.core.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.pepsik.core.services.converters.LocalDateTimePersistenceConverter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by pepsik on 5/16/15.
+ * Created by pepsik on 10/26/2015.
  */
-//@Entity
-//@Table(name = "tags")
+@Entity
 public class Tag {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name = "tag_id")
-    private long id;
-
-    @NotNull
-    @Size(min = 2, max = 30)
-    @Column
+    private Long id;
     private String name;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id_fk", referencedColumnName = "user_id")
-    private User author;
-
-    @Size(max = 2000)
-    @Column
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
+    private Account author;
     private String description;
-
-    @Size(max = 100)
-    @Column(name = "image")
+    @Column(name = "image_url")
     private String imageUrl;
-
     @Column(name = "posts_count")
     private int postsCount;
-
-//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "created_date")
-    private DateTime createDate;
-
-    @JsonIgnore
+    @Column(name = "date")
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
+    private LocalDateTime createDate;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
     private List<Post> posts;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,20 +45,12 @@ public class Tag {
         this.name = name;
     }
 
-    public User getAuthor() {
+    public Account getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(Account author) {
         this.author = author;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
     }
 
     public String getDescription() {
@@ -108,12 +77,33 @@ public class Tag {
         this.postsCount = postsCount;
     }
 
-    public DateTime getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(DateTime createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return name.equals(tag.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 
     @Override
@@ -122,6 +112,7 @@ public class Tag {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", postsCount=" + postsCount +
                 ", createDate=" + createDate +
                 '}';

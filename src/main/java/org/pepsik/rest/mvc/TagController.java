@@ -1,68 +1,69 @@
 package org.pepsik.rest.mvc;
 
 import org.pepsik.core.models.entities.Tag;
-import org.pepsik.core.services.SmartService;
-import org.pepsik.rest.exceptions.BadRequestException;
+import org.pepsik.core.services.TagService;
+import org.pepsik.rest.resources.PostListResource;
+import org.pepsik.rest.resources.TagResource;
+import org.pepsik.rest.resources.asm.PostListResourceAsm;
+import org.pepsik.rest.resources.asm.TagResourceAsm;
+import org.pepsik.rest.utilities.PostList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 /**
- * Created by pepsik on 5/26/15.
+ * Created by pepsik on 10/27/2015.
  */
-//@Controller
-//@RequestMapping(value = "/tag")
+@Controller
+@RequestMapping("/rest/tag/{name}")
 public class TagController {
     @Autowired
-    private SmartService service;
+    private TagService tagService;
 
-    @RequestMapping(value = "/{tagName}", method = RequestMethod.GET, produces = "text/html")
-    public String getTaggedPosts(@PathVariable String tagName, Model model) {
-        //for support Cirillyc url chars add URIEncoding="UTF-8" to <Connector > in server.xml Tomcat confs
+    @RequestMapping(value = "/posts")
+    public ResponseEntity<PostListResource> getPostsByTag(@PathVariable String name,
+                                                          @RequestParam(value = "page", required = false) Long page) {
         try {
-            String result = URLDecoder.decode(tagName, "UTF-8");
-            model.addAttribute(service.getTag(result));
+            String result = URLDecoder.decode(name, "UTF-8");
+            PostList posts = tagService.getPostsByTag(result);
+            PostListResource res = new PostListResourceAsm().toResource(posts);
+            return new ResponseEntity<>(res, HttpStatus.OK);
         } catch (UnsupportedEncodingException e) {
-            throw new BadRequestException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return "tag/posts";
     }
 
-    @RequestMapping(value = "/{tagName}/edit", method = RequestMethod.GET, produces = "text/html")
-    public String editTag(@PathVariable String tagName, Model model, HttpSession session) {
-        Tag tag = service.getTag(tagName);
-        session.setAttribute("tag", tag);
-        model.addAttribute(tag);
-        return "tag/edit";
+    @RequestMapping
+    public ResponseEntity<TagResource> getTag(@PathVariable String name) {
+        try {
+            String result = URLDecoder.decode(name, "UTF-8");
+            Tag tag = tagService.findTag(result);
+            if (tag != null) {
+                TagResource res = new TagResourceAsm().toResource(tag);
+                return new ResponseEntity<>(res, HttpStatus.OK);
+            }
+        } catch (UnsupportedEncodingException e) {/*nothing to do*/ }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/{tagName}", method = RequestMethod.PUT, produces = "text/html")
-    public String updateTag(@Valid Tag updatedTag, BindingResult result, @PathVariable String tagName, HttpSession session) {
-        if (result.hasErrors())
-            return "tag/edit";
-
-        final Tag tag = (Tag) session.getAttribute("tag");
-        updatedTag.setId(tag.getId());
-        updatedTag.setCreateDate(tag.getCreateDate());
-        updatedTag.setPostsCount(tag.getPostsCount());
-        updatedTag.setAuthor(tag.getAuthor());
-        service.saveTag(updatedTag);
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<TagResource> updateTag(@PathVariable String name, TagResource sentTag) {
         try {
-            tagName = URLEncoder.encode(tagName, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new BadRequestException();
-        }
-        System.out.println(tagName);
-        return "redirect:/tag/" + tagName;
+            String result = URLDecoder.decode(name, "UTF-8");
+            Tag updatedTag = tagService.updateTag(result, sentTag.toTag());
+            if (updatedTag != null) {
+                TagResource res = new TagResourceAsm().toResource(updatedTag);
+                return new ResponseEntity<>(res, HttpStatus.OK);
+            }
+        } catch (UnsupportedEncodingException e) {/*nothing to do*/ }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

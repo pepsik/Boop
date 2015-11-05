@@ -1,7 +1,7 @@
 package org.pepsik.core.repositories.Mocks;
 
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.core.models.entities.Account;
+import org.pepsik.core.models.entities.Comment;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

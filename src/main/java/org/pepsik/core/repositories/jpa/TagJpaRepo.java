@@ -1,15 +1,12 @@
 package org.pepsik.core.repositories.jpa;
 
-import org.pepsik.core.models.entities.Reworked.Post;
-import org.pepsik.core.models.entities.Reworked.Tag;
+import org.pepsik.core.models.entities.Tag;
 import org.pepsik.core.repositories.TagRepo;
-import org.pepsik.rest.utilities.PostList;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,7 +14,7 @@ import java.util.List;
  */
 @Repository
 public class TagJpaRepo implements TagRepo {
-    public static final String SELECT_TAG_BY_NAME = "SELECT tag FROM Tag tag where tag.name = :name";
+    public static final String SELECT_TAG_BY_NAME = "SELECT tag FROM Tag tag where tag.name = :name order by tag.createDate desc";
 
     @PersistenceContext
     private EntityManager em;

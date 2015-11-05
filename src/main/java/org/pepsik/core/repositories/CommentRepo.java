@@ -1,6 +1,6 @@
 package org.pepsik.core.repositories;
 
-import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.core.models.entities.Comment;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package org.pepsik.core.repositories.jpa;
 
-import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Account;
 import org.pepsik.core.repositories.AccountRepo;
 import org.springframework.stereotype.Repository;
 

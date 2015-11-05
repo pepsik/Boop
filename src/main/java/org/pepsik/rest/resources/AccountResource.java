@@ -2,7 +2,7 @@ package org.pepsik.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Account;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

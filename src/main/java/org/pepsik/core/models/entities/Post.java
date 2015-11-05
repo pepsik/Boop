@@ -1,48 +1,50 @@
 package org.pepsik.core.models.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.pepsik.core.services.converters.LocalDateTimePersistenceConverter;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Set;
 
-//@SqlResultSetMapping(name = "PostLabelResult", classes = {
-//        @ConstructorResult(targetClass = PostLabel.class,
-//                columns = {@ColumnResult(name = "post_id", type = long.class), @ColumnResult(name = "title", type = String.class)})
-//})
-//@Entity
-//@Table(name = "posts")
-//@PrimaryKeyJoinColumn(name = "post_id")
-public class Post extends MessageEntity implements Serializable {
-
-    @NotNull
-    @Size(min = 3, max = 40)
-    @Column(name = "title")
+/**
+ * Created by pepsik on 9/29/2015.
+ */
+@Entity
+public class Post {
+    @Id @GeneratedValue
+    @Column(name = "post_id")
+    private Long id;
     private String title;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "post")
-    private List<Comment> comments;
-
-    @Valid
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "tag_owners", joinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")},
+    private String text;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "tag_owner", joinColumns = {@JoinColumn(name = "post_id_fk", referencedColumnName = "post_id")},
             inverseJoinColumns = {@JoinColumn(name = "tag_id_fk", referencedColumnName = "tag_id")})
     private Set<Tag> tags;
+    @ManyToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "account_id")
+    private Account owner;
+    @Column(name = "date")
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
+    private LocalDateTime when;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private Set<Favorite> favorites;
+    public Post() {
+    }
 
-    @Column(name = "favorite_count")
-    private int favoriteCount;
+    public Post(Long id, String title, String text, Account owner, LocalDateTime when) { //temp
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.owner = owner;
+        this.when = when;
+    }
 
-    @Transient
-    private boolean isFavorite = false;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -52,12 +54,12 @@ public class Post extends MessageEntity implements Serializable {
         this.title = title;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public String getText() {
+        return text;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Set<Tag> getTags() {
@@ -68,52 +70,30 @@ public class Post extends MessageEntity implements Serializable {
         this.tags = tags;
     }
 
-    public int getFavoriteCount() {
-        return favoriteCount;
+    public Account getOwner() {
+        return owner;
     }
 
-    public void setFavoriteCount(int favoriteCount) {
-        this.favoriteCount = favoriteCount;
+    public void setOwner(Account owner) {
+        this.owner = owner;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    public LocalDateTime getWhen() {
+        return when;
     }
 
-    public void setFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
-    }
-
-    public Set<Favorite> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Set<Favorite> favorites) {
-        this.favorites = favorites;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) getId();
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-
-        Post target = (Post) object;
-        if (target.getId() == this.getId())
-            return true;
-
-        return false;
+    public void setWhen(LocalDateTime when) {
+        this.when = when;
     }
 
     @Override
     public String toString() {
         return "Post{" +
-                "title='" + title + '\'' +
-                ", isFavorite=" + isFavorite +
-                "} ";
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", owner=" + owner.getUsername() +
+                ", when=" + when +
+                '}';
     }
 }

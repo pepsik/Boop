@@ -1,10 +1,10 @@
 package org.pepsik.core.security;
 
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.models.entities.Reworked.Comment;
-import org.pepsik.core.models.entities.Reworked.Post;
-import org.pepsik.core.services.Reworked.CommentService;
-import org.pepsik.core.services.Reworked.PostService;
+import org.pepsik.core.models.entities.Account;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.services.CommentService;
+import org.pepsik.core.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.core.models.entities.Reworked.Tag;
-import org.pepsik.rest.mvc.reworked.TagController;
+import org.pepsik.core.models.entities.Tag;
+import org.pepsik.rest.mvc.TagController;
 import org.pepsik.rest.resources.TagResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 

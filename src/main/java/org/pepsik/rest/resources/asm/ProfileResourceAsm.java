@@ -1,7 +1,7 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.core.models.entities.Reworked.Profile;
-import org.pepsik.rest.mvc.reworked.ProfileController;
+import org.pepsik.core.models.entities.Profile;
+import org.pepsik.rest.mvc.ProfileController;
 import org.pepsik.rest.resources.ProfileResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 

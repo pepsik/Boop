@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources;
 
-import org.pepsik.core.models.entities.Reworked.Comment;
+import org.pepsik.core.models.entities.Comment;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;

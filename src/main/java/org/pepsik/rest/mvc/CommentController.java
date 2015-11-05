@@ -1,82 +1,73 @@
 package org.pepsik.rest.mvc;
 
-import org.joda.time.DateTime;
 import org.pepsik.core.models.entities.Comment;
-import org.pepsik.core.services.SmartService;
+import org.pepsik.core.services.CommentService;
+import org.pepsik.rest.resources.CommentListResource;
+import org.pepsik.rest.resources.CommentResource;
+import org.pepsik.rest.resources.asm.CommentListResourceAsm;
+import org.pepsik.rest.resources.asm.CommentResourceAsm;
+import org.pepsik.rest.utilities.CommentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 /**
- *
+ * Created by pepsik on 10/3/2015.
  */
 
-//@Controller
-//@RequestMapping(value = "/post/{post_id}/comment")
+@Controller
+@RequestMapping(value = "/rest/posts/{postId}/comments")
 public class CommentController {
 
     @Autowired
-    private SmartService service;
-
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newComment(@PathVariable("post_id") long post_id, Model model) {
-        model.addAttribute(new Comment());
-        model.addAttribute("post_id", post_id);
-        return "comment/create";
-    }
-
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editComment(@PathVariable("id") long id, HttpSession session, Model model) {
-        Comment comment = service.getComment(id);
-        session.setAttribute("comment", comment);
-        model.addAttribute("comment", comment);
-        model.addAttribute("post_id", comment.getPost().getId());
-        return "comment/edit";
-    }
+    private CommentService commentService;
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String createComment(@PathVariable("post_id") long post_id, @Valid Comment post, BindingResult result) {
-        if (result.hasErrors())
-            return "comment/create";
-
-        post.setWhen(new DateTime());
-        post.setPost(service.getPost(post_id));
-        service.saveComment(post);
-        return "redirect:/post/" + post_id;
+    public ResponseEntity<CommentResource> createComment(@PathVariable Long postId, @RequestBody CommentResource sentComment) {
+        Comment createdComment = commentService.createComment(postId, sentComment.toComment());
+        if (createdComment != null) {
+            CommentResource res = new CommentResourceAsm().toResource(createdComment);
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String readComment(@PathVariable("id") long id, Model model) {
-        model.addAttribute("comment", service.getComment(id));
-        return "comment/view";
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<CommentListResource> getCommentsByPost(@PathVariable Long postId) {
+        CommentList commentList = commentService.findAllCommentsByPost(postId);
+        if (commentList.getComments() != null) {
+            CommentListResource res = new CommentListResourceAsm().toResource(commentList);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updateComment(@PathVariable("id") long id, HttpSession session, @Valid Comment editedComment, BindingResult result) {
-        if (result.hasErrors())
-            return "comment/edit";
-
-        Comment comment = (Comment) session.getAttribute("comment");
-        comment.setText(editedComment.getText());
-        service.saveComment(comment);
-        session.removeAttribute("comment");
-        return "redirect:/post/" + comment.getPost().getId();
+    @RequestMapping(value = "/{commentId}", method = RequestMethod.PUT)
+    public ResponseEntity<CommentResource> updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentResource sentComment) {
+        Comment updatedComment = commentService.updateComment(commentId, postId, sentComment.toComment());
+        if (updatedComment != null) {
+            CommentResource res = new CommentResourceAsm().toResource(updatedComment);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteComment(@PathVariable("id") long id, @PathVariable("post_id") long post_id) {
-        service.deleteComment(id);
-        return "redirect:/post/" + post_id;
+    @RequestMapping(value = "/{commentId}", method = RequestMethod.DELETE)
+    public ResponseEntity<CommentResource> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        Comment comment = commentService.deleteComment(commentId, postId);
+        if (comment != null) {
+            CommentResource res = new CommentResourceAsm().toResource(comment);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

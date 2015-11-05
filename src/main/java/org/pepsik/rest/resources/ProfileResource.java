@@ -1,6 +1,6 @@
 package org.pepsik.rest.resources;
 
-import org.pepsik.core.models.entities.Reworked.Profile;
+import org.pepsik.core.models.entities.Profile;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDate;

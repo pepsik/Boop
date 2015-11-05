@@ -1,18 +1,14 @@
 package org.pepsik.core.repositories.jpa;
 
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.models.entities.Reworked.Comment;
-import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.core.models.entities.Post;
 import org.pepsik.core.repositories.CommentRepo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static java.util.Arrays.asList;
 
 /**
  * Created by pepsik on 9/29/2015.

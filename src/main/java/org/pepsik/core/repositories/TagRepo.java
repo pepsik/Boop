@@ -1,7 +1,6 @@
 package org.pepsik.core.repositories;
 
-import org.pepsik.core.models.entities.Reworked.Tag;
-import org.pepsik.rest.utilities.PostList;
+import org.pepsik.core.models.entities.Tag;
 
 /**
  * Created by pepsik on 10/26/2015.

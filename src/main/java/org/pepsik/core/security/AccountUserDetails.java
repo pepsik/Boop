@@ -4,7 +4,7 @@ package org.pepsik.core.security;
  * Created by pepsik on 9/23/2015.
  */
 
-import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

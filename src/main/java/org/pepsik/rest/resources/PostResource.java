@@ -1,7 +1,7 @@
 package org.pepsik.rest.resources;
 
-import org.pepsik.core.models.entities.Reworked.Post;
-import org.pepsik.core.models.entities.Reworked.Tag;
+import org.pepsik.core.models.entities.Post;
+import org.pepsik.core.models.entities.Tag;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;

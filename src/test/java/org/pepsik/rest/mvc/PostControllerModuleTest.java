@@ -1,18 +1,15 @@
 package org.pepsik.rest.mvc;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Account;
+import org.pepsik.core.models.entities.Post;
 import org.pepsik.core.security.AccountUserDetails;
-import org.pepsik.core.services.Reworked.PostService;
-import org.pepsik.rest.mvc.reworked.PostController;
+import org.pepsik.core.services.PostService;
 import org.pepsik.rest.utilities.PostList;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 

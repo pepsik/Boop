@@ -22,6 +22,6 @@
     </li>
 </ul>
 <div class="text-center" style="margin-top: 30px">
-    <uib-pagination total-items="totalPosts.postCount" items-per-page="postsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm"
-                    boundary-links="true" rotate="false" num-pages="numPages" ng-change="setPage(currentPage)"></uib-pagination>
+    <uib-pagination total-items="totalPosts.countItems" items-per-page="postsPerPage" ng-model="currentPostPage" max-size="maxSize" class="pagination-sm"
+                    boundary-links="true" rotate="false" num-pages="numPages" ng-change="setPostPage(currentPostPage)"></uib-pagination>
 </div>

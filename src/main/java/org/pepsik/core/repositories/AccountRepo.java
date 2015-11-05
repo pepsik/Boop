@@ -1,6 +1,6 @@
 package org.pepsik.core.repositories;
 
-import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Account;
 
 import java.util.List;
 

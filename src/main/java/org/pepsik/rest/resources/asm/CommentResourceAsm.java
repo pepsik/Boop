@@ -1,7 +1,7 @@
 package org.pepsik.rest.resources.asm;
 
-import org.pepsik.core.models.entities.Reworked.Comment;
-import org.pepsik.rest.mvc.reworked.CommentController;
+import org.pepsik.core.models.entities.Comment;
+import org.pepsik.rest.mvc.CommentController;
 import org.pepsik.rest.resources.CommentResource;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 

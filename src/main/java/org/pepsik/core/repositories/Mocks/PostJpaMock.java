@@ -1,7 +1,7 @@
 package org.pepsik.core.repositories.Mocks;
 
-import org.pepsik.core.models.entities.Reworked.Account;
-import org.pepsik.core.models.entities.Reworked.Post;
+import org.pepsik.core.models.entities.Account;
+import org.pepsik.core.models.entities.Post;
 import org.pepsik.core.repositories.jpa.AccountJpaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 

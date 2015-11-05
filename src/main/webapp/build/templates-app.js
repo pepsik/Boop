@@ -349,8 +349,8 @@ angular.module("comment/comment.tpl.html", []).run(["$templateCache", function($
     "    </li>\n" +
     "</ol>\n" +
     "<div class=\"text-center\" style=\"margin-top: 30px\">\n" +
-    "    <uib-pagination total-items=\"totalPosts.postCount\" items-per-page=\"postsPerPage\" ng-model=\"currentPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
-    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setPage(currentPage)\"></uib-pagination>\n" +
+    "    <uib-pagination total-items=\"totalComments.countItems\" items-per-page=\"commentsPerPage\" ng-model=\"currentCommentPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setCommentPage(currentCommentPage)\"></uib-pagination>\n" +
     "</div>");
 }]);
 
@@ -408,8 +408,8 @@ angular.module("page/page.tpl.html", []).run(["$templateCache", function($templa
     "    </li>\n" +
     "</ul>\n" +
     "<div class=\"text-center\" style=\"margin-top: 30px\">\n" +
-    "    <uib-pagination total-items=\"totalPosts.postCount\" items-per-page=\"postsPerPage\" ng-model=\"currentPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
-    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setPage(currentPage)\"></uib-pagination>\n" +
+    "    <uib-pagination total-items=\"totalPosts.countItems\" items-per-page=\"postsPerPage\" ng-model=\"currentPostPage\" max-size=\"maxSize\" class=\"pagination-sm\"\n" +
+    "                    boundary-links=\"true\" rotate=\"false\" num-pages=\"numPages\" ng-change=\"setPostPage(currentPostPage)\"></uib-pagination>\n" +
     "</div>\n" +
     "");
 }]);

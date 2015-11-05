@@ -1,6 +1,6 @@
 package org.pepsik.rest.utilities;
 
-import org.pepsik.core.models.entities.Reworked.Account;
+import org.pepsik.core.models.entities.Account;
 
 import java.util.ArrayList;
 import java.util.List;

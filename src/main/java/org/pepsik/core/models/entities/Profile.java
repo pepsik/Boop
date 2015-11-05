@@ -1,71 +1,37 @@
 package org.pepsik.core.models.entities;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.pepsik.core.services.converters.LocalDatePersistenceConverter;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
-//@Entity
-//@Table(name = "profiles")
+/**
+ * Created by pepsik on 10/19/2015.
+ */
+@Entity
 public class Profile {
-
-    @Id
-    @Column(name = "user_id_fk")
-    private long id;
-
-    @Valid
-    @MapsId
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "profile")
-    @JoinColumn(name = "user_id_fk")
-    private User user;
-
-    @Size(min = 3, max = 20)
-    @Column(name = "email")
+    @Id @Column(name = "profile_id")
+    private Long id;
     private String email;
-
-    @Size(min = 3, max = 40)
-    @Pattern(regexp = "^[a-zA-Z]+\\s?[a-zA-Z]+$")
-    @Column(name = "fullname")
-    private String fullname;
-
-//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    @Column(name = "birthdate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private DateTime birthdate;
-
-    @Column(name = "gender")
-    private String gender; //enum?
-
-    @Column(name = "country")
+    private String firstname;
+    private String lastname;
+    @Convert(converter = LocalDatePersistenceConverter.class)
+    private LocalDate birthdate;
+    private String gender;
     private String country;
-
-    @Column(name = "city")
     private String city;
-
-    @Column(name = "job")
     private String job;
-
-    @Column(name = "about")
     private String about;
+    @OneToOne
+    @JoinColumn(name = "profile_id", referencedColumnName = "account_id")
+    private Account owner;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getEmail() {
@@ -76,19 +42,27 @@ public class Profile {
         this.email = email;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public DateTime getBirthdate() {
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(DateTime birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -132,12 +106,21 @@ public class Profile {
         this.about = about;
     }
 
+    public Account getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Account owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
-                ", user=" + user.getId() +
+                "id=" + id +
                 ", email='" + email + '\'' +
-                ", fullname='" + fullname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
                 ", birthdate=" + birthdate +
                 ", gender='" + gender + '\'' +
                 ", country='" + country + '\'' +
