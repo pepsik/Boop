@@ -110,15 +110,15 @@ angular.module('ngBoilerplate.profile', [
         $scope.maxSize = 5;
         $scope.totalPosts = profileService.getUserPostCount($stateParams.username);
         $scope.currentPostPage = 1;
-        $scope.postsPerPage = 3;
+        $scope.postsPerPage = 7;
         $scope.setPostPage = function (page) {
             $scope.currentPostPage = page;
             $scope.posts = profileService.getUserPosts($stateParams.username, page);
         };
 
         $scope.totalComments = profileService.getUserCommentsCount($stateParams.username);
-        $scope.currentCommentPage = 1;
-        $scope.commentsPerPage = 1;
+        //$scope.currentCommentPage = 2;
+        $scope.commentsPerPage = 10;
         $scope.setCommentPage = function (page) {
             $scope.currentCommentPage = page;
             $scope.comments = profileService.getUserComments($stateParams.username, page);

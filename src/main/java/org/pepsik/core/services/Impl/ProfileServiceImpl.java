@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ProfileServiceImpl implements ProfileService {
-    private static final int DEFAULT_POSTS_PER_PAGE = 3;
-    private static final int DEFAULT_COMMENTS_PER_PAGE = 1;
+    private static final int DEFAULT_POSTS_PER_PAGE = 7;
+    private static final int DEFAULT_COMMENTS_PER_PAGE = 10;
     @Autowired
     private ProfileRepo profileRepo;
     @Autowired

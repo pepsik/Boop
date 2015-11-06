@@ -24,7 +24,7 @@ import java.util.Set;
 @Service
 @Transactional
 public class PostServiceImpl implements PostService {
-    private static final int DEFAULT_POSTS_PER_PAGE = 3;
+    private static final int DEFAULT_POSTS_PER_PAGE = 7;
     @Autowired
     private PostRepo postRepo;
     @Autowired

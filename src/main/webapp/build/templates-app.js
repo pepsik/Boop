@@ -356,30 +356,7 @@ angular.module("comment/comment.tpl.html", []).run(["$templateCache", function($
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "<!--<div ng-controller=\"PageCtrl\">-->\n" +
-    "    <!--<ul type=\"none\">-->\n" +
-    "        <!--<li class=\"post_list\" ng-repeat=\"post in posts\">-->\n" +
-    "            <!--<h3><a class=\"label label-default\" href=\"#/post/{{post.id}}\">{{post.title}}</a></h3>-->\n" +
-    "\n" +
-    "            <!--<div class=\"post_body\" ng-bind-html=\"makeTrust(post.text)\"></div>-->\n" +
-    "\n" +
-    "            <!--<div class=\"post_bottom\">-->\n" +
-    "                <!--<span class=\"comments_button\">-->\n" +
-    "                    <!--comments - {{post.comments.length}}-->\n" +
-    "                <!--</span>-->\n" +
-    "                <!--<span class=\"post_date\">-->\n" +
-    "                    <!--Posted by {{post.user.username}} on {{post.when | date:'MMM d, y H:mm:ss'}}-->\n" +
-    "                <!--</span>-->\n" +
-    "            <!--</div>-->\n" +
-    "        <!--</li>-->\n" +
-    "    <!--</ul>-->\n" +
-    "\n" +
-    "    <!--<ul class=\"menu text-center\">-->\n" +
-    "        <!--<li>pages</li>-->\n" +
-    "        <!--<li ng-repeat=\"pageId in pagination\"><a href=\"#/page/{{pageId}}\">{{pageId}}</a></li>-->\n" +
-    "    <!--</ul>-->\n" +
-    "<!--</div>-->\n" +
-    "");
+    "<div ui-view=\"page\"></div>");
 }]);
 
 angular.module("page/page.tpl.html", []).run(["$templateCache", function($templateCache) {

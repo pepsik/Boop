@@ -3,16 +3,37 @@ angular.module('ngBoilerplate.page', [
 ])
 
     .config(function ($stateProvider) {
-        $stateProvider.state('page', {
-            url: '/page/:page',
-            views: {
-                "main": {
-                    controller: 'PageCtrl',
-                    templateUrl: 'page/page.tpl.html'
-                }
-            },
-            data: {pageTitle: 'Pages'}
-        });
+        $stateProvider
+            .state('page', {
+                url: '/page',
+                templateUrl: 'page/page.tpl.html',
+                views: {
+                    "main": {
+                        controller: 'PageCtrl',
+                        templateUrl: 'page/page.tpl.html'
+                    }
+                },
+                data: {pageTitle: 'Pages'}
+            })
+            .state('page.paginated', {
+                url: '/:page',
+                templateUrl: 'page/page.tpl.html',
+                controller: function ($stateParams) {
+                    alert($stateParams.page);
+                    expect($stateParams).toBe({page: 2});
+                },
+                data: {pageTitle: 'Pages'}
+            });
+        //.state('page', {
+        //    url: '/page/:page',
+        //    views: {
+        //        "main": {
+        //            controller: 'PageCtrl',
+        //            templateUrl: 'page/page.tpl.html'
+        //        }
+        //    },
+        //    data: {pageTitle: 'Pages'}
+        //});
     })
 
     .factory('pageService', ['$resource', function ($resource) {
@@ -33,17 +54,17 @@ angular.module('ngBoilerplate.page', [
         return service;
     }])
 
-    .controller('PageCtrl', function ($scope, $sce, $stateParams, pageService) {
-        $scope.posts = pageService.getPosts($stateParams.page);
+    .controller('PageCtrl', function ($scope, $sce, $stateParams, $state, pageService) {
+        $scope.posts = pageService.getPosts(1);
         $scope.makeTrust = function (html) {
             return $sce.trustAsHtml(html);
         };
+        $scope.currentPostPage = 1;
         $scope.maxSize = 5;
         $scope.totalPosts = pageService.getMaxPosts();
-        $scope.currentPostPage = 1;
-        $scope.postsPerPage = 3;
+        $scope.postsPerPage = 7;
         $scope.setPostPage = function (page) {
-            $scope.currentPostPage = page;
             $scope.posts = pageService.getPosts(page);
+            $state.go('page.paginated', {page: page});
         };
     });
